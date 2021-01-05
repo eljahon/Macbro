@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>logo.png">
+    <title>Najot ta'lim</title>
+    <style>
+      #main_w{
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "montserrat",sans-serif;
+}
+.loading{
+  width: 200px;
+  height: 200px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border-top: 10px solid #B17030;
+  position: relative;
+  animation: a1 2s linear infinite;
+}
+.loading::before,.loading::after{
+  content: '';
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 0;
+  top: -10px;
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+.loading::before{
+  border-top: 10px solid #e6a25f;
+  transform: rotate(120deg);
+}
+.loading::after{
+  border-top: 10px solid #704e2d;
+  transform: rotate(240deg);
+}
+.loading span{
+  position: absolute;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 200px;
+  height: 200px;
+  color: #fff;
+  text-align: center;
+  line-height: 200px;
+  animation: a2 2s linear infinite;
+}
+@keyframes a1 {
+  to{
+    transform: rotate(360deg);
+  }
+}
+@keyframes a2 {
+  to{
+    transform: rotate(-360deg);
+  }
+}
+      </style>
+    <!-- require cdn assets css -->
+    <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.css) { %>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" />
+    <% } %>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but vue-antd-pro doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app">
+      <!-- <div class="first-loading-wrp">
+        <h1></h1>
+        <div class="loading-wrp">
+          <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">Loading...</div>
+      </div> -->
+      <div id="main_w">
+        <div class="loading">
+         <span >Wait!</span>
+       </div>
+     </div>
+    </div>
+    <!-- require cdn assets js -->
+    <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+    <% } %>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<style>
+  
+</style>

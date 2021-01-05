@@ -1,0 +1,33 @@
+test:
+  stage: build
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
+  script:
+    - make build-image TAG=$CI_JOB_ID REGISTRY=$REGISTRY
+    - make push-image TAG=$CI_JOB_ID REGISTRY=$REGISTRY
+    - source .build_info
+    - ssh -o StrictHostKeyChecking=no $NT_TEST_USER@$NT_TEST_HOST 'docker service update --with-registry-auth
+      --image '$REGISTRY'/'$APP':'$CI_JOB_ID' '$APP''
+  only:
+    - staging
+
+prod:
+  stage: build
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
+  script:
+    - make build-image TAG=$CI_JOB_ID REGISTRY=$REGISTRY
+    - make push-image TAG=$CI_JOB_ID REGISTRY=$REGISTRY
+    - source .build_info
+    - ssh -o StrictHostKeyChecking=no $NT_PROD_USER@$NT_PROD_HOST 'docker service update --with-registry-auth
+        --image '$REGISTRY'/'$APP':'$CI_JOB_ID' '$APP''
+  only:
+    - master

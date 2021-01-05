@@ -1,0 +1,71 @@
+export const cmsRu = {
+    'cms.settings.forms': 'Заявки',
+    'cms.settings': 'Контент',
+    'cms.settings.Team': 'Команда',
+    'cms.settings.team': 'О команде',
+    'cms.settings.team.members': 'Члены команды',
+    'cms.settings.team.members.form.title.p': 'Название команды',
+    'cms.settings.team.members.form.text.p': 'Напишите цель образовательного центра',
+    'cms.settings.team.social': 'Ссылки в социальных сетях',
+    'cms.settings.team.social.name.p': 'Название ссылки',
+    'cms.settings.team.social.link.p': 'Ссылка на сайт',
+    'cms.settings.team.social.button': 'Добавить новую ссылку',
+
+    'cms.settings.partners': 'Партнеры',
+    'cms.settings.partners.title': 'Название партнерской панели',
+    'cms.settings.partners.link': 'Ссылка на сайт',
+    'cms.settings.partners.text': 'Описание',
+    'cms.settings.partners.logo': 'Логотип партнеров',
+
+    'cms.settings.about': 'О нас',
+    'cms.settings.about.gallery': 'Галерея',
+    'cms.settings.about.gallery.subtitle': 'Вы можете загрузить или удалить картинку прямо здесь',
+    'cms.settings.about.contacts': 'Контакты',
+    'cms.settings.about.contacts.subtitle': 'Вы можете изменить почту, телефон и адрес прямо здесь',
+    'cms.settings.about.contacts.phone': 'Телефонный номер',
+    'cms.settings.about.contacts.email': 'Адрес электронной почты',
+    'cms.settings.about.contacts.address': 'Адрес',
+    'cms.settings.about.motto': 'Девиз',
+    'cms.settings.about.subtitle': 'Отредактируйте заголовок и описание',
+    'cms.settings.about.form.title.p': 'Заглавие',
+    'cms.settings.about.form.text.p': 'Описание',
+    'cms.settings.about.directions': 'Цель',
+    'cms.settings.about.directions.subtitle': 'Вы можете управлять мото и указаниями компании прямо здесь'
+}
+
+export const cmsEn = {
+    'cms.settings.forms': 'Сообщения',
+    'cms.settings': 'Настройки CMS',
+    'cms.settings.Team': 'Команда',
+    'cms.settings.team': 'О команде "Najot Ta\'lim"',
+    'cms.settings.team.members': 'Члены команды',
+    'cms.settings.team.members.form.title.p': 'Название команды',
+    'cms.settings.team.members.form.text.p': 'Напишите цель образовательного центра',
+    'cms.settings.team.social': 'Ссылки в социальных сетях',
+    'cms.settings.team.social.name.p': 'Название ссылки',
+    'cms.settings.team.social.link.p': 'Ссылка на сайт',
+    'cms.settings.team.social.button': 'Добавить новую ссылку',
+
+    'cms.settings.partners': 'Партнеры',
+    'cms.settings.partners.title': 'Название партнерской панели',
+    'cms.settings.partners.link': 'Ссылка на сайт',
+    'cms.settings.partners.text': 'Описание',
+    'cms.settings.partners.logo': 'Логотип партнеров',
+
+    'cms.settings.about': 'О нас',
+    'cms.settings.about.gallery': 'Галерея',
+    'cms.settings.about.gallery.subtitle': 'Вы можете загрузить или удалить картинку прямо здесь',
+    'cms.settings.about.contacts': 'Контакты',
+    'cms.settings.about.contacts.subtitle': 'Вы можете изменить почту, телефон и адрес прямо здесь',
+    'cms.settings.about.contacts.phone': 'Телефонный номер',
+    'cms.settings.about.contacts.email': 'Адрес электронной почты',
+    'cms.settings.about.contacts.address': 'Адрес',
+    'cms.settings.about.motto': 'Девиз',
+    'cms.settings.about.subtitle': 'Отредактируйте заголовок и описание',
+    'cms.settings.about.form.title.p': 'Заглавие',
+    'cms.settings.about.form.text.p': 'Описание',
+    'cms.settings.about.directions': 'Цель',
+    'cms.settings.about.directions.subtitle': 'Вы можете управлять мото и указаниями компании прямо здесь'
+}
+
+export default { cmsRu, cmsEn }

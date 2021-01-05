@@ -1,0 +1,3 @@
+export APP=nt_admin
+export REGISTRY=gitlab.udevs.io:5050
+export PROJECT_NAME=najottalim
