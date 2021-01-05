@@ -18,7 +18,7 @@ mark-as-production-image:
 	docker push ${REGISTRY}/${IMG_NAME}:production
 
 build-image:
-	docker build --rm --cpuset-cpus="0-3" --cpu-shares 512 -t ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG} .
+	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG} .
 	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${ENV_TAG}
 
 push-image:
