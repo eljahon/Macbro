@@ -1,33 +1,27 @@
-test:
-  stage: build
-  before_script:
-    - eval $(ssh-agent -s)
-    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
-  script:
-    - make build-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
-    - make push-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
-    - source .build_info
-    - ssh -o StrictHostKeyChecking=no $NT_TEST_USER@$NT_TEST_HOST 'docker service update --with-registry-auth
-      --image '$REGISTRY'/'$PROJECT_NAME'/'$APP'/'$APP':'$CI_PIPELINE_IID' '$APP''
-  only:
-    - staging
+stages:
+  - build
+  - deploy
 
-prod:
+build-image:
   stage: build
+  before_script:
+    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
+  script:
+    - make build-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
+    - make push-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
+  only:
+    - master
+
+deploy:
+  stage: deploy
   before_script:
     - eval $(ssh-agent -s)
     - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
   script:
-    - make build-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
-    - make push-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
     - source .build_info
-    - ssh -o StrictHostKeyChecking=no $NT_PROD_USER@$NT_PROD_HOST 'docker service update --with-registry-auth
+    - ssh -o StrictHostKeyChecking=no $MACBRO_PROD_USER@$MACBRO_PROD_HOST 'docker service update --with-registry-auth
       --image '$REGISTRY'/'$PROJECT_NAME'/'$APP'/'$APP':'$CI_PIPELINE_IID' '$APP''
   only:
     - master
