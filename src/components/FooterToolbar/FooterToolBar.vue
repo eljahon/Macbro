@@ -15,7 +15,7 @@ export default {
   props: {
     prefixCls: {
       type: String,
-      default: 'ant-pro-footer-toolbar'
+      default: 'toolbar'
     },
     collapsed: {
       type: Boolean,

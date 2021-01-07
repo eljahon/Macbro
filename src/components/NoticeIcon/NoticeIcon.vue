@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <a-popover
     v-model="visible"
     trigger="click"
@@ -7,41 +7,50 @@
     :getPopupContainer="() => $refs.noticeRef.parentElement"
     :autoAdjustOverflow="true"
     :arrowPointAtCenter="true"
-    :overlayStyle="{ width: '300px', top: '50px' }"
+    :overlayStyle="{ width: '400px', top: '50px' }"
   >
     <template slot="content">
       <a-spin :spinning="loading">
         <a-tabs>
-          <a-tab-pane tab="通知" key="1">
+          <a-tab-pane :tab="$t('new')" key="1">
             <a-list>
               <a-list-item>
-                <a-list-item-meta title="你收到了 14 份新周报" description="一年前">
-                  <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"/>
+                <a-list-item-meta :title="$t('new')" >
+                  <router-link slot="avatar" to="/orders/new">
+                    <a-avatar style="background-color: white" src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"/>
+                  </router-link>
+                </a-list-item-meta>
+              </a-list-item>
+            </a-list>
+          </a-tab-pane>
+          <a-tab-pane tab="Fuqaro" key="2">
+            <a-list>
+              <a-list-item>
+                <a-list-item-meta title="Fuqaro ariza">
+                  <router-link slot="avatar" to="/">
+                    <a-avatar style="background-color: white" src="https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png"/>
+                  </router-link>
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-list-item-meta title="你推荐的 曲妮妮 已通过第三轮面试" description="一年前">
-                  <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png"/>
+                <a-list-item-meta title="Fuqaro ariza">
+                  <router-link slot="avatar" to="/settings">
+                    <a-avatar style="background-color: white" src="https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png"/>
+                  </router-link>
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-list-item-meta title="这种模板可以区分多种通知类型" description="一年前">
+                <a-list-item-meta title="Fuqaro ariza">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png"/>
                 </a-list-item-meta>
               </a-list-item>
             </a-list>
           </a-tab-pane>
-          <a-tab-pane tab="消息" key="2">
-            123
-          </a-tab-pane>
-          <a-tab-pane tab="待办" key="3">
-            123
-          </a-tab-pane>
         </a-tabs>
       </a-spin>
     </template>
     <span @click="fetchNotice" class="header-notice" ref="noticeRef" style="padding: 0 18px">
-      <a-badge count="12">
+      <a-badge :count="getTotal">
         <a-icon style="font-size: 16px; padding: 4px" type="bell" />
       </a-badge>
     </span>
@@ -49,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'HeaderNotice',
   data () {
@@ -57,17 +67,18 @@ export default {
       visible: false
     }
   },
+  computed: {
+    ...mapGetters(['new', 'new_pagination']),
+    getTotal () {
+      return this.new_pagination.total
+    }
+  },
   methods: {
     fetchNotice () {
-      if (!this.visible) {
-        this.loading = true
-        setTimeout(() => {
-          this.loading = false
-        }, 2000)
-      } else {
-        this.loading = false
-      }
-      this.visible = !this.visible
+      // this.visible = !this.visible
+      // setTimeout(() => {
+      //   this.visible = false
+      // }, 5000)
     }
   }
 }
@@ -87,4 +98,4 @@ export default {
       vertical-align: initial;
     }
   }
-</style>
+</style> -->

@@ -1,47 +1,55 @@
 <template>
   <div>
     <a-row :gutter="24">
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="总销售额" total="￥126,560">
-          <a-tooltip title="指标说明" slot="action">
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="ordersLoading" :title="$t('sum_stat')" :total="numToPrice(sum)">
+          <a-tooltip :title="$t('sum_stat')" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <template slot="footer">{{ $t('sum_average') }} <span>{{ this.numToPrice((this.sum / this.ordersInterval ).toFixed(0)) }}</span></template>
+        </chart-card>
+        <a-card>
+          <line-chart :title="$t('sum_stat')" v-if="!ordersLoading" :data="sumData" :labels="ordersLabels"></line-chart>
+        </a-card>
+      </a-col>
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="ordersLoading" :title="$t('orders_stat')" :total="ordersCount">
+          <a-tooltip :title="$t('orders_stat')" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <template slot="footer">{{ $t('orders_average') }} <span>{{ (this.ordersCount / this.ordersInterval ).toFixed(2) }}</span></template>
+        </chart-card>
+        <a-card>
+          <line-chart :title="$t('orders_stat')" v-if="!ordersLoading" :data="ordersData" :labels="ordersLabels"></line-chart>
+        </a-card>
+      </a-col>
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="clientsLoading" :title="$t('clients_stat')" :total="clientsCount">
+          <a-tooltip :title="$t('clients_stat')" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend flag="up" style="margin-right: 16px;">
-              <span slot="term">周同比</span>
-              12%
-            </trend>
-            <trend flag="down">
-              <span slot="term">日同比</span>
-              11%
-            </trend>
           </div>
-          <template slot="footer">日均销售额<span>￥ 234.56</span></template>
+          <template slot="footer">{{ $t('orders_average') }} <span> {{ (this.clientsCount / this.clientsInterval).toFixed(2) }}</span></template>
         </chart-card>
+        <a-card>
+          <line-chart :title="$t('clients_stat')" v-if="!clientsLoading" :data="clientsData" :labels="clientsLabels"></line-chart>
+        </a-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="访问量" :total="8846 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
+      <!-- <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="loading" title="orders" :total="this.ordersCount | NumberFormat">
+          <a-tooltip title="orders" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <mini-area />
           </div>
-          <template slot="footer">日访问量<span> {{ '1234' | NumberFormat }}</span></template>
+          <template slot="footer">daily orders <span>60</span></template>
         </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="支付笔数" :total="6560 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <div>
-            <mini-bar />
-          </div>
-          <template slot="footer">转化率 <span>60%</span></template>
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+        <a-card>
+          <line-chart line-chart v-if="!loading" :data="lineChartData" :labels="labels"></line-chart>
+        </a-card>
+      </a-col> -->
+      <!-- <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
         <chart-card :loading="loading" title="运营活动效果" total="78%">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
@@ -60,35 +68,34 @@
             </trend>
           </template>
         </chart-card>
-      </a-col>
+      </a-col> -->
     </a-row>
-
-    <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
+    <!-- <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
       <div class="salesCard">
         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
           <div class="extra-wrapper" slot="tabBarExtraContent">
             <div class="extra-item">
-              <a>今日</a>
-              <a>本周</a>
-              <a>本月</a>
-              <a>本年</a>
+              <a>Today</a>
+              <a>This week</a>
+              <a>This month月</a>
+              <a>This year</a>
             </div>
             <a-range-picker :style="{width: '256px'}" />
           </div>
-          <a-tab-pane loading="true" tab="销售额" key="1">
+          <a-tab-pane loading="true" tab="Sales" key="1">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData" title="销售额排行" />
+                <bar :data="barData" title="Sales ranking" />
               </a-col>
               <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
                 <rank-list title="门店销售排行榜" :list="rankList"/>
               </a-col>
             </a-row>
           </a-tab-pane>
-          <a-tab-pane tab="访问量" key="2">
+          <a-tab-pane tab="Clients" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData2" title="销售额趋势" />
+                <bar :data="barData2" title="Clients" />
               </a-col>
               <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
                 <rank-list title="门店销售排行榜" :list="rankList"/>
@@ -97,9 +104,9 @@
           </a-tab-pane>
         </a-tabs>
       </div>
-    </a-card>
+    </a-card> -->
 
-    <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="!isMobile && 'desktop'">
+    <!-- <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="!isMobile && 'desktop'">
       <a-row :gutter="24" type="flex" :style="{ marginTop: '24px' }">
         <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
           <a-card :loading="loading" :bordered="false" title="线上热门搜索" :style="{ height: '100%' }">
@@ -126,7 +133,7 @@
                     </a-tooltip>
                   </span>
                 </number-info>
-                <!-- miniChart -->
+                miniChart
                 <div>
                   <mini-smooth-area :style="{ height: '45px' }" :dataSource="searchUserData" :scale="searchUserScale" />
                 </div>
@@ -140,7 +147,7 @@
                     </a-tooltip>
                   </span>
                 </number-info>
-                <!-- miniChart -->
+                miniChart
                 <div>
                   <mini-smooth-area :style="{ height: '45px' }" :dataSource="searchUserData" :scale="searchUserScale" />
                 </div>
@@ -166,7 +173,7 @@
         <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
           <a-card class="antd-pro-pages-dashboard-analysis-salesCard" :loading="loading" :bordered="false" title="销售额类别占比" :style="{ height: '100%' }">
             <div slot="extra" style="height: inherit;">
-              <!-- style="bottom: 12px;display: inline-block;" -->
+              style="bottom: 12px;display: inline-block;"
               <span class="dashboard-analysis-iconGroup">
                 <a-dropdown :trigger="['click']" placement="bottomLeft">
                   <a-icon type="ellipsis" class="ant-dropdown-link" />
@@ -191,12 +198,12 @@
             </div>
             <h4>销售额</h4>
             <div>
-              <!-- style="width: calc(100% - 240px);" -->
+              style="width: calc(100% - 240px);"
               <div>
                 <v-chart :force-fit="true" :height="405" :data="pieData" :scale="pieScale">
                   <v-tooltip :showTitle="false" dataKey="item*percent" />
                   <v-axis />
-                  <!-- position="right" :offsetX="-140" -->
+                  position="right" :offsetX="-140"
                   <v-legend dataKey="item"/>
                   <v-pie position="percent" color="item" :vStyle="pieStyle" />
                   <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
@@ -207,166 +214,82 @@
           </a-card>
         </a-col>
       </a-row>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 import {
-  ChartCard,
-  MiniArea,
-  MiniBar,
-  MiniProgress,
-  RankList,
-  Bar,
-  Trend,
-  NumberInfo,
-  MiniSmoothArea
+  ChartCard
 } from '@/components'
-import { baseMixin } from '@/store/app-mixin'
-
-const barData = []
-const barData2 = []
-for (let i = 0; i < 12; i += 1) {
-  barData.push({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200
-  })
-  barData2.push({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200
-  })
-}
-
-const rankList = []
-for (let i = 0; i < 7; i++) {
-  rankList.push({
-    name: '白鹭岛 ' + (i + 1) + ' 号店',
-    total: 1234.56 - i * 100
-  })
-}
-
-const searchUserData = []
-for (let i = 0; i < 7; i++) {
-  searchUserData.push({
-    x: moment().add(i, 'days').format('YYYY-MM-DD'),
-    y: Math.ceil(Math.random() * 10)
-  })
-}
-const searchUserScale = [
-  {
-    dataKey: 'x',
-    alias: '时间'
-  },
-  {
-    dataKey: 'y',
-    alias: '用户数',
-    min: 0,
-    max: 10
-  }]
-
-const searchTableColumns = [
-  {
-    dataIndex: 'index',
-    title: '排名',
-    width: 90
-  },
-  {
-    dataIndex: 'keyword',
-    title: '搜索关键词'
-  },
-  {
-    dataIndex: 'count',
-    title: '用户数'
-  },
-  {
-    dataIndex: 'range',
-    title: '周涨幅',
-    align: 'right',
-    sorter: (a, b) => a.range - b.range,
-    scopedSlots: { customRender: 'range' }
-  }
-]
-const searchData = []
-for (let i = 0; i < 50; i += 1) {
-  searchData.push({
-    index: i + 1,
-    keyword: `搜索关键词-${i}`,
-    count: Math.floor(Math.random() * 1000),
-    range: Math.floor(Math.random() * 100),
-    status: Math.floor((Math.random() * 10) % 2)
-  })
-}
-
-const DataSet = require('@antv/data-set')
-
-const sourceData = [
-  { item: '家用电器', count: 32.2 },
-  { item: '食用酒水', count: 21 },
-  { item: '个护健康', count: 17 },
-  { item: '服饰箱包', count: 13 },
-  { item: '母婴产品', count: 9 },
-  { item: '其他', count: 7.8 }
-]
-
-const pieScale = [{
-  dataKey: 'percent',
-  min: 0,
-  formatter: '.0%'
-}]
-
-const dv = new DataSet.View().source(sourceData)
-dv.transform({
-  type: 'percent',
-  field: 'count',
-  dimension: 'item',
-  as: 'percent'
-})
-const pieData = dv.rows
+import LineChart from '@/utils/lineChart'
+// import { mapActions, mapGetters } from 'vuex'
+import request from '@/utils/request'
+import { filterLastWeekOrders, getChartData, getChartLabels, getInterval, getSumOfOrders, getSumChartData, getClientChartData } from '@/utils/weekFilters'
+import numberToPrice from '@/utils/numberToPrice'
 
 export default {
   name: 'Analysis',
-  mixins: [baseMixin],
   components: {
     ChartCard,
-    MiniArea,
-    MiniBar,
-    MiniProgress,
-    RankList,
-    Bar,
-    Trend,
-    NumberInfo,
-    MiniSmoothArea
+    LineChart
   },
   data () {
     return {
-      loading: true,
-      rankList,
-
-      // 搜索用户数
-      searchUserData,
-      searchUserScale,
-      searchTableColumns,
-      searchData,
-
-      barData,
-      barData2,
-
-      //
-      pieScale,
-      pieData,
-      sourceData,
-      pieStyle: {
-        stroke: '#fff',
-        lineWidth: 1
-      }
+      // orders
+      orders: null,
+      ordersCount: null,
+      ordersData: null,
+      ordersLabels: null,
+      ordersInterval: null,
+      ordersLoading: true,
+      // clients
+      clients: null,
+      clientsCount: null,
+      clientsData: null,
+      clientsLabels: null,
+      clientsInterval: null,
+      clientsLoading: true,
+      // sum
+      sum: 1,
+      sumData: null
     }
   },
-  created () {
-    setTimeout(() => {
-      this.loading = !this.loading
-    }, 1000)
+  computed: {},
+  mounted () {
+    request({
+    url: '/order?limit=1000',
+    method: 'get'
+    }).then(res => {
+        this.orders = res.orders
+        this.ordersCount = res.count
+        const weeklyFiltered = filterLastWeekOrders(this.orders)
+        this.ordersData = getChartData(weeklyFiltered)
+        this.ordersLabels = getChartLabels(weeklyFiltered)
+        this.ordersInterval = getInterval(this.orders)
+        this.sum = getSumOfOrders(weeklyFiltered)
+        this.sumData = getSumChartData(weeklyFiltered)
+      })
+      .catch(err => console.error(err))
+      .finally(() => (this.ordersLoading = false))
+    request({
+      url: '/customer?limit=1000',
+      method: 'get'
+    }).then(res => {
+        this.clients = res.customers
+        this.clientsCount = res.count
+        const weeklyFiltered = filterLastWeekOrders(this.clients)
+        this.clientsData = getClientChartData(weeklyFiltered)
+        this.clientsLabels = getChartLabels(weeklyFiltered)
+        this.clientsInterval = getInterval(this.clients)
+      })
+      .catch(err => console.error(err))
+      .finally(() => (this.clientsLoading = false))
+  },
+  methods: {
+    numToPrice (num) {
+      return numberToPrice(num)
+    }
   }
 }
 </script>

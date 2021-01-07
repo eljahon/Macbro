@@ -6,18 +6,14 @@
     </span>
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
-        <a-menu-item v-if="menu" key="center" @click="handleToCenter">
-          <a-icon type="user" />
-          Profile
-        </a-menu-item>
-        <a-menu-item v-if="false" key="settings" @click="handleToSettings">
+        <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
           <a-icon type="setting" />
-          Settings
+          {{ $t('personal_settings') }}
         </a-menu-item>
         <a-menu-divider v-if="menu" />
         <a-menu-item key="logout" @click="handleLogout">
           <a-icon type="logout" />
-          Logout
+          {{ $t('logout') }}
         </a-menu-item>
       </a-menu>
     </template>
@@ -29,6 +25,7 @@
 
 <script>
 import { Modal } from 'ant-design-vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AvatarDropdown',
@@ -43,23 +40,17 @@ export default {
     }
   },
   methods: {
-    handleToCenter () {
-      this.$router.push({ path: '/profile/user' })
-    },
+    ...mapActions(['Logout']),
     handleToSettings () {
-      this.$router.push({ path: '/account/settings' })
+      this.$router.push({ path: '/account' })
     },
     handleLogout (e) {
       Modal.confirm({
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
         onOk: () => {
-          // return new Promise((resolve, reject) => {
-          //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
-          // }).catch(() => console.log('Oops errors!'))
-          return this.$store.dispatch('Logout').then(() => {
-            this.$router.push({ name: 'login' })
-          })
+          this.Logout()
+          this.$router.push('/user/login')
         },
         onCancel () {}
       })

@@ -1,19 +1,19 @@
 <template>
   <div :class="wrpCls">
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
-    <select-lang :class="prefixCls" />
+    <!-- <select-lang :class="prefixCls" /> -->
   </div>
 </template>
 
 <script>
 import AvatarDropdown from './AvatarDropdown'
-import SelectLang from '@/components/SelectLang'
+// import SelectLang from '@/components/SelectLang'
 
 export default {
   name: 'RightContent',
   components: {
-    AvatarDropdown,
-    SelectLang
+    AvatarDropdown
+    // SelectLang,
   },
   props: {
     prefixCls: {
@@ -43,14 +43,14 @@ export default {
     wrpCls () {
       return {
         'ant-pro-global-header-index-right': true,
-        [`ant-pro-global-header-index-${(this.isMobile || !this.topMenu) ? 'light' : this.theme}`]: true
+        [`ant-pro-global-header-index-${(this.topMenu && this.isMobile) && this.theme || 'light'}`]: true
       }
     }
   },
   mounted () {
     setTimeout(() => {
       this.currentUser = {
-        name: 'Alimov Azam'
+        name: 'Admin'
       }
     }, 1500)
   }

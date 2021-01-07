@@ -1,11 +1,10 @@
 <template>
-  <global-footer class="footer custom-render my-0 py-0">
+  <global-footer class="footer custom-render">
     <template v-slot:links>
-      <a href="#" target="_blank">Copyright {{ currentDate }} Udevs</a>
     </template>
-    <!-- <template v-slot:copyright>
-      <a href="#" target="_blank">copyright {{ new Date() }}</a>
-    </template> -->
+    <template v-slot:copyright>
+      <a href="https://github.com/vueComponent" target="_blank">© UDEVS. Все права защищены.</a>
+    </template>
   </global-footer>
 </template>
 
@@ -13,11 +12,6 @@
 import { GlobalFooter } from '@ant-design-vue/pro-layout'
 
 export default {
-  data () {
-    return {
-      currentDate: new Date().getFullYear()
-    }
-  },
   name: 'ProGlobalFooter',
   components: {
     GlobalFooter

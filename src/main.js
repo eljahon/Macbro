@@ -10,27 +10,47 @@ import i18n from './locales'
 import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
-// import VueCoreVideoPlayer from 'vue-core-video-player'
-
+import { FormModel } from 'ant-design-vue'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import FlagIcon from 'vue-flag-icon'
+import YmapPlugin from 'vue-yandex-maps'
+import vueDebounce from 'vue-debounce'
+import tinymce from '@tinymce/tinymce-vue'
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 // import './mock'
-import { FormModel } from 'ant-design-vue'
+
 import bootstrap from './core/bootstrap'
 import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
-import './global.less'
-import './plugins/GlobalFunctions'
-Vue.use(FormModel)
-
+import './assets/global.less'
+import '@/assets/global.less'
+import '@/global.css'
 Vue.config.productionTip = false
-
 // mount axios to `Vue.$http` and `this.$http`
+const settings = {
+  apiKey: '13b2041b-80b3-47fb-b10e-217ad5a09315',
+  lang: 'ru_RU',
+  coordorder: 'latlong',
+  version: '2.1'
+}
+Vue.use(YmapPlugin, settings)
+Vue.use(FlagIcon)
+Vue.use(vueDebounce, {
+  defaultTime: '700ms'
+})
+Vue.use(tinymce)
 Vue.use(VueAxios)
+Vue.use(FormModel)
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDC6tKEbtRlB6B0HgrFEN9P6ztTSJ89xt8',
+    libraries: 'places'
+  }
+})
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
 
 new Vue({

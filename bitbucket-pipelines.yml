@@ -1,37 +1,29 @@
-definitions:
-  services:
-    docker:
-      memory: 4096
 image: docker:19.03.8
-options:      
-  docker: true
-  size: 2x
 pipelines:
   branches:
     master:
-    - step:
-        name: Deploy to Production host
-        script:
-          - apk update && apk add make && apk add openssh
-          - docker login $REGISTRY --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          - make build-image TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
-          - make push-image  TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
-          - source .build_info
-          - ssh $NT_PROD_USER@$NT_PROD_HOST 'docker service update --with-registry-auth
-            --image '$REGISTRY'/'$APP':'$BITBUCKET_BUILD_NUMBER' '$APP''
-        services:
-          - docker
-    staging:
       - step:
-          name: Deploy to Staging
+          name: Deploy to Prod
           script:
             - apk update && apk add make && apk add openssh
             - docker login $REGISTRY --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-            - make build-image TAG=$BITBUCKET_BUILD_NUMBER ENV_TAG=test REGISTRY=$REGISTRY
-            - make push-image  TAG=$BITBUCKET_BUILD_NUMBER ENV_TAG=test REGISTRY=$REGISTRY
+            - make build-image TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
+            - make push-image  TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
             - source .build_info
-            - ssh $NT_TEST_USER@$NT_TEST_HOST 'docker service update --with-registry-auth
+            - ssh goodzone@$GOODZONE_PROD_HOST 'docker service update --with-registry-auth
               --image '$REGISTRY'/'$APP':'$BITBUCKET_BUILD_NUMBER' '$APP''
           services:
             - docker
-        
+    udevsio:
+      - step:
+          name: Deploy to Clone
+          script:
+            - apk update && apk add make && apk add openssh
+            - docker login $REGISTRY --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            - make build-image TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
+            - make push-image  TAG=$BITBUCKET_BUILD_NUMBER REGISTRY=$REGISTRY
+            - source .build_info
+            - ssh goodzone@$GOODZONE_CLONE_HOST 'docker service update --with-registry-auth
+              --image '$REGISTRY'/'$APP':'$BITBUCKET_BUILD_NUMBER' '$APP''
+          services:
+            - docker

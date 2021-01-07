@@ -4,20 +4,20 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Najot Ta'lim</span>
+            <img src="@/assets/logogz.svg" class="logo" alt="logo">
+            <!-- <span class="title">Goodzone</span> -->
           </a>
         </div>
-        <div class="desc">
-          Love your work
-        </div>
+        <!-- <div class="desc">
+          UDevs Goodzone
+        </div> -->
       </div>
 
       <router-view />
 
       <div class="footer">
         <div class="copyright">
-          Copyright &copy; {{ getDate }} Udevs
+          Copyright &copy; 2020 UDevs
         </div>
       </div>
     </div>
@@ -28,9 +28,6 @@
 import { deviceMixin } from '@/store/device-mixin'
 
 export default {
-  data: () => ({
-    getDate: new Date().getFullYear()
-  }),
   name: 'UserLayout',
   mixins: [deviceMixin],
   mounted () {
@@ -73,7 +70,7 @@ export default {
         .header {
           height: 44px;
           line-height: 44px;
-
+          margin-bottom: 100px;
           .badge {
             position: absolute;
             display: inline-block;
@@ -85,10 +82,10 @@ export default {
           }
 
           .logo {
-            height: 44px;
-            vertical-align: top;
-            margin-right: 16px;
-            border-style: none;
+            width: 500px;
+            height: 120px;
+            object-fit: cover;
+            object-position: 50% 42%;
           }
 
           .title {

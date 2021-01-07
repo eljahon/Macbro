@@ -6,8 +6,8 @@
     :sub-title="description">
 
     <template #extra>
-      <a-button size="large" type="primary">查看邮箱</a-button>
-      <a-button size="large" style="margin-left: 8px" @click="goHomeHandle">返回首页</a-button>
+      <a-button size="large" type="primary">View mail</a-button>
+      <a-button size="large" style="margin-left: 8px" @click="goHomeHandle">Back to top</a-button>
     </template>
 
   </a-result>
@@ -18,14 +18,14 @@ export default {
   name: 'RegisterResult',
   data () {
     return {
-      description: '激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。',
+      description: 'The activation email has been sent to your mailbox, and the email is valid for 24 hours. Please log in to the mailbox in time and click the link in the email to activate the account. ',
       form: {}
     }
   },
   computed: {
     email () {
       const v = this.form && this.form.email || 'xxx'
-      return `你的账户：${v} 注册成功`
+      return `Your account:${v} successfully registered `
     }
   },
   created () {

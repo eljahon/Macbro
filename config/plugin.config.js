@@ -2,7 +2,6 @@ const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const generate = require('@ant-design/colors/lib/generate').default
 
 const getAntdSerials = (color) => {
-  // 淡化（即less的tint）
   const lightens = new Array(9).fill().map((t, i) => {
     return ThemeColorReplacer.varyColor.lighten(color, i / 10)
   })
@@ -13,8 +12,7 @@ const getAntdSerials = (color) => {
 
 const themePluginOption = {
   fileName: 'css/theme-colors-[contenthash:8].css',
-  matchColors: getAntdSerials('#1890ff'), // 主色系列
-  // 改变样式选择器，解决样式覆盖问题
+  matchColors: getAntdSerials('#1890ff'),
   changeSelector (selector) {
     switch (selector) {
       case '.ant-calendar-today .ant-calendar-date':
@@ -26,9 +24,6 @@ const themePluginOption = {
       case '.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon':
       case '.ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon':
         return ':not(.ant-steps-item-process)' + selector
-      // fixed https://github.com/vueComponent/ant-design-vue-pro/issues/876
-      case '.ant-steps-item-process .ant-steps-item-icon':
-        return ':not(.ant-steps-item-custom)' + selector
       case '.ant-menu-horizontal>.ant-menu-item-active,.ant-menu-horizontal>.ant-menu-item-open,.ant-menu-horizontal>.ant-menu-item-selected,.ant-menu-horizontal>.ant-menu-item:hover,.ant-menu-horizontal>.ant-menu-submenu-active,.ant-menu-horizontal>.ant-menu-submenu-open,.ant-menu-horizontal>.ant-menu-submenu-selected,.ant-menu-horizontal>.ant-menu-submenu:hover':
       case '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal > .ant-menu-submenu-selected,.ant-menu-horizontal > .ant-menu-submenu:hover':
         return '.ant-menu-horizontal > .ant-menu-item-active,.ant-menu-horizontal > .ant-menu-item-open,.ant-menu-horizontal > .ant-menu-item-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,.ant-menu-horizontal > .ant-menu-submenu-active,.ant-menu-horizontal > .ant-menu-submenu-open,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected,.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover'

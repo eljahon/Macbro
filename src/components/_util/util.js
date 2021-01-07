@@ -25,7 +25,7 @@ export const getStrFullLength = (str = '') =>
   }, 0)
 
 /**
- * 截取字符串，根据 maxLength 截取后返回
+ *
  * @param {*} str
  * @param {*} maxLength
  */

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/login/system-user',
+  Login: '/shippers/login',
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
@@ -9,7 +9,7 @@ const userApi = {
   SendSms: '/account/sms',
   SendSmsErr: '/account/sms_err',
   // get my info
-  UserInfo: '/user/info',
+  UserInfo: '/customers/ea54a955-c321-4c73-8305-ef215461ec62',
   UserMenu: '/user/nav'
 }
 
@@ -24,11 +24,12 @@ const userApi = {
  * @param parameter
  * @returns {*}
  */
+
 export function login (parameter) {
   return request({
     url: userApi.Login,
-    method: 'post',
-    data: parameter
+    data: parameter,
+    method: 'post'
   })
 }
 
@@ -42,11 +43,8 @@ export function getSmsCaptcha (parameter) {
 
 export function getInfo () {
   return request({
-    url: userApi.UserInfo,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+    url: userApi.Login,
+    method: 'get'
   })
 }
 

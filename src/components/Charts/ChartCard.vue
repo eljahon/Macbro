@@ -1,5 +1,5 @@
 <template>
-  <a-card :loading="loading" :body-style="{ padding: '20px 24px 8px' }" :bordered="false">
+  <a-card :style="{ height: '100%' }" :loading="loading" :body-style="{ padding: '20px 24px 8px' }" :bordered="false">
     <div class="chart-card-header">
       <div class="meta">
         <span class="chart-card-title">
@@ -15,11 +15,6 @@
         <slot name="total">
           <span>{{ typeof total === 'function' && total() || total }}</span>
         </slot>
-      </div>
-    </div>
-    <div class="chart-card-content">
-      <div class="content-fix">
-        <slot></slot>
       </div>
     </div>
     <div class="chart-card-footer">
@@ -56,7 +51,6 @@ export default {
     position: relative;
     overflow: hidden;
     width: 100%;
-
     .meta {
       position: relative;
       overflow: hidden;
@@ -64,6 +58,11 @@ export default {
       color: rgba(0, 0, 0, .45);
       font-size: 14px;
       line-height: 22px;
+      .chart-card-title {
+        font-size: 1.5rem;
+        color: #000;
+        font-weight: bold;
+      }
     }
   }
 
@@ -110,10 +109,10 @@ export default {
     text-overflow: ellipsis;
     word-break: break-all;
     white-space: nowrap;
-    color: #000;
+    color: rgba(0, 0, 0, .85);
     margin-top: 4px;
     margin-bottom: 0;
-    font-size: 30px;
+    font-size: 1.2rem;
     line-height: 38px;
     height: 38px;
   }

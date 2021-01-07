@@ -9,7 +9,6 @@ import ruRU from './lang/ru-RU'
 Vue.use(VueI18n)
 
 export const defaultLang = 'ru-RU'
-
 const messages = {
   'ru-RU': {
     ...ruRU
@@ -34,7 +33,6 @@ function setI18nLanguage (lang) {
 
 export function loadLanguageAsync (lang = defaultLang) {
   return new Promise(resolve => {
-    // 缓存语言设置
     storage.set('lang', lang)
     if (i18n.locale !== lang) {
       if (!loadedLanguages.includes(lang)) {
@@ -49,8 +47,6 @@ export function loadLanguageAsync (lang = defaultLang) {
       return resolve(setI18nLanguage(lang))
     }
     return resolve(lang)
-  }).catch(err => {
-    console.log(err)
   })
 }
 

@@ -20,7 +20,7 @@
       <a-form layout="vertical" :auto-form-create="(form)=>{this.form = form}">
         <div class="step-form-wrapper">
           <p style="text-align: center" v-if="!stepLoading">请在手机中打开 Google Authenticator 或两步验证 APP<br />输入 6 位动态码</p>
-          <p style="text-align: center" v-else>Loading...<br/>请稍后</p>
+          <p style="text-align: center" v-else>正在验证..<br/>请稍后</p>
           <a-form-item
             :style="{ textAlign: 'center' }"
             hasFeedback

@@ -1,0 +1,32 @@
+.upload-img {
+  width: 75%;
+  height: auto;
+}
+
+/* uploader */
+.avatar-uploader > .ant-upload.ant-upload-select-picture-card {
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+
+/*  */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

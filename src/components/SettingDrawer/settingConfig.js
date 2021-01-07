@@ -5,7 +5,7 @@ import themeColor from './themeColor.js'
 // let lessNodesAppended
 const colorList = [
   {
-    key: '薄暮', color: '#F5222D'
+    key: 'dusk', color: '#F5222D'
   },
   {
     key: '火山', color: '#FA541C'
@@ -20,7 +20,7 @@ const colorList = [
     key: '极光绿', color: '#52C41A'
   },
   {
-    key: '拂晓蓝（默认）', color: '#BC8E5B'
+    key: '拂晓蓝（默认）', color: '#1890FF'
   },
   {
     key: '极客蓝', color: '#2F54EB'
@@ -31,7 +31,7 @@ const colorList = [
 ]
 
 const updateTheme = newPrimaryColor => {
-  const hideMessage = message.loading('loading', 0)
+  const hideMessage = message.loading('正在切换主题！', 0)
   themeColor.changeColor(newPrimaryColor).finally(() => {
     setTimeout(() => {
       hideMessage()

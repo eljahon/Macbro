@@ -231,10 +231,10 @@ export default {
 }`
       this.$copyText(text).then(message => {
         console.log('copy', message)
-        this.$message.success('Операция запуска')
+        this.$message.success('复制完毕')
       }).catch(err => {
         console.log('copy.err', err)
-        this.$message.error('Операция не удалась')
+        this.$message.error('复制失败')
       })
     },
     handleLayout (mode) {
@@ -293,7 +293,7 @@ export default {
           padding-top: 15px;
           padding-left: 24px;
           height: 100%;
-          color: #ff00aa;
+          color: #1890ff;
           font-size: 14px;
           font-weight: 700;
         }
@@ -321,7 +321,7 @@ export default {
   .setting-drawer-index-handle {
     position: absolute;
     top: 240px;
-    background: #BC8E5B;
+    background: #1890ff;
     width: 48px;
     height: 48px;
     right: 300px;

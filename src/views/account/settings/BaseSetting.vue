@@ -5,48 +5,32 @@
 
         <a-form layout="vertical">
           <a-form-item
-            label="昵称"
+            label="Ism"
           >
-            <a-input placeholder="给自己起个名字" />
+            <a-input placeholder="Dell" />
           </a-form-item>
           <a-form-item
-            label="Bio"
-          >
-            <a-textarea rows="4" placeholder="You are not alone."/>
-          </a-form-item>
-
-          <a-form-item
-            label="电子邮件"
+            label="Eski parol"
             :required="false"
           >
-            <a-input placeholder="exp@admin.com"/>
+            <a-input placeholder="Parolingiz"/>
           </a-form-item>
           <a-form-item
-            label="加密方式"
+            label="Yangi parol"
             :required="false"
           >
-            <a-select defaultValue="aes-256-cfb">
-              <a-select-option value="aes-256-cfb">aes-256-cfb</a-select-option>
-              <a-select-option value="aes-128-cfb">aes-128-cfb</a-select-option>
-              <a-select-option value="chacha20">chacha20</a-select-option>
-            </a-select>
+            <a-input placeholder="Tasdiqlash parol"/>
           </a-form-item>
           <a-form-item
-            label="连接密码"
+            label="Parolni tasdiqlash"
             :required="false"
           >
-            <a-input placeholder="h3gSbecd"/>
-          </a-form-item>
-          <a-form-item
-            label="登录密码"
-            :required="false"
-          >
-            <a-input placeholder="密码"/>
+            <a-input placeholder="Tasdiqlash"/>
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary">提交</a-button>
-            <a-button style="margin-left: 8px">保存</a-button>
+            <a-button type="primary">Yuklash </a-button>
+            <a-button style="margin-left: 8px">Saqlash</a-button>
           </a-form-item>
         </a-form>
 
@@ -63,7 +47,7 @@
 
     </a-row>
 
-    <avatar-modal ref="modal" @ok="setavatar"/>
+    <avatar-modal ref="modal" :msg="$t('uploadUserPicture')" modalType="product" @ok="setavatar"/>
 
   </div>
 </template>
@@ -86,11 +70,9 @@ export default {
         outputType: 'jpeg',
         canScale: false,
         autoCrop: true,
-        // 只有自动截图开启 宽度高度才生效
         autoCropWidth: 180,
         autoCropHeight: 180,
         fixedBox: true,
-        // 开启宽度和高度比例
         fixed: true,
         fixedNumber: [1, 1]
       }

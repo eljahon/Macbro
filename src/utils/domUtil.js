@@ -12,7 +12,7 @@ export const setDocumentTitle = function (title) {
     i.onload = function () {
       setTimeout(function () {
         i.remove()
-      }, 9)
+      }, 2)
     }
     document.body.appendChild(i)
   }

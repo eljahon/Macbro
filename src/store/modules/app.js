@@ -11,7 +11,6 @@ import {
   TOGGLE_COLOR,
   TOGGLE_WEAK,
   TOGGLE_MULTI_TAB,
-  // i18n
   APP_LANGUAGE
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
@@ -26,11 +25,14 @@ const app = {
     fixedHeader: false,
     fixedSidebar: false,
     autoHideHeader: false,
-    color: '#BC8E5B',
+    color: '',
     weak: false,
     multiTab: true,
     lang: 'ru-RU',
     _antLocale: {}
+  },
+  getters: {
+    sideCollapsed: state => state.sideCollapsed
   },
   mutations: {
     [SIDEBAR_TYPE]: (state, type) => {
