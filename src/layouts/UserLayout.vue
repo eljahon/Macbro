@@ -82,10 +82,9 @@ export default {
           }
 
           .logo {
-            width: 500px;
+            width: 120px;
             height: 120px;
             object-fit: cover;
-            object-position: 50% 42%;
           }
 
           .title {
