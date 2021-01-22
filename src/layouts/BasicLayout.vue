@@ -1,6 +1,6 @@
 <template>
   <pro-layout
-    title="Goodzone"
+    title="MacBro"
     :menus="menus"
     :collapsed="collapsed"
     :mediaQuery="query"
