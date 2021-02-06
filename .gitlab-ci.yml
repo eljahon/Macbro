@@ -1,27 +1,47 @@
+services:
+  - docker:19.03.1-dind
+
+variables:
+  GIT_STRATEGY: none
+  BUILD_DIR: "/home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0"
+  CLONE_DIR: "$BUILD_DIR/$CI_PROJECT_PATH"
+  NAMESPACE: "microservices"
+
+before_script:
+  ## ssh
+  - eval $(ssh-agent -s)
+  - echo "$RUNNER_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  ##  cloning
+  - cd $BUILD_DIR
+  - rm -rf $CLONE_DIR && mkdir -p $CLONE_DIR
+  - git clone --recurse-submodules git@gitlab.udevs.io:${CI_PROJECT_PATH}.git $CLONE_DIR
+  - cd $CLONE_DIR
+  ## docker login
+  - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+
 stages:
   - build
   - deploy
 
-build-image:
+build_image:
   stage: build
-  before_script:
-    - docker login $REGISTRY --username $REGISTRY_USER --password $REGISTRY_PASSWORD
   script:
-    - make build-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
-    - make push-image TAG=$CI_PIPELINE_IID REGISTRY=$REGISTRY
+    - make build-image TAG=$CI_PIPELINE_IID
+    - make push-image TAG=$CI_PIPELINE_IID
   only:
     - master
 
-deploy:
+deploy_to_prod:
   stage: deploy
-  before_script:
-    - eval $(ssh-agent -s)
-    - echo "$GITLAB_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
   script:
+    - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x ./kubectl && mkdir -p ~/.kube && mv ./kubectl ~/.kube && export PATH=$PATH:$HOME/.kube
+    - cp $MACBRO_KUBECONFIG ~/.kube/config
     - source .build_info
-    - ssh -o StrictHostKeyChecking=no $MACBRO_PROD_USER@$MACBRO_PROD_HOST 'docker service update --with-registry-auth
-      --image '$REGISTRY'/'$PROJECT_NAME'/'$APP'/'$APP':'$CI_PIPELINE_IID' '$APP''
+    - kubectl apply -f .kube/
+    - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $DEPLOYMENT=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_IID
+    - rm -rf ~/.kube
   only:
     - master
