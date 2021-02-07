@@ -94,13 +94,13 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
-              <a-form-model-item :label="$t('product_preview_text')" prop="preview">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
+              <a-form-model-item ref="preview" :label="$t('product_preview_text')" prop="preview">
                 <tinymce v-model="product.preview_text"></tinymce>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
-              <a-form-model-item ref="name" :label="$t('description')" prop="description">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
+              <a-form-model-item ref="description" :label="$t('description')" prop="description">
                 <tinymce v-model="product.description"></tinymce>
               </a-form-model-item>
             </a-col>
@@ -518,6 +518,7 @@ export default {
       allProductProperties: null,
       productProperties: [],
       productDefaultProperties: null,
+      tabCategories: [],
       // reviews
       reviewsModalStatus: false,
       selectedReview: null,
@@ -614,7 +615,7 @@ export default {
   computed: {
     ...mapGetters(['productsData', 'productsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),
     getAllCategories () {
-      return getCategoriesTree(this.categories)
+      return getCategoriesTree(this.tabCategories)
     },
     getAllBrands () {
       return this.brandsSelect
@@ -694,9 +695,11 @@ export default {
     }
   },
   mounted () {
-    this.getCategories({ page: null, lang: this.lang, search: false }).then(() => {
-      // console.log(getCategoriesTree(this.categories), 'getCate  ')
-    })
+    this.getCategories({ page: null, lang: this.lang, search: false })
+      .then(() => {
+        this.tabCategories = this.categories
+      })
+      .catch(err => console.error(err.message))
     this.getBrands({ page: null, search: false }).then(() => {
       this.brandsSelect = this.brands
     })
@@ -914,13 +917,6 @@ export default {
       }
       return isJpgOrPng
     },
-    onReady (editor) {
-                // Insert the toolbar before the editable area.
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        )
-    },
     // table
     fetchTableData () {
       this.modalVisible = true
@@ -1018,8 +1014,8 @@ export default {
     onSubmit () {
       // console.log('submit')
       const headers = {
-            'Content-Type': 'application/json'
-          }
+        'Content-Type': 'application/json'
+      }
       this.$refs.ruleForm.validate(valid => {
         // console.log('product', this.product)
         if (valid) {
@@ -1030,9 +1026,10 @@ export default {
             url = `/product/${this.productSlug}`
             method = 'put'
             // update product data
+            this.$emit('clickParent', true)
             request({
-              url: url,
-              method: method,
+              url,
+              method,
               data: {
                 ...this.product,
                 additional_categories: this.convertArrayToString(this.product.additional_categories),
@@ -1040,16 +1037,18 @@ export default {
                 related_products: this.getRelatedProductIds(this.product.related_products),
                 lang: this.lang || ''
               },
-              headers: headers
-          }).then(res => {
-            console.log('res', res)
-          }).catch(err => {
+              headers
+            })
+            .then(res => {
+              console.log('res', res)
+            })
+            .catch(err => {
               console.error(err)
               this.$message.error(this.$t('error'))
-          })
-          //
-          const slug = this.productSlug
-          // update product simple price
+            })
+            //
+            const slug = this.productSlug
+            // update product simple price
             request({
               url: `/product/${slug}/update-price`,
               method: 'put',
@@ -1060,7 +1059,7 @@ export default {
               console.log('res', res)
             })
             .catch(error => console.log('error', error))
-          // update product unired price
+            // update product unired price
             request({
               url: `/product/${slug}/update-price`,
               method: 'put',
@@ -1069,15 +1068,21 @@ export default {
             })
             .then(res => {
               console.log('res', res)
-              this.$router.replace('/catalog/products')
+              if (this.$route.path !== '/catalog/products') {
+                this.$router.replace('/catalog/products')
+              }
             })
             .catch(error => console.error('error', error))
+            .finally(() => {
+              this.$emit('clickParent', false)
+            })
             return
           }
            // Updating Price of created Product, only works when creating product
           if (this.priceUpdatable) {
             const slug = this.createdProductSlug || this.productSlug
             if (this.updatePriceOnly) {
+            this.$emit('clickParent', true)
             request({
               url: `/product/${slug}/update-price`,
               method: 'put',
@@ -1096,14 +1101,20 @@ export default {
             })
             .then(res => {
               console.log('res', res)
-              this.$router.replace('/catalog/products')
+              if (this.$route.path !== '/catalog/products') {
+                this.$router.replace('/catalog/products')
+              }
             })
             .catch(error => console.error('error', error))
+            .finally(() => {
+              this.$emit('clickParent', false)
+            })
             return
             }
           }
           // console.log(this.product, ' on submit')
           // request for creating or editing product
+          this.$emit('clickParent', true)
           request({
               url: url,
               method: method,
@@ -1124,6 +1135,9 @@ export default {
           }).catch(err => {
               console.error(err)
               this.$message.success(this.$t('error'))
+          })
+          .finally(() => {
+            this.$emit('clickParent', false)
           })
           console.log('valid')
         } else {
@@ -1220,60 +1234,7 @@ export default {
   }
 }
 </script>
-<style>
-  .ck-editor .ck-editor__main .ck-content {
-    min-height: 400px;
-    max-height: 400px;
-  }
-  .ck .ck-reset .ck-editor .ck-rounded-corners {
-    min-height: 400px !important;
-    max-height: 400px  !important;
-  }
-  .ck-editor__editable {
-    min-height: 400px !important;
-    max-height: 400px  !important;
-  }
-  .ck-editor__editable_inline {
-    min-height: 400px !important;
-    max-height: 400px;
-  }
-  :host ::ng-deep .ck-editor__editable_inline {
-    min-height: 400px !important;
-    max-height: 400px  !important;
-  }
-  img, .mask {
-      display: block;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 250px;
-      height: auto;
-      overflow: hidden;
-    }
-  .avatar-uploader > .ant-upload.ant-upload-select-picture-card {
-    width: 150px;
-    height: 150px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-  }
-
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
-
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-/* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-
+<style scoped>
   .attributes > * {
     margin-bottom: 25px;
     width: 100%;
