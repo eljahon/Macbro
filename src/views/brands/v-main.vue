@@ -130,9 +130,6 @@ export default {
     if (this.brandId) this.getBrandAttrs(this.brandId)
     console.log(this.brandId)
   },
-  updated () {
-    console.log('this.brand', this.brand)
-  },
   methods: {
     getBrandAttrs () {
       request({
