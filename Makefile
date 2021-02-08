@@ -4,33 +4,14 @@ APP=$(shell basename ${CURRENT_DIR})
 
 APP_CMD_DIR=${CURRENT_DIR}/cmd
 
-REGISTRY=gitlab.udevs.io:5050
+IMG_NAME=${APP}
+REGISTRY=${REGISTRY}
+
 TAG=latest
 ENV_TAG=latest
-PROJECT_NAME=macbro
 
-
-build:
-	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
-
-proto-gen:
-	./scripts/gen-proto.sh	${CURRENT_DIR}
-	rm -rf vendor/genproto
-	sudo rm -rf ${GOROOT}/src/genproto
-	sudo cp -R genproto ${GOROOT}/src
-	mv genproto vendor
-
-pull-proto-module:
-	git submodule update --init --recursive
-
-update-proto-module:
-	git submodule update --remote --merge
-
-clear:
-	rm -rf ${CURRENT_DIR}/bin/*
-
-network:
-	docker network create --driver=bridge ${NETWORK_NAME}
+# Including
+include .build_info
 
 migrate-up:
 	docker run --mount type=bind,source="${CURRENT_DIR}/migrations,target=/migrations" --network ${NETWORK_NAME} migrate/migrate \
@@ -40,19 +21,21 @@ migrate-down:
 	docker run --mount type=bind,source="${CURRENT_DIR}/migrations,target=/migrations" --network ${NETWORK_NAME} migrate/migrate \
 		-path=/migrations/ -database=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable down
 
+migrate-up-from-pipline:
+	migrate -path=migrations/ -database=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable up
+
 mark-as-production-image:
-	docker tag ${REGISTRY}/${APP}:${TAG} ${REGISTRY}/${APP}:production
-	docker push ${REGISTRY}/${APP}:production
+	docker tag ${REGISTRY}/${IMG_NAME}:${TAG} ${REGISTRY}/${IMG_NAME}:production
+	docker push ${REGISTRY}/${IMG_NAME}:production
 
 build-image:
-	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} .
-	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG} .
+	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${ENV_TAG}
 
 push-image:
-	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
-	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${TAG}
+	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}/${IMG_NAME}:${ENV_TAG}
 
-swag-init:
-	swag init -g api/main.go
+.PHONY: build-image
 
-.PHONY: proto
+
