@@ -1,5 +1,6 @@
 <template>
   <editor
+    inline
     v-bind="$attrs"
     v-on="$listeners"
     api-key="jz9zw066y1twsoyxdauivnsw1soymo6l7vi9om94g7ijszt4"
