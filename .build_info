@@ -1,1 +1,5 @@
 export DEPLOYMENT=admin
+
+APP=mb_admin
+PROJECT_NAME=macbro
+REGISTRY=gitlab.udevs.io:5050
