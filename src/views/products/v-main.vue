@@ -104,6 +104,11 @@
                 <tinymce v-model="product.description"></tinymce>
               </a-form-model-item>
             </a-col>
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
+              <a-form-model-item ref="characteristics" :label="$t('characteristics')" prop="characteristics">
+                <tinymce v-model="product.characteristics"></tinymce>
+              </a-form-model-item>
+            </a-col>
           </a-row>
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('images')">
@@ -495,6 +500,7 @@ export default {
         category_id: null,
         order: 0,
         description: '',
+        characteristics: '',
         image: '',
         gallery: [],
         preview_text: '',
@@ -749,6 +755,7 @@ export default {
         this.productId = product.id
         this.product.name = product.name
         this.product.description = product.description
+        this.product.characteristics = product.characteristics
         this.product.preview_text = product.preview_text
         this.product.order = product.order
         this.product.category_id = product.category.id

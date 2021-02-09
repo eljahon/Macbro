@@ -66,6 +66,7 @@ const locale = {
   price: 'Цены',
   selectPark: 'Выберите парковке',
   description: 'Описание',
+  characteristics: 'Характеристики',
   confirm: 'Подтвердить',
   confirmPassword: 'Подтвердить пароль',
   enterNumber: 'Введите цифры',
