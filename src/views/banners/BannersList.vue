@@ -136,11 +136,6 @@ export default {
           scopedSlots: { customRender: 'bannerPosition' }
         },
         {
-          title: this.$t('description'),
-          dataIndex: 'description',
-          scopedSlots: { customRender: 'description' }
-        },
-        {
           title: this.$t('status'),
           dataIndex: 'active',
           scopedSlots: { customRender: 'status' }

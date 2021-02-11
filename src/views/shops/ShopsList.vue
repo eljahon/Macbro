@@ -169,7 +169,10 @@ export default {
   mounted () {
     this.getShops({ page: this.shopsPagination })
       .then(() => (console.log('this.shopsData', this.shopsData)))
-      .catch(error => console.error(error))
+      .catch(error => {
+        this.requestFailed(error)
+        console.error(error)
+      })
       .finally(() => (this.loading = false))
   },
   methods: {

@@ -220,7 +220,7 @@ export default {
       this.loading = true
       this.getProducts({ page: pagination, search: true })
         .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
+        .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
         },
     getSelectedProduct (selectedProduct) {
@@ -243,7 +243,7 @@ export default {
       this.loading = true
       this.getProducts()
         .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
+        .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
       console.log('debounce')
     },

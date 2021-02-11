@@ -55,7 +55,7 @@ export default {
       btnLoading: false,
       activeTabKey: 1,
       edit: !!this.$route.params.id,
-      langs: ['ru', 'uz']
+      langs: ['ru', 'uz', 'en']
     }
   },
   // mounted() {

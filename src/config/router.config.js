@@ -5,11 +5,10 @@ import { bxAnaalyse } from '@/core/icons'
 
 const RouteView = {
   name: 'RouteView',
-  render: (h) => h('router-view')
+  render: h => h('router-view')
 }
 
 export const asyncRouterMap = [
-
   {
     path: '/',
     name: 'index',
@@ -118,14 +117,28 @@ export const asyncRouterMap = [
             name: 'ProductAttributes',
             component: RouteView,
             redirect: '/catalog/attribute/list',
-            meta: { title: 'attribute', keepAlive: true, permission: ['brands'] },
+            meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] },
             children: [
               {
                 path: '/catalog/attribute/list',
                 name: 'AttributeList',
                 props: true,
                 component: () => import('@/views/attributes/AttributesList'),
-                meta: { title: 'attribute', keepAlive: true, permission: ['brands'] }
+                meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
+              },
+              {
+                path: '/catalog/attribute/create',
+                name: 'AttributeCreate',
+                props: true,
+                component: () => import('@/views/attributes/AttributesCreate'),
+                meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
+              },
+              {
+                path: '/catalog/attribute/update/:id',
+                name: 'AttributeEdit',
+                props: true,
+                component: () => import('@/views/attributes/AttributesCreate'),
+                meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
               }
             ]
           },
@@ -307,7 +320,7 @@ export const asyncRouterMap = [
                 component: () => import('@/views/banners/BannersCreate'),
                 meta: { title: 'banners', keepAlive: true, permission: ['banners'] }
               }
-             ]
+            ]
           },
           {
             path: '/banner-positions',
@@ -400,7 +413,7 @@ export const asyncRouterMap = [
                 component: () => import('@/views/permissions/PermissionsCreate'),
                 meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
               }
-             ]
+            ]
           }
         ]
       },
@@ -493,7 +506,9 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '*', redirect: '/404', hidden: true
+    path: '*',
+    redirect: '/404',
+    hidden: true
   }
 ]
 
@@ -535,5 +550,4 @@ export const constantRouterMap = [
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
   }
-
 ]

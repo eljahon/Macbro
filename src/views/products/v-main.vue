@@ -104,11 +104,6 @@
                 <tinymce v-model="product.description"></tinymce>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
-              <a-form-model-item ref="characteristics" :label="$t('characteristics')" prop="characteristics">
-                <tinymce v-model="product.characteristics"></tinymce>
-              </a-form-model-item>
-            </a-col>
           </a-row>
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('images')">
@@ -500,7 +495,6 @@ export default {
         category_id: null,
         order: 0,
         description: '',
-        characteristics: '',
         image: '',
         gallery: [],
         preview_text: '',
@@ -524,7 +518,6 @@ export default {
       allProductProperties: null,
       productProperties: [],
       productDefaultProperties: null,
-      tabCategories: [],
       // reviews
       reviewsModalStatus: false,
       selectedReview: null,
@@ -621,7 +614,7 @@ export default {
   computed: {
     ...mapGetters(['productsData', 'productsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),
     getAllCategories () {
-      return getCategoriesTree(this.tabCategories)
+      return getCategoriesTree(this.categories)
     },
     getAllBrands () {
       return this.brandsSelect
@@ -701,11 +694,9 @@ export default {
     }
   },
   mounted () {
-    this.getCategories({ page: null, lang: this.lang, search: false })
-      .then(() => {
-        this.tabCategories = this.categories
-      })
-      .catch(err => console.error(err.message))
+    this.getCategories({ page: null, lang: this.lang, search: false }).then(() => {
+      // console.log(getCategoriesTree(this.categories), 'getCate  ')
+    })
     this.getBrands({ page: null, search: false }).then(() => {
       this.brandsSelect = this.brands
     })
@@ -755,7 +746,6 @@ export default {
         this.productId = product.id
         this.product.name = product.name
         this.product.description = product.description
-        this.product.characteristics = product.characteristics
         this.product.preview_text = product.preview_text
         this.product.order = product.order
         this.product.category_id = product.category.id
@@ -933,7 +923,7 @@ export default {
        console.log('pagination', pagination)
        this.getProducts({ page: pagination, search: true })
         .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
+        .catch(err => this.$message.error(err))
     },
     // reviews
     handleReviewTableChange (pagination) {
@@ -941,7 +931,7 @@ export default {
        console.log('pagination', pagination)
        this.getReviews({ page: pagination, productSlug: this.productSlug })
         .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
+        .catch(err => this.$message.error(err))
         .finally(() => (this.loadTable = false))
     },
     openReviewsModal (review) {
@@ -1141,7 +1131,7 @@ export default {
             this.updatePriceOnly = true
           }).catch(err => {
               console.error(err)
-              this.$message.success(this.$t('error'))
+              this.$message.error(this.$t('error'))
           })
           .finally(() => {
             this.$emit('clickParent', false)

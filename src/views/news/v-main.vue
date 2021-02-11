@@ -34,13 +34,12 @@
                 />
               </a-form-model-item>
             </a-col>
-
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
                 <tinymce v-model="news.description"></tinymce>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="fullText" :label="$t('full_text')" prop="fullText">
                 <tinymce v-model="news.full_text"></tinymce>
               </a-form-model-item>
@@ -206,7 +205,7 @@ export default {
       request({
         url: '/upload',
         method: 'post',
-        data: data
+        data
       }).then(response => {
         console.log('response', response)
         getBase64(e.file, imageUrl => {
@@ -223,7 +222,7 @@ export default {
       request({
         url: '/upload',
         method: 'post',
-        data: data
+        data
       }).then(response => {
         console.log('response', response)
         getBase64(e.file, previewImageUrl => {
@@ -240,13 +239,6 @@ export default {
       }
       return isJpgOrPng
     },
-    onReady (editor) {
-                // Insert the toolbar before the editable area.
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        )
-    },
     onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -259,29 +251,33 @@ export default {
           const headers = {
             'Content-Type': 'application/json'
           }
-          console.log('data', {
-              ...this.news, lang: this.lang || 'ru'
-          })
           if (!this.news.preview_image) {
             this.$message.error('Please add preview image')
             return
           }
+          this.$emit('clickParent', true)
           request({
-              url: url,
-              method: method,
-              data: {
-                ...this.news,
-                lang: this.lang ?? 'ru'
-              },
-              headers: headers
-          }).then(res => {
-            console.log('response after submit', res)
-            this.$router.push('/news/list')
-          }).catch(err => {
-              console.log(err)
-              this.$message.success(this.$t('error'))
+            url,
+            method,
+            data: {
+              ...this.news,
+              lang: this.lang ?? 'ru'
+            },
+            headers
           })
-          console.log('valid')
+          .then(res => {
+            console.log('response after submit', res)
+            if (this.$route.path !== '/news/list') {
+              this.$router.replace('/news/list')
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            this.$message.success(this.$t('error'))
+          })
+          .finally(() => {
+            this.$emit('clickParent', false)
+          })
         } else {
           console.log('error submit, validation failed')
           return false

@@ -58,12 +58,12 @@
                 <!--  -->
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
                 <tinymce v-model="promo.description"></tinymce>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="fullText" :label="$t('full_text')" prop="fullText">
                 <tinymce v-model="promo.preview_text"></tinymce>
               </a-form-model-item>
@@ -276,13 +276,6 @@ export default {
       }
       return isJpgOrPng
     },
-    onReady (editor) {
-                // Insert the toolbar before the editable area.
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        )
-    },
     onDateChange (date, dateString) {
         console.log('dateString', dateString)
         console.log('date', date)
@@ -306,24 +299,30 @@ export default {
           const headers = {
             'Content-Type': 'application/json'
           }
+          this.$emit('clickParent', true)
           request({
-              url: url,
-              method: method,
+              url,
+              method,
               data: {
                 ...this.promo,
                 start_time: new Date(this.promo.start_time).toUTCString(),
                 end_time: new Date(this.promo.end_time).toUTCString(),
                 lang: this.lang ?? 'ru'
               },
-              headers: headers
-          }).then(res => {
+              headers
+          })
+          .then(res => {
             console.log('response after submit', res)
-            this.$router.replace('/promos')
-          }).then(err => {
-            if (err) {
-              console.log(err)
-              this.$message.success(this.$t('error'))
+            if (this.$route.path !== '/promos/list') {
+              this.$router.replace('/promos/list')
             }
+          })
+          .catch(err => {
+            console.log(err)
+            this.$message.error(this.$t('error'))
+          })
+          .finally(() => {
+            this.$emit('clickParent', false)
           })
           console.log('valid')
         } else {
@@ -342,53 +341,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ant-calendar-picker {
     min-width: 400px !important;
 }
-  .ck-editor .ck-editor__main .ck-content {
-    min-height: 300px;
-  }
-  .ck .ck-reset .ck-editor .ck-rounded-corners {
-    min-height: 300px !important;
-  }
-  .ck-editor__editable {
-      min-height: 300px !important;
-  }
-
-  .ck-editor__editable_inline {
-    min-height: 300px !important;
-  }
-
-  :host ::ng-deep .ck-editor__editable_inline {
-    min-height: 300px !important;
-  }
-  img, .mask {
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-    }
-  .avatar-uploader > .ant-upload.ant-upload-select-picture-card {
-    width: 150px;
-    height: 150px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-  }
-
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-/* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
 </style>

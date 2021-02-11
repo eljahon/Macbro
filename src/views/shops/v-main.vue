@@ -27,15 +27,6 @@
               </a-form-model-item>
             </a-col>
             <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
-                <a-input-number
-                  placeholder="ID магазина"
-                  style="width: 100%;"
-                  v-model="shop.external_id"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="area" :label="$t('area')" prop="area">
                 <a-select
                   v-model="shop.area"
@@ -46,12 +37,12 @@
                     value="tashkent_city">
                     Ташкент
                   </a-select-option>
-                  <a-select-option
+                  <!-- <a-select-option
                     title="Samarkand"
                     key="samarkand"
                     value="samarkand">
                     Самарканд
-                  </a-select-option>
+                  </a-select-option> -->
                 </a-select>
               </a-form-model-item>
             </a-col>
@@ -132,12 +123,12 @@
                 </yandex-map>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="previewText" :label="$t('preview_text')" prop="previewText">
                 <tinymce v-model="shop.preview_text"></tinymce>
               </a-form-model-item>
             </a-col>
-            <a-col :span="24" style="padding: 0 15px">
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
                 <tinymce v-model="shop.description"></tinymce>
               </a-form-model-item>
@@ -281,7 +272,6 @@ export default {
         name: '',
         description: '',
         preview_text: '',
-        external_id: null,
         area: 'tashkent_city',
         // urls of images to post to API
         image: '',
@@ -296,7 +286,6 @@ export default {
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        external_id: [{ type: 'number', required: true, message: this.$t('required'), trigger: 'change', min: 1 }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       },
       columns: [
@@ -375,13 +364,12 @@ export default {
         }).then((response) => {
           resolve()
           console.log('response', response)
-          const { shop: { id, name, description, area, external_id: externalId, preview_text: previewText, loc, active, image, phone, address, address2, working_hours: workingHours } } = response
+          const { shop: { id, name, description, area, preview_text: previewText, loc, active, image, phone, address, address2, working_hours: workingHours } } = response
           this.shopId = id
           this.shop.name = name
           this.shop.description = description
           this.shop.preview_text = previewText
           this.shop.area = area
-          this.shop.external_id = externalId
           this.shop.active = active
           this.shop.phone = phone
           this.shop.address = address
@@ -474,13 +462,6 @@ export default {
       }
       return isJpgOrPng
     },
-    onReady (editor) {
-                // Insert the toolbar before the editable area.
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        )
-    },
     onLocationChange (e) {
         this.coords = e.get('coords')
         console.log('this.coords', this.coords)
@@ -497,6 +478,7 @@ export default {
           const headers = {
             'Content-Type': 'application/json'
           }
+          this.$emit('clickParent', true)
           request({
               url: url,
               method: method,
@@ -509,12 +491,19 @@ export default {
                 lang: this.lang ?? 'ru'
               },
               headers: headers
-          }).then(res => {
+          })
+          .then(res => {
             console.log('response after submit', res)
-            this.$router.replace('/shops/list')
-          }).catch(err => {
-              console.log(err)
-              this.$message.error(this.$t('error'))
+            if (this.$route.path !== '/shops/list') {
+              this.$router.replace('/shops/list')
+            }
+          })
+          .catch(err => {
+            console.error(err)
+            this.$message.error(this.$t('error'))
+          })
+          .finally(() => {
+            this.$emit('clickParent', false)
           })
           console.log('valid')
         } else {
@@ -545,49 +534,4 @@ export default {
 </script>
 
 <style>
-  .ck-editor .ck-editor__main .ck-content {
-    min-height: 300px;
-  }
-  .ck .ck-reset .ck-editor .ck-rounded-corners {
-    min-height: 300px !important;
-  }
-  .ck-editor__editable {
-      min-height: 300px !important;
-  }
-
-  .ck-editor__editable_inline {
-    min-height: 300px !important;
-  }
-
-  :host ::ng-deep .ck-editor__editable_inline {
-    min-height: 300px !important;
-  }
-  img, .mask {
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-    }
-  .avatar-uploader > .ant-upload.ant-upload-select-picture-card {
-    width: 150px;
-    height: 150px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-  }
-
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-/* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
 </style>
