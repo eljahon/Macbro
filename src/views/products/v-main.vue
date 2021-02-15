@@ -305,13 +305,37 @@
               <div v-if="property.type === 'checkbox'">
                 <label class="propertyLabel">{{ property.name }}</label>
                 <a-checkbox-group
+                  style="width: 100%"
+                  v-if="property.options"
                   name="checkboxgroup"
-                  @change="handleProperty($event, property.type, property.id)"
-                  :default-value="setDefaultProperty(property.id)"
+                  v-model="checkedAttList[property.id]"
+                  @change="handlePropertyCheck($event, property.id)"
                 >
-                  <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value">
-                    {{ option.name }}
-                  </a-checkbox>
+                  <div class="attributes-detail" v-for="option in property.options" :key="option.value">
+
+                    <a-checkbox :value="option.value">
+                      {{ option.name }}
+                    </a-checkbox>
+                    <a-form-model-item :label="$t('product_price')" v-if="property.has_price">
+                      <a-input
+                        v-model="option.price"
+                      />
+                    </a-form-model-item>
+                      <a-form-model-item :label="$t('image')" v-if="property.has_image">
+                        <a-select
+                          show-search
+                          :auto-clear-search-value="false"
+                          @search="onBrandSearch"
+                          v-model="option.image"
+                          :filter-option="false"
+                          placeholder="attribute image"
+                        >
+                          <a-select-option v-for="image in galleryList" :key="image.uid" :value="image.url.split('/').pop()">
+                            <img :src="image.url" :alt="image.uid" width="20" height="20"> {{image.url.split('/').pop()}}
+                          </a-select-option>
+                        </a-select>
+                      </a-form-model-item>
+                  </div>
                 </a-checkbox-group>
               </div>
               <div v-if="property.type === 'radio'">
@@ -329,6 +353,9 @@
             </a-col>
             <div>
               <a-button type="primary" @click="openAddAttrs">{{ $t('add_attr') }}</a-button>
+              <div style="float: right" v-if="productProperties.length">
+                <a-button type="primary" @click="onSaveProperty">{{ $t('save') }}</a-button>
+              </div>
               <a-modal v-model="addAttrProductModal" :title="$t('add_attr')" @ok="addProductProperty">
                 <a-row>
                   <a-col :span="24">
@@ -464,6 +491,8 @@ export default {
   },
   data () {
     return {
+      galleryList: [],
+      checkedAttList: {},
       productId: null,
       activeTabKey: '1',
       priceUpdatable: false,
@@ -758,8 +787,8 @@ export default {
         // console.log('this.price.price', this.price.price)
         this.price.price = product.price.price || 0
         this.price.old_price = product.price.old_price || 0
-        this.unired.price = product.prices[0].price || 0
-        this.unired.old_price = product.prices[0].old_price || 0
+        this.unired.price = product.prices && product.prices[0].price || 0
+        this.unired.old_price = product.prices && product.prices[0].old_price || 0
         this.product.active = product.active
         var isInBrands = false
         this.brands.map(brand => {
@@ -791,12 +820,15 @@ export default {
           uid: idx,
           url: img
         })) : []
+        this.galleryList = JSON.parse(JSON.stringify(this.gallery))
+        console.log('Before defalt properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
-          if (prop.property.type === 'checkbox' && prop.length > 1) {
-            console.log('prop.value', prop.value.split(','))
+          if (prop.property.type === 'checkbox' && prop.length > 1 && prop.value.length) {
+            // console.log('prop.value', prop.value.split(','))
+
             return {
               ...prop,
-              value: prop.value.split(',')
+              value: prop.value
             }
           } else {
             return {
@@ -805,7 +837,16 @@ export default {
             }
           }
         })
-        // console.log('response', response)
+
+        if (this.productDefaultProperties.length) {
+          this.productDefaultProperties.forEach(item => {
+            if (item.value && item.value.length) {
+              this.checkedAttList[item.property.id] = item.value.map(prop => prop.value)
+            }
+          })
+        }
+
+        console.log('response', response)
         return response
       }).then((data) => {
           console.log('data', data)
@@ -830,6 +871,26 @@ export default {
           }
         })
         this.productProperties = categoryProperties
+        Object.keys(this.checkedAttList).forEach(key => {
+          this.checkedAttList[key].forEach(value => {
+            console.log('keldimi')
+            const prop = this.productDefaultProperties.find(item => item.property.id === key)
+            if (prop) {
+              console.log('keldimi 21123')
+              const prop2 = this.productProperties.find(item => item.id === key)
+              prop.value.forEach(value => {
+                console.log('keldimi 788777')
+                const hasValue = prop2.options.find(item => item.value === value.value)
+                const valueIndex = prop2.options.indexOf(hasValue)
+                if (hasValue) {
+                  const { name } = this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex]
+                  // console.log(value, valueIndex, this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex])
+                  this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex] = { name, ...value }
+                }
+              })
+            }
+          })
+        })
         console.log('this.productProperties', this.productProperties)
       })
     },
@@ -1191,6 +1252,48 @@ export default {
           .catch(err => console.error(err))
           .finally(() => (this.loading = false))
     },
+    onSaveProperty () {
+      const promises = []
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+
+      Object.keys(this.checkedAttList).forEach(key => {
+        const propertyIds = this.checkedAttList[key]
+
+        const newVal = []
+        const property = this.productProperties.find(item => item.id === key)
+
+        propertyIds.forEach(id => {
+          const { name, ...val } = property.options.find(item => item.value === id)
+          newVal.push(val)
+        })
+
+        console.log('VALUE', newVal, name, this.checkedAttList[key])
+        const promise = request({
+              url: `/product/${this.productId}/update-property`,
+              method: 'put',
+              data: {
+                property_id: key,
+                value: newVal
+              },
+              headers: headers
+          })
+
+          promises.push(promise)
+      })
+
+      Promise.all(promises)
+        .then(res => console.log('res', res))
+        .catch(err => console.error(err))
+        .finally(() => {
+          this.loading = false
+          this.$message.success('Saved')
+        })
+    },
+    handlePropertyCheck (e, id) {
+      this.checkedAttList[id] = e
+    },
     handleProperty (e, type, id) {
       this.loading = true
       let value
@@ -1202,7 +1305,7 @@ export default {
       console.log('value', value)
       console.log('id', id)
       const headers = {
-            'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }
       request({
               url: `/product/${this.productId}/update-property`,
@@ -1231,7 +1334,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
   .attributes > * {
     margin-bottom: 25px;
     width: 100%;
@@ -1242,5 +1345,15 @@ export default {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
+  }
+
+  .attributes-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .ant-select {
+      width: 250px;
+    }
   }
 </style>
