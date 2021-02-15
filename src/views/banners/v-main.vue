@@ -6,7 +6,7 @@
       :checked-children="$t('active')"
       :un-checked-children="$t('inactive')"
       default-checked
-      style="margin: 15px 0"
+      style="margin: 15px"
     />
     <a-form-model
       @submit="onSubmit"
@@ -74,16 +74,6 @@
             <tinymce v-model="banner.description"></tinymce>
           </a-form-model-item>
         </a-col>
-        <a-col :span="24" style="padding: 0 15px">
-          <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit">
-              {{ $t('save') }}
-            </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
-              {{ $t('reset') }}
-            </a-button>
-          </a-form-model-item>
-        </a-col>
       </a-row>
     </a-form-model>
   </div>
@@ -102,9 +92,13 @@ export default {
   components: {
     'tinymce': tinymce
   },
+  props: {
+  // eslint-disable-next-line
+    lang: String
+  },
   data () {
     return {
-      bannerId: this.$route.params.id,
+      bannerSlug: this.$route.params.id,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
       loading: false,
@@ -126,7 +120,7 @@ export default {
     }
   },
   mounted () {
-    if (this.bannerId) this.getBannerAttrs()
+    if (this.bannerSlug) this.getBannerAttrs()
     this.getBannerPositions({ page: null, search: false })
     .then((res) => {
         this.bannerPos = this.bannerPositions
@@ -140,7 +134,7 @@ export default {
     ...mapActions(['getBannerPositions']),
     getBannerAttrs () {
       request({
-        url: `/banner/${this.bannerId}`,
+        url: `/banner/${this.bannerSlug}?lang=${this.lang}`,
         method: 'get'
       }).then((response) => {
         console.log('response', response)
@@ -182,23 +176,25 @@ export default {
       })
     },
     onSubmit (e) {
-      e.preventDefault()
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
             var url = '/banner'
             var method = 'post'
-          if (this.bannerId) {
-            url = `/banner/${this.bannerId}`
+          if (this.bannerSlug) {
+            url = `/banner/${this.bannerSlug}`
             method = 'put'
           }
           const headers = {
             'Content-Type': 'application/json'
           }
           request({
-              url: url,
-              method: method,
-              data: this.banner,
-              headers: headers
+              url,
+              method,
+              data: {
+                ...this.banner,
+                lang: this.lang ?? 'ru'
+              },
+              headers
           }).then(res => {
             console.log(res)
             this.$router.replace('/banners/list')

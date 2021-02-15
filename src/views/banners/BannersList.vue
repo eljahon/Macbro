@@ -63,29 +63,28 @@
           <a-tooltip>
             <template slot="title">{{ $t('read') }}</template>
             <a-button
-              id="buttonPreview"
               type="default"
               @click="showPreviewModal(row.id)"
               icon="eye"
             ></a-button>
           </a-tooltip>
-          <router-link :to="'./update/'+row.id">
+          <router-link :to="'./update/'+row.slug">
             <a-tooltip>
               <template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
+              <a-button type="primary" icon="edit"></a-button>
             </a-tooltip>
           </router-link>
           <a-popconfirm
             placement="topRight"
             slot="extra"
             :title="$t('deleteMsg')"
-            @confirm="deleteBanner($event, row.id)"
+            @confirm="deleteBanner($event, row.slug)"
             :okText="$t('yes')"
             :cancelText="$t('no')"
           >
             <a-tooltip>
               <template slot="title">{{ $t('delete') }}</template>
-              <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
+              <a-button type="danger" icon="delete"></a-button>
             </a-tooltip>
           </a-popconfirm>
         </template>
@@ -111,7 +110,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">{{ $t('cancel') }}</a-button>
+        <a-button key="back" @click="handleCancel">{{ $t('cancel') }}</a-button>
       </template>
     </a-modal>
   </div>
@@ -210,10 +209,10 @@ export default {
         .finally(() => (this.loading = false))
       console.log('debounce')
     },
-    deleteBanner (e, id) {
+    deleteBanner (e, slug) {
       this.loading = true
       request({
-        url: '/banner/' + id,
+        url: '/banner/' + slug,
         method: 'delete'
       })
         .then(res => {
