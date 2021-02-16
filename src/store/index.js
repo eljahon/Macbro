@@ -12,6 +12,7 @@ import orders from './modules/orders'
 import customers from './modules/customers'
 import branches from './modules/branches'
 import products from './modules/products'
+import productVariants from './modules/productVariants'
 import news from './modules/news'
 import promo from './modules/promo'
 import shops from './modules/shops'
@@ -40,6 +41,7 @@ export default new Vuex.Store({
   modules: {
     app,
     products,
+    productVariants,
     couriers,
     clients,
     user,
