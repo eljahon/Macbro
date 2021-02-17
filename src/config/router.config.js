@@ -207,25 +207,25 @@ export const asyncRouterMap = [
             name: 'ProductVariant',
             component: RouteView,
             redirect: '/catalog/product-variants/list',
-            meta: { title: 'product-variants', keepAlive: true, permission: ['products'] },
+            meta: { title: 'product_variants', keepAlive: true, permission: ['products'] },
             children: [
               {
                 path: '/catalog/product-variants/list',
                 name: 'ProductVariantsList',
                 component: () => import('@/views/product-variants/ProductVariantsList'),
-                meta: { title: 'product-variants', keepAlive: true, permission: ['products'] }
+                meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
               },
               {
                 path: '/catalog/product-variants/create',
                 name: 'ProductVariantsCreate',
                 component: () => import('@/views/product-variants/ProductVariantsCreate'),
-                meta: { title: 'product-variants', keepAlive: true, permission: ['products'] }
+                meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
               },
               {
                 path: '/catalog/product-variants/update/:id',
                 name: 'ProductVariantsUpdate',
                 component: () => import('@/views/product-variants/ProductVariantsCreate'),
-                meta: { title: 'product-variants', keepAlive: true, permission: ['products'] }
+                meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
               }
             ]
           }

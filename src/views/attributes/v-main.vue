@@ -40,28 +40,6 @@
           </a-form-model-item>
         </a-col>
       </a-row>
-      <a-row>
-        <a-col :span="12">
-          <a-form-model-item :label="$t('image')">
-            <a-switch
-              style="margin: 0 0 15px"
-              v-model="productProperty.has_image"
-              :checked-children="$t('active')"
-              :un-checked-children="$t('inactive')"
-            />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-model-item :label="$t('prrice')">
-            <a-switch
-              style="margin: 0 0 15px"
-              v-model="productProperty.has_price"
-              :checked-children="$t('active')"
-              :un-checked-children="$t('inactive')"
-            />
-          </a-form-model-item>
-        </a-col>
-      </a-row>
       <a-card
         v-if="productProperty.type"
         style="margin: 10px 0; border: 3px solid rgb(184, 182, 182)"
@@ -168,9 +146,7 @@ export default {
             value: null
           }
         ],
-        type: '',
-        has_image: false,
-        has_price: false
+        type: ''
       },
       types: [
         {
@@ -218,8 +194,6 @@ export default {
         this.productProperty.order = order
         this.productProperty.description = description
         this.productProperty.type = type
-        this.productProperty.has_image = response.product_property.has_image
-        this.productProperty.has_price = response.product_property.has_price
       })
     },
     addAttr () {

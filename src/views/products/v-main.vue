@@ -176,7 +176,54 @@
             </a-col>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane key="4" tab="Related Products">
+        <a-tab-pane key="4" :tab="$t('variants')">
+          <div class="product-variants">
+            <div class="product-variants__item" v-for="(item, index) in product.variants" :key="index">
+              <a-row type="flex" align="middle">
+                <a-col :md="24" :lg="10" style="padding: 0 15px">
+                  <a-form-model-item ref="variant_name" :label="$t('name')">
+                    <a-input
+                      v-model="item.name"
+                    />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :md="24" :lg="10" style="padding: 0 15px">
+                  <a-form-model-item ref="variant_name" :label="$t('product_variant')">
+                    <a-select
+                      show-search
+                      :auto-clear-search-value="false"
+                      @search="onVariatSearch"
+                      v-model="item.value"
+                      :filter-option="false"
+                      placeholder="brand">
+                      <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
+                        {{ variant.name }}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-model-item>
+                </a-col>
+                <a-col :md="24" :lg="4" style="padding: 0 15px">
+                  <a-popconfirm
+                    placement="topRight"
+                    style="float: right"
+                    :title="$t('deleteMsg')"
+                    @confirm="deleteVariant(index)"
+                    :okText="$t('yes')"
+                    :cancelText="$t('no')"
+                  >
+                    <a-button type="danger" icon="delete"></a-button>
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
+            </div>
+          </div>
+          <div>
+            <a-button type="primary" @click="onAddVariant" icon="plus" style="width: 50%; margin: 0 auto; display: block">
+              {{ $t('add') }}
+            </a-button>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key="5" tab="Related Products">
           <a-button type="primary" @click="fetchTableData" style="margin: 0 0 15px">
             {{ $t('add') }}
           </a-button>
@@ -239,7 +286,7 @@
             </template>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="5" :tab="$t('price')">
+        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('price')">
           <a-row>
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
@@ -271,7 +318,7 @@
             </a-col>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')">
+        <a-tab-pane v-if="priceUpdatable" key="7" :tab="$t('attributes')">
           <a-row>
             <a-col
               class="attributes"
@@ -305,37 +352,13 @@
               <div v-if="property.type === 'checkbox'">
                 <label class="propertyLabel">{{ property.name }}</label>
                 <a-checkbox-group
-                  style="width: 100%"
-                  v-if="property.options"
                   name="checkboxgroup"
-                  v-model="checkedAttList[property.id]"
-                  @change="handlePropertyCheck($event, property.id)"
+                  @change="handleProperty($event, property.type, property.id)"
+                  :default-value="setDefaultProperty(property.id)"
                 >
-                  <div class="attributes-detail" v-for="option in property.options" :key="option.value">
-
-                    <a-checkbox :value="option.value">
-                      {{ option.name }}
-                    </a-checkbox>
-                    <a-form-model-item :label="$t('product_price')" v-if="property.has_price">
-                      <a-input
-                        v-model="option.price"
-                      />
-                    </a-form-model-item>
-                      <a-form-model-item :label="$t('image')" v-if="property.has_image">
-                        <a-select
-                          show-search
-                          :auto-clear-search-value="false"
-                          @search="onBrandSearch"
-                          v-model="option.image"
-                          :filter-option="false"
-                          placeholder="attribute image"
-                        >
-                          <a-select-option v-for="image in galleryList" :key="image.uid" :value="image.url.split('/').pop()">
-                            <img :src="image.url" :alt="image.uid" width="20" height="20"> {{image.url.split('/').pop()}}
-                          </a-select-option>
-                        </a-select>
-                      </a-form-model-item>
-                  </div>
+                  <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value">
+                    {{ option.name }}
+                  </a-checkbox>
                 </a-checkbox-group>
               </div>
               <div v-if="property.type === 'radio'">
@@ -353,9 +376,6 @@
             </a-col>
             <div>
               <a-button type="primary" @click="openAddAttrs">{{ $t('add_attr') }}</a-button>
-              <div style="float: right" v-if="productProperties.length">
-                <a-button type="primary" @click="onSaveProperty">{{ $t('save') }}</a-button>
-              </div>
               <a-modal v-model="addAttrProductModal" :title="$t('add_attr')" @ok="addProductProperty">
                 <a-row>
                   <a-col :span="24">
@@ -371,7 +391,7 @@
             </div>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane key="7" v-if="productSlug" :tab="$t('reviews')">
+        <a-tab-pane key="8" v-if="productSlug" :tab="$t('reviews')">
           <a-modal
             v-if="selectedReview"
             v-model="reviewsModalStatus"
@@ -491,8 +511,7 @@ export default {
   },
   data () {
     return {
-      galleryList: [],
-      checkedAttList: {},
+      variantList: [],
       productId: null,
       activeTabKey: '1',
       priceUpdatable: false,
@@ -528,6 +547,7 @@ export default {
         gallery: [],
         preview_text: '',
         related_products: [],
+        variants: [],
         additional_categories: [],
         meta: {
           title: '',
@@ -738,9 +758,34 @@ export default {
     } else {
       console.warn('WTF')
     }
+    this.onVariatSearch()
   },
   methods: {
     ...mapActions(['getCategories', 'getBrands', 'getProducts', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    deleteVariant (index) {
+      this.product.variants.splice(index, 1)
+    },
+    onAddVariant () {
+      this.product.variants.push({
+          name: '',
+          value: ''
+        }
+      )
+    },
+    onVariatSearch (value) {
+      // console.log(value, 'value')
+      const params = { search: value, lang: this.lang }
+      request({
+        url: '/product-variant',
+        method: 'get',
+        params: params
+      })
+      .then(response => {
+        this.variantList = []
+        this.variantList = response.product_variants
+        console.log(this.variantList, 'after')
+      })
+    },
     removeProd (item) {
       // console.log(item)
       for (var i = 0; i < this.product.related_products.length; i++) {
@@ -782,6 +827,9 @@ export default {
         this.product.external_id = product.external_id
         this.product.code = product.code
         this.product.order = product.order || 1
+        this.product.variants = product.variants && product.variants.map(item => {
+          return { name: item.name, value: item.value.id }
+        }) || []
         this.imageUrl = product.image
         this.product.image = product.image.split('/')[4]
         // console.log('this.price.price', this.price.price)
@@ -820,15 +868,12 @@ export default {
           uid: idx,
           url: img
         })) : []
-        this.galleryList = JSON.parse(JSON.stringify(this.gallery))
-        console.log('Before defalt properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
-          if (prop.property.type === 'checkbox' && prop.length > 1 && prop.value.length) {
-            // console.log('prop.value', prop.value.split(','))
-
+          if (prop.property.type === 'checkbox' && prop.length > 1) {
+            console.log('prop.value', prop.value.split(','))
             return {
               ...prop,
-              value: prop.value
+              value: prop.value.split(',')
             }
           } else {
             return {
@@ -837,16 +882,7 @@ export default {
             }
           }
         })
-
-        if (this.productDefaultProperties.length) {
-          this.productDefaultProperties.forEach(item => {
-            if (item.value && item.value.length) {
-              this.checkedAttList[item.property.id] = item.value.map(prop => prop.value)
-            }
-          })
-        }
-
-        console.log('response', response)
+        // console.log('response', response)
         return response
       }).then((data) => {
           console.log('data', data)
@@ -871,26 +907,6 @@ export default {
           }
         })
         this.productProperties = categoryProperties
-        Object.keys(this.checkedAttList).forEach(key => {
-          this.checkedAttList[key].forEach(value => {
-            console.log('keldimi')
-            const prop = this.productDefaultProperties.find(item => item.property.id === key)
-            if (prop) {
-              console.log('keldimi 21123')
-              const prop2 = this.productProperties.find(item => item.id === key)
-              prop.value.forEach(value => {
-                console.log('keldimi 788777')
-                const hasValue = prop2.options.find(item => item.value === value.value)
-                const valueIndex = prop2.options.indexOf(hasValue)
-                if (hasValue) {
-                  const { name } = this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex]
-                  // console.log(value, valueIndex, this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex])
-                  this.productProperties[this.productProperties.indexOf(prop2)].options[valueIndex] = { name, ...value }
-                }
-              })
-            }
-          })
-        })
         console.log('this.productProperties', this.productProperties)
       })
     },
@@ -1079,6 +1095,12 @@ export default {
         if (valid) {
           var url = `/product`
           var method = 'post'
+          const variants = []
+          this.product.variants.forEach(item => {
+            if (item.value && item.name) {
+              variants.push(item)
+            }
+          })
           // request for editing product by slug
           if (this.productSlug) {
             url = `/product/${this.productSlug}`
@@ -1093,7 +1115,8 @@ export default {
                 additional_categories: this.convertArrayToString(this.product.additional_categories),
                 gallery: this.product.gallery.map(item => item.filename).join(','),
                 related_products: this.getRelatedProductIds(this.product.related_products),
-                lang: this.lang || ''
+                lang: this.lang || '',
+                variants: variants
               },
               headers
             })
@@ -1181,7 +1204,8 @@ export default {
                 additional_categories: this.convertArrayToString(this.product.additional_categories),
                 gallery: this.product.gallery.map(item => item.filename).join(','),
                 related_products: this.getRelatedProductIds(this.product.related_products),
-                lang: this.lang || ''
+                lang: this.lang || '',
+                variants: variants
               },
               headers: headers
           }).then(res => {
@@ -1252,45 +1276,6 @@ export default {
           .catch(err => console.error(err))
           .finally(() => (this.loading = false))
     },
-    onSaveProperty () {
-      const promises = []
-      const headers = {
-        'Content-Type': 'application/json'
-      }
-
-      Object.keys(this.checkedAttList).forEach(key => {
-        const propertyIds = this.checkedAttList[key]
-
-        const newVal = []
-        const property = this.productProperties.find(item => item.id === key)
-
-        propertyIds.forEach(id => {
-          const { name, ...val } = property.options.find(item => item.value === id)
-          newVal.push(val)
-        })
-
-        console.log('VALUE', newVal, name, this.checkedAttList[key])
-        const promise = request({
-              url: `/product/${this.productId}/update-property`,
-              method: 'put',
-              data: {
-                property_id: key,
-                value: newVal
-              },
-              headers: headers
-          })
-
-          promises.push(promise)
-      })
-
-      Promise.all(promises)
-        .then(res => console.log('res', res))
-        .catch(err => console.error(err))
-        .finally(() => {
-          this.loading = false
-          this.$message.success('Saved')
-        })
-    },
     handlePropertyCheck (e, id) {
       this.checkedAttList[id] = e
     },
@@ -1325,7 +1310,7 @@ export default {
       if (this.productDefaultProperties && this.productDefaultProperties.length) {
         for (let i = 0; i < this.productDefaultProperties.length; i++) {
           if (this.productDefaultProperties[i] && this.productDefaultProperties[i].property.id === propId) {
-            result = this.productDefaultProperties[i].value
+            result = this.productDefaultProperties[i].value.split(',')
           }
         }
       }
@@ -1347,13 +1332,17 @@ export default {
     margin-bottom: 0.75rem;
   }
 
-  .attributes-detail {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .ant-select {
-      width: 250px;
+  .product-variants {
+    &__item {
+      padding: 10px 0;
+      border-bottom: 1px solid #d9d9d9;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
     }
   }
 </style>
