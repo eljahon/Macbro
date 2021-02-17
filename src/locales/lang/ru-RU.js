@@ -292,6 +292,9 @@ const locale = {
   comment: 'Комментарий',
   rating: 'Оценка',
   review_edit: 'Форма редактирования отзыва',
+  variants: 'Варианты',
+  product_variants: 'Варианты продукта',
+  product_variant: 'Вариант продукта',
   // measures
   measure_name: 'Название измерения',
   selectProductKind: 'Выберите вид продукта',
