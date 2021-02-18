@@ -61,7 +61,7 @@ const productVariants = {
             pagination.total = parseInt(result.count)
             console.log(pagination)
             console.log('pagination')
-            commit('GET_PRODUCT_VARIANT_PAGINATION', pagination)
+            commit('GET_PRODUCT_VARIANTS_PAGINATION', pagination)
             commit('GET_PRODUCT_VARIANTS', result.product_variants)
             resolve()
           })
