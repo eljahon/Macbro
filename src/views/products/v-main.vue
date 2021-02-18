@@ -774,7 +774,7 @@ export default {
     },
     onVariatSearch (value) {
       // console.log(value, 'value')
-      const params = { search: value, lang: this.lang }
+      const params = { search: value, lang: this.lang, limit: 1000 }
       request({
         url: '/product-variant',
         method: 'get',
