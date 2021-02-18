@@ -182,9 +182,20 @@
               <a-row type="flex" align="middle">
                 <a-col :md="24" :lg="10" style="padding: 0 15px">
                   <a-form-model-item ref="variant_name" :label="$t('name')">
-                    <a-input
+                    <!-- <a-input
                       v-model="item.name"
-                    />
+                    /> -->
+                    <a-select
+                      show-search
+                      :auto-clear-search-value="false"
+                      v-model="item.name"
+                      @search="onAttributeVariantSeach"
+                      :filter-option="false"
+                      placeholder="brand">
+                      <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
+                        {{ variant }}
+                      </a-select-option>
+                    </a-select>
                   </a-form-model-item>
                 </a-col>
                 <a-col :md="24" :lg="10" style="padding: 0 15px">
@@ -217,6 +228,9 @@
               </a-row>
             </div>
           </div>
+          <!-- <pre>
+            {{generatedVariants}}
+          </pre> -->
           <div>
             <a-button type="primary" @click="onAddVariant" icon="plus" style="width: 50%; margin: 0 auto; display: block">
               {{ $t('add') }}
@@ -469,6 +483,7 @@ import request from '@/utils/request'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash/debounce'
 // import { ISO_8601 } from 'moment'
 
 function getCategoriesTree (categories) {
@@ -510,7 +525,12 @@ export default {
     Treeselect
   },
   data () {
+    this.onVariatSearch = debounce(this.onVariatSearch, 800)
+    this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 800)
     return {
+      attrVarSearchText: '',
+      attVariantsList: [],
+      checkedAttList: [],
       variantList: [],
       productId: null,
       activeTabKey: '1',
@@ -662,6 +682,18 @@ export default {
   },
   computed: {
     ...mapGetters(['productsData', 'productsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),
+    generatedVariants () {
+      if (this.attrVarSearchText) {
+        return this.attVariantsList.filter(item => item.includes(this.attrVarSearchText))
+      }
+      if (this.checkedAttList.length) {
+        this.checkedAttList[0].properties.forEach(item => {
+          this.variantsLoop(`${item.value}`, this.checkedAttList.slice(1))
+        })
+        return this.attVariantsList
+      }
+      return []
+    },
     getAllCategories () {
       return getCategoriesTree(this.categories)
     },
@@ -762,6 +794,27 @@ export default {
   },
   methods: {
     ...mapActions(['getCategories', 'getBrands', 'getProducts', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    onAttributeVariantSeach (text) {
+      if (text) {
+        this.attrVarSearchText = text
+      } else {
+        this.attVariantsList = []
+        this.attrVarSearchText = ''
+      }
+    },
+    variantsLoop (text, list) {
+      if (!list.length) {
+        this.attVariantsList.push(`${text}`.toLowerCase())
+      } else if (list.length > 1) {
+        list[0].properties.forEach(item => {
+          this.variantsLoop(`${text}-${item.value}`, list.slice(1))
+        })
+      } else {
+        list[0].properties.forEach(item => {
+          this.attVariantsList.push(`${text}-${item.value}`.toLowerCase())
+        })
+      }
+    },
     deleteVariant (index) {
       this.product.variants.splice(index, 1)
     },
@@ -881,6 +934,20 @@ export default {
               value: prop.value
             }
           }
+        })
+
+        this.productDefaultProperties.forEach(item => {
+          const values = item.value.split(',')
+          this.checkedAttList.push({
+            values: values,
+            id: item.property.id,
+            properties: item.property && item.property.options.filter(option => {
+              console.log('Options', (option.value in values), option.value)
+              if (values.includes(option.value)) {
+                return option
+              }
+            })
+          })
         })
         // console.log('response', response)
         return response
@@ -1276,10 +1343,8 @@ export default {
           .catch(err => console.error(err))
           .finally(() => (this.loading = false))
     },
-    handlePropertyCheck (e, id) {
-      this.checkedAttList[id] = e
-    },
     handleProperty (e, type, id) {
+      this.attVariantsList = []
       this.loading = true
       let value
       if (type === 'radio') {
@@ -1288,7 +1353,28 @@ export default {
         value = e
       }
       console.log('value', value)
-      console.log('id', id)
+      console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
+      const indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id))
+      if (indexOfProperty >= 0) {
+        this.checkedAttList[indexOfProperty].values = value
+        const prodProp = this.productProperties.find(item => item.id === id)
+        this.checkedAttList[indexOfProperty].properties = prodProp.options.filter(option => {
+          if (value.includes(option.value)) {
+            return option
+          }
+        })
+      } else {
+        const prodProp = this.productProperties.find(item => item.id === id)
+        this.checkedAttList.push({
+          values: value,
+          id: id,
+          properties: prodProp.options.filter(option => {
+            if (value.includes(option.value)) {
+              return option
+            }
+          })
+        })
+      }
       const headers = {
         'Content-Type': 'application/json'
       }
