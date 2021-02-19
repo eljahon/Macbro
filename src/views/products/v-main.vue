@@ -921,12 +921,13 @@ export default {
           uid: idx,
           url: img
         })) : []
+        console.log('Properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
-          if (prop.property.type === 'checkbox' && prop.length > 1) {
-            console.log('prop.value', prop.value.split(','))
+          if (prop.property.type === 'checkbox') {
+            console.log('prop.value', prop.value.map(item => item.value))
             return {
               ...prop,
-              value: prop.value.split(',')
+              value: prop.value.map(item => item.value)
             }
           } else {
             return {
@@ -937,13 +938,12 @@ export default {
         })
 
         this.productDefaultProperties.forEach(item => {
-          const values = item.value.split(',')
           this.checkedAttList.push({
-            values: values,
+            values: item.value,
             id: item.property.id,
             properties: item.property && item.property.options.filter(option => {
-              console.log('Options', (option.value in values), option.value)
-              if (values.includes(option.value)) {
+              console.log('Options', (option.value in item.value), option.value)
+              if (item.value.includes(option.value)) {
                 return option
               }
             })
@@ -1353,8 +1353,8 @@ export default {
       } else {
         value = e
       }
-      console.log('value', value)
-      console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
+      // console.log('value', value)
+      // console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
       const indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id))
       if (indexOfProperty >= 0) {
         this.checkedAttList[indexOfProperty].values = value
@@ -1398,7 +1398,7 @@ export default {
       if (this.productDefaultProperties && this.productDefaultProperties.length) {
         for (let i = 0; i < this.productDefaultProperties.length; i++) {
           if (this.productDefaultProperties[i] && this.productDefaultProperties[i].property.id === propId) {
-            result = this.productDefaultProperties[i].value.split(',')
+            result = this.productDefaultProperties[i].value
           }
         }
       }
