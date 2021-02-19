@@ -937,7 +937,7 @@ export default {
           }
         })
 
-        this.productDefaultProperties.forEach(item => {
+        this.productDefaultProperties && this.productDefaultProperties.forEach(item => {
           this.checkedAttList.push({
             values: item.value,
             id: item.property.id,
@@ -981,6 +981,10 @@ export default {
       console.log('this.attrs_id', this.attrs_id)
       const selectedProductProperty = this.allProductProperties.find(prop => prop.id === this.attrs_id)
       console.log('selectedProductProperty', selectedProductProperty)
+      if (this.productProperties.find(item => item.id === this.attrs_id)) {
+        this.addAttrProductModal = false
+        return
+      }
       this.productProperties = [...this.productProperties, selectedProductProperty]
       this.addAttrProductModal = false
     },
