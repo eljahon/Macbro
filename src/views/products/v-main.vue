@@ -176,68 +176,7 @@
             </a-col>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane key="4" :tab="$t('variants')">
-          <div class="product-variants">
-            <div class="product-variants__item" v-for="(item, index) in product.variants" :key="index">
-              <a-row type="flex" align="middle">
-                <a-col :md="24" :lg="10" style="padding: 0 15px">
-                  <a-form-model-item ref="variant_name" :label="$t('name')">
-                    <!-- <a-input
-                      v-model="item.name"
-                    /> -->
-                    <a-select
-                      show-search
-                      :auto-clear-search-value="false"
-                      v-model="item.name"
-                      @search="onAttributeVariantSeach"
-                      :filter-option="false"
-                      placeholder="brand">
-                      <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
-                        {{ variant }}
-                      </a-select-option>
-                    </a-select>
-                  </a-form-model-item>
-                </a-col>
-                <a-col :md="24" :lg="10" style="padding: 0 15px">
-                  <a-form-model-item ref="variant_name" :label="$t('product_variant')">
-                    <a-select
-                      show-search
-                      :auto-clear-search-value="false"
-                      @search="onVariatSearch"
-                      v-model="item.value"
-                      :filter-option="false"
-                      placeholder="brand">
-                      <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
-                        {{ variant.name }}
-                      </a-select-option>
-                    </a-select>
-                  </a-form-model-item>
-                </a-col>
-                <a-col :md="24" :lg="4" style="padding: 0 15px">
-                  <a-popconfirm
-                    placement="topRight"
-                    style="float: right"
-                    :title="$t('deleteMsg')"
-                    @confirm="deleteVariant(index)"
-                    :okText="$t('yes')"
-                    :cancelText="$t('no')"
-                  >
-                    <a-button type="danger" icon="delete"></a-button>
-                  </a-popconfirm>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
-          <!-- <pre>
-            {{generatedVariants}}
-          </pre> -->
-          <div>
-            <a-button type="primary" @click="onAddVariant" icon="plus" style="width: 50%; margin: 0 auto; display: block">
-              {{ $t('add') }}
-            </a-button>
-          </div>
-        </a-tab-pane>
-        <a-tab-pane key="5" tab="Related Products">
+        <a-tab-pane key="4" tab="Related Products">
           <a-button type="primary" @click="fetchTableData" style="margin: 0 0 15px">
             {{ $t('add') }}
           </a-button>
@@ -300,7 +239,7 @@
             </template>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('price')">
+        <a-tab-pane v-if="priceUpdatable" key="5" :tab="$t('price')">
           <a-row>
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
@@ -332,7 +271,7 @@
             </a-col>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="7" :tab="$t('attributes')">
+        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')">
           <a-row>
             <a-col
               class="attributes"
@@ -404,6 +343,67 @@
               </a-modal>
             </div>
           </a-row>
+        </a-tab-pane>
+        <a-tab-pane v-if="priceUpdatable" key="7" :tab="$t('variants')">
+          <div class="product-variants">
+            <div class="product-variants__item" v-for="(item, index) in product.variants" :key="index">
+              <a-row type="flex" align="middle">
+                <a-col :md="24" :lg="10" style="padding: 0 15px">
+                  <a-form-model-item ref="variant_name" :label="$t('name')">
+                    <!-- <a-input
+                      v-model="item.name"
+                    /> -->
+                    <a-select
+                      show-search
+                      :auto-clear-search-value="false"
+                      v-model="item.name"
+                      @search="onAttributeVariantSeach"
+                      :filter-option="false"
+                      placeholder="brand">
+                      <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
+                        {{ variant }}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-model-item>
+                </a-col>
+                <a-col :md="24" :lg="10" style="padding: 0 15px">
+                  <a-form-model-item ref="variant_name" :label="$t('product_variant')">
+                    <a-select
+                      show-search
+                      :auto-clear-search-value="false"
+                      @search="onVariatSearch"
+                      v-model="item.value"
+                      :filter-option="false"
+                      placeholder="brand">
+                      <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
+                        {{ variant.name }}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-model-item>
+                </a-col>
+                <a-col :md="24" :lg="4" style="padding: 0 15px">
+                  <a-popconfirm
+                    placement="topRight"
+                    style="float: right"
+                    :title="$t('deleteMsg')"
+                    @confirm="deleteVariant(index)"
+                    :okText="$t('yes')"
+                    :cancelText="$t('no')"
+                  >
+                    <a-button type="danger" icon="delete"></a-button>
+                  </a-popconfirm>
+                </a-col>
+              </a-row>
+            </div>
+          </div>
+          <!-- <pre>
+            {{generatedVariants}}
+          </pre> -->
+          <div>
+            <a-button type="primary" @click="onAddVariant" icon="plus" style="width: 50%; margin: 0 auto; display: block">
+              {{ $t('add') }}
+            </a-button>
+          </div>
         </a-tab-pane>
         <a-tab-pane key="8" v-if="productSlug" :tab="$t('reviews')">
           <a-modal
@@ -921,12 +921,13 @@ export default {
           uid: idx,
           url: img
         })) : []
+        console.log('Properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
-          if (prop.property.type === 'checkbox' && prop.length > 1) {
-            console.log('prop.value', prop.value.split(','))
+          if (prop.property.type === 'checkbox') {
+            console.log('prop.value', prop.value.map(item => item.value))
             return {
               ...prop,
-              value: prop.value.split(',')
+              value: prop.value.map(item => item.value)
             }
           } else {
             return {
@@ -937,13 +938,12 @@ export default {
         })
 
         this.productDefaultProperties.forEach(item => {
-          const values = item.value.split(',')
           this.checkedAttList.push({
-            values: values,
+            values: item.value,
             id: item.property.id,
             properties: item.property && item.property.options.filter(option => {
-              console.log('Options', (option.value in values), option.value)
-              if (values.includes(option.value)) {
+              console.log('Options', (option.value in item.value), option.value)
+              if (item.value.includes(option.value)) {
                 return option
               }
             })
@@ -1353,8 +1353,8 @@ export default {
       } else {
         value = e
       }
-      console.log('value', value)
-      console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
+      // console.log('value', value)
+      // console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
       const indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id))
       if (indexOfProperty >= 0) {
         this.checkedAttList[indexOfProperty].values = value
@@ -1398,7 +1398,7 @@ export default {
       if (this.productDefaultProperties && this.productDefaultProperties.length) {
         for (let i = 0; i < this.productDefaultProperties.length; i++) {
           if (this.productDefaultProperties[i] && this.productDefaultProperties[i].property.id === propId) {
-            result = this.productDefaultProperties[i].value.split(',')
+            result = this.productDefaultProperties[i].value
           }
         }
       }
