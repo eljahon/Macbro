@@ -1281,6 +1281,7 @@ export default {
             this.priceUpdatable = true
             this.activeTabKey = '5'
             this.updatePriceOnly = true
+            this.productId = res.product.id
           }).catch(err => {
               console.error(err)
               this.$message.error(this.$t('error'))
