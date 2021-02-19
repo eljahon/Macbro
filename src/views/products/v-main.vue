@@ -334,7 +334,7 @@
                   <a-col :span="24">
                     <label style="margin-bottom: 5px" for="attrSelect">{{ $t('attributes') }}</label>
                     <a-select id="attrSelect" style="width: 100%" v-model="attrs_id">
-                      <a-select-option v-for="attr in allProductProperties" :key="attr.id" :value="attr.id">
+                      <a-select-option v-for="attr in filteredAllProductProperties" :key="attr.id" :value="attr.id">
                         {{ attr.name }}
                       </a-select-option>
                     </a-select>
@@ -682,6 +682,14 @@ export default {
   },
   computed: {
     ...mapGetters(['productsData', 'productsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),
+    filteredAllProductProperties () {
+      return this.allProductProperties && this.allProductProperties.length && this.allProductProperties.filter(item => {
+        if (this.productProperties.find(prop => prop.id === item.id)) {
+          return false
+        }
+        return true
+      }) || []
+    },
     generatedVariants () {
       if (this.attrVarSearchText) {
         return this.attVariantsList.filter(item => item.includes(this.attrVarSearchText))
@@ -937,7 +945,7 @@ export default {
           }
         })
 
-        this.productDefaultProperties.forEach(item => {
+        this.productDefaultProperties && this.productDefaultProperties.forEach(item => {
           this.checkedAttList.push({
             values: item.value,
             id: item.property.id,
@@ -983,6 +991,7 @@ export default {
       console.log('selectedProductProperty', selectedProductProperty)
       this.productProperties = [...this.productProperties, selectedProductProperty]
       this.addAttrProductModal = false
+      this.attrs_id = null
     },
     openAddAttrs () {
       this.getAllAttrs({
