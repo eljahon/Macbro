@@ -1375,6 +1375,7 @@ export default {
           })
         })
       }
+      const properties = this.checkedAttList.find(item => item.id === id)
       const headers = {
         'Content-Type': 'application/json'
       }
@@ -1383,7 +1384,7 @@ export default {
               method: 'put',
               data: {
                 property_id: id,
-                value: type === 'checkbox' ? value.join(',') : value
+                value: properties.properties
               },
               headers: headers
           })
