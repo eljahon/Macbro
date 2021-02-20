@@ -56,7 +56,11 @@
                         {{ this.deliveryMethods[order.delivery_method] }}
                       </a-descriptions-item>
                       <a-descriptions-item :span="24" :label="$t('address')">
-                        {{ order.address }}
+                        <div v-if="order.address">
+                          <div v-for="(line, index) in order.address.split(',')" :key="index">
+                            {{ line }}
+                          </div>
+                        </div>
                       </a-descriptions-item>
                       <a-descriptions-item :span="24" :label="$t('note')">
                         {{ order.note }}
