@@ -19,6 +19,9 @@ router.beforeEach((to, from, next) => {
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`))
   /* has token */
   if (storage.get(ACCESS_TOKEN)) {
+    if (!store.getters.isConnected) {
+      store.dispatch('MakeConnection')
+    }
     if (to.path === loginRoutePath) {
       next({ path: defaultRoutePath })
       NProgress.done()

@@ -30,6 +30,7 @@ import banners from './modules/banners'
 import pages from './modules/pages'
 import permissions from './modules/permissions'
 import admins from './modules/admins'
+import socket from './socket'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -63,7 +64,8 @@ export default new Vuex.Store({
     banners,
     pages,
     permissions,
-    admins
+    admins,
+    socket
   },
   state: {
 
