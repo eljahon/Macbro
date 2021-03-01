@@ -50,7 +50,12 @@
           <router-link :to="`./update/${row.id}`" >
               <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteShops($event, row.id)"/>
+          <router-link :to="`./${row.id}/branches/list`" >
+            <a-tooltip><template slot="title">{{ $t('branches') }}</template>
+              <a-button id="buttonPreview" type="default" icon="branches"></a-button>
+            </a-tooltip>
+          </router-link>
+          <!-- <delete-btn @confirm="deleteCompany($event, row.id)"/> -->
         </template>
       </a-table>
     </a-card>
@@ -138,7 +143,8 @@ export default {
     }
   },
   mounted () {
-    this.getCompanies({ page: this.shopsPagination })
+    this.setSearchQuery()
+    this.getCompanies({ page: this.companiesPagination })
       .then(() => (console.log('companies')))
       .catch(error => {
         this.requestFailed(error)
@@ -184,15 +190,15 @@ export default {
       // console.log('debounce')
       // console.log('this.shopsData', this.shopsData)
     },
-    deleteShops (e, slug) {
+    deleteCompany (e, slug) {
       this.loading = true
       request({
-        url: `/shop/${slug}`,
+        url: `/company/${slug}`,
         method: 'delete'
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanies({ page: this.shopsPagination })
+        this.getCompanies({ page: this.companiesPagination })
       })
       .catch(err => {
         this.$message.error(err)

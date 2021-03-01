@@ -304,6 +304,9 @@ const locale = {
 
   // companies
   companies: 'Компании',
+  account_number: 'Номер счета',
+  number_of_employees: 'Количество работников',
+  city: 'Город',
 
   // branches
   branches: 'Филиалы',

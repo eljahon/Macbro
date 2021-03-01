@@ -4,7 +4,7 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/company/list">{{ $t('shops') }}</router-link>
+            <router-link to="/company/list">{{ $t('companies') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -12,7 +12,7 @@
     </a-row>
     <div v-if="edit">
       <a-card :title="$t('fillIn')">
-        <a-row>
+        <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
               <span slot="tab">
@@ -22,7 +22,8 @@
               <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
             </a-tab-pane>
           </a-tabs>
-        </a-row>
+        </a-row> -->
+        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
       </a-card>
     </div>
     <div v-else>
@@ -75,7 +76,8 @@ export default {
       if (this.edit) {
         Object.values(this.$refs).forEach(form => {
           console.log('form', form)
-          if (form) form[0].onSubmit()
+          // if (form) form[0].onSubmit()
+          if (form) form.onSubmit()
         })
       } else {
         this.$refs.createForm.onSubmit()
@@ -84,7 +86,8 @@ export default {
     resetForm () {
       if (this.edit) {
         Object.entries(this.$refs).forEach(form => {
-          if (form) form.resetForm()
+          console.log(form)
+          if (form) form[1].resetForm()
         })
       } else {
         this.$refs.createForm.resetForm()
