@@ -3,7 +3,7 @@
     <a-row>
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('shops') }}</a-breadcrumb-item>
+          <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
         </a-breadcrumb>
       </a-col>
 
@@ -40,58 +40,45 @@
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
-        :dataSource="getAllShops"
+        :dataSource="getCompaniesList"
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
       >
-        <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
-        </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)"/>
-          <router-link :to="`./update/${row.slug}`" >
+          <preview-btn @click="showPreviewModal(row.id)"/>
+          <router-link :to="`./update/${row.id}`" >
               <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteShops($event, row.slug)"/>
+          <delete-btn @confirm="deleteShops($event, row.id)"/>
         </template>
       </a-table>
     </a-card>
     <a-modal
       @cancel="handleCloseModal"
-      v-if="selectedShop"
+      v-if="selectedCompany"
       v-model="previewVisible"
       width="800px"
       :title="$t('previewBranch')"
     >
       <a-descriptions layout="vertical" bordered>
         <a-descriptions-item :label="$t('shops_name')">
-          {{ selectedShop.name }}
+          {{ selectedCompany.name }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('phone_number')">
-          {{ selectedShop.phone }}
+          {{ selectedCompany.phone }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('working_hours')">
-          {{ selectedShop.working_hours }}
+        <a-descriptions-item :label="$t('description')">
+          {{ selectedCompany.description }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('address')">
-          {{ selectedShop.address + selectedShop.address2 }}
+          {{ selectedCompany.address + selectedCompany.address2 }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('status')">
-          <a-tag v-if="selectedShop.active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+        <a-descriptions-item :label="$t('email')">
+          {{ selectedCompany.email }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('image')">
-          <img class="shops-image" :src="selectedShop.image"/>
+        <a-descriptions-item :label="$t('inn')">
+          {{ selectedCompany.inn }}
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
@@ -114,17 +101,16 @@ export default {
       loading: true,
       columns: [
         {
-          title: this.$t('shop_name'),
+          title: this.$t('company_name'),
           dataIndex: 'name'
         },
         {
           title: this.$t('phone_number'),
-          dataIndex: 'phone'
+          dataIndex: 'phone_number'
         },
         {
-          title: this.$t('status'),
-          dataIndex: 'active',
-          scopedSlots: { customRender: 'status' }
+          title: this.$t('address'),
+          dataIndex: 'address'
         },
         {
           title: this.$t('action'),
@@ -135,25 +121,25 @@ export default {
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
-      selectedShop: null,
+      selectedCompany: null,
       filterParams: {}
     }
   },
   computed: {
-    ...mapGetters(['shopsData', 'shopsPagination', 'searchQuery']),
+    ...mapGetters(['companiesList', 'companiesPagination', 'searchQuery']),
     getPagination () {
-      return this.shopsPagination
+      return this.companiesPagination
     },
-    getAllShops () {
-      return this.shopsData
+    getCompaniesList () {
+      return this.companiesList
     },
     getSearchQuery () {
       return this.searchQuery
     }
   },
   mounted () {
-    this.getShops({ page: this.shopsPagination })
-      .then(() => (console.log('this.shopsData', this.shopsData)))
+    this.getCompanies({ page: this.shopsPagination })
+      .then(() => (console.log('companies')))
       .catch(error => {
         this.requestFailed(error)
         console.error(error)
@@ -161,42 +147,42 @@ export default {
       .finally(() => (this.loading = false))
   },
   methods: {
-    ...mapActions(['getShops', 'setSearchQuery']),
+    ...mapActions(['getCompanies', 'setSearchQuery']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getShops({ page: pagination, search: true })
+      this.getCompanies({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
     },
-    showPreviewModal (shopsSlug) {
-      this.getselectedShop(shopsSlug)
+    showPreviewModal (companyId) {
+      this.getselectedShop(companyId)
       this.previewVisible = true
     },
-    getselectedShop (selectedShop) {
+    getselectedShop (companyId) {
       request({
-        url: `/shop/${selectedShop}`,
+        url: `/company/${companyId}`,
         method: 'get'
       }).then((response) => {
         console.log(response)
-        this.selectedShop = response.shop
+        this.selectedCompany = response
       })
     },
     handleCancel () {
       this.previewVisible = false
     },
     handleCloseModal () {
-      this.selectedShop = null
+      this.selectedCompany = null
     },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getShops()
+      this.getCompanies()
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
-      console.log('debounce')
-      console.log('this.shopsData', this.shopsData)
+      // console.log('debounce')
+      // console.log('this.shopsData', this.shopsData)
     },
     deleteShops (e, slug) {
       this.loading = true
@@ -206,7 +192,7 @@ export default {
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getShops({ page: this.shopsPagination })
+        this.getCompanies({ page: this.shopsPagination })
       })
       .catch(err => {
         this.$message.error(err)
@@ -220,7 +206,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getShops()
+          this.getCompanies()
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

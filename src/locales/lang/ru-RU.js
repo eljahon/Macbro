@@ -221,7 +221,10 @@ const locale = {
   orderId: 'Ид.заказа',
   Address: 'Адрес',
   Source: 'Источник',
-  //
+  // companies
+  company_name: 'Название компании',
+  email: 'Адрес электронной почты',
+  inn: 'ИНН',
   //
   branchName: 'Название филиала',
   destinationAddress: 'Адрес назначения',
