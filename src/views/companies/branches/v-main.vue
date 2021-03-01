@@ -154,9 +154,9 @@ export default {
           this.loading = false
           resolve()
           console.log('response', response)
-          Object.keys(this.company).forEach(key => {
+          Object.keys(this.branch).forEach(key => {
             if (response[key] !== null) {
-              this.company[key] = response[key]
+              this.branch[key] = response[key]
             }
           })
           // images' urls to show images to user
