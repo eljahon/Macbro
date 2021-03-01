@@ -221,18 +221,7 @@
             :data-source="product.related_products"
           >
             <template slot="action" slot-scope="text, item">
-              <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="removeProd(item)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                  <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm>
+              <delete-btn @confirm="removeProd(item)"/>
               <!-- <a-tooltip><template slot="title">{{ $t('delete') }}</template>
                 <a-button type="danger" @click="removeProd(item)" icon="delete"></a-button>
               </a-tooltip> -->
@@ -375,6 +364,7 @@
                       v-model="item.value"
                       :filter-option="false"
                       placeholder="brand">
+                      <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                       <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
                         {{ variant.name }}
                       </a-select-option>
@@ -382,16 +372,7 @@
                   </a-form-model-item>
                 </a-col>
                 <a-col :md="24" :lg="4" style="padding: 0 15px">
-                  <a-popconfirm
-                    placement="topRight"
-                    style="float: right"
-                    :title="$t('deleteMsg')"
-                    @confirm="deleteVariant(index)"
-                    :okText="$t('yes')"
-                    :cancelText="$t('no')"
-                  >
-                    <a-button type="danger" icon="delete"></a-button>
-                  </a-popconfirm>
+                  <delete-btn @confirm="deleteVariant(index)"/>
                 </a-col>
               </a-row>
             </div>
@@ -449,25 +430,8 @@
               </a-tag>
             </template>
             <template slot="action" slot-scope="review">
-              <a-tooltip><template slot="title">{{ $t('update') }}</template>
-                <a-button
-                  type="primary"
-                  icon="edit"
-                  @click="openReviewsModal(review)"
-                />
-              </a-tooltip>
-              <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="removeReview(review.id)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                  <a-button type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm>
+              <edit-btn @click="openReviewsModal(review)"/>
+              <delete-btn @confirm="removeReview(review.id)"/>
             </template>
           </a-table>
         </a-tab-pane>
@@ -525,9 +489,10 @@ export default {
     Treeselect
   },
   data () {
-    this.onVariatSearch = debounce(this.onVariatSearch, 800)
-    this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 800)
+    this.onVariatSearch = debounce(this.onVariatSearch, 400)
+    this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
     return {
+      fetching: false,
       attrVarSearchText: '',
       attVariantsList: [],
       checkedAttList: [],
@@ -835,16 +800,21 @@ export default {
     },
     onVariatSearch (value) {
       // console.log(value, 'value')
-      const params = { search: value, lang: this.lang, limit: 1000 }
+      this.fetching = true
+      this.variantList = []
+      const params = { search: value, lang: this.lang, limit: 10 }
       request({
         url: '/product-variant',
         method: 'get',
         params: params
       })
       .then(response => {
-        this.variantList = []
+        this.fetching = false
         this.variantList = response.product_variants
         console.log(this.variantList, 'after')
+      })
+      .catch(() => {
+        this.fetching = false
       })
     },
     removeProd (item) {

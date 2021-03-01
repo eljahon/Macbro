@@ -180,9 +180,10 @@
                   </a-tag>
                 </template>
                 <template slot="action" slot-scope="item">
-                  <a-tooltip><template slot="title">{{ $t('update') }}</template>
+                  <edit-btn @click="editProduct(item)"/>
+                  <!-- <a-tooltip><template slot="title">{{ $t('update') }}</template>
                     <a-button id="buttonUpdate" type="primary" @click="editProduct(item)" icon="edit"></a-button>
-                  </a-tooltip>
+                  </a-tooltip> -->
                 </template>
               </a-table>
             </a-row>

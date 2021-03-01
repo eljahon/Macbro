@@ -60,33 +60,11 @@
           </a-tag>
         </template>
         <template slot="action" slot-scope="text, row">
-          <a-tooltip>
-            <template slot="title">{{ $t('read') }}</template>
-            <a-button
-              type="default"
-              @click="showPreviewModal(row.id)"
-              icon="eye"
-            ></a-button>
-          </a-tooltip>
+          <preview-btn @click="showPreviewModal(row.id)"/>
           <router-link :to="'./update/'+row.slug">
-            <a-tooltip>
-              <template slot="title">{{ $t('update') }}</template>
-              <a-button type="primary" icon="edit"></a-button>
-            </a-tooltip>
+            <edit-btn/>
           </router-link>
-          <a-popconfirm
-            placement="topRight"
-            slot="extra"
-            :title="$t('deleteMsg')"
-            @confirm="deleteBanner($event, row.slug)"
-            :okText="$t('yes')"
-            :cancelText="$t('no')"
-          >
-            <a-tooltip>
-              <template slot="title">{{ $t('delete') }}</template>
-              <a-button type="danger" icon="delete"></a-button>
-            </a-tooltip>
-          </a-popconfirm>
+          <delete-btn @confirm="deleteBanner($event, row.slug)"/>
         </template>
       </a-table>
     </a-card>

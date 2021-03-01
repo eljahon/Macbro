@@ -16,6 +16,10 @@ import FlagIcon from 'vue-flag-icon'
 import YmapPlugin from 'vue-yandex-maps'
 import vueDebounce from 'vue-debounce'
 import tinymce from '@tinymce/tinymce-vue'
+import editBtn from './components/editBtn.vue'
+import deleteBtn from './components/deleteBtn.vue'
+import previewBtn from './components/previewBtn.vue'
+
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 // import './mock'
@@ -43,6 +47,9 @@ Vue.use(vueDebounce, {
 Vue.use(tinymce)
 Vue.use(VueAxios)
 Vue.use(FormModel)
+Vue.component('preview-btn', previewBtn)
+Vue.component('delete-btn', deleteBtn)
+Vue.component('edit-btn', editBtn)
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 Vue.use(VueGoogleMaps, {

@@ -61,9 +61,7 @@
             >
               <template slot="action" slot-scope="text, row">
                 <router-link :to="`/order/details/${row.number}`" >
-                  <a-tooltip><template slot="title">{{ $t('read') }}</template>
-                    <a-button type="primary" icon="link"></a-button>
-                  </a-tooltip>
+                  <preview-btn icon="link"/>
                 </router-link>
               </template>
               <template slot="status" slot-scope="text, row">

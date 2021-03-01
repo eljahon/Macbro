@@ -40,7 +40,8 @@
         @change="handleTableChange"
       >
         <template slot="action" slot-scope="text, row">
-          <a-tooltip>
+          <preview-btn @click="showPreviewModal(row.id)"/>
+          <!-- <a-tooltip>
             <template slot="title">{{ $t('read') }}</template>
             <a-button
               id="buttonPreview"
@@ -48,14 +49,12 @@
               @click="showPreviewModal(row.id)"
               icon="eye"
             ></a-button>
-          </a-tooltip>
+          </a-tooltip> -->
           <router-link :to="`./update/${row.id}`">
-            <a-tooltip>
-              <template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
-            </a-tooltip>
+            <edit-btn/>
           </router-link>
-          <a-popconfirm
+          <delete-btn @confirm="deleteCustomer($event, row.id)"/>
+          <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
             :title="$t('deleteMsg')"
@@ -67,7 +66,7 @@
               <template slot="title">{{ $t('delete') }}</template>
               <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
             </a-tooltip>
-          </a-popconfirm>
+          </a-popconfirm> -->
         </template>
       </a-table>
     </a-card>

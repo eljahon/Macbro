@@ -49,14 +49,10 @@
         </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="`/order/details/${row.number}`">
-            <a-tooltip><template slot="title">{{ $t('read') }}</template>
-              <a-button id="buttonPreview" type="default" icon="link"></a-button>
-            </a-tooltip>
+            <preview-btn icon="link"/>
           </router-link>
           <router-link :to="`/order/edit/${row.number}`" >
-            <a-tooltip><template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonOrderDetails" type="primary" icon="edit"></a-button>
-            </a-tooltip>
+            <edit-btn/>
           </router-link>
         </template>
         <template slot="total" slot-scope="text, row">
