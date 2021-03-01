@@ -17,7 +17,7 @@ const socket = {
     },
     actions: {
         MakeConnection (commit, payload) {
-            const conn = new WebSocket('ws://' + process.env.VUE_APP_API_BASE_URL + '/ws?id=9c7e5e8d-c959-47ee-abb3-4b2f286eb2cf')
+            const conn = new WebSocket('ws://api.admin.macbro.uz/ws?id=9c7e5e8d-c959-47ee-abb3-4b2f286eb2cf')
             conn.onmessage = (evt) => {
                 console.log('Soc message', evt)
                 this.$notification.info({

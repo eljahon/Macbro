@@ -221,18 +221,7 @@
             :data-source="product.related_products"
           >
             <template slot="action" slot-scope="text, item">
-              <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="removeProd(item)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                  <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm>
+              <delete-btn @confirm="removeProd(item)"/>
               <!-- <a-tooltip><template slot="title">{{ $t('delete') }}</template>
                 <a-button type="danger" @click="removeProd(item)" icon="delete"></a-button>
               </a-tooltip> -->
@@ -382,16 +371,7 @@
                   </a-form-model-item>
                 </a-col>
                 <a-col :md="24" :lg="4" style="padding: 0 15px">
-                  <a-popconfirm
-                    placement="topRight"
-                    style="float: right"
-                    :title="$t('deleteMsg')"
-                    @confirm="deleteVariant(index)"
-                    :okText="$t('yes')"
-                    :cancelText="$t('no')"
-                  >
-                    <a-button type="danger" icon="delete"></a-button>
-                  </a-popconfirm>
+                  <delete-btn @confirm="deleteVariant(index)"/>
                 </a-col>
               </a-row>
             </div>
@@ -449,25 +429,8 @@
               </a-tag>
             </template>
             <template slot="action" slot-scope="review">
-              <a-tooltip><template slot="title">{{ $t('update') }}</template>
-                <a-button
-                  type="primary"
-                  icon="edit"
-                  @click="openReviewsModal(review)"
-                />
-              </a-tooltip>
-              <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="removeReview(review.id)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                  <a-button type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm>
+              <edit-btn @click="openReviewsModal(review)"/>
+              <delete-btn @confirm="removeReview(review.id)"/>
             </template>
           </a-table>
         </a-tab-pane>

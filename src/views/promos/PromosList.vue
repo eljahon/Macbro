@@ -57,26 +57,11 @@
           <a-tag class="time-tag" color="blue">{{ new Date(time).toLocaleString() }}</a-tag>
         </template>
         <template slot="action" slot-scope="text, row">
-          <a-tooltip><template slot="title">{{ $t('read') }}</template>
-            <a-button id="buttonPreview" type="default" @click="showPreviewModal(row.slug)" icon="eye"></a-button>
-          </a-tooltip>
+          <preview-btn @click="showPreviewModal(row.slug)"/>
           <router-link :to="`./update/${row.slug}`" >
-            <a-tooltip><template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
-            </a-tooltip>
+              <edit-btn/>
           </router-link>
-          <a-popconfirm
-            placement="topRight"
-            slot="extra"
-            :title="$t('deleteMsg')"
-            @confirm="deletePromos($event, row.slug)"
-            :okText="$t('yes')"
-            :cancelText="$t('no')"
-          >
-            <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-              <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
-            </a-tooltip>
-          </a-popconfirm>
+          <delete-btn @confirm="deletePromos($event, row.slug)"/>
         </template>
       </a-table>
     </a-card>

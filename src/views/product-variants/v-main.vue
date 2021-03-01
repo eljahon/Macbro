@@ -218,7 +218,7 @@
             :rowKey="review => review.id"
             :row-selection="rowSelection"
             :columns="reviewColumns"
-            :data-source="reviewsData"
+            :data-source="getReviewsData"
             :pagination="getReviewsPagination"
             :loading="loadTable"
           >
@@ -231,25 +231,15 @@
               </a-tag>
             </template>
             <template slot="action" slot-scope="review">
-              <a-tooltip><template slot="title">{{ $t('update') }}</template>
+              <edit-btn @click="openReviewsModal(review)"/>
+              <!-- <a-tooltip><template slot="title">{{ $t('update') }}</template>
                 <a-button
                   type="primary"
                   icon="edit"
                   @click="openReviewsModal(review)"
                 />
-              </a-tooltip>
-              <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="removeReview(review.id)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                  <a-button type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm>
+              </a-tooltip> -->
+              <delete-btn @confirm="removeReview(review.id)"/>
             </template>
           </a-table>
         </a-tab-pane>
@@ -307,6 +297,7 @@ export default {
   },
   data () {
     return {
+      selectedRowKeys: [],
       galleryList: [],
       checkedAttList: {},
       productVariantId: null,
@@ -482,6 +473,9 @@ export default {
         ],
         onSelection: this.onSelection
       }
+    },
+    getReviewsData () {
+      return this.reviewsData
     }
   },
   mounted () {

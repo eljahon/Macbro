@@ -36,26 +36,9 @@
         </template>
         <template slot="action" slot-scope="item">
           <router-link :to="`./update/${item.slug}`">
-            <a-tooltip>
-              <!--  -->
-              <template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
-            </a-tooltip>
+            <edit-btn/>
           </router-link>
-          <a-popconfirm
-            placement="topRight"
-            slot="extra"
-            :title="$t('deleteMsg')"
-            @confirm="deleteAttr(item)"
-            :okText="$t('yes')"
-            :cancelText="$t('no')"
-          >
-            <a-tooltip>
-              <template slot="title">{{ $t('delete') }}</template>
-              <a-button type="danger" icon="delete"></a-button>
-            </a-tooltip>
-          </a-popconfirm>
-
+          <delete-btn @confirm="deleteAttr(item)"/>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
