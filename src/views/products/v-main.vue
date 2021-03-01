@@ -244,7 +244,7 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="12" style="padding: 0 15px">
+            <!-- <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="unired_price" :label="$t('unired_price')" prop="unired_price">
                 <a-input
                   v-model="unired.price"
@@ -257,7 +257,7 @@
                   v-model="unired.old_price"
                 />
               </a-form-model-item>
-            </a-col>
+            </a-col> -->
           </a-row>
         </a-tab-pane>
         <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')">
@@ -1161,7 +1161,7 @@ export default {
                 additional_categories: this.convertArrayToString(this.product.additional_categories),
                 gallery: this.product.gallery.map(item => item.filename).join(','),
                 related_products: this.getRelatedProductIds(this.product.related_products),
-                lang: this.lang || '',
+                lang: this.lang || 'ru',
                 variants: variants
               },
               headers
@@ -1256,7 +1256,7 @@ export default {
               headers: headers
           }).then(res => {
             // console.log('res', res)
-            this.createdProductSlug = res.product.slug
+            this.productSlug = res.product.slug
             this.priceUpdatable = true
             this.activeTabKey = '5'
             this.updatePriceOnly = true

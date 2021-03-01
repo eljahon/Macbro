@@ -299,6 +299,9 @@ const locale = {
   measure_name: 'Название измерения',
   selectProductKind: 'Выберите вид продукта',
 
+  // companies
+  companies: 'Компании',
+
   // branches
   branches: 'Филиалы',
   actions: 'Действия',

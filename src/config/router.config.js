@@ -75,6 +75,40 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/companies',
+        name: 'companies',
+        component: RouteView,
+        hideChildrenInMenu: true,
+        redirect: '/companies/list',
+        meta: { title: 'companies', keepAlive: true, icon: 'bank', permission: ['clients'] },
+        children: [
+          {
+            path: '/companies/list',
+            name: 'companiesList',
+            component: () => import('@/views/companies/CompaniesList'),
+            meta: { title: 'companies', keepAlive: true, permission: ['clients'] }
+          },
+          {
+            path: '/companies/update/:id',
+            name: 'CompaniesEdit',
+            component: () => import('@/views/companies/CompaniesEdit'),
+            meta: { title: 'companies', keepAlive: true, permission: ['clients'] }
+          },
+          {
+            path: '/companies/:company_id/branches/list',
+            name: 'branchesList',
+            component: () => import('@/views/companies/branches/BranchesList'),
+            meta: { title: 'companies', keepAlive: true, permission: ['clients'] }
+          },
+          {
+            path: '/companies/:company_id/branches/update/:branch_id',
+            name: 'BranchesEdit',
+            component: () => import('@/views/companies/branches/BranchesEdit'),
+            meta: { title: 'companies', keepAlive: true, permission: ['clients'] }
+          }
+        ]
+      },
+      {
         path: '/catalog',
         redirect: '/catalog/categories',
         component: RouteView,
