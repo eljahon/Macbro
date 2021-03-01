@@ -364,6 +364,7 @@
                       v-model="item.value"
                       :filter-option="false"
                       placeholder="brand">
+                      <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                       <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
                         {{ variant.name }}
                       </a-select-option>
@@ -488,9 +489,10 @@ export default {
     Treeselect
   },
   data () {
-    this.onVariatSearch = debounce(this.onVariatSearch, 800)
-    this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 800)
+    this.onVariatSearch = debounce(this.onVariatSearch, 400)
+    this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
     return {
+      fetching: false,
       attrVarSearchText: '',
       attVariantsList: [],
       checkedAttList: [],
@@ -798,16 +800,21 @@ export default {
     },
     onVariatSearch (value) {
       // console.log(value, 'value')
-      const params = { search: value, lang: this.lang, limit: 1000 }
+      this.fetching = true
+      this.variantList = []
+      const params = { search: value, lang: this.lang, limit: 10 }
       request({
         url: '/product-variant',
         method: 'get',
         params: params
       })
       .then(response => {
-        this.variantList = []
+        this.fetching = false
         this.variantList = response.product_variants
         console.log(this.variantList, 'after')
+      })
+      .catch(() => {
+        this.fetching = false
       })
     },
     removeProd (item) {
