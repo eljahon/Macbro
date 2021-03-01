@@ -221,7 +221,10 @@ const locale = {
   orderId: 'Ид.заказа',
   Address: 'Адрес',
   Source: 'Источник',
-  //
+  // companies
+  company_name: 'Название компании',
+  email: 'Адрес электронной почты',
+  inn: 'ИНН',
   //
   branchName: 'Название филиала',
   destinationAddress: 'Адрес назначения',
@@ -298,6 +301,12 @@ const locale = {
   // measures
   measure_name: 'Название измерения',
   selectProductKind: 'Выберите вид продукта',
+
+  // companies
+  companies: 'Компании',
+  account_number: 'Номер счета',
+  number_of_employees: 'Количество работников',
+  city: 'Город',
 
   // branches
   branches: 'Филиалы',

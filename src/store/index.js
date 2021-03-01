@@ -29,6 +29,7 @@ import bannerPositions from './modules/bannerPositions'
 import banners from './modules/banners'
 import pages from './modules/pages'
 import permissions from './modules/permissions'
+import companies from './modules/companies'
 import admins from './modules/admins'
 import socket from './socket'
 
@@ -65,7 +66,8 @@ export default new Vuex.Store({
     pages,
     permissions,
     admins,
-    socket
+    socket,
+    companies
   },
   state: {
 

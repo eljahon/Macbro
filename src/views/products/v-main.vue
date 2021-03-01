@@ -348,6 +348,7 @@
                       v-model="item.name"
                       @search="onAttributeVariantSeach"
                       :filter-option="false"
+                      popupScroll=""
                       placeholder="brand">
                       <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
                         {{ variant }}
@@ -363,10 +364,13 @@
                       @search="onVariatSearch"
                       v-model="item.value"
                       :filter-option="false"
+                      @popupScroll="onScrollBottom"
                       placeholder="brand">
-                      <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                       <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
                         {{ variant.name }}
+                      </a-select-option>
+                      <a-select-option key="fetching" v-if="variantParams.total > variantList.length || fetching">
+                        <a-spin slot="notFoundContent" size="small" />
                       </a-select-option>
                     </a-select>
                   </a-form-model-item>
@@ -490,8 +494,14 @@ export default {
   },
   data () {
     this.onVariatSearch = debounce(this.onVariatSearch, 400)
+    this.getProductVariants = debounce(this.getProductVariants, 100)
     this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
     return {
+      variantParams: {
+        limit: 10,
+        page: 1,
+        total: null
+      },
       fetching: false,
       attrVarSearchText: '',
       attVariantsList: [],
@@ -798,24 +808,39 @@ export default {
         }
       )
     },
-    onVariatSearch (value) {
-      // console.log(value, 'value')
+    onScrollBottom (event) {
+      var target = event.target
+      if (!this.fetching && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        if (this.variantParams.total > this.variantList.length) {
+          this.variantParams.page += 1
+          this.variantParams.lang = this.lang || 'ru'
+          target.scrollTo(0, target.scrollHeight)
+          this.getProductVariants()
+        }
+      }
+    },
+    getProductVariants () {
       this.fetching = true
-      this.variantList = []
-      const params = { search: value, lang: this.lang, limit: 10 }
       request({
         url: '/product-variant',
         method: 'get',
-        params: params
+        params: this.variantParams
       })
       .then(response => {
         this.fetching = false
-        this.variantList = response.product_variants
-        console.log(this.variantList, 'after')
+        this.variantList.push(...response.product_variants)
+        this.variantParams.total = response.count
       })
       .catch(() => {
         this.fetching = false
       })
+    },
+    onVariatSearch (value) {
+      // console.log(value, 'value')
+      this.fetching = true
+      this.variantList = []
+      this.variantParams = { search: value, lang: this.lang, limit: 10, page: 1 }
+      this.getProductVariants()
     },
     removeProd (item) {
       // console.log(item)
