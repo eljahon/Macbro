@@ -22,11 +22,11 @@
                 />
               </a-form-item>
             </a-col>
-            <a-col :span="12" style="padding: 5px">
+            <!-- <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a :href="excelFile"><a-button type="success" icon="file-excel" @click="exportExcel">Export</a-button></a>
               </a-form-item>
-            </a-col>
+            </a-col> -->
           </a-row>
         </a-form>
       </div>
@@ -45,6 +45,7 @@
         <template slot="status" slot-scope="text, row">
           <a-tag v-if="row.status === 'cancelled'" color="red">{{ statusTranslator(row.status) }}</a-tag>
           <a-tag v-if="row.status === 'in-process'" color="blue">{{ statusTranslator(row.status) }}</a-tag>
+          <a-tag v-if="row.status === 'payment'" color="orange">{{ statusTranslator(row.status) }}</a-tag>
           <a-tag v-if="row.status === 'finished'" color="green">{{ statusTranslator(row.status) }}</a-tag>
         </template>
         <template slot="action" slot-scope="text, row">
@@ -134,7 +135,8 @@ export default {
       orderStatus: {
           'in-process': 'В обработке',
           'finished': 'Завершено',
-          'cancelled': 'Отменен'
+          'cancelled': 'Отменен',
+          'payment': 'Оплачено'
       }
     }
   },
@@ -151,7 +153,7 @@ export default {
     }
   },
   mounted () {
-    this.exportExcel()
+    // this.exportExcel()
     console.log('this.ordersPagination', this.ordersPagination)
     this.getOrders({ page: this.ordersPagination })
       .then((res) => console.log('res', res))

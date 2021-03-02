@@ -3,34 +3,17 @@
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
-      :model="company"
+      :model="legalAgent"
       :rules="rules"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
       <a-row>
         <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('company')" prop="name">
+          <a-form-model-item ref="name" :label="$t('name')" prop="name">
             <a-input
               :disabled="requesting"
-              v-model="company.name"
-            />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
-            <a-input-number
-              style="width: 100%"
-              :disabled="requesting"
-              v-model="company.account_number"
-            />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="email" :label="$t('email')" prop="email">
-            <a-input
-              :disabled="requesting"
-              v-model="company.email"
+              v-model="legalAgent.name"
             />
           </a-form-model-item>
         </a-col>
@@ -39,17 +22,7 @@
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
               :disabled="requesting"
-              v-model="company.phone_number"
-            />
-          </a-form-model-item>
-        </a-col>
-        <!-- work hours -->
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
-            <a-input-number
-              style="width: 100%"
-              :disabled="requesting"
-              v-model="company.inn"
+              v-model="legalAgent.phone_number"
             />
           </a-form-model-item>
         </a-col>
@@ -58,17 +31,32 @@
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
               :disabled="requesting"
-              v-model="company.address"
+              v-model="legalAgent.address"
             />
           </a-form-model-item>
         </a-col>
         <!-- address 2 -->
         <a-col :span="12" style="padding: 0 15px">
+          <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
+            <a-input-number
+              :disabled="requesting"
+              v-model="legalAgent.account_number"
+            />
+          </a-form-model-item>
+        </a-col>
+        <a-col :span="12" style="padding: 0 15px">
+          <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
+            <a-input-number
+              :disabled="requesting"
+              v-model="legalAgent.inn"
+            />
+          </a-form-model-item>
+        </a-col>
+        <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
             <a-input-number
-              style="width: 100%"
               :disabled="requesting"
-              v-model="company.mfo"
+              v-model="legalAgent.mfo"
             />
           </a-form-model-item>
         </a-col>
@@ -77,7 +65,7 @@
             <a-textarea
               placeholder="Basic usage"
               :rows="4"
-              v-model="company.description"
+              v-model="legalAgent.description"
               :disbled="requesting"
             />
           </a-form-model-item>
@@ -103,39 +91,38 @@ export default {
   },
   data () {
     return {
+      cityList: [],
       requesting: false,
       activeTabKey: '1',
-      companySlug: this.$route.params.id,
+      legalAgentId: this.$route.params.id,
       shopId: null,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
       other: '',
       loading: false,
       loadingTable: false,
-      company: {
+      legalAgent: {
         name: '',
         description: '',
         phone_number: '',
         address: '',
-        account_number: null,
-        email: '',
-        inn: '',
-        mfo: ''
+        inn: null,
+        mfo: null,
+        account_number: null
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        email: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       }
     }
   },
   mounted () {
-    if (this.companySlug) {
-      this.getCompanyAttrs(this.companySlug).then(res => {
+    if (this.legalAgentId) {
+      this.getLegalAgentAttrs(this.legalAgentId).then(res => {
         this.loadingTable = true
       })
     }
@@ -143,20 +130,20 @@ export default {
   computed: {
   },
   methods: {
-    ...mapActions(['getCompanies']),
-    getCompanyAttrs () {
+    ...mapActions(['createOrUpdateLegalAgent']),
+    getLegalAgentAttrs () {
       this.loading = true
       return new Promise((resolve) => {
         request({
-          url: `/company/${this.companySlug}?lang=${this.lang}`,
+          url: `/legal-counter-agent/${this.legalAgentId}`,
           method: 'get'
         }).then((response) => {
           this.loading = false
           resolve()
           console.log('response', response)
-          Object.keys(this.company).forEach(key => {
+          Object.keys(this.legalAgent).forEach(key => {
             if (response[key] !== null) {
-              this.company[key] = response[key]
+              this.legalAgent[key] = response[key]
             }
           })
           // images' urls to show images to user
@@ -171,25 +158,14 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.requesting = true
-          const req = {
-            url: this.companySlug ? `/company/${this.companySlug}` : '/company',
-            method: this.companySlug ? 'put' : 'post'
-          }
-          const headers = {
-            'Content-Type': 'application/json'
-          }
           this.$emit('clickParent', true)
-          request({
-              url: req.url,
-              method: req.method,
-              data: this.company,
-              headers: headers
-          })
+          this.legalAgent.id = this.legalAgentId
+          this.createOrUpdateLegalAgent(this.legalAgent)
           .then(res => {
             this.requesting = false
             console.log('response after submit', res)
             if (this.$route.path !== '/company/list') {
-              this.$router.replace('/company/list')
+              this.$router.go(-1)
             }
           })
           .catch(err => {

@@ -225,6 +225,7 @@ const locale = {
   company_name: 'Название компании',
   email: 'Адрес электронной почты',
   inn: 'ИНН',
+  mfo: 'МФО',
   //
   branchName: 'Название филиала',
   destinationAddress: 'Адрес назначения',
@@ -306,7 +307,15 @@ const locale = {
   companies: 'Компании',
   account_number: 'Номер счета',
   number_of_employees: 'Количество работников',
+  // cities
+  cities: 'Города',
   city: 'Город',
+  // agents
+  agents: 'Агенты',
+  counterAgents: 'Контр агенты',
+  agent: 'Агент',
+  physicalAgents: 'Физические лица',
+  legalAgents: 'Юридические лица',
 
   // branches
   branches: 'Филиалы',

@@ -110,7 +110,6 @@ export default {
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        description: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         company_id: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }]
