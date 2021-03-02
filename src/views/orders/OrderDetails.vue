@@ -155,11 +155,13 @@ export default {
       orderStatus: {
           'in-process': 'В обработке',
           'finished': 'Завершено',
+          'payment': 'Оплачено',
           'cancelled': 'Отменен'
       },
       deliveryMethods: {
           self: 'Самовывоз',
-          delivery: 'Доставка в течении дня'
+          dayDelivery: 'Доставка в течении дня',
+          expressDelivery: 'Экспресс доставка'
       }
     }
   },

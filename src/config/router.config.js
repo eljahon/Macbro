@@ -75,6 +75,34 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/city',
+        name: 'city',
+        component: RouteView,
+        hideChildrenInMenu: true,
+        redirect: '/city/list',
+        meta: { title: 'cities', keepAlive: true, icon: 'environment', permission: ['city'] },
+        children: [
+          {
+            path: '/city/list',
+            name: 'citiesList',
+            component: () => import('@/views/city/cityList'),
+            meta: { title: 'cities', keepAlive: true, permission: ['city'] }
+          },
+          {
+            path: '/city/create',
+            name: 'citiesCreate',
+            component: () => import('@/views/city/cityEdit'),
+            meta: { title: 'cities', keepAlive: true, permission: ['city'] }
+          },
+          {
+            path: '/city/update/:id',
+            name: 'citiesEdit',
+            component: () => import('@/views/city/cityEdit'),
+            meta: { title: 'cities', keepAlive: true, permission: ['city'] }
+          }
+        ]
+      },
+      {
         path: '/company',
         name: 'company',
         component: RouteView,
@@ -358,6 +386,71 @@ export const asyncRouterMap = [
             name: 'NewsUpdate',
             component: () => import('@/views/news/NewsCreate'),
             meta: { title: 'news', keepAlive: true, permission: ['news'] }
+          }
+        ]
+      },
+      {
+        path: '/agents',
+        name: 'agents',
+        component: RouteView,
+        redirect: '/agents/physical',
+        meta: { title: 'counterAgents', keepAlive: true, icon: 'contacts', permission: ['agents'] },
+        children: [
+          {
+            path: '/agents/physical',
+            name: 'agentsPhysical',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/agents/physical/list',
+            meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] },
+            children: [
+              {
+                path: '/agents/physical/list',
+                name: 'physicalAgentList',
+                component: () => import('@/views/agents/physical/physicalAgentList'),
+                meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+              },
+              {
+                path: '/agents/physical/create',
+                name: 'physicalAgentCreate',
+                component: () => import('@/views/agents/physical/physicalAgentEdit'),
+                meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+              },
+              {
+                path: '/agents/physical/update/:id',
+                name: 'physicalAgentUpdate',
+                component: () => import('@/views/agents/physical/physicalAgentEdit'),
+                meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+              }
+            ]
+          },
+          {
+            path: '/agents/legal',
+            name: 'agentsLegal',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/agents/legal/list',
+            meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] },
+            children: [
+              {
+                path: '/agents/legal/list',
+                name: 'agentsLegalList',
+                component: () => import('@/views/agents/legal/legalAgentList'),
+                meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+              },
+              {
+                path: '/agents/legal/create',
+                name: 'agentsLegalCreate',
+                component: () => import('@/views/agents/legal/legalAgentEdit'),
+                meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+              },
+              {
+                path: '/agents/legal/update/:id',
+                name: 'agentsLegalUpdate',
+                component: () => import('@/views/agents/legal/legalAgentEdit'),
+                meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+              }
+            ]
           }
         ]
       },
