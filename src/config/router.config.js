@@ -302,6 +302,34 @@ export const asyncRouterMap = [
                 meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
               }
             ]
+          },
+          {
+            path: '/catalog/featured-products',
+            name: 'Featured Products',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/catalog/featured-products/list',
+            meta: { title: 'featured-products', keepAlive: true, permission: ['products'] },
+            children: [
+              {
+                path: '/catalog/featured-products/list',
+                name: 'FeaturedProducts',
+                component: () => import('@/views/featured/FeaturedProductsList'),
+                meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+              },
+              {
+                path: '/catalog/featured-products/create',
+                name: 'FeaturedProducts',
+                component: () => import('@/views/featured/FeaturedProductsCreate'),
+                meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+              },
+              {
+                path: '/catalog/featured-products/update/:id',
+                name: 'FeaturedProducts',
+                component: () => import('@/views/featured/FeaturedProductsCreate'),
+                meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+              }
+            ]
           }
         ]
       },
