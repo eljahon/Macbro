@@ -33,6 +33,7 @@ import companies from './modules/companies'
 import admins from './modules/admins'
 import agents from './modules/agents'
 import cities from './modules/cities'
+import featuredProducts from './modules/featured'
 import socket from './socket'
 
 // dynamic router permission control (Experimental)
@@ -71,7 +72,8 @@ export default new Vuex.Store({
     socket,
     companies,
     agents,
-    cities
+    cities,
+    featuredProducts
   },
   state: {
 

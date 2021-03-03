@@ -266,6 +266,8 @@ const locale = {
   uploadBrandImage: 'Загрузить изображение бренда',
 
   // product
+  'featured-products': 'Коллекция продуктов',
+  'featuredProducts': 'Коллекция продуктов',
   add_product: 'Добавить продукт',
   products: 'Продукты',
   product: 'Продукт',
