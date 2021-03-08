@@ -348,7 +348,6 @@
                       v-model="item.name"
                       @search="onAttributeVariantSeach"
                       :filter-option="false"
-                      popupScroll=""
                       placeholder="brand">
                       <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
                         {{ variant }}

@@ -333,7 +333,12 @@ const locale = {
 
   // courier
   updateCourier: 'Обновить информацию о курьере',
-  previewCourier: 'Информация о курьере'
+  previewCourier: 'Информация о курьере',
+  // staff
+  staff: 'Сотрудники',
+  role: 'Роль',
+  roles: 'Роли',
+  userType: 'Тип пользователя'
 }
 
 export default {
