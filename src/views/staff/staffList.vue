@@ -45,6 +45,9 @@
         :loading="loading"
         @change="handleTableChange"
       >
+        <template slot="fullname" slot-scope="row">
+            {{ row.name }} {{ row.last_name }}
+        </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="`./update/${row.id}`" >
               <edit-btn/>
@@ -67,8 +70,12 @@ export default {
       loading: true,
       columns: [
         {
-          title: this.$t('name'),
-          dataIndex: 'name'
+          title: this.$t('fullname'),
+          scopedSlots: { customRender: 'fullname' }
+        },
+        {
+          title: this.$t('phone'),
+          dataIndex: 'phone_number'
         },
         {
           title: this.$t('action'),

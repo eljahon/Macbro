@@ -10,7 +10,7 @@
     >
       <a-row>
         <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('name')" prop="name">
+          <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
               :disabled="requesting"
               v-model="form.name"
@@ -44,7 +44,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="user_type" :label="$t('userType')" prop="user_type">
             <a-select id="attrSelect" style="width: 100%" v-model="form.user_type">
-              <a-select-option v-for="type in userTypeList" :key="type.id" :value="type.id">
+              <a-select-option v-for="type in userTypeList" :key="type.key" :value="type.key">
                 {{ type.name }}
               </a-select-option>
             </a-select>
@@ -64,7 +64,8 @@
   </div>
 </template>
 
-<script>import request from '@/utils/request'
+<script>
+import request from '@/utils/request'
 import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import { mapActions } from 'vuex'
@@ -81,8 +82,41 @@ export default {
     lang: String
   },
   data () {
+    const validatePhone = (rule, value, callback) => {
+      if (/^[+][9][9][8]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error('Phone Error'))
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{3,30})').test(value)) {
+        console.log('PAssworddan otdi')
+        callback()
+      } else {
+        console.log('otmadi', value)
+        callback(new Error('Password Error'))
+      }
+    }
     return {
-      userTypeList: [],
+      userTypeList: [
+        {
+          key: 'cashier',
+          name: this.$t('cashier')
+        },
+        {
+          key: 'consultant',
+          name: this.$t('consultant')
+        },
+        {
+          key: 'admin',
+          name: this.$t('admin')
+        },
+        {
+          key: 'manager',
+          name: this.$t('manager')
+        }
+      ],
       roleList: [],
       requesting: false,
       activeTabKey: '1',
@@ -97,14 +131,16 @@ export default {
         phone_number: '',
         last_name: '',
         password: '',
-        user_type: 'asda',
+        user_type: '',
         role_id: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         last_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        password: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        phone_number: [{ required: true, message: this.$t('requiredField'), trigger: 'blur' },
+          { validator: validatePhone, message: this.$t('errorPhone'), value: 'change' }],
+        password: [{ required: true, message: this.$t('required'), trigger: 'blur' },
+          { validator: validatePassword, message: this.$t('validatePassword'), value: 'change' }],
         user_type: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         role_id: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       }
@@ -153,25 +189,45 @@ export default {
     onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.requesting = true
-          this.$emit('clickParent', true)
-          this.form.id = this.cityId
-          this.createOrUpdateStaff(this.form)
-          .then(res => {
-            this.requesting = false
-            if (res) {
-              this.$router.go(-1)
-            }
-          })
-          .catch(err => {
-            this.requesting = false
-            console.error(err)
-            this.$message.error(this.$t('error'))
-          })
-          .finally(() => {
-            this.$emit('clickParent', false)
-          })
-          console.log('valid')
+          const isExists = false
+
+          // request({
+          //   url: '/auth/login-exists',
+          //   method: 'post',
+          //   data: {
+          //     "login": this.form.phone_number,
+          //     "user_type": this.form.user_type
+          //   },
+          //   headers: headers
+          // })
+          //   .then(res => {
+          //       isExists = res.is_exists
+          //   })
+          //   .catch(err => {
+          //       this.$message.error(this.$t('error'))
+          //   })
+
+          if (!isExists) {
+            this.requesting = true
+            this.$emit('clickParent', true)
+            this.form.id = this.cityId
+            this.createOrUpdateStaff(this.form)
+            .then(res => {
+              this.requesting = false
+              if (res) {
+                this.$router.go(-1)
+              }
+            })
+            .catch(err => {
+              this.requesting = false
+              console.error(err)
+              this.$message.error(this.$t('error'))
+            })
+            .finally(() => {
+              this.$emit('clickParent', false)
+            })
+            // console.log('valid')
+          }
         } else {
           console.log('error submit, validation failed')
           return false
