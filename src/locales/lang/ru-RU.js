@@ -333,7 +333,19 @@ const locale = {
 
   // courier
   updateCourier: 'Обновить информацию о курьере',
-  previewCourier: 'Информация о курьере'
+  previewCourier: 'Информация о курьере',
+  // staff
+  staff: 'Сотрудники',
+  role: 'Роль',
+  roles: 'Роли',
+  userType: 'Тип пользователя',
+  cashier: 'Кассир',
+  manager: 'Менеджер',
+  consultant: 'Консультант',
+  admin: 'Админ',
+  errorPhone: 'Ошибка телефона номера',
+  fullname: 'Ф.И.О.',
+  validatePassword: 'Пароль должен состоять минимум из 3 символов, 1 цифры, 1 буквы'
 }
 
 export default {

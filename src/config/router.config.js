@@ -609,6 +609,90 @@ export const asyncRouterMap = [
                 meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
               }
             ]
+          },
+          {
+            path: '/staff',
+            name: 'staff',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/staff/list',
+            meta: { title: 'staff', keepAlive: true, permission: ['admins'] },
+            children: [
+              {
+                path: '/staff/list',
+                name: 'staffList',
+                component: () => import('@/views/staff/staffList'),
+                meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+              },
+              {
+                path: '/staff/create',
+                name: 'staffCreate',
+                component: () => import('@/views/staff/staffEdit'),
+                meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+              },
+              {
+                path: '/staff/update/:id',
+                name: 'staffUpdate',
+                component: () => import('@/views/staff/staffEdit'),
+                meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+              }
+            ]
+          },
+          {
+            path: '/roles',
+            name: 'roles',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/roles/list',
+            meta: { title: 'roles', keepAlive: true, permission: ['admins'] },
+            children: [
+              {
+                path: '/roles/list',
+                name: 'rolesList',
+                component: () => import('@/views/roles/roleList'),
+                meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+              },
+              {
+                path: '/roles/create',
+                name: 'rolesCreate',
+                component: () => import('@/views/roles/roleEdit'),
+                meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+              },
+              {
+                path: '/roles/update/:id',
+                name: 'rolesUpdate',
+                component: () => import('@/views/roles/roleEdit'),
+                meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+              }
+            ]
+          },
+          {
+            path: '/permissions-new',
+            name: 'permissions-new',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/permissions-new/list',
+            meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] },
+            children: [
+              {
+                path: '/permissions-new/list',
+                name: 'PermissionsNewList',
+                component: () => import('@/views/permissionsNew/PermissionsList'),
+                meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+              },
+              {
+                path: '/permissions-new/create',
+                name: 'PermissionsNewCreate',
+                component: () => import('@/views/permissionsNew/PermissionsCreate'),
+                meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+              },
+              {
+                path: '/permissions-new/update/:id',
+                name: 'PermissionsNewUpdate',
+                component: () => import('@/views/permissionsNew/PermissionsCreate'),
+                meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+              }
+            ]
           }
         ]
       },

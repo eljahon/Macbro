@@ -1,12 +1,23 @@
 <template>
   <div>
-    <a-switch
-      style="margin: 0 0 15px"
-      slot="extra"
-      v-model="productVariant.active"
-      :checked-children="$t('active')"
-      :un-checked-children="$t('inactive')"
-    />
+    <a-row slot="extra">
+      <a-col :lg="8" :md="24">
+        <a-switch
+          style="margin: 0 0 15px"
+          v-model="productVariant.active"
+          :checked-children="$t('active')"
+          :un-checked-children="$t('inactive')"
+        />
+      </a-col>
+      <a-col :lg="8" :md="24">
+        <a-switch
+          style="margin: 0 0 15px"
+          v-model="productVariant.showPrice"
+          :checked-children="$t('active')"
+          :un-checked-children="$t('inactive')"
+        />
+      </a-col>
+    </a-row>
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -321,6 +332,7 @@ export default {
       productVariant: {
         name: '',
         active: true,
+        showPrice: true,
         brand_id: '',
         category_id: null,
         order: 0,
@@ -524,6 +536,7 @@ export default {
         this.price.price = productVariant.price.price || 0
         this.price.old_price = productVariant.price.old_price || 0
         this.productVariant.active = productVariant.active
+        this.productVariant.showPrice = productVariant.showPrice
         var isInBrands = false
         this.brands.map(brand => {
           if (brand.id === productVariant.brand.id) {
