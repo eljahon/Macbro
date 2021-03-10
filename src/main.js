@@ -19,6 +19,7 @@ import tinymce from '@tinymce/tinymce-vue'
 import editBtn from './components/editBtn.vue'
 import deleteBtn from './components/deleteBtn.vue'
 import previewBtn from './components/previewBtn.vue'
+import numberToPrice from './utils/numberToPrice'
 
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
@@ -39,6 +40,7 @@ const settings = {
   coordorder: 'latlong',
   version: '2.1'
 }
+Vue.prototype.$numberToPrice = numberToPrice
 Vue.use(YmapPlugin, settings)
 Vue.use(FlagIcon)
 Vue.use(vueDebounce, {

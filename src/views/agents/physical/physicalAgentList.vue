@@ -50,7 +50,7 @@
           <router-link :to="`./update/${row.id}`" >
               <edit-btn/>
           </router-link>
-          <!-- <delete-btn @confirm="deleteCompany($event, row.id)"/> -->
+          <delete-btn @confirm="deleteCompany($event, row.id)"/>
         </template>
       </a-table>
     </a-card>
@@ -59,7 +59,7 @@
       v-if="selectedAgent"
       v-model="previewVisible"
       width="800px"
-      :title="$t('previewBranch')"
+      :title="$t('previewAgent')"
     >
       <a-descriptions layout="vertical" bordered>
         <a-descriptions-item :label="$t('name')">
@@ -69,7 +69,7 @@
           {{ selectedAgent.phone_number }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('address')">
-          {{ selectedAgent.address + selectedAgent.address2 }}
+          {{ selectedAgent.address }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('description')">
           {{ selectedAgent.description }}

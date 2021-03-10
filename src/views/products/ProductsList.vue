@@ -98,7 +98,10 @@
           </a-tag>
         </a-descriptions-item>
         <a-descriptions-item :label="$t('productPicture')">
-          <img style="max-height: 800px; max-width: 100%" :src="selectedProduct.image"/>
+          <img v-if="selectedProduct.image" style="max-height: 800px; max-width: 100%" :src="selectedProduct.image"/>
+          <div v-else>
+            {{ $t('noImage') }}
+          </div>
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">

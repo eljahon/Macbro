@@ -37,6 +37,7 @@ import featuredProducts from './modules/featured'
 import staff from './modules/staff'
 import roles from './modules/roles'
 import permissionsNew from './modules/permissionsNew'
+import inventory from './modules/inventory'
 import socket from './socket'
 
 // dynamic router permission control (Experimental)
@@ -79,7 +80,8 @@ export default new Vuex.Store({
     featuredProducts,
     staff,
     roles,
-    permissionsNew
+    permissionsNew,
+    inventory
   },
   state: {
 

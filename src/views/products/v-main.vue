@@ -389,7 +389,7 @@
             </a-button>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="8" v-if="productSlug" :tab="$t('reviews')">
+        <!-- <a-tab-pane key="8" v-if="productSlug" :tab="$t('reviews')">
           <a-modal
             v-if="selectedReview"
             v-model="reviewsModalStatus"
@@ -437,7 +437,7 @@
               <delete-btn @confirm="removeReview(review.id)"/>
             </template>
           </a-table>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </a-form-model>
   </div>

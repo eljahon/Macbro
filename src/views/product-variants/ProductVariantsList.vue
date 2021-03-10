@@ -98,7 +98,10 @@
           </a-tag>
         </a-descriptions-item>
         <a-descriptions-item :label="$t('productPicture')">
-          <img style="max-height: 800px; max-width: 100%" :src="selectedProductVariant.image"/>
+          <img v-if="selectedProductVariant.image" style="max-height: 800px; max-width: 100%" :src="selectedProductVariant.image"/>
+          <div v-else>
+            {{ $t('noImage') }}
+          </div>
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
@@ -213,7 +216,7 @@ export default {
       this.selectedProductVariantCategory = getCategoryName(this.categoriesWithChildren, this.selectedProductVariant.category_id)
     },
     showPreviewModal (productVariantId) {
-      this.getSelectedProduct(productVariantId)
+      this.getSelectedProductVariant(productVariantId)
       this.previewVisible = true
       console.log('selected', this.selectedProductVariant)
     },

@@ -79,6 +79,7 @@ const locale = {
   images: 'Изображений',
   image: 'Изображение',
   preview_image: 'Preview',
+  noImage: 'Нет изображения',
   preview: 'Предварительный просмотр',
   full_text: 'Текст',
   area: 'Регион',
@@ -318,12 +319,14 @@ const locale = {
   agent: 'Агент',
   physicalAgents: 'Физические лица',
   legalAgents: 'Юридические лица',
+  previewAgent: 'Информация об агенте',
 
   // branches
   branches: 'Филиалы',
   actions: 'Действия',
   updateBranch: 'Обновить информацию о филиале',
   previewBranch: 'Информация о филиале',
+  previewCompany: 'Информация о компании',
   addCourier: 'Добавить курьера',
   branchPhone: 'Номер филиала',
 
@@ -345,7 +348,11 @@ const locale = {
   admin: 'Админ',
   errorPhone: 'Ошибка телефона номера',
   fullname: 'Ф.И.О.',
-  validatePassword: 'Пароль должен состоять минимум из 3 символов, 1 цифры, 1 буквы'
+  validatePassword: 'Пароль должен состоять минимум из 3 символов, 1 цифры, 1 буквы',
+  // inventory
+  inventory: 'Склад',
+  buy_price: 'Цена покупки',
+  sell_price: 'Цена продажи'
 }
 
 export default {
