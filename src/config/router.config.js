@@ -483,6 +483,34 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/inventory',
+        name: 'inventory',
+        component: RouteView,
+        hideChildrenInMenu: true,
+        redirect: '/inventory/list',
+        meta: { title: 'inventory', keepAlive: true, icon: 'container', permission: ['news'] },
+        children: [
+          {
+            path: '/inventory/list',
+            name: 'inventoryList',
+            component: () => import('@/views/inventory/inventoryList'),
+            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+          },
+          {
+            path: '/inventory/create',
+            name: 'inventoryCreate',
+            component: () => import('@/views/inventory/inventoryCreate'),
+            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+          },
+          {
+            path: '/inventory/update/:id',
+            name: 'inventoryUpdate',
+            component: () => import('@/views/inventory/inventoryCreate'),
+            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+          }
+        ]
+      },
+      {
         path: '/banner',
         name: 'banner',
         component: RouteView,

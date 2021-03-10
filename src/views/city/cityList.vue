@@ -49,7 +49,7 @@
           <router-link :to="`./update/${row.id}`" >
               <edit-btn/>
           </router-link>
-          <!-- <delete-btn @confirm="deleteCity($event, row.id)"/> -->
+          <delete-btn @confirm="deleteCity($event, row.id)"/>
         </template>
       </a-table>
     </a-card>

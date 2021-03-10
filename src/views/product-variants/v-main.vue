@@ -1,17 +1,21 @@
 <template>
   <div>
-    <a-row slot="extra">
-      <a-col :lg="8" :md="24">
+    <a-row slot="extra" type="flex" align="middle">
+      <a-col :lg="12" :md="24" style="margin: 0 0 15px">
+        <span>
+          Статус:
+        </span>
         <a-switch
-          style="margin: 0 0 15px"
           v-model="productVariant.active"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
         />
       </a-col>
-      <a-col :lg="8" :md="24">
+      <a-col :lg="12" :md="24" style="margin: 0 0 15px">
+        <span>
+          Показать цены:
+        </span>
         <a-switch
-          style="margin: 0 0 15px"
           v-model="productVariant.showPrice"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
@@ -254,6 +258,79 @@
             </template>
           </a-table>
         </a-tab-pane>
+        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')">
+          <a-row>
+            <a-col
+              class="attributes"
+              :md="24"
+              v-for="property in productProperties"
+              :key="property.id"
+            >
+              <div v-if="property.type === 'text' || property.type === 'number'">
+                <label class="propertyLabel">{{ property.name }}</label>
+                <a-input
+                  v-debounce="() => debouncedRequest(value, property.id)"
+                  :default-value="setDefaultProperty(property.id)"
+                />
+              </div>
+              <div v-if="property.type === 'select'">
+                <label class="propertyLabel">{{ property.name }}</label>
+                <a-select
+                  @change="handleProperty($event, property.type, property.id)"
+                  placeholder="Select an option"
+                  :default-value="setDefaultProperty(property.id)"
+                >
+                  <a-select-option
+                    v-for="option in property.options"
+                    :title="option.name"
+                    :key="option.value"
+                    :value="option.value">
+                    {{ option.name }}
+                  </a-select-option>
+                </a-select>
+              </div>
+              <div v-if="property.type === 'checkbox'">
+                <label class="propertyLabel">{{ property.name }}</label>
+                <a-checkbox-group
+                  name="checkboxgroup"
+                  @change="handleProperty($event, property.type, property.id)"
+                  :default-value="setDefaultProperty(property.id)"
+                >
+                  <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value">
+                    {{ option.name }}
+                  </a-checkbox>
+                </a-checkbox-group>
+              </div>
+              <div v-if="property.type === 'radio'">
+                <label class="propertyLabel">{{ property.name }}</label>
+                <a-radio-group
+                  button-style="solid"
+                  @change="handleProperty($event, property.type, property.id)"
+                  :default-value="setDefaultProperty(property.id)"
+                >
+                  <a-radio-button v-for="option in property.options" :value="option.value" :key="option.value">
+                    {{ option.name }}
+                  </a-radio-button>
+                </a-radio-group>
+              </div>
+            </a-col>
+            <div>
+              <a-button type="primary" @click="openAddAttrs">{{ $t('add_attr') }}</a-button>
+              <a-modal v-model="addAttrProductModal" :title="$t('add_attr')" @ok="addProductProperty">
+                <a-row>
+                  <a-col :span="24">
+                    <label style="margin-bottom: 5px" for="attrSelect">{{ $t('attributes') }}</label>
+                    <a-select id="attrSelect" style="width: 100%" v-model="attrs_id">
+                      <a-select-option v-for="attr in filteredAllProductProperties" :key="attr.id" :value="attr.id">
+                        {{ attr.name }}
+                      </a-select-option>
+                    </a-select>
+                  </a-col>
+                </a-row>
+              </a-modal>
+            </div>
+          </a-row>
+        </a-tab-pane>
       </a-tabs>
     </a-form-model>
   </div>
@@ -308,9 +385,13 @@ export default {
   },
   data () {
     return {
+      attrs_id: '',
+      addAttrProductModal: false,
+      allProductProperties: null,
+      productProperties: [],
       selectedRowKeys: [],
       galleryList: [],
-      checkedAttList: {},
+      checkedAttList: [],
       productVariantId: null,
       activeTabKey: '1',
       priceUpdatable: false,
@@ -417,7 +498,8 @@ export default {
           width: '20%',
           scopedSlots: { customRender: 'action' }
         }
-      ]
+      ],
+      productDefaultProperties: []
     }
   },
   props: {
@@ -425,7 +507,15 @@ export default {
     lang: String
   },
   computed: {
-    ...mapGetters(['productVariantsData', 'productVariantsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands']),
+    ...mapGetters(['productVariantsData', 'productVariantsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),
+    filteredAllProductProperties () {
+      return this.allProductProperties && this.allProductProperties.length && this.allProductProperties.filter(item => {
+        if (this.productProperties.find(prop => prop.id === item.id)) {
+          return false
+        }
+        return true
+      }) || []
+    },
     getAllCategories () {
       return getCategoriesTree(this.categories)
     },
@@ -508,7 +598,104 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getCategories', 'getBrands', 'getProductVariants', 'getReviews', 'setSearchQuery']),
+    ...mapActions(['getCategories', 'getBrands', 'getProductVariants', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    addProductProperty () {
+      console.log('this.attrs_id', this.attrs_id)
+      const selectedProductProperty = this.allProductProperties.find(prop => prop.id === this.attrs_id)
+      console.log('selectedProductProperty', selectedProductProperty)
+      this.productProperties = [...this.productProperties, selectedProductProperty]
+      this.addAttrProductModal = false
+      this.attrs_id = null
+    },
+    openAddAttrs () {
+      this.getAllAttrs({
+        page: 1
+      }).then(res => {
+        this.addAttrProductModal = true
+        this.allProductProperties = res.product_properties
+      })
+    },
+    handleProperty (e, type, id) {
+      this.loading = true
+      let value
+      if (type === 'radio') {
+        value = e.target.value
+      } else {
+        value = e
+      }
+      console.log('value', value)
+      let indexOfProperty = -1
+      // console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
+      if (this.checkedAttList && this.checkedAttList.length) {
+        indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id))
+      }
+      if (indexOfProperty >= 0) {
+        this.checkedAttList[indexOfProperty].values = value
+        const prodProp = this.productProperties.find(item => item.id === id)
+        this.checkedAttList[indexOfProperty].properties = prodProp.options.filter(option => {
+          if (value.includes(option.value)) {
+            return option
+          }
+        })
+      } else {
+        const prodProp = this.productProperties.find(item => item.id === id)
+        this.checkedAttList.push({
+          values: value,
+          id: id,
+          properties: prodProp.options.filter(option => {
+            if (value.includes(option.value)) {
+              return option
+            }
+          })
+        })
+      }
+      const properties = this.checkedAttList.find(item => item.id === id)
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      request({
+              url: `/product-variant/${this.productVariantId}/update-property`,
+              method: 'put',
+              data: {
+                property_id: id,
+                value: properties.properties
+              },
+              headers: headers
+          })
+          .then(res => console.log('res', res))
+          .catch(err => console.error(err))
+          .finally(() => (this.loading = false))
+    },
+    setDefaultProperty (propId) {
+      var result = []
+      if (this.productDefaultProperties && this.productDefaultProperties.length) {
+        for (let i = 0; i < this.productDefaultProperties.length; i++) {
+          if (this.productDefaultProperties[i] && this.productDefaultProperties[i].property.id === propId) {
+            result = this.productDefaultProperties[i].value
+          }
+        }
+      }
+      return result
+    },
+    debouncedRequest (value, id) {
+      this.loading = true
+      // console.log('id', id)
+      const headers = {
+            'Content-Type': 'application/json'
+      }
+      request({
+              url: `/product/${this.productId}/update-property`,
+              method: 'put',
+              data: {
+                property_id: id,
+                value
+              },
+              headers: headers
+          })
+          .then(res => console.log('res', res))
+          .catch(err => console.error(err))
+          .finally(() => (this.loading = false))
+    },
     getProductVariantData () {
       request({
         url: `/product-variant/${this.productVariantSlug}`,
@@ -536,7 +723,7 @@ export default {
         this.price.price = productVariant.price.price || 0
         this.price.old_price = productVariant.price.old_price || 0
         this.productVariant.active = productVariant.active
-        this.productVariant.showPrice = productVariant.showPrice
+        this.productVariant.showPrice = productVariant.show_price
         var isInBrands = false
         this.brands.map(brand => {
           if (brand.id === productVariant.brand.id) {
@@ -566,11 +753,61 @@ export default {
           url: img
         })) : []
         this.galleryList = JSON.parse(JSON.stringify(this.gallery))
+
+        this.productDefaultProperties = productVariant.properties && productVariant.properties.map(prop => {
+          if (prop.property.type === 'checkbox') {
+            console.log('prop.value', prop.value.map(item => item.value))
+            return {
+              ...prop,
+              value: prop.value.map(item => item.value)
+            }
+          } else {
+            return {
+              ...prop,
+              value: prop.value
+            }
+          }
+        })
+
+        this.productDefaultProperties && this.productDefaultProperties.forEach(item => {
+          this.checkedAttList.push({
+            values: item.value,
+            id: item.property.id,
+            properties: item.property && item.property.options && item.property.options.filter(option => {
+              console.log('Options', (option.value in item.value), option.value)
+              if (item.value.includes(option.value)) {
+                return option
+              }
+            })
+          })
+        })
         console.log('response', response)
         return response
       }).then((data) => {
           console.log('data', data)
+          const { product: { category: { slug: productCategorySlug }, properties: attrs } } = data
+          this.getProductAttributes(productCategorySlug, attrs)
       }).catch((err) => console.error(err))
+    },
+    getProductAttributes (productCategorySlug, attrs) {
+      request({
+        url: `/category/${productCategorySlug}?lang=${this.lang}`,
+        method: 'get'
+      }).then(res => {
+        console.log('res', res)
+        console.log('res.category.product_properties', res.category.product_properties)
+        const categoryProperties = res.category.product_properties || []
+        this.productDefaultProperties && this.productDefaultProperties.map(prop => prop.property).forEach((prop) => {
+          const a = categoryProperties.filter((cprop, i) => {
+            return cprop.id === prop.id
+          })
+          if (!a.length) {
+            categoryProperties.push(prop)
+          }
+        })
+        this.productProperties = categoryProperties
+        console.log('this.productProperties', this.productProperties)
+      })
     },
     onBrandSearch (value) {
       // console.log(value, 'value')

@@ -3,10 +3,7 @@
     <a-row>
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
-            <a-breadcrumb-item>
-                <router-link to="/company/list">{{ $t('companies') }}</router-link>
-            </a-breadcrumb-item>
-            <a-breadcrumb-item>{{ $t('branches') }}</a-breadcrumb-item>
+          <a-breadcrumb-item>{{ $t('inventory') }}</a-breadcrumb-item>
         </a-breadcrumb>
       </a-col>
 
@@ -21,7 +18,7 @@
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
-            <a-col :span="24" style="padding: 5px">
+            <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
                   id="inputSearch"
@@ -31,11 +28,11 @@
                 />
               </a-form-item>
             </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
+            <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
               </a-form-item>
-            </a-col> -->
+            </a-col>
           </a-row>
         </a-form>
       </div>
@@ -43,47 +40,42 @@
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
-        :dataSource="getCompanyBranchesList"
+        :dataSource="getInventoryList"
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
       >
         <template slot="action" slot-scope="text, row">
           <preview-btn @click="showPreviewModal(row.id)"/>
-          <!-- <router-link :to="`./${row.id}/branches/list`" >
-            <a-tooltip><template slot="title">{{ $t('branches') }}</template>
-              <a-button id="buttonPreview" type="default" icon="branches"></a-button>
-            </a-tooltip>
-          </router-link> -->
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn/>
+            <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)"/>
+          <!-- <delete-btn @confirm="deleteItem($event, row.slug)"/> -->
         </template>
       </a-table>
     </a-card>
     <a-modal
       @cancel="handleCloseModal"
-      v-if="selectedCompany"
+      v-if="selectedInventory"
       v-model="previewVisible"
       width="800px"
       :title="$t('previewBranch')"
     >
-      <a-descriptions layout="vertical" bordered>
-        <a-descriptions-item :label="$t('name')">
-          {{ selectedCompany.name }}
+      <a-descriptions layout="horizontal" bordered>
+        <a-descriptions-item :span="3" :label="$t('branchName')">
+          {{ selectedInventory.branch_name }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('phone_number')">
-          {{ selectedCompany.phone_number }}
+        <a-descriptions-item :span="3" :label="$t('product_name')">
+          <div v-html="selectedInventory.product_name"></div>
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('description')">
-          {{ selectedCompany.description }}
+        <a-descriptions-item :span="3" :label="$t('buy_price')">
+          {{ $numberToPrice(selectedInventory.buy_price) }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('address')">
-          {{ selectedCompany.address }}
+        <a-descriptions-item :span="4" :label="$t('sell_price')">
+          {{ $numberToPrice(selectedInventory.sell_price) }}
         </a-descriptions-item>
-        <a-descriptions-item :label="$t('number_of_employees')">
-          {{ selectedCompany.number_of_employees }}
+        <a-descriptions-item :span="5" :label="$t('comment')">
+          {{ selectedInventory.comment }}
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
@@ -103,20 +95,15 @@ export default {
     return {
       value: '',
       data: [],
-      companyId: this.$route.params.company_id,
       loading: true,
-      columns: [
+       columns: [
         {
-          title: this.$t('company_name'),
-          dataIndex: 'name'
+          title: this.$t('branchName'),
+          dataIndex: 'branch_name'
         },
         {
-          title: this.$t('phone_number'),
-          dataIndex: 'phone_number'
-        },
-        {
-          title: this.$t('address'),
-          dataIndex: 'address'
+          title: this.$t('product_name'),
+          dataIndex: 'product_name'
         },
         {
           title: this.$t('action'),
@@ -127,82 +114,85 @@ export default {
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
-      selectedCompany: null,
+      selectedInventory: null,
       filterParams: {}
     }
   },
   computed: {
-    ...mapGetters(['companyBranchesList', 'companyBranchesPagination', 'searchQuery']),
+    ...mapGetters(['inventoryData', 'inventoryPagination', 'searchQuery']),
     getPagination () {
-      return this.companyBranchesPagination
+      return this.inventoryPagination
     },
-    getCompanyBranchesList () {
-      return this.companyBranchesList
+    getInventoryList () {
+      return this.inventoryData
     },
     getSearchQuery () {
       return this.searchQuery
     }
   },
   mounted () {
-      this.setSearchQuery()
-    this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.companyId })
-      .then(() => (console.log('companybranches')))
-      .catch(error => {
-        this.requestFailed(error)
-        console.error(error)
+    this.getInventory({ page: this.inventoryPagination })
+      .then((res) => console.log('res', res))
+      .catch(err => {
+        this.$message.error(this.$t('error'))
+        console.error(err)
       })
       .finally(() => (this.loading = false))
   },
+  beforeDestroy () {
+    this.setSearchQuery()
+  },
   methods: {
-    ...mapActions(['getCompanyBranches', 'setSearchQuery']),
+    ...mapActions(['getInventory', 'setSearchQuery']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true, company_id: this.companyId })
+      this.getInventory({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
     },
-    showPreviewModal (companyId) {
-      this.getselectedBranch(companyId)
+    showPreviewModal (slug) {
+      this.getSelectedInventory(slug)
       this.previewVisible = true
     },
-    getselectedBranch (companyId) {
+    getSelectedInventory (selectedInventory) {
       request({
-        url: `/branch/${companyId}`,
+        url: `/inventory-item/${selectedInventory}`,
         method: 'get'
       }).then((response) => {
-        console.log(response)
-        this.selectedCompany = response
+        console.log('Selected inventory', response)
+        this.selectedInventory = response
       })
     },
     handleCancel () {
+      this.selectedInventory = null
       this.previewVisible = false
     },
     handleCloseModal () {
-      this.selectedCompany = null
+      this.selectedInventory = null
     },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCompanyBranches({ company_id: this.companyId })
+      this.getInventory()
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
-      // console.log('debounce')
-      // console.log('this.shopsData', this.shopsData)
+      console.log('debounce')
     },
-    deleteCompany (e, slug) {
+    deleteItem (e, slug) {
       this.loading = true
       request({
-        url: `/branch/${slug}`,
+        url: `/inventory-item/${slug}`,
         method: 'delete'
       })
       .then(res => {
+        console.log(res)
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.companyId })
+        this.getInventory({ page: this.inventoryPagination })
       })
       .catch(err => {
-        this.$message.error(err)
+        this.$message.error(this.$t('error'))
         console.error(err)
       })
       .finally(() => (this.loading = false))
@@ -213,7 +203,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getCompanyBranches({ company_id: this.companyId })
+          this.getInventory()
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))
@@ -224,9 +214,8 @@ export default {
 }
 </script>
 <style>
-img.shops-image {
+img.news-preview-image {
     display: block !important;
-    margin: 0 auto !important;
     max-width: 600px !important;
     width: auto !important;
     height: auto !important;

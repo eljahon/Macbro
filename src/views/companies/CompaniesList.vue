@@ -47,15 +47,15 @@
       >
         <template slot="action" slot-scope="text, row">
           <preview-btn @click="showPreviewModal(row.id)"/>
-          <router-link :to="`./update/${row.id}`" >
-              <edit-btn/>
-          </router-link>
           <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link>
-          <!-- <delete-btn @confirm="deleteCompany($event, row.id)"/> -->
+          <router-link :to="`./update/${row.id}`" >
+              <edit-btn/>
+          </router-link>
+          <delete-btn @confirm="deleteCompany($event, row.id)"/>
         </template>
       </a-table>
     </a-card>
@@ -64,20 +64,20 @@
       v-if="selectedCompany"
       v-model="previewVisible"
       width="800px"
-      :title="$t('previewBranch')"
+      :title="$t('previewCompany')"
     >
       <a-descriptions layout="vertical" bordered>
         <a-descriptions-item :label="$t('shops_name')">
           {{ selectedCompany.name }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('phone_number')">
-          {{ selectedCompany.phone }}
+          {{ selectedCompany.phone_number }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('description')">
           {{ selectedCompany.description }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('address')">
-          {{ selectedCompany.address + selectedCompany.address2 }}
+          {{ selectedCompany.address }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('email')">
           {{ selectedCompany.email }}
