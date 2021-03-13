@@ -768,48 +768,48 @@ export const asyncRouterMap = [
           }
         ]
       },
-      {
-        path: '/1c',
-        redirect: '/1c/update-prices',
-        component: RouteView,
-        meta: { title: 'c1', icon: 'ci', permission: ['1c'] },
-        children: [
-          {
-            path: '/1c/update-prices',
-            hideChildrenInMenu: true,
-            name: 'UpdatePrices',
-            component: RouteView,
-            redirect: '/1c/update-prices/upload',
-            meta: { title: 'update-prices', keepAlive: true, permission: ['1c'] },
-            children: [
-              {
-                path: '/1c/update-prices/upload',
-                name: 'UpdatePricesUpload',
-                props: true,
-                component: () => import('@/views/1c/UpdatePrices'),
-                meta: { title: 'update-prices', keepAlive: true, permission: ['1c'] }
-              }
-            ]
-          },
-          {
-            path: '/1c/update-quantity',
-            hideChildrenInMenu: true,
-            name: 'UpdateQuantity',
-            component: RouteView,
-            redirect: '/1c/update-quantity/upload',
-            meta: { title: 'update-quantity', keepAlive: true, permission: ['1c'] },
-            children: [
-              {
-                path: '/1c/update-quantity/upload',
-                name: 'UpdateQuantityUpload',
-                props: true,
-                component: () => import('@/views/1c/UpdateQuantity'),
-                meta: { title: 'update-quantity', keepAlive: true, permission: ['1c'] }
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   path: '/1c',
+      //   redirect: '/1c/update-prices',
+      //   component: RouteView,
+      //   meta: { title: 'c1', icon: 'ci', permission: ['1c'] },
+      //   children: [
+      //     {
+      //       path: '/1c/update-prices',
+      //       hideChildrenInMenu: true,
+      //       name: 'UpdatePrices',
+      //       component: RouteView,
+      //       redirect: '/1c/update-prices/upload',
+      //       meta: { title: 'update-prices', keepAlive: true, permission: ['1c'] },
+      //       children: [
+      //         {
+      //           path: '/1c/update-prices/upload',
+      //           name: 'UpdatePricesUpload',
+      //           props: true,
+      //           component: () => import('@/views/1c/UpdatePrices'),
+      //           meta: { title: 'update-prices', keepAlive: true, permission: ['1c'] }
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: '/1c/update-quantity',
+      //       hideChildrenInMenu: true,
+      //       name: 'UpdateQuantity',
+      //       component: RouteView,
+      //       redirect: '/1c/update-quantity/upload',
+      //       meta: { title: 'update-quantity', keepAlive: true, permission: ['1c'] },
+      //       children: [
+      //         {
+      //           path: '/1c/update-quantity/upload',
+      //           name: 'UpdateQuantityUpload',
+      //           props: true,
+      //           component: () => import('@/views/1c/UpdateQuantity'),
+      //           meta: { title: 'update-quantity', keepAlive: true, permission: ['1c'] }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         path: '/account',
         name: 'account',
