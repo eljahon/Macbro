@@ -23,7 +23,7 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <!-- <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="role_id" :label="$t('role')" prop="role_id">
             <a-select id="attrSelect" style="width: 100%" v-model="permission.role_id">
               <a-select-option v-for="role in roleList" :key="role.id" :value="role.id">
@@ -31,7 +31,7 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
-        </a-col>
+        </a-col> -->
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
             <tinymce v-model="permission.description"></tinymce>
@@ -73,7 +73,7 @@ export default {
       permission: {
         name: '',
         key: '',
-        role_id: '',
+        // role_id: '',
         description: ''
       },
       rules: {
@@ -82,10 +82,10 @@ export default {
         ],
         key: [
           { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        role_id: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
         ]
+        // role_id: [
+        //   { required: true, message: this.$t('required'), trigger: 'change' }
+        // ]
       }
     }
   },

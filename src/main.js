@@ -16,9 +16,11 @@ import FlagIcon from 'vue-flag-icon'
 import YmapPlugin from 'vue-yandex-maps'
 import vueDebounce from 'vue-debounce'
 import tinymce from '@tinymce/tinymce-vue'
+import statusTag from './components/statusTag.vue'
 import editBtn from './components/editBtn.vue'
 import deleteBtn from './components/deleteBtn.vue'
 import previewBtn from './components/previewBtn.vue'
+import mainBreadcrumb from './components/mainBreadcrumb.vue'
 import numberToPrice from './utils/numberToPrice'
 
 // mock
@@ -49,9 +51,13 @@ Vue.use(vueDebounce, {
 Vue.use(tinymce)
 Vue.use(VueAxios)
 Vue.use(FormModel)
+
+Vue.component('main-breadcrumb', mainBreadcrumb)
 Vue.component('preview-btn', previewBtn)
 Vue.component('delete-btn', deleteBtn)
 Vue.component('edit-btn', editBtn)
+Vue.component('status-tag', statusTag)
+
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 Vue.use(VueGoogleMaps, {

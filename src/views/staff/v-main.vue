@@ -12,7 +12,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
-              :disabled="requesting"
+              :disabled="checking || loading"
               v-model="form.name"
             />
           </a-form-model-item>
@@ -20,7 +20,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="last_name" :label="$t('lastName')" prop="last_name">
             <a-input
-              :disabled="requesting"
+              :disabled="checking || loading"
               v-model="form.last_name"
             />
           </a-form-model-item>
@@ -28,7 +28,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
-              :disabled="requesting"
+              :disabled="checking || loading"
               v-model="form.phone_number"
             />
           </a-form-model-item>
@@ -36,14 +36,14 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="password" :label="$t('password')" prop="password">
             <a-input-password
-              :disabled="requesting"
+              :disabled="checking || loading"
               v-model="form.password"
             />
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="user_type" :label="$t('userType')" prop="user_type">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.user_type">
+            <a-select id="attrSelect" style="width: 100%" v-model="form.user_type" :disabled="checking || loading">
               <a-select-option v-for="type in userTypeList" :key="type.key" :value="type.key">
                 {{ type.name }}
               </a-select-option>
@@ -52,7 +52,7 @@
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="role_id" :label="$t('role')" prop="role_id">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.role_id">
+            <a-select id="attrSelect" style="width: 100%" v-model="form.role_id" :disabled="checking || loading">
               <a-select-option v-for="role in roleList" :key="role.id" :value="role.id">
                 {{ role.name }}
               </a-select-option>
@@ -90,7 +90,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{3,30})').test(value)) {
+      if (new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{5,30})').test(value)) {
         console.log('PAssworddan otdi')
         callback()
       } else {
@@ -118,7 +118,7 @@ export default {
         }
       ],
       roleList: [],
-      requesting: false,
+      checking: false,
       activeTabKey: '1',
       cityId: this.$route.params.id,
       shopId: null,
@@ -189,45 +189,45 @@ export default {
     onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          const isExists = false
-
-          // request({
-          //   url: '/auth/login-exists',
-          //   method: 'post',
-          //   data: {
-          //     "login": this.form.phone_number,
-          //     "user_type": this.form.user_type
-          //   },
-          //   headers: headers
-          // })
-          //   .then(res => {
-          //       isExists = res.is_exists
-          //   })
-          //   .catch(err => {
-          //       this.$message.error(this.$t('error'))
-          //   })
-
-          if (!isExists) {
-            this.requesting = true
-            this.$emit('clickParent', true)
-            this.form.id = this.cityId
-            this.createOrUpdateStaff(this.form)
+          this.checking = true
+          request({
+            url: '/auth/login-exists',
+            method: 'post',
+            data: {
+              login: this.form.phone_number
+            },
+            headers: headers
+          })
             .then(res => {
-              this.requesting = false
-              if (res) {
-                this.$router.go(-1)
+              if (!res.is_exists) {
+                this.loading = true
+                this.$emit('clickParent', true)
+                this.form.id = this.cityId
+                this.createOrUpdateStaff(this.form)
+                .then(res => {
+                  this.loading = false
+                  if (res) {
+                    this.$router.go(-1)
+                  }
+                })
+                .catch(err => {
+                  this.loading = false
+                  console.error(err)
+                  this.$message.error(this.$t('error') + err)
+                })
+                .finally(() => {
+                  this.$emit('clickParent', false)
+                })
+                // console.log('valid')
+              } else {
+                this.$message.error(this.$t('phoneInUse'))
               }
+              this.checking = false
             })
             .catch(err => {
-              this.requesting = false
-              console.error(err)
-              this.$message.error(this.$t('error'))
+              this.$message.error(this.$t('error') + err)
+              this.checking = false
             })
-            .finally(() => {
-              this.$emit('clickParent', false)
-            })
-            // console.log('valid')
-          }
         } else {
           console.log('error submit, validation failed')
           return false

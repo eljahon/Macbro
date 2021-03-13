@@ -45,12 +45,10 @@
           <div v-html="desc"></div>
         </template>
         <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="is_active"
+            default-val
+          />
         </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="'./update/' + row.slug">

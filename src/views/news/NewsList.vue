@@ -46,12 +46,10 @@
         @change="handleTableChange"
       >
         <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="is_active"
+            default-val
+          />
         </template>
         <template slot="action" slot-scope="text, row">
           <preview-btn @click="showPreviewModal(row.slug)"/>
@@ -77,12 +75,10 @@
           <div v-html="selectedNews.formatted_date"></div>
         </a-descriptions-item>
         <a-descriptions-item :span="3" :label="$t('status')">
-          <a-tag v-if="selectedNews.active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="selectedNews.active"
+            default-val
+          />
         </a-descriptions-item>
         <a-descriptions-item :span="3" :label="$t('preview_image')">
           <a-tag color="red" v-if="!selectedNews.preview_image">{{ this.$t('not_available') }}</a-tag>

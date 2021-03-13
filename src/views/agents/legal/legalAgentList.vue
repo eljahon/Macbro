@@ -62,7 +62,7 @@
       :title="$t('previewAgent')"
     >
       <a-descriptions layout="vertical" bordered>
-        <a-descriptions-item :label="$t('shops_name')">
+        <a-descriptions-item :label="$t('firstName')">
           {{ selectedAgent.name }}
         </a-descriptions-item>
         <a-descriptions-item :label="$t('phone_number')">
@@ -95,7 +95,7 @@ export default {
       loading: true,
       columns: [
         {
-          title: this.$t('name'),
+          title: this.$t('firstName'),
           dataIndex: 'name'
         },
         {

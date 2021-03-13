@@ -49,12 +49,10 @@
           <a-tag color="red">{{ id }}</a-tag>
         </template>
         <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="is_active"
+            default-val
+          />
         </template>
         <template slot="action" slot-scope="text, row">
           <preview-btn @click="showPreviewModal(row.id)"/>
@@ -90,12 +88,10 @@
           <p>Old Price: {{ this.numberToPrice(selectedProduct.price.old_price) }}</p>
         </a-descriptions-item>
         <a-descriptions-item :label="$t('status')">
-          <a-tag v-if="selectedProduct.active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="selectedProduct.active"
+            default-val
+          />
         </a-descriptions-item>
         <a-descriptions-item :label="$t('productPicture')">
           <img v-if="selectedProduct.image" style="max-height: 800px; max-width: 100%" :src="selectedProduct.image"/>

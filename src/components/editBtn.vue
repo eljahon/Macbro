@@ -1,11 +1,19 @@
 <template>
     <a-tooltip><template slot="title">{{ $t('update') }}</template>
-        <a-button id="buttonOrderDetails" type="primary" icon="edit" @click="$emit('click')"></a-button>
+        <a-button class="ant-btn-icon-only" id="buttonOrderDetails" type="primary" @click="$emit('click')">
+            <a-icon :component="myIcons.penSvg" />
+        </a-button>
     </a-tooltip>
 </template>
 
 <script>
+    import myIcons from '@/core/icons'
     export default {
+        data () {
+            return {
+                myIcons
+            }
+        },
         model: {
             prop: 'value',
             event: 'click'

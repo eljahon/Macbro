@@ -46,12 +46,10 @@
         @change="handleTableChange"
       >
         <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="is_active"
+            default-val
+          />
         </template>
         <template slot="time" slot-scope="time">
           <a-tag class="time-tag" color="blue">{{ new Date(time).toLocaleString() }}</a-tag>
@@ -80,12 +78,10 @@
           <div v-html="selectedPromos.description"></div>
         </a-descriptions-item>
         <a-descriptions-item :span="4" :label="$t('status')">
-          <a-tag v-if="selectedPromos.active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="selectedPromos.active"
+            default-val
+          />
         </a-descriptions-item>
         <a-descriptions-item :span="4" :label="$t('preview_image')">
           <img class="preview-image" :src="selectedPromos.preview_image"/>

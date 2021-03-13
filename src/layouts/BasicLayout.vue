@@ -1,13 +1,13 @@
 <template>
   <pro-layout
-    title="MacBro"
+    :title="collapsed ? 'MB' : 'MacBro'"
     :menus="menus"
     :collapsed="collapsed"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
-    :logo="logoRender"
+    :logo="null"
     :i18nRender="i18nRender"
     v-bind="settings"
   >
@@ -46,8 +46,8 @@ export default {
       settings: {
         layout: 'sidemenu', // 'sidemenu', 'topmenu'
         contentWidth: false,
-        theme: 'dark',
-        primaryColor: '#1890ff',
+        theme: 'light',
+        primaryColor: '#000000',
         fixedHeader: false,
         fixSiderbar: false,
         colorWeak: false,

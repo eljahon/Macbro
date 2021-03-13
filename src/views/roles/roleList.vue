@@ -39,7 +39,7 @@
 
       <a-table
         :columns="columns"
-        :rowKey="record => record.id"
+        rowKey="key"
         :dataSource="getRolesList"
         :pagination="getPagination"
         :loading="loading"
@@ -92,7 +92,7 @@ export default {
       return this.rolesPagination
     },
     getRolesList () {
-      return this.rolesList || []
+      return this.rolesList.length ? this.rolesList : []
     },
     getSearchQuery () {
       return this.searchQuery
