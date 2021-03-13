@@ -238,12 +238,10 @@
             :loading="loadTable"
           >
             <template slot="status" slot-scope="review">
-              <a-tag v-if="review.active" color="#108ee9">
-                {{ $t('active') }}
-              </a-tag>
-              <a-tag v-else color="#f50">
-                {{ $t('inactive') }}
-              </a-tag>
+              <status-tag
+                :active="review.active"
+                default-val
+              />
             </template>
             <template slot="action" slot-scope="review">
               <edit-btn @click="openReviewsModal(review)"/>

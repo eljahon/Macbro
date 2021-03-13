@@ -10,7 +10,7 @@
     >
       <a-row>
         <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('name')" prop="name">
+          <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
               :disabled="requesting"
               v-model="physicalAgent.name"

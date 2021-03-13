@@ -17,6 +17,9 @@ const locale = {
   'layouts.usermenu.dialog.title': 'Выйти',
   'layouts.usermenu.dialog.content': 'Вы действительно хотите выйти?',
   // general
+  enterSystem: 'Войти в систему',
+  directory: 'Справочник',
+  contentPages: 'Контент',
   personal_settings: 'Личный кабинет',
   catalog: 'Каталог',
   product_kind: 'Тип продукта',
@@ -348,11 +351,12 @@ const locale = {
   admin: 'Админ',
   errorPhone: 'Ошибка телефона номера',
   fullname: 'Ф.И.О.',
-  validatePassword: 'Пароль должен состоять минимум из 3 символов, 1 цифры, 1 буквы',
+  validatePassword: 'Пароль должен состоять минимум из 5 символов, 1 цифры, 1 буквы',
   // inventory
   inventory: 'Склад',
   buy_price: 'Цена покупки',
-  sell_price: 'Цена продажи'
+  sell_price: 'Цена продажи',
+  phoneInUse: 'Этот номер используется'
 }
 
 export default {

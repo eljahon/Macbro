@@ -9,13 +9,21 @@
     >
         <a-tooltip>
             <template slot="title">{{ $t('delete') }}</template>
-            <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
+            <a-button class="ant-btn-icon-only" id="buttonDelete" type="danger">
+                <a-icon :component="myIcons.binSvg" />
+            </a-button>
         </a-tooltip>
     </a-popconfirm>
 </template>
 
 <script>
+    import myIcons from '@/core/icons'
     export default {
+        data () {
+            return {
+                myIcons
+            }
+        },
         model: {
             prop: 'value',
             event: 'confirm'

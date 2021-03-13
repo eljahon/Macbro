@@ -7,14 +7,14 @@
       :form="form"
       @submit="handleSubmit"
     >
-      <a-tabs
+      <!-- <a-tabs
         :activeKey="customActiveKey"
         :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
         @change="handleTabClick"
       >
-        <a-tab-pane key="tab1" tab="Shaxsiy kabinetga kirish">
+        <a-tab-pane key="tab1" tab="Shaxsiy kabinetga kirish"> -->
           <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" message="Parol yoki login xato!" />
-          <a-form-item>
+          <a-form-item :label="$t('username')">
             <a-input
               size="large"
               type="text"
@@ -28,7 +28,7 @@
             </a-input>
           </a-form-item>
 
-          <a-form-item>
+          <a-form-item :label="$t('password')">
             <a-input
               size="large"
               type="password"
@@ -42,7 +42,7 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
-        </a-tab-pane>
+        <!-- </a-tab-pane> -->
         <!-- <a-tab-pane key="tab2" tab="phone number login">
           <a-form-item>
             <a-input size="large" type="text" placeholder="phone number" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
@@ -69,18 +69,18 @@
             </a-col>
           </a-row>
         </a-tab-pane> -->
-      </a-tabs>
+      <!-- </a-tabs> -->
 
-      <a-form-item>
-        <!-- <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">auto login</a-checkbox> -->
-        <!-- <router-link
+      <!-- <a-form-item>
+        <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">auto login</a-checkbox>
+        <router-link
           :to="{ name: 'recover', params: { user: 'aaa'} }"
           class="forge-password"
           style="float: right;"
-        >Parolingizni unutdingizmi?</router-link> -->
-      </a-form-item>
+        >Parolingizni unutdingizmi?</router-link>
+      </a-form-item> -->
 
-      <a-form-item style="margin-top:24px">
+      <a-form-item style="margin-top:112px">
         <a-button
           size="large"
           type="primary"
@@ -91,9 +91,9 @@
         >Kirish</a-button>
       </a-form-item>
 
-      <div class="user-login-other">
+      <!-- <div class="user-login-other">
         <router-link class="register" :to="{ name: 'register' }">Ro'yxatdan o'tish</router-link>
-      </div>
+      </div> -->
     </a-form>
 
     <two-step-captcha
@@ -212,6 +212,11 @@ export default {
     font-size: 14px;
   }
 
+  input[type='text'], input[type='password'] {
+    height: 48px;
+    border-radius: 4px;
+  }
+
   .getCaptcha {
     display: block;
     width: 100%;
@@ -225,7 +230,7 @@ export default {
   button.login-button {
     padding: 0 15px;
     font-size: 16px;
-    height: 40px;
+    height: 48px;
     width: 100%;
   }
 

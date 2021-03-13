@@ -1,5 +1,5 @@
 <template>
-    <a-tag :color="active ? '#108ee9' : '#EC5B56'" >
+    <a-tag :color="colour" :class="{'ant-tag-custom': defaultVal}">
         {{ title }}
     </a-tag>
 </template>
@@ -13,20 +13,30 @@
             },
             text: {
                 type: [String, Number]
+            },
+            color: {
+                type: String
+            },
+            defaultVal: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
             title () {
-                return this.text || this.active ? this.$t('active') : this.$t('inactive')
+                return this.text ? this.text : this.active ? this.$t('active') : this.$t('inactive')
+            },
+            colour () {
+                return this.color ? this.color : this.active ? '#108ee9' : '#EC5B56'
             }
         }
     }
 </script>
 
 <style lang="less" scoped>
-    .ant-tag {
-        border: none;
-        border-radius: 4px;
-        color: white;
+    .ant-tag-custom {
+        border: none !important;
+        border-radius: 4px !important;
+        color: white !important;
     }
 </style>

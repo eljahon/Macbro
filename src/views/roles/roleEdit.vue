@@ -59,9 +59,10 @@ export default {
       langs: ['ru', 'uz', 'en']
     }
   },
-  // mounted() {
-  //   console.log('$refs', this.$refs)
-  // },
+  mounted () {
+    // console.log('$refs', this.$refs)
+    // console.log('ROUTES', this.$route)
+  },
   // updated() {
   //   console.warn('$refs', this.$refs)
   // },

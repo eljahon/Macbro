@@ -47,15 +47,16 @@ const orders = {
       }
     },
     actions: {
-      setSearchQuery ({ commit }, searchQuery) {
-        commit('SET_SEARCH_QUERY', searchQuery)
-      },
-      getOrders ({ commit, state }, payload = { page: null }) {
+    setSearchQuery ({ commit }, searchQuery) {
+      commit('SET_SEARCH_QUERY', searchQuery)
+    },
+    getOrders ({ commit, state }, payload = { page: null }) {
         let { page } = payload
         const { searchQuery } = state
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
+        page.showQuickJumper = { goButton: 'Your text', goText: 'Your text' }
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
@@ -86,6 +87,7 @@ const orders = {
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
+        page.showQuickJumper = true
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
@@ -117,6 +119,7 @@ const orders = {
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
+        page.showQuickJumper = true
         return new Promise((resolve, reject) => {
           console.log(page)
         request({

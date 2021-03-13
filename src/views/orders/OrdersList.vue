@@ -38,15 +38,16 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        showPagination="auto"
       >
         <template slot="tag" slot-scope="tag">
           <a-tag color="red">{{ tag }}</a-tag>
         </template>
         <template slot="status" slot-scope="text, row">
-          <a-tag v-if="row.status === 'cancelled'" color="red">{{ statusTranslator(row.status) }}</a-tag>
-          <a-tag v-if="row.status === 'in-process'" color="blue">{{ statusTranslator(row.status) }}</a-tag>
-          <a-tag v-if="row.status === 'payment'" color="orange">{{ statusTranslator(row.status) }}</a-tag>
-          <a-tag v-if="row.status === 'finished'" color="green">{{ statusTranslator(row.status) }}</a-tag>
+          <status-tag
+            :color="statusColor[row.status]"
+            :text="statusTranslator(row.status)"
+          />
         </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="`/order/details/${row.number}`">
@@ -60,6 +61,7 @@
           <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
         </template>
       </a-table>
+      <!-- <a-pagination show-quick-jumper :default-current="getPagination.current" :total="getPagination.total" @change="handleTableChange" /> -->
     </a-card>
     <a-modal
       @cancel="handleCloseModal"
@@ -137,6 +139,12 @@ export default {
           'finished': 'Завершено',
           'cancelled': 'Отменен',
           'payment': 'Оплачено'
+      },
+      statusColor: {
+          'in-process': 'blue',
+          'finished': 'green',
+          'cancelled': 'red',
+          'payment': 'orange'
       }
     }
   },
@@ -163,6 +171,7 @@ export default {
   methods: {
     ...mapActions(['getOrders', 'setSearchQuery']),
     handleTableChange (pagination) {
+      console.log('Pagination', pagination)
       this.loading = true
       this.getOrders({ page: pagination, search: true })
         .then((res) => console.log(res))

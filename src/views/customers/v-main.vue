@@ -65,9 +65,11 @@
                 </router-link>
               </template>
               <template slot="status" slot-scope="text, row">
-                <a-tag v-if="row.status === 'cancelled'" color="red">{{ statusTranslator(row.status) }}</a-tag>
-                <a-tag v-if="row.status === 'in-process'" color="blue">{{ statusTranslator(row.status) }}</a-tag>
-                <a-tag v-if="row.status === 'finished'" color="green">{{ statusTranslator(row.status) }}</a-tag>
+                <a-tag
+                  :color="statusColor[row.status]"
+                >
+                  {{ statusTranslator(row.status) }}
+                </a-tag>
               </template>
               <template slot="tag" slot-scope="tag">
                 <a-tag color="red">{{ tag }}</a-tag>
@@ -147,6 +149,11 @@ export default {
         'in-process': 'В обработке',
         'finished': 'Завершено',
         'cancelled': 'Отменен'
+      },
+      statusColor: {
+        'in-process': 'blue',
+        'finished': 'green',
+        'cancelled': 'red'
       }
     }
   },

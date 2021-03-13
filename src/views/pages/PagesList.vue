@@ -49,12 +49,10 @@
           <img :src="page.preview_image" alt="preview image">
         </template>
         <template slot="status" slot-scope="is_active">
-          <a-tag v-if="is_active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="is_active"
+            default-val
+          />
         </template>
         <template slot="action" slot-scope="text, row">
           <preview-btn @click="showPreviewModal(row.slug)"/>
@@ -77,12 +75,10 @@
           {{ selectedPage.title }}
         </a-descriptions-item>
         <a-descriptions-item :span="24" :label="$t('status')">
-          <a-tag v-if="selectedPage.active" color="#108ee9">
-            {{ $t('active') }}
-          </a-tag>
-          <a-tag v-else color="#f50">
-            {{ $t('inactive') }}
-          </a-tag>
+          <status-tag
+            :active="selectedPage.active"
+            default-val
+          />
         </a-descriptions-item>
         <a-descriptions-item :span="24" :label="$t('preview_image')">
           <img class="pages-image" :src="selectedPage.preview_image"/>

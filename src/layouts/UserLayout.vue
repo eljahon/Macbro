@@ -1,16 +1,33 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', isMobile && 'mobile']">
     <div class="container">
-      <div class="top">
+      <div class="container-left">
+        <span class="title">
+          <img src="@/assets/login-logo.png" class="logo" alt="logo">
+        </span>
+      </div>
+      <div class="container-right">
+        <div class="top">
+          <div class="header">
+            <span class="title">{{$t('enterSystem')}}</span>
+          </div>
+        </div>
+
+        <router-view />
+
+        <div class="footer">
+          <div class="copyright">
+            Служба поддержки
+            <div>+998 99 123 45 67</div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="top">
         <div class="header">
           <a href="/">
             <img src="@/assets/logo.svg" class="logo" alt="logo">
-            <!-- <span class="title">Goodzone</span> -->
           </a>
         </div>
-        <!-- <div class="desc">
-          UDevs Goodzone
-        </div> -->
       </div>
 
       <router-view />
@@ -19,7 +36,7 @@
         <div class="copyright">
           Copyright &copy; 2020 UDevs
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -30,6 +47,11 @@ import { deviceMixin } from '@/store/device-mixin'
 export default {
   name: 'UserLayout',
   mixins: [deviceMixin],
+  data () {
+    return {
+      year: new Date().getFullYear()
+    }
+  },
   mounted () {
     document.body.classList.add('userLayout')
   },
@@ -41,7 +63,7 @@ export default {
 
 <style lang="less" scoped>
 #userLayout.user-layout-wrapper {
-    height: 100%;
+    height: 100vh;
 
     &.mobile {
       .container {
@@ -55,10 +77,31 @@ export default {
     .container {
       width: 100%;
       min-height: 100%;
-      background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
-      background-size: 100%;
-      padding: 110px 0 144px;
       position: relative;
+      display: flex;
+
+      &-left {
+        width: 50%;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span.title {
+          font-size: 130px;
+          font-weight: bold;
+          color: white;
+        }
+      }
+
+      &-right {
+        width: 50%;
+        background-color: white;
+        padding: 40px 135px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
       a {
         text-decoration: none;
@@ -70,7 +113,8 @@ export default {
         .header {
           height: 44px;
           line-height: 44px;
-          margin-bottom: 100px;
+          margin-bottom: 50px;
+          font-size: 54px;
           .badge {
             position: absolute;
             display: inline-block;
@@ -82,13 +126,14 @@ export default {
           }
 
           .logo {
-            width: 120px;
+            width: 500px;
             height: 120px;
             object-fit: cover;
+            object-position: 50% 42%;
           }
 
           .title {
-            font-size: 33px;
+            font-size: 54px;
             color: rgba(0, 0, 0, .85);
             font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             font-weight: 600;
@@ -106,16 +151,15 @@ export default {
 
       .main {
         min-width: 260px;
-        width: 368px;
+        width: 460px;
         margin: 0 auto;
       }
 
       .footer {
         position: absolute;
-        width: 100%;
         bottom: 0;
         padding: 0 16px;
-        margin: 48px 0 24px;
+        margin: 48px 0 40px;
         text-align: center;
 
         .links {
@@ -130,8 +174,12 @@ export default {
           }
         }
         .copyright {
-          color: rgba(0, 0, 0, 0.45);
+          color: #C4C4C4;
           font-size: 14px;
+          div {
+            color: #6C6C6C;
+            font-size: 20px;
+          }
         }
       }
     }
