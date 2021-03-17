@@ -14,6 +14,7 @@
             <a-input
               :disabled="requesting"
               v-model="physicalAgent.name"
+              test-attr="name-physical-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -23,6 +24,7 @@
             <a-input
               :disabled="requesting"
               v-model="physicalAgent.phone_number"
+              test-attr="phone_number-physical-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -32,6 +34,7 @@
             <a-input
               :disabled="requesting"
               v-model="physicalAgent.address"
+              test-attr="address-physical-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -42,6 +45,7 @@
               :rows="4"
               v-model="physicalAgent.description"
               :disbled="requesting"
+              test-attr="description-physical-agent"
             />
           </a-form-model-item>
         </a-col>

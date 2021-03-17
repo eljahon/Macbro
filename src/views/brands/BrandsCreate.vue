@@ -4,7 +4,7 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/catalog/brands/list">{{ $t('brands') }}</router-link>
+            <router-link to="/catalog/brands/list" test-attr="prev-link-brand">{{ $t('brands') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
         </a-breadcrumb>

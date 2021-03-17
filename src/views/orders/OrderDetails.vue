@@ -4,7 +4,7 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/orders/list">{{ $t('orders') }}</router-link>
+            <router-link to="/orders/list" test-attr="prev-link-order-detail">{{ $t('orders') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>{{ $t('details') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -29,6 +29,7 @@
                 disabled
                 type="number"
                 v-model="orderNumber"
+                test-attr="order-number-order-detail"
               />
             </a-col>
             <a-col :span="12" style="padding: 0 15px">
@@ -81,6 +82,7 @@
                       :columns="columns"
                       :data-source="getProducts"
                       bordered
+                      test-attr="products-order-detail"
                     >
                       <template slot="price" slot-scope="text, row">
                         {{ numberToPrice(row.price) }}

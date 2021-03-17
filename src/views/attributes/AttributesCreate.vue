@@ -35,12 +35,26 @@
     <a-row>
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit">
+          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-attribute">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm">
+          <a-popconfirm
+              placement="topRight"
+              :title="$t('deleteMsg')"
+              @confirm.prevent="resetForm"
+              :okText="$t('yes')"
+              :cancelText="$t('no')"
+          >
+            <a-tooltip>
+              <template slot="title">{{ $t('delete') }}</template>
+              <a-button style="margin-left: 10px;" test-attr="reset-attribute">
+                {{ $t('reset') }}
+              </a-button>
+            </a-tooltip>
+          </a-popconfirm>
+          <!-- <a-button style="margin-left: 10px;" @click.prevent="resetForm">
             {{ $t('reset') }}
-          </a-button>
+          </a-button> -->
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -83,8 +97,10 @@ export default {
     },
     resetForm () {
       if (this.edit) {
+        console.log('Refs', this.$refs)
         Object.entries(this.$refs).forEach(form => {
-          if (form) form.resetForm()
+          console.log(form)
+          if (form) form[1][0].resetForm()
         })
       } else {
         this.$refs.createForm.resetForm()

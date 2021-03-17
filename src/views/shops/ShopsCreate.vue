@@ -4,7 +4,7 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/shops/list">{{ $t('shops') }}</router-link>
+            <router-link to="/shops/list" test-attr="prev-link-shops">{{ $t('shops') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -35,10 +35,10 @@
     <a-row>
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit">
+          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-shops">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm">
+          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-shops">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>
@@ -83,8 +83,10 @@ export default {
     },
     resetForm () {
       if (this.edit) {
+        console.log('edit reset', this.$refs)
         Object.entries(this.$refs).forEach(form => {
-          if (form) form.resetForm()
+          console.log(form)
+          if (form) form[1][0].resetForm()
         })
       } else {
         this.$refs.createForm.resetForm()

@@ -14,6 +14,7 @@
             shape="round"
             type="primary link"
             icon="plus"
+            test-attr="add-banner-pos"
           >{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
@@ -30,6 +31,7 @@
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
                   v-debounce="debouncedSearch"
+                  test-attr="search-banner-pos"
                 />
               </a-form-item>
             </a-col>
@@ -44,6 +46,7 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-banner-pos"
       >
         <template slot="description" slot-scope="desc">
           <div v-html="desc"></div>
@@ -55,11 +58,11 @@
           />
         </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
-          <router-link :to="'./update/'+row.id">
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-banner-pos"/>
+          <router-link :to="'./update/'+row.id" test-attr="edit-banner-pos">
             <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteBannerPosition($event, row.id)"/>
+          <delete-btn @confirm="deleteBannerPosition($event, row.id)" test-attr="delete-banner-pos"/>
         </template>
       </a-table>
     </a-card>
@@ -83,7 +86,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">{{ $t('cancel') }}</a-button>
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-preview-banner-pos">{{ $t('cancel') }}</a-button>
       </template>
     </a-modal>
   </div>

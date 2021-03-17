@@ -14,6 +14,7 @@
             shape="round"
             type="primary link"
             icon="plus"
+            test-attr="add-permissions"
           >{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
@@ -54,10 +55,11 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-permissions"
       >
         <template slot="action" slot-scope="text, row">
           <router-link :to="'./update/'+row.id">
-            <edit-btn/>
+            <edit-btn test-attr="edit-permissions"/>
           </router-link>
           <!-- <delete-btn @confirm="deletePermission($event, row.id)"/> -->
         </template>

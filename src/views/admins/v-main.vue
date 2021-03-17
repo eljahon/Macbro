@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="switch-admins"
     />
     <a-form-model
       @submit="onSubmit"
@@ -23,6 +24,7 @@
               <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
                 <a-input
                   v-model="admin.name"
+                  test-attr="name-admins"
                 />
               </a-form-model-item>
             </a-col>
@@ -30,6 +32,7 @@
               <a-form-model-item ref="username" :label="$t('username')" prop="username">
                 <a-input
                   v-model="admin.username"
+                  test-attr="username-admins"
                 />
               </a-form-model-item>
             </a-col>
@@ -38,6 +41,7 @@
                 <a-input
                   type="tel"
                   v-model="admin.phone"
+                  test-attr="phone-admins"
                 />
               </a-form-model-item>
             </a-col>
@@ -45,6 +49,7 @@
               <a-form-model-item ref="password" :label="$t('password')" prop="password">
                 <a-input
                   v-model="admin.password"
+                  test-attr="password-admins"
                 />
               </a-form-model-item>
             </a-col>
@@ -52,15 +57,16 @@
               <a-form-model-item ref="confirmPassword" :label="$t('confirmPassword')" prop="confirmPassword">
                 <a-input
                   v-model="confirmPassword"
+                  test-attr="confirmPass-admins"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 0 15px">
               <a-form-model-item>
-                <a-button type="primary" html-type="submit" @click="onSubmit">
+                <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-admins">
                   {{ $t('save') }}
                 </a-button>
-                <a-button style="margin-left: 10px;" @click="resetForm">
+                <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-admins">
                   {{ $t('reset') }}
                 </a-button>
               </a-form-model-item>
@@ -75,6 +81,7 @@
                     slot="extra"
                     v-model="permission.checked"
                     @change="handlePermissionChange(permission.id)"
+                    test-attr="permission-admins"
                   >
                     <a-icon slot="checkedChildren" type="check" />
                     <a-icon slot="unCheckedChildren" type="close" />
@@ -83,7 +90,7 @@
               </a-list>
             </a-col>
             <router-link to="/admins/list">
-              <a-button type="primary" style="margin-top: 15px;">
+              <a-button type="primary" style="margin-top: 15px; test-attr="back-admins"">
                 {{ $t('backToList') }}
               </a-button>
             </router-link>

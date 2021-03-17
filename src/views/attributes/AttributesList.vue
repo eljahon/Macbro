@@ -12,7 +12,7 @@
             <a-row>
               <a-col :span="24" style="padding: 5px">
                 <a-form-item style="margin: 0">
-                  <a-input id="inputSearch" :placeholder="$t('search') + '...'" v-debounce="debouncedSearch" />
+                  <a-input id="inputSearch" :placeholder="$t('search') + '...'" v-debounce="debouncedSearch" test-attr="search-attribute" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -29,6 +29,7 @@
         :loading="loadAttrs"
         @change="changeAttrs"
         :pagination="paginationAttrs"
+        test-attr="list-attribute"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -37,10 +38,10 @@
           />
         </template>
         <template slot="action" slot-scope="item">
-          <router-link :to="`./update/${item.slug}`">
+          <router-link :to="`./update/${item.slug}`" test-attr="edit-attribute">
             <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteAttr(item)"/>
+          <delete-btn @confirm="deleteAttr(item)" test-attr="delete-attribute"/>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"

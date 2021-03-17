@@ -21,6 +21,7 @@
                 placeholder="brand"
                 @change="handleChange($event, 'product')"
                 :disbled="loading"
+                test-attr="product_name-inventory"
             >
                 <a-select-option v-for="product in productList" :title="product.name" :key="product.id" :value="product.slug">
                     {{ product.name }}
@@ -43,6 +44,7 @@
                 placeholder="brand"
                 @change="handleChange($event, 'branch')"
                 :disbled="loading"
+                test-attr="branch_name-inventory"
             >
                 <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
                     {{ branch.name }}
@@ -60,6 +62,7 @@
                 :min="1"
                 v-model="form.buy_price"
                 :disbled="loading"
+                test-attr="buy-price-inventory"
             />
           </a-form-model-item>
         </a-col>
@@ -70,6 +73,7 @@
                 :min="1"
                 v-model="form.sell_price"
                 :disbled="loading"
+                test-attr="sell-price-inventory"
             />
           </a-form-model-item>
         </a-col>
@@ -80,15 +84,16 @@
               :rows="3"
               v-model="form.comment"
               :disbled="loading"
+              test-attr="comment-inventory"
             />
           </a-form-model-item>
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit">
+            <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-inventory">
               {{ $t('save') }}
             </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
+            <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-inventory">
               {{ $t('reset') }}
             </a-button>
           </a-form-model-item>

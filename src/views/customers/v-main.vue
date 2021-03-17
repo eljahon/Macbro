@@ -15,6 +15,7 @@
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
                   v-model="customer.name"
+                  test-attr="name-customer"
                 />
               </a-form-model-item>
             </a-col>
@@ -22,6 +23,7 @@
               <a-form-model-item ref="lastname" :label="$t('lastName')" prop="lastname">
                 <a-input
                   v-model="customer.lastname"
+                  test-attr="lastname-customer"
                 />
               </a-form-model-item>
             </a-col>
@@ -29,6 +31,7 @@
               <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
                 <a-input
                   v-model="customer.phone"
+                  test-attr="phone-customer"
                 />
               </a-form-model-item>
             </a-col>
@@ -41,10 +44,10 @@
         </a-col> -->
             <a-col :span="24" style="padding: 0 15px">
               <a-form-model-item>
-                <a-button type="primary" html-type="submit" @click="onSubmit">
+                <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-customer">
                   {{ $t('save') }}
                 </a-button>
-                <a-button style="margin-left: 10px;" @click="resetForm">
+                <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-customer">
                   {{ $t('reset') }}
                 </a-button>
               </a-form-model-item>
@@ -58,10 +61,11 @@
               :pagination="getOrdersPagination"
               :loading="loading"
               @change="handleTableChange"
+              test-attr="history-list-customer"
             >
               <template slot="action" slot-scope="text, row">
                 <router-link :to="`/order/details/${row.number}`" >
-                  <preview-btn icon="link"/>
+                  <preview-btn icon="link" test-attr="order-detail-customer"/>
                 </router-link>
               </template>
               <template slot="status" slot-scope="text, row">

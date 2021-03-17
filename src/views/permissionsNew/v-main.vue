@@ -13,6 +13,7 @@
           <a-form-model-item ref="name" :label="$t('name')" prop="name">
             <a-input
               v-model="permission.name"
+              test-attr="name-permissions"
             />
           </a-form-model-item>
         </a-col>
@@ -20,6 +21,7 @@
           <a-form-model-item ref="key" :label="$t('key')" prop="key">
             <a-input
               v-model="permission.key"
+              test-attr="key-permissions"
             />
           </a-form-model-item>
         </a-col>
@@ -34,15 +36,15 @@
         </a-col> -->
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="permission.description"></tinymce>
+            <tinymce v-model="permission.description" test-attr="description-permissions"></tinymce>
           </a-form-model-item>
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit">
+            <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-permissions">
               {{ $t('save') }}
             </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
+            <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-permissions">
               {{ $t('reset') }}
             </a-button>
           </a-form-model-item>

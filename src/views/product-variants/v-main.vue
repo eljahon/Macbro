@@ -9,6 +9,7 @@
           v-model="productVariant.active"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
+          test-attr="active-product-vars"
         />
       </a-col>
       <a-col :lg="12" :md="24" style="margin: 0 0 15px">
@@ -19,6 +20,7 @@
           v-model="productVariant.showPrice"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
+          test-attr="show-price-product-vars"
         />
       </a-col>
     </a-row>
@@ -37,6 +39,7 @@
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
                   v-model="productVariant.name"
+                  test-attr="name-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -45,6 +48,7 @@
                 <a-input
                   disabled
                   v-model="productVariantSlug"
+                  test-attr="slug-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -53,6 +57,7 @@
                 <a-input
                   type="number"
                   v-model="productVariant.order"
+                  test-attr="order-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -65,6 +70,7 @@
                   :set-fields-value="productVariant.category_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
+                  test-attr="category-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -76,7 +82,9 @@
                   @search="onBrandSearch"
                   v-model="productVariant.brand_id"
                   :filter-option="false"
-                  placeholder="brand">
+                  placeholder="brand"
+                  test-attr="brand-product-vars"
+                >
                   <a-select-option v-for="brand in brandsSelect" :title="brand.name" :key="brand.id" :value="brand.id">
                     {{ brand.name }}
                   </a-select-option>
@@ -84,9 +92,23 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item :label="$t('additional_categories')">
+                <treeselect
+                  id="selectCategory"
+                  v-model="productVariant.additional_categories"
+                  :multiple="true"
+                  :set-fields-value="productVariant.additional_categories"
+                  :options="getAllCategories"
+                  :placeholder="$t('selectCategory')"
+                  test-attr="additional-category-product-vars"
+                />
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
                   v-model="productVariant.external_id"
+                  test-attr="external-id-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -94,22 +116,23 @@
               <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
                 <a-input
                   v-model="productVariant.code"
+                  test-attr="code-product-vars"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="preview" :label="$t('product_preview_text')" prop="preview">
-                <tinymce v-model="productVariant.preview_text"></tinymce>
+                <tinymce v-model="productVariant.preview_text" test-attr="prev-text-product-vars"></tinymce>
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="productVariant.description"></tinymce>
+                <tinymce v-model="productVariant.description" test-attr="description-product-vars"></tinymce>
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="characteristics" :label="$t('characteristics')" prop="characteristics">
-                <tinymce v-model="productVariant.characteristics"></tinymce>
+                <tinymce v-model="productVariant.characteristics" test-attr="characteristics-product-vars"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-row>
@@ -124,6 +147,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="image-product-vars"
                 >
                   <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
@@ -145,6 +169,7 @@
                 @preview="handlePreview"
                 @change="handleChange"
                 :before-upload="beforeUpload"
+                test-attr="prev-image-product-vars"
               >
                 <div v-if="gallery.length < 8">
                   <a-icon type="plus" />
@@ -165,6 +190,7 @@
               <a-form-model-item ref="meta_title" :label="$t('product_meta_title')" prop="meta_title">
                 <a-input
                   v-model="productVariant.meta.title"
+                  test-attr="meta-title-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -172,6 +198,7 @@
               <a-form-model-item ref="meta_desc" :label="$t('product_meta_description')" prop="meta_desc">
                 <a-input
                   v-model="productVariant.meta.description"
+                  test-attr="meta-description-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -179,6 +206,7 @@
               <a-form-model-item ref="meta_tags" :label="$t('product_meta_tags')" prop="meta_tags">
                 <a-input
                   v-model="productVariant.meta.tags"
+                  test-attr="meta-tags-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -190,6 +218,7 @@
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
                 <a-input
                   v-model="price.price"
+                  test-attr="price-price-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -197,6 +226,7 @@
               <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
                 <a-input
                   v-model="price.old_price"
+                  test-attr="price-old-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -236,6 +266,7 @@
             :data-source="getReviewsData"
             :pagination="getReviewsPagination"
             :loading="loadTable"
+            test-attr="reviews-product-vars"
           >
             <template slot="status" slot-scope="review">
               <status-tag
@@ -244,7 +275,7 @@
               />
             </template>
             <template slot="action" slot-scope="review">
-              <edit-btn @click="openReviewsModal(review)"/>
+              <edit-btn @click="openReviewsModal(review)" test-attr="edit-review-product-vars"/>
               <!-- <a-tooltip><template slot="title">{{ $t('update') }}</template>
                 <a-button
                   type="primary"
@@ -252,7 +283,7 @@
                   @click="openReviewsModal(review)"
                 />
               </a-tooltip> -->
-              <delete-btn @confirm="removeReview(review.id)"/>
+              <delete-btn @confirm="removeReview(review.id)" test-attr="delete-review-product-vars"/>
             </template>
           </a-table>
         </a-tab-pane>
@@ -294,7 +325,7 @@
                   @change="handleProperty($event, property.type, property.id)"
                   :default-value="setDefaultProperty(property.id)"
                 >
-                  <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value">
+                  <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value" test-attr="properties-product-vars">
                     {{ option.name }}
                   </a-checkbox>
                 </a-checkbox-group>
@@ -319,7 +350,7 @@
                   <a-col :span="24">
                     <label style="margin-bottom: 5px" for="attrSelect">{{ $t('attributes') }}</label>
                     <a-select id="attrSelect" style="width: 100%" v-model="attrs_id">
-                      <a-select-option v-for="attr in filteredAllProductProperties" :key="attr.id" :value="attr.id">
+                      <a-select-option v-for="attr in filteredAllProductProperties" :key="attr.id" :value="attr.id" test-attr="filtered-props-product-vars">
                         {{ attr.name }}
                       </a-select-option>
                     </a-select>
@@ -419,6 +450,7 @@ export default {
         image: '',
         gallery: [],
         preview_text: '',
+        additional_categories: [],
         meta: {
           title: '',
           tags: '',
@@ -722,6 +754,7 @@ export default {
         this.price.old_price = productVariant.price.old_price || 0
         this.productVariant.active = productVariant.active
         this.productVariant.showPrice = productVariant.show_price
+        this.productVariant.additional_categories = productVariant.additional_categories ? productVariant.additional_categories.map(ac => ac.id) : []
         var isInBrands = false
         this.brands.map(brand => {
           if (brand.id === productVariant.brand.id) {
@@ -936,6 +969,9 @@ export default {
       // console.log('selectedRowKeys changed: ', selectedRowKeys)
       this.selectedRowKeys = selectedRowKeys
     },
+    convertArrayToString (arr) {
+      return arr ? arr.join(',') : ''
+    },
     // submit form
     onSubmit () {
       // console.log('submit')
@@ -957,6 +993,7 @@ export default {
               method,
               data: {
                 ...this.productVariant,
+                additional_categories: this.convertArrayToString(this.productVariant.additional_categories),
                 gallery: this.productVariant.gallery.map(item => item.filename).join(','),
                 lang: this.lang || ''
               },
@@ -1021,6 +1058,7 @@ export default {
               method,
               data: {
                 ...this.productVariant,
+                additional_categories: this.convertArrayToString(this.productVariant.additional_categories),
                 gallery: this.productVariant.gallery.map(item => item.filename).join(','),
                 lang: this.lang || ''
               },

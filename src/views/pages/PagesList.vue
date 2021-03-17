@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-pages">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-pages"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -44,6 +45,7 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-pages"
       >
         <template slot="image" slot-scope="page">
           <img :src="page.preview_image" alt="preview image">
@@ -55,11 +57,11 @@
           />
         </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)"/>
+          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-pages"/>
           <router-link :to="`./update/${row.slug}`" >
-            <edit-btn/>
+            <edit-btn test-attr="edit-pages"/>
           </router-link>
-          <delete-btn @confirm="deletePage($event, row.slug)"/>
+          <delete-btn @confirm="deletePage($event, row.slug)" test-attr="delete-pages"/>
         </template>
       </a-table>
     </a-card>
@@ -85,7 +87,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-prev-pages">
           {{ $t('cancel') }}
         </a-button>
       </template>

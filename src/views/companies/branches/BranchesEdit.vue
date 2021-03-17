@@ -4,10 +4,10 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/company/list">{{ $t('companies') }}</router-link>
+            <router-link to="/company/list" test-attr="companies-branch">{{ $t('companies') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>
-            <router-link :to="`/company/${ $route.params.company_id }/branches/list`">{{ $t('branches') }}</router-link>
+            <router-link :to="`/company/${ $route.params.company_id }/branches/list`" test-attr="branches-branch">{{ $t('branches') }}</router-link>
           </a-breadcrumb-item>
           <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -39,10 +39,10 @@
     <a-row>
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit">
+          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-branch">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm">
+          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-branch">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>

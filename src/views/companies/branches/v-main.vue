@@ -14,6 +14,7 @@
             <a-input
               :disabled="requesting"
               v-model="branch.name"
+              test-attr="name-branch"
             />
           </a-form-model-item>
         </a-col>
@@ -23,6 +24,7 @@
               style="width: 100%"
               v-model="branch.city_id"
               :placeholder="$t('city')"
+              test-attr="city-branch"
             >
               <a-select-option v-for="city in cityList" :key="city.value" :value="city.id">{{
                 city.name
@@ -36,6 +38,7 @@
             <a-input
               :disabled="requesting"
               v-model="branch.phone_number"
+              test-attr="phone_number-branch"
             />
           </a-form-model-item>
         </a-col>
@@ -45,6 +48,7 @@
             <a-input
               :disabled="requesting"
               v-model="branch.address"
+              test-attr="address-branch"
             />
           </a-form-model-item>
         </a-col>
@@ -52,19 +56,16 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">
             <a-input-number
+              style="width: 100%"
               :disabled="requesting"
               v-model="branch.number_of_employees"
+              test-attr="number_of_employees-branch"
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <a-textarea
-              placeholder="Basic usage"
-              :rows="4"
-              v-model="branch.description"
-              :disbled="requesting"
-            />
+            <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
           </a-form-model-item>
         </a-col>
       </a-row>

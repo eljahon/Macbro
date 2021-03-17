@@ -16,6 +16,7 @@
                 <a-input
                   :disabled="requesting"
                   v-model="form.name"
+                  test-attr="name-roles"
                 />
               </a-form-model-item>
             </a-col>
@@ -24,18 +25,19 @@
                 <a-input
                   :disabled="requesting"
                   v-model="form.key"
+                  test-attr="key-roles"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="form.description"></tinymce>
+                <tinymce v-model="form.description" test-attr="description-roles"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-tab-pane>
           <a-tab-pane v-if="cityId" key="2" :tab="$t('permissions')">
             <a-col :span="24">
-              <a-list bordered :data-source="getAllPermissions">
+              <a-list bordered :data-source="getAllPermissions" test-attr="permissions-roles">
                 <a-list-item slot="renderItem" slot-scope="permission">
                   {{ permission.name }}
                   <a-switch

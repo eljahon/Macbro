@@ -15,6 +15,7 @@
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-order"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -39,6 +40,7 @@
         :loading="loading"
         @change="handleTableChange"
         showPagination="auto"
+        test-attr="list-order"
       >
         <template slot="tag" slot-scope="tag">
           <a-tag color="red">{{ tag }}</a-tag>
@@ -51,9 +53,9 @@
         </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="`/order/details/${row.number}`">
-            <preview-btn icon="link"/>
+            <preview-btn icon="link" test-attr="preview-order"/>
           </router-link>
-          <router-link :to="`/order/edit/${row.number}`" >
+          <router-link :to="`/order/edit/${row.number}`" test-attr="edit-order">
             <edit-btn/>
           </router-link>
         </template>

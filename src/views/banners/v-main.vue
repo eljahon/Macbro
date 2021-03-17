@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px"
+      test-attr="active-banner"
     />
     <a-form-model
       @submit="onSubmit"
@@ -21,6 +22,7 @@
           <a-form-model-item ref="title" :label="$t('title')" prop="title">
             <a-input
               v-model="banner.title"
+              test-attr="title-banner"
             />
           </a-form-model-item>
         </a-col>
@@ -28,6 +30,7 @@
           <a-form-model-item ref="url" :label="$t('url')" prop="url">
             <a-input
               v-model="banner.url"
+              test-attr="url-banner"
             />
           </a-form-model-item>
         </a-col>
@@ -40,12 +43,15 @@
               @change="handleBannerPositionChange"
               v-model="banner.position"
               :filter-option="false"
-              placeholder="Banner">
+              placeholder="Banner"
+              test-attr="position-banner"
+            >
               <a-select-option
                 v-for="option in bannerPos"
                 :title="option.title"
                 :key="option.id"
-                :value="option.id">
+                :value="option.id"
+                test-attr="options-banner">
                 {{ `${option.title} (${option.size})` }}
               </a-select-option>
             </a-select>
@@ -58,6 +64,7 @@
               list-type="picture-card"
               class="avatar-uploader"
               :show-upload-list="false"
+              test-attr="image-banner"
             >
               <img class="uploaded-image" v-if="imageUrl" :src="imageUrl" alt="avatar" />
               <div v-else>
@@ -71,7 +78,7 @@
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="banner.description"></tinymce>
+            <tinymce v-model="banner.description" test-attr="description-banner"></tinymce>
           </a-form-model-item>
         </a-col>
       </a-row>

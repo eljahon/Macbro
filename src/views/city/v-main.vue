@@ -14,6 +14,7 @@
             <a-input
               :disabled="requesting"
               v-model="form.name"
+              test-attr="name-city"
             />
           </a-form-model-item>
         </a-col>

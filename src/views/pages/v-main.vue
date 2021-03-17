@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="active-pages"
     />
     <a-form-model
       @submit="onSubmit"
@@ -23,6 +24,7 @@
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
                   v-model="page.title"
+                  test-attr="title-pages"
                 />
               </a-form-model-item>
             </a-col>
@@ -31,6 +33,7 @@
                 <a-input
                   disabled
                   v-model="pageSlug"
+                  test-attr="slug-pages"
                 />
               </a-form-model-item>
             </a-col>
@@ -42,6 +45,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="image-pages"
                 >
                   <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
@@ -55,7 +59,7 @@
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="content" :label="$t('content')" prop="content">
-                <tinymce v-model="page.content"></tinymce>
+                <tinymce v-model="page.content" test-attr="content-pages"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-row>
@@ -66,6 +70,7 @@
               <a-form-model-item ref="meta_title" :label="$t('meta_title')" prop="meta_title">
                 <a-input
                   v-model="page.meta.title"
+                  test-attr="meta-title-pages"
                 />
               </a-form-model-item>
             </a-col>
@@ -73,6 +78,7 @@
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
                   v-model="page.meta.description"
+                  test-attr="meta-description-pages"
                 />
               </a-form-model-item>
             </a-col>
@@ -80,6 +86,7 @@
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input
                   v-model="page.meta.tags"
+                  test-attr="meta-tags-pages"
                 />
               </a-form-model-item>
             </a-col>

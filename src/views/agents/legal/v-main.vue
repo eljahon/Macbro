@@ -14,6 +14,7 @@
             <a-input
               :disabled="requesting"
               v-model="legalAgent.name"
+              test-attr="name-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -23,6 +24,7 @@
             <a-input
               :disabled="requesting"
               v-model="legalAgent.phone_number"
+              test-attr="phone_number-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -32,6 +34,7 @@
             <a-input
               :disabled="requesting"
               v-model="legalAgent.address"
+              test-attr="address-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -41,6 +44,7 @@
             <a-input-number
               :disabled="requesting"
               v-model="legalAgent.account_number"
+              test-attr="account_number-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -49,6 +53,7 @@
             <a-input-number
               :disabled="requesting"
               v-model="legalAgent.inn"
+              test-attr="inn-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -57,6 +62,7 @@
             <a-input-number
               :disabled="requesting"
               v-model="legalAgent.mfo"
+              test-attr="mfo-legal-agent"
             />
           </a-form-model-item>
         </a-col>
@@ -67,6 +73,7 @@
               :rows="4"
               v-model="legalAgent.description"
               :disbled="requesting"
+              test-attr="description-legal-agent"
             />
           </a-form-model-item>
         </a-col>

@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-inventory">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-inventory"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -30,7 +31,7 @@
             </a-col>
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
+                <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-inventory">{{ $t('search') }}</a-button>
               </a-form-item>
             </a-col>
           </a-row>
@@ -44,11 +45,12 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-inventory"
       >
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-inventory"/>
           <router-link :to="`./update/${row.id}`" >
-            <edit-btn/>
+            <edit-btn test-attr="edit-inventory"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteItem($event, row.slug)"/> -->
         </template>
@@ -79,7 +81,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-inventory">
           {{ $t('cancel') }}
         </a-button>
       </template>
