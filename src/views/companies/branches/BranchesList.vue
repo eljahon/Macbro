@@ -4,7 +4,7 @@
       <a-col :span="12">
         <a-breadcrumb style="margin: 10px 5px">
             <a-breadcrumb-item>
-                <router-link to="/company/list">{{ $t('companies') }}</router-link>
+                <router-link to="/company/list" test-attr="companies-branch">{{ $t('companies') }}</router-link>
             </a-breadcrumb-item>
             <a-breadcrumb-item>{{ $t('branches') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -12,7 +12,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -28,6 +28,7 @@
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
                   v-debounce="debouncedSearch"
+                  test-attr="search-branch"
                 />
               </a-form-item>
             </a-col>
@@ -47,18 +48,19 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-branch"
       >
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/>
           <!-- <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn/>
+              <edit-btn test-attr="edit-branch"/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)"/>
+          <delete-btn @confirm="deleteCompany($event, row.id)" test-attr="delete-branch"/>
         </template>
       </a-table>
     </a-card>
@@ -87,7 +89,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-preview-branch">
           {{ $t('cancel') }}
         </a-button>
       </template>

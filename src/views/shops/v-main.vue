@@ -23,6 +23,7 @@
               <a-form-model-item ref="name" :label="$t('shop_name')" prop="name">
                 <a-input
                   v-model="shop.name"
+                  test-attr="name-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -30,6 +31,7 @@
               <a-form-model-item ref="area" :label="$t('area')" prop="area">
                 <a-select
                   v-model="shop.area"
+                  test-attr="area-shops"
                   :placeholder="this.$t('area')">
                   <a-select-option
                     title="Tashkent"
@@ -51,6 +53,7 @@
                 <a-input
                   disabled
                   v-model="shopSlug"
+                  test-attr="slug-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -59,6 +62,7 @@
               <a-form-model-item ref="phoneNumber" :label="$t('phone_number')" prop="phoneNumber">
                 <a-input
                   v-model="shop.phone"
+                  test-attr="phone-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -67,6 +71,7 @@
               <a-form-model-item ref="workingHours" :label="$t('working_hours')" prop="workingHours">
                 <a-input
                   v-model="shop.working_hours"
+                  test-attr="working-hours-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -75,6 +80,7 @@
               <a-form-model-item ref="address" :label="$t('address')" prop="address">
                 <a-input
                   v-model="shop.address"
+                  test-attr="address-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -83,6 +89,7 @@
               <a-form-model-item ref="address2" :label="$t('address2')" prop="address2">
                 <a-input
                   v-model="shop.address2"
+                  test-attr="address2-shops"
                 />
               </a-form-model-item>
             </a-col>
@@ -94,6 +101,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="image-shops"
                 >
                   <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
@@ -113,6 +121,7 @@
                   v-model="coords"
                   :zoom="18"
                   @click="onLocationChange"
+                  test-attr="coords-shops"
                   style="width: 100%; max-width: 1000px; height: 80vh;"
                 >
                   <ymap-marker
@@ -125,12 +134,12 @@
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="previewText" :label="$t('preview_text')" prop="previewText">
-                <tinymce v-model="shop.preview_text"></tinymce>
+                <tinymce v-model="shop.preview_text" test-attr="prev-text-shops"></tinymce>
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="shop.description"></tinymce>
+                <tinymce v-model="shop.description" test-attr="description-shops"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-row>
@@ -146,6 +155,7 @@
                       <a-col :span="24" style="padding: 5px">
                         <a-form-item style="margin: 0">
                           <a-input
+                            test-attr="product-search-shops"
                             id="inputSearch"
                             :placeholder="$t('search') + '...'"
                             v-debounce="debouncedSearch"
@@ -199,6 +209,7 @@
               style="width: 100%"
               :placeholder="$t('product')"
               v-debounce="selectDebounce"
+              test-attr="edit-product-shops"
             >
             </a-auto-complete>
             <!-- <a-select
@@ -218,6 +229,7 @@
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('quantity')" prop="name">
             <a-input
+              test-attr="edit-quantity-shops"
               v-model="edit.quantity"
               type="number"
               :placeholder="$t('quantity')"

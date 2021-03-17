@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="active-banner-pos"
     />
     <a-form-model
       @submit="onSubmit"
@@ -21,6 +22,7 @@
           <a-form-model-item ref="title" :label="$t('title')" prop="title">
             <a-input
               v-model="bannerPosition.title"
+              test-attr="title-banner-pos"
             />
           </a-form-model-item>
         </a-col>
@@ -29,6 +31,7 @@
             <a-input
               :disabled="bannerPositionId"
               v-model="bannerPosition.slug"
+              test-attr="slug-banner-pos"
             />
           </a-form-model-item>
         </a-col>
@@ -36,20 +39,21 @@
           <a-form-model-item ref="size" :label="$t('size')" prop="size">
             <a-input
               v-model="bannerPosition.size"
+              test-attr="size-banner-pos"
             />
           </a-form-model-item>
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="bannerPosition.description"></tinymce>
+            <tinymce v-model="bannerPosition.description" test-attr="description-banner-pos"></tinymce>
           </a-form-model-item>
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit">
+            <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-banner-pos">
               {{ $t('save') }}
             </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
+            <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-banner-pos">
               {{ $t('reset') }}
             </a-button>
           </a-form-model-item>

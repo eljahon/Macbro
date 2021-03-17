@@ -6,6 +6,7 @@
       v-model="product.active"
       :checked-children="$t('active')"
       :un-checked-children="$t('inactive')"
+      test-attr="active-products"
     />
     <a-form-model
       @submit="onSubmit"
@@ -22,6 +23,7 @@
               <a-form-model-item ref="name" :label="$t('product_name')" prop="name">
                 <a-input
                   v-model="product.name"
+                  test-attr="name-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -30,6 +32,7 @@
                 <a-input
                   disabled
                   v-model="productSlug"
+                  test-attr="slug-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -38,6 +41,7 @@
                 <a-input
                   type="number"
                   v-model="product.order"
+                  test-attr="order-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -50,6 +54,7 @@
                   :set-fields-value="product.category_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
+                  test-attr="category-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -61,7 +66,9 @@
                   @search="onBrandSearch"
                   v-model="product.brand_id"
                   :filter-option="false"
-                  placeholder="brand">
+                  placeholder="brand"
+                  test-attr="brand-products"
+                >
                   <a-select-option v-for="brand in brandsSelect" :title="brand.name" :key="brand.id" :value="brand.id">
                     {{ brand.name }}
                   </a-select-option>
@@ -77,6 +84,7 @@
                   :set-fields-value="product.additional_categories"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
+                  test-attr="additional-category-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -84,6 +92,7 @@
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
                   v-model="product.external_id"
+                  test-attr="external-id-products"
                 />
               </a-form-model-item>
             </a-col>
@@ -91,17 +100,18 @@
               <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
                 <a-input
                   v-model="product.code"
+                  test-attr="code-products"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="preview" :label="$t('product_preview_text')" prop="preview">
-                <tinymce v-model="product.preview_text"></tinymce>
+                <tinymce v-model="product.preview_text" test-attr="prev-text-products"></tinymce>
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="product.description"></tinymce>
+                <tinymce v-model="product.description" test-attr="description-products"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-row>

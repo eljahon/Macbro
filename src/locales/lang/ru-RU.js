@@ -310,6 +310,7 @@ const locale = {
   selectProductKind: 'Выберите вид продукта',
 
   // companies
+  company: 'Компания',
   companies: 'Компании',
   account_number: 'Номер счета',
   number_of_employees: 'Количество работников',

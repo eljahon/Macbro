@@ -14,6 +14,7 @@
             shape="round"
             type="primary link"
             icon="plus"
+            test-attr="add-brand"
           >{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
@@ -26,6 +27,7 @@
             <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-brand"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -54,16 +56,17 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-brand"
       >
         <template slot="description" slot-scope="desc">
           <div v-html="desc"></div>
         </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-brand"/>
           <router-link :to="'./update/'+row.id">
-            <edit-btn/>
+            <edit-btn test-attr="edit-brand"/>
           </router-link>
-          <delete-btn @confirm="deleteBrand($event, row.id)"/>
+          <delete-btn @confirm="deleteBrand($event, row.id)" test-attr="delete-brand"/>
         </template>
       </a-table>
     </a-card>
@@ -90,7 +93,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">{{ $t('cancel') }}</a-button>
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-modal-brand">{{ $t('cancel') }}</a-button>
       </template>
     </a-modal>
   </div>

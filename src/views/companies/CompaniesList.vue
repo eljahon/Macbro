@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-company">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-company"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -44,18 +45,19 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-company"
       >
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-company"/>
           <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
-              <a-button id="buttonPreview" type="default" icon="branches"></a-button>
+              <a-button id="buttonPreview" type="default" icon="branches" test-attr="branches-company"></a-button>
             </a-tooltip>
           </router-link>
-          <router-link :to="`./update/${row.id}`" >
+          <router-link :to="`./update/${row.id}`" test-attr="edit-company" >
               <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)"/>
+          <delete-btn @confirm="deleteCompany($event, row.id)" test-attr="delete-company"/>
         </template>
       </a-table>
     </a-card>
@@ -87,7 +89,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-preview-company">
           {{ $t('cancel') }}
         </a-button>
       </template>

@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-city">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-city"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -44,10 +45,11 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-city"
       >
         <template slot="action" slot-scope="text, row">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn/>
+              <edit-btn test-attr="edit-city"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteCity($event, row.id)"/> -->
         </template>

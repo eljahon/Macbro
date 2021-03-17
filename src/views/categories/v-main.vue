@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="active-category"
     />
     <a-form-model
       @submit="onSubmit"
@@ -23,6 +24,7 @@
               <a-form-model-item ref="name" :label="$t('category_name')" prop="name">
                 <a-input
                   v-model="category.name"
+                  test-attr="name-category"
                 />
               </a-form-model-item>
             </a-col>
@@ -31,6 +33,7 @@
                 <a-input
                   disabled
                   v-model="categorySlug"
+                  test-attr="slug-category"
                 />
               </a-form-model-item>
             </a-col>
@@ -39,6 +42,7 @@
                 <a-input
                   type="number"
                   v-model="category.order"
+                  test-attr="order-category"
                 />
               </a-form-model-item>
             </a-col>
@@ -51,6 +55,7 @@
                   :set-fields-value="category.parent_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
+                  test-attr="parent_id-category"
                 />
               </a-form-item>
             </a-col>
@@ -62,6 +67,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="image-category"
                 >
                   <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
@@ -75,7 +81,7 @@
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="category.description"></tinymce>
+                <tinymce v-model="category.description" test-attr="description-category"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-tab-pane>
@@ -83,17 +89,17 @@
             <a-row>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_title')">
-                  <a-input type="text" v-model="category.meta.title" :placeholder="$t('meta_title')" />
+                  <a-input type="text" v-model="category.meta.title" :placeholder="$t('meta_title')" test-attr="meta_title-category"/>
                 </a-form-model-item>
               </a-col>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_description')">
-                  <a-input type="text" v-model="category.meta.description" :placeholder="$t('meta_description')" />
+                  <a-input type="text" v-model="category.meta.description" :placeholder="$t('meta_description')" test-attr="meta_description-category"/>
                 </a-form-model-item>
               </a-col>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_tags')">
-                  <a-input type="text" v-model="category.meta.tags" :placeholder="$t('meta_tags')" />
+                  <a-input type="text" v-model="category.meta.tags" :placeholder="$t('meta_tags')" test-attr="meta-tags-category"/>
                 </a-form-model-item>
               </a-col>
             </a-row>
@@ -104,13 +110,14 @@
                 <template slot="title">
                   <span>Привязка атрибутов к категории и фильтру</span>
                 </template>
-                <a-button :style="{ margin: '0 0 1rem 0' }" @click="addAttr" type="primary">{{ $t('add_attr') }}</a-button>
+                <a-button :style="{ margin: '0 0 1rem 0' }" @click="addAttr" type="primary" test-attr="add-atr-category">{{ $t('add_attr') }}</a-button>
               </a-tooltip>
               <a-row>
                 <a-table
                   :columns="columns"
                   :dataSource="tableAttrData"
                   :rowKey="record => record.id"
+                  test-attr="attr-list-category"
                 >
                   <template slot="status" slot-scope="is_active">
                     <status-tag
@@ -121,7 +128,7 @@
                   <template slot="action" slot-scope="item">
                     <a-tooltip>
                       <template slot="title">{{ $t('delete') }}</template>
-                      <a-button id="buttonDelete" @click="removeAttr(item)" type="danger" icon="delete"></a-button>
+                      <a-button id="buttonDelete" @click="removeAttr(item)" type="danger" icon="delete" test-attr="delete-attr-category"></a-button>
                     </a-tooltip>
                   </template>
                 </a-table>
@@ -140,6 +147,7 @@
               style="width: 100%"
               v-model="attributes"
               :filter-option="filterOption"
+              test-attr="attributes-category"
             >
               <a-select-option v-for="(item, i) in allAttrs" :key="i + item.id" :value="item.id">
                 {{ item.name }}
@@ -148,10 +156,10 @@
           </a-col>
         </a-row>
         <template slot="footer">
-          <a-button @click="closeModal" key="back">
+          <a-button @click="closeModal" key="back" test-attr="cancel-category">
             {{ $t('cancel') }}
           </a-button>
-          <a-button key="submit" type="primary" @click="addAttributes">
+          <a-button key="submit" type="primary" @click="addAttributes" test-attr="add-category">
             {{ $t('add') }}
           </a-button>
         </template>

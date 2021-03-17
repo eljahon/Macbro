@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-staff">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -25,6 +25,7 @@
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
                   v-debounce="debouncedSearch"
+                  test-attr="search-staff"
                 />
               </a-form-item>
             </a-col>
@@ -44,15 +45,16 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-staff"
       >
         <template slot="fullname" slot-scope="row">
             {{ row.name }} {{ row.last_name }}
         </template>
         <template slot="action" slot-scope="text, row">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn/>
+              <edit-btn test-attr="edit-staff"/>
           </router-link>
-          <delete-btn @confirm="deleteStaff($event, row.id)"/>
+          <delete-btn @confirm="deleteStaff($event, row.id)" test-attr="delete-staff"/>
         </template>
       </a-table>
     </a-card>

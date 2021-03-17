@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-shops">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-shops"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -44,6 +45,7 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-shops"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -52,11 +54,11 @@
           />
         </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)"/>
+          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-shops"/>
           <router-link :to="`./update/${row.slug}`" >
-              <edit-btn/>
+              <edit-btn test-attr="edit-shops"/>
           </router-link>
-          <delete-btn @confirm="deleteShops($event, row.slug)"/>
+          <delete-btn @confirm="deleteShops($event, row.slug)" test-attr="delete-shops"/>
         </template>
       </a-table>
     </a-card>
@@ -91,7 +93,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-prev-shops">
           {{ $t('cancel') }}
         </a-button>
       </template>

@@ -111,7 +111,6 @@ export default {
         text-align: center;
 
         .header {
-          height: 44px;
           line-height: 44px;
           margin-bottom: 50px;
           font-size: 54px;
@@ -139,6 +138,7 @@ export default {
             font-weight: 600;
             position: relative;
             top: 2px;
+            margin-bottom: 20px;
           }
         }
         .desc {
@@ -150,9 +150,10 @@ export default {
       }
 
       .main {
-        min-width: 260px;
-        width: 460px;
+        // min-width: 260px;
         margin: 0 auto;
+        max-width: 460px;
+        width: 100%;
       }
 
       .footer {

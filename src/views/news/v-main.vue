@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="active-news"
     />
     <a-form-model
       @submit="onSubmit"
@@ -24,6 +25,7 @@
                 <a-input
                   disabled
                   v-model="newsSlug"
+                  test-attr="slug-news"
                 />
               </a-form-model-item>
             </a-col>
@@ -31,17 +33,18 @@
               <a-form-model-item ref="title" :label="$t('news_title')" prop="title">
                 <a-input
                   v-model="news.title"
+                  test-attr="title-news"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="description" :label="$t('description')" prop="description">
-                <tinymce v-model="news.description"></tinymce>
+                <tinymce v-model="news.description" test-attr="description-news"></tinymce>
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="fullText" :label="$t('full_text')" prop="fullText">
-                <tinymce v-model="news.full_text"></tinymce>
+                <tinymce v-model="news.full_text" test-attr="full-text-news"></tinymce>
               </a-form-model-item>
             </a-col>
           </a-row>
@@ -56,6 +59,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="image-news"
                 >
                   <img class="upload-img" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
@@ -75,6 +79,7 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
+                  test-attr="prev-image-news"
                 >
                   <img class="upload-img" v-if="previewImageUrl" :src="previewImageUrl" alt="avatar" />
                   <div v-else>
@@ -94,6 +99,7 @@
               <a-form-model-item ref="meta_title" :label="$t('meta_title')" prop="meta_title">
                 <a-input
                   v-model="news.meta.title"
+                  test-attr="meta-title-news"
                 />
               </a-form-model-item>
             </a-col>
@@ -101,6 +107,7 @@
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
                   v-model="news.meta.description"
+                  test-attr="meta-description-news"
                 />
               </a-form-model-item>
             </a-col>
@@ -108,6 +115,7 @@
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input
                   v-model="news.meta.tags"
+                  test-attr="meta-tags-news"
                 />
               </a-form-model-item>
             </a-col>

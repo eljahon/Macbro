@@ -9,7 +9,7 @@
 
       <a-col :span="12">
         <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-promos">{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
     </a-row>
@@ -21,6 +21,7 @@
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-promos"
                   id="inputSearch"
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -30,7 +31,7 @@
             </a-col>
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
+                <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-promos">{{ $t('search') }}</a-button>
               </a-form-item>
             </a-col>
           </a-row>
@@ -44,6 +45,7 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-promos"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -55,11 +57,11 @@
           <a-tag class="time-tag" color="blue">{{ new Date(time).toLocaleString() }}</a-tag>
         </template>
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)"/>
+          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-promos"/>
           <router-link :to="`./update/${row.slug}`" >
-              <edit-btn/>
+              <edit-btn test-attr="edit-promos"/>
           </router-link>
-          <delete-btn @confirm="deletePromos($event, row.slug)"/>
+          <delete-btn @confirm="deletePromos($event, row.slug)" test-attr="delete-promos"/>
         </template>
       </a-table>
     </a-card>
@@ -88,7 +90,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-prev-promos">
           {{ $t('cancel') }}
         </a-button>
       </template>

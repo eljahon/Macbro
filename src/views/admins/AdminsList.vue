@@ -14,6 +14,7 @@
             shape="round"
             type="primary link"
             icon="plus"
+            test-attr="addBtn-admins"
           >{{ $t('add') }}</a-button>
         </router-link>
       </a-col>
@@ -30,6 +31,7 @@
                   :placeholder="$t('search') + '...'"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
                   v-debounce="debouncedSearch"
+                  test-attr="searchList-admins"
                 />
               </a-form-item>
             </a-col>
@@ -44,6 +46,7 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-admins"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag

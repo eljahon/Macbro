@@ -14,6 +14,7 @@
             <a-input
               :disabled="checking || loading"
               v-model="form.name"
+              test-attr="name-staff"
             />
           </a-form-model-item>
         </a-col>
@@ -22,6 +23,7 @@
             <a-input
               :disabled="checking || loading"
               v-model="form.last_name"
+              test-attr="last_name-staff"
             />
           </a-form-model-item>
         </a-col>
@@ -30,6 +32,7 @@
             <a-input
               :disabled="checking || loading"
               v-model="form.phone_number"
+              test-attr="phone-number-staff"
             />
           </a-form-model-item>
         </a-col>
@@ -38,12 +41,13 @@
             <a-input-password
               :disabled="checking || loading"
               v-model="form.password"
+              test-attr="password-staff"
             />
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="user_type" :label="$t('userType')" prop="user_type">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.user_type" :disabled="checking || loading">
+            <a-select id="attrSelect" style="width: 100%" v-model="form.user_type" :disabled="checking || loading" test-attr="user-type-staff">
               <a-select-option v-for="type in userTypeList" :key="type.key" :value="type.key">
                 {{ type.name }}
               </a-select-option>
@@ -52,7 +56,7 @@
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="role_id" :label="$t('role')" prop="role_id">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.role_id" :disabled="checking || loading">
+            <a-select id="attrSelect" style="width: 100%" v-model="form.role_id" :disabled="checking || loading" test-attr="role-staff">
               <a-select-option v-for="role in roleList" :key="role.id" :value="role.id">
                 {{ role.name }}
               </a-select-option>
@@ -186,48 +190,55 @@ export default {
           this.loading = false
         })
     },
+    submitMethod () {
+      this.loading = true
+      this.$emit('clickParent', true)
+      this.createOrUpdateStaff(this.form)
+      .then(res => {
+        this.loading = false
+        if (res) {
+          this.$router.go(-1)
+        }
+      })
+      .catch(err => {
+        this.loading = false
+        console.error(err)
+        this.$message.error(this.$t('error') + err)
+      })
+      .finally(() => {
+        this.$emit('clickParent', false)
+      })
+    },
     onSubmit () {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.checking = true
-          request({
-            url: '/auth/login-exists',
-            method: 'post',
-            data: {
-              login: this.form.phone_number
-            },
-            headers: headers
-          })
-            .then(res => {
-              if (!res.is_exists) {
-                this.loading = true
-                this.$emit('clickParent', true)
-                this.form.id = this.cityId
-                this.createOrUpdateStaff(this.form)
-                .then(res => {
-                  this.loading = false
-                  if (res) {
-                    this.$router.go(-1)
-                  }
-                })
-                .catch(err => {
-                  this.loading = false
-                  console.error(err)
-                  this.$message.error(this.$t('error') + err)
-                })
-                .finally(() => {
-                  this.$emit('clickParent', false)
-                })
-                // console.log('valid')
-              } else {
-                this.$message.error(this.$t('phoneInUse'))
-              }
-              this.checking = false
+          if (this.cityId) {
+            this.form.id = this.cityId
+            this.submitMethod()
+          } else {
+            request({
+              url: '/auth/login-exists',
+              method: 'post',
+              data: {
+                login: this.form.phone_number
+              },
+              headers: headers
             })
-            .catch(err => {
-              this.$message.error(this.$t('error') + err)
-              this.checking = false
-            })
+              .then(res => {
+                if (!res.is_exists) {
+                  this.submitMethod()
+                  // console.log('valid')
+                } else {
+                  this.$message.error(this.$t('phoneInUse'))
+                }
+                this.checking = false
+              })
+              .catch(err => {
+                this.$message.error(this.$t('error') + err)
+                this.checking = false
+              })
+          }
         } else {
           console.log('error submit, validation failed')
           return false

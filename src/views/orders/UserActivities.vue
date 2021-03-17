@@ -7,6 +7,7 @@
     :loading="loading"
     @change="handleTableChange"
     align="center"
+    test-attr="user-activities-order"
   >
     <template slot="action" slot-scope="text, record">
       <div class="activity-container">

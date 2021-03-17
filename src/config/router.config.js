@@ -16,7 +16,6 @@ export const asyncRouterMap = [
     meta: { title: 'menu.home' },
     redirect: '/dashboard',
     children: [
-      // dashboard
       {
         path: '/dashboard',
         name: 'dashboard',
@@ -30,25 +29,25 @@ export const asyncRouterMap = [
         component: RouteView,
         hideChildrenInMenu: true,
         redirect: '/orders/list',
-        meta: { title: 'orders', keepAlive: true, show: true, icon: myIcons.orders, permission: ['orders'] },
+        meta: { title: 'orders', keepAlive: true, show: true, icon: myIcons.orders, permission: ['order'] },
         children: [
           {
             path: '/orders/list',
             name: 'OrdersList',
             component: () => import('@/views/orders/OrdersList'),
-            meta: { title: 'orders', keepAlive: true, permission: ['orders'] }
+            meta: { title: 'orders', keepAlive: true, permission: ['order'] }
           },
           {
             path: '/order/details/:id',
             name: 'OrderDetails',
             component: () => import('@/views/orders/OrderDetails'),
-            meta: { title: 'detail', keepAlive: true, show: true, permission: ['orders'] }
+            meta: { title: 'detail', keepAlive: true, show: true, permission: ['order'] }
           },
           {
             path: '/order/edit/:id',
             name: 'OrderEdit',
             component: () => import('@/views/orders/OrderEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['orders'] }
+            meta: { title: 'update', keepAlive: true, show: true, permission: ['order'] }
           }
         ]
       },
@@ -80,25 +79,25 @@ export const asyncRouterMap = [
         component: RouteView,
         hideChildrenInMenu: true,
         redirect: '/city/list',
-        meta: { title: 'cities', keepAlive: true, show: true, icon: 'environment', permission: ['city'] },
+        meta: { title: 'cities', keepAlive: true, show: true, icon: 'environment', permission: ['cities'] },
         children: [
           {
             path: '/city/list',
             name: 'citiesList',
             component: () => import('@/views/city/cityList'),
-            meta: { title: 'cities', keepAlive: true, permission: ['city'] }
+            meta: { title: 'cities', keepAlive: true, permission: ['cities'] }
           },
           {
             path: '/city/create',
             name: 'citiesCreate',
             component: () => import('@/views/city/cityEdit'),
-            meta: { title: 'create', keepAlive: true, show: true, permission: ['city'] }
+            meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
           },
           {
             path: '/city/update/:id',
             name: 'citiesEdit',
             component: () => import('@/views/city/cityEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['city'] }
+            meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
           }
         ]
       },
@@ -152,13 +151,13 @@ export const asyncRouterMap = [
         path: '/directory',
         redirect: '/categories',
         component: RouteView,
-        meta: { title: 'directory', icon: myIcons.directory, permission: ['catalog'] },
+        meta: { title: 'directory', icon: myIcons.directory, permission: ['directory'] },
         children: [
           {
             path: '/catalog',
             redirect: '/catalog/categories',
             component: RouteView,
-            meta: { title: 'catalog', icon: myIcons.directoryCatalog, permission: ['catalog'] },
+            meta: { title: 'catalog', icon: myIcons.directoryCatalog, permission: ['directory'] },
             children: [
               {
                 path: '/catalog/categories',
@@ -166,28 +165,28 @@ export const asyncRouterMap = [
                 name: 'CategoriesList',
                 component: RouteView,
                 redirect: '/catalog/categories/list',
-                meta: { title: 'categories', keepAlive: true, permission: ['categories'] },
+                meta: { title: 'categories', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/categories/list',
                     name: 'CategoriesListMain',
                     props: true,
                     component: () => import('@/views/categories/CategoriesList'),
-                    meta: { title: 'categories', keepAlive: true, permission: ['categories'] }
+                    meta: { title: 'categories', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/categories/create',
                     name: 'CategoriesCreate',
                     props: true,
                     component: () => import('@/views/categories/CategoriesCreate'),
-                    meta: { title: 'categories', keepAlive: true, permission: ['categories'] }
+                    meta: { title: 'categories', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/categories/update/:id',
                     name: 'CatagoriesUpdate',
                     props: true,
                     component: () => import('@/views/categories/CategoriesCreate'),
-                    meta: { title: 'categories', keepAlive: true, permission: ['categories'] }
+                    meta: { title: 'categories', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -197,28 +196,28 @@ export const asyncRouterMap = [
                 name: 'ProductAttributes',
                 component: RouteView,
                 redirect: '/catalog/attribute/list',
-                meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] },
+                meta: { title: 'attribute', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/attribute/list',
                     name: 'AttributeList',
                     props: true,
                     component: () => import('@/views/attributes/AttributesList'),
-                    meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
+                    meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/attribute/create',
                     name: 'AttributeCreate',
                     props: true,
                     component: () => import('@/views/attributes/AttributesCreate'),
-                    meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
+                    meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/attribute/update/:id',
                     name: 'AttributeEdit',
                     props: true,
                     component: () => import('@/views/attributes/AttributesCreate'),
-                    meta: { title: 'attribute', keepAlive: true, permission: ['catalog'] }
+                    meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -228,28 +227,28 @@ export const asyncRouterMap = [
                 name: 'BrandsList',
                 component: RouteView,
                 redirect: '/catalog/brands/list',
-                meta: { title: 'brands', keepAlive: true, permission: ['brands'] },
+                meta: { title: 'brands', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/brands/list',
                     name: 'BrandsListMain',
                     props: true,
                     component: () => import('@/views/brands/BrandsList'),
-                    meta: { title: 'brands', keepAlive: true, permission: ['brands'] }
+                    meta: { title: 'brands', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/brands/create',
                     name: 'BrandsCreate',
                     props: true,
                     component: () => import('@/views/brands/BrandsCreate'),
-                    meta: { title: 'brands', keepAlive: true, permission: ['brands'] }
+                    meta: { title: 'brands', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/brands/update/:id',
                     name: 'BrandsUpdate',
                     props: true,
                     component: () => import('@/views/brands/BrandsCreate'),
-                    meta: { title: 'brands', keepAlive: true, permission: ['brands'] }
+                    meta: { title: 'brands', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -259,25 +258,25 @@ export const asyncRouterMap = [
                 name: 'Product',
                 component: RouteView,
                 redirect: '/catalog/products/list',
-                meta: { title: 'products', keepAlive: true, permission: ['products'] },
+                meta: { title: 'products', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/products/list',
                     name: 'ProductsList',
                     component: () => import('@/views/products/ProductsList'),
-                    meta: { title: 'products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'products', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/products/create',
                     name: 'ProductsCreate',
                     component: () => import('@/views/products/ProductsCreate'),
-                    meta: { title: 'products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'products', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/products/update/:id',
                     name: 'ProductsUpdate',
                     component: () => import('@/views/products/ProductsCreate'),
-                    meta: { title: 'products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'products', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -287,25 +286,25 @@ export const asyncRouterMap = [
                 name: 'ProductVariant',
                 component: RouteView,
                 redirect: '/catalog/product-variants/list',
-                meta: { title: 'product_variants', keepAlive: true, permission: ['products'] },
+                meta: { title: 'product_variants', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/product-variants/list',
                     name: 'ProductVariantsList',
                     component: () => import('@/views/product-variants/ProductVariantsList'),
-                    meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'product_variants', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/product-variants/create',
                     name: 'ProductVariantsCreate',
                     component: () => import('@/views/product-variants/ProductVariantsCreate'),
-                    meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'product_variants', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/product-variants/update/:id',
                     name: 'ProductVariantsUpdate',
                     component: () => import('@/views/product-variants/ProductVariantsCreate'),
-                    meta: { title: 'product_variants', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'product_variants', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -315,25 +314,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/catalog/featured-products/list',
-                meta: { title: 'featured-products', keepAlive: true, permission: ['products'] },
+                meta: { title: 'featured-products', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/catalog/featured-products/list',
-                    name: 'FeaturedProducts',
+                    name: 'FeaturedProductsList',
                     component: () => import('@/views/featured/FeaturedProductsList'),
-                    meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'featured-products', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/featured-products/create',
-                    name: 'FeaturedProducts',
+                    name: 'FeaturedProductsCreate',
                     component: () => import('@/views/featured/FeaturedProductsCreate'),
-                    meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'featured-products', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/catalog/featured-products/update/:id',
-                    name: 'FeaturedProducts',
+                    name: 'FeaturedProductsEdit',
                     component: () => import('@/views/featured/FeaturedProductsCreate'),
-                    meta: { title: 'featured-products', keepAlive: true, permission: ['products'] }
+                    meta: { title: 'featured-products', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               }
@@ -345,25 +344,25 @@ export const asyncRouterMap = [
             component: RouteView,
             hideChildrenInMenu: true,
             redirect: '/promos/list',
-            meta: { title: 'promos', keepAlive: true, icon: myIcons.directoryStock, permission: ['promos'] },
+            meta: { title: 'promos', keepAlive: true, icon: myIcons.directoryStock, permission: ['directory'] },
             children: [
               {
                 path: '/promos/list',
                 name: 'PromosList',
                 component: () => import('@/views/promos/PromosList'),
-                meta: { title: 'promos', keepAlive: true, permission: ['promos'] }
+                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/promos/create',
                 name: 'PromosCreate',
                 component: () => import('@/views/promos/PromosCreate'),
-                meta: { title: 'promos', keepAlive: true, permission: ['promos'] }
+                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/promos/update/:id',
                 name: 'PromosUpdate',
                 component: () => import('@/views/promos/PromosCreate'),
-                meta: { title: 'promos', keepAlive: true, permission: ['promos'] }
+                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
               }
             ]
           },
@@ -372,7 +371,7 @@ export const asyncRouterMap = [
             name: 'agents',
             component: RouteView,
             redirect: '/agents/physical',
-            meta: { title: 'counterAgents', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['agents'] },
+            meta: { title: 'counterAgents', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['directory'] },
             children: [
               {
                 path: '/agents/physical',
@@ -380,25 +379,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/agents/physical/list',
-                meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] },
+                meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/agents/physical/list',
                     name: 'physicalAgentList',
                     component: () => import('@/views/agents/physical/physicalAgentList'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/agents/physical/create',
                     name: 'physicalAgentCreate',
                     component: () => import('@/views/agents/physical/physicalAgentEdit'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/agents/physical/update/:id',
                     name: 'physicalAgentUpdate',
                     component: () => import('@/views/agents/physical/physicalAgentEdit'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -408,25 +407,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/agents/legal/list',
-                meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] },
+                meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/agents/legal/list',
                     name: 'agentsLegalList',
                     component: () => import('@/views/agents/legal/legalAgentList'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/agents/legal/create',
                     name: 'agentsLegalCreate',
                     component: () => import('@/views/agents/legal/legalAgentEdit'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/agents/legal/update/:id',
                     name: 'agentsLegalUpdate',
                     component: () => import('@/views/agents/legal/legalAgentEdit'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['agents'] }
+                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               }
@@ -436,7 +435,7 @@ export const asyncRouterMap = [
             path: '/directory/content',
             redirect: '/news',
             component: RouteView,
-            meta: { title: 'contentPages', icon: myIcons.directoryContent, permission: ['catalog'] },
+            meta: { title: 'contentPages', icon: myIcons.directoryContent, permission: ['directory'] },
             children: [
               {
                 path: '/news',
@@ -444,25 +443,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/news/list',
-                meta: { title: 'news', keepAlive: true, icon: 'read', permission: ['news'] },
+                meta: { title: 'news', keepAlive: true, icon: 'read', permission: ['directory'] },
                 children: [
                   {
                     path: '/news/list',
                     name: 'NewsList',
                     component: () => import('@/views/news/NewsList'),
-                    meta: { title: 'news', keepAlive: true, permission: ['news'] }
+                    meta: { title: 'news', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/news/create',
                     name: 'NewsCreate',
                     component: () => import('@/views/news/NewsCreate'),
-                    meta: { title: 'news', keepAlive: true, permission: ['news'] }
+                    meta: { title: 'news', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/news/update/:id',
                     name: 'NewsUpdate',
                     component: () => import('@/views/news/NewsCreate'),
-                    meta: { title: 'news', keepAlive: true, permission: ['news'] }
+                    meta: { title: 'news', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -471,7 +470,7 @@ export const asyncRouterMap = [
                 name: 'banner',
                 component: RouteView,
                 redirect: '/banners',
-                meta: { title: 'banners', keepAlive: true, icon: 'picture', permission: ['banners'] },
+                meta: { title: 'banners', keepAlive: true, icon: 'picture', permission: ['directory'] },
                 children: [
                   {
                     path: '/banners',
@@ -479,25 +478,25 @@ export const asyncRouterMap = [
                     component: RouteView,
                     hideChildrenInMenu: true,
                     redirect: '/banners/list',
-                    meta: { title: 'banners', keepAlive: true, show: true, permission: ['banners'] },
+                    meta: { title: 'banners', keepAlive: true, show: true, permission: ['directory'] },
                     children: [
                       {
                         path: '/banners/list',
                         name: 'BannersList',
                         component: () => import('@/views/banners/BannersList'),
-                        meta: { title: 'banners', keepAlive: true, permission: ['banners'] }
+                        meta: { title: 'banners', keepAlive: true, permission: ['directory'] }
                       },
                       {
                         path: '/banners/create',
                         name: 'BannersCreate',
                         component: () => import('@/views/banners/BannersCreate'),
-                        meta: { title: 'banners', keepAlive: true, show: true, permission: ['banners'] }
+                        meta: { title: 'banners', keepAlive: true, show: true, permission: ['directory'] }
                       },
                       {
                         path: '/banners/update/:id',
                         name: 'BannersUpdate',
                         component: () => import('@/views/banners/BannersCreate'),
-                        meta: { title: 'banners', keepAlive: true, show: true, permission: ['banners'] }
+                        meta: { title: 'banners', keepAlive: true, show: true, permission: ['directory'] }
                       }
                     ]
                   },
@@ -507,25 +506,25 @@ export const asyncRouterMap = [
                     component: RouteView,
                     hideChildrenInMenu: true,
                     redirect: '/banner-positions/list',
-                    meta: { title: 'bannerPositions', keepAlive: true, show: true, permission: ['banners'] },
+                    meta: { title: 'bannerPositions', keepAlive: true, show: true, permission: ['directory'] },
                     children: [
                       {
                         path: '/banner-positions/list',
                         name: 'BannerPositionsList',
                         component: () => import('@/views/banner-positions/BannerPositionsList'),
-                        meta: { title: 'banner-positions', keepAlive: true, permission: ['banners'] }
+                        meta: { title: 'banner-positions', keepAlive: true, permission: ['directory'] }
                       },
                       {
                         path: '/banner-positions/create',
                         name: 'BannerPositionsCreate',
                         component: () => import('@/views/banner-positions/BannerPositionsCreate'),
-                        meta: { title: 'banner-positions', keepAlive: true, show: true, permission: ['banners'] }
+                        meta: { title: 'banner-positions', keepAlive: true, show: true, permission: ['directory'] }
                       },
                       {
                         path: '/banner-positions/update/:id',
                         name: 'BannerPositionsUpdate',
                         component: () => import('@/views/banner-positions/BannerPositionsCreate'),
-                        meta: { title: 'banner-positions', keepAlive: true, show: true, permission: ['banners'] }
+                        meta: { title: 'banner-positions', keepAlive: true, show: true, permission: ['directory'] }
                       }
                     ]
                   }
@@ -538,7 +537,7 @@ export const asyncRouterMap = [
             name: 'adminstrator',
             component: RouteView,
             redirect: '/adminstrator',
-            meta: { title: 'adminstrators', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['admins'] },
+            meta: { title: 'adminstrators', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['directory'] },
             children: [
               {
                 path: '/admins',
@@ -546,25 +545,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/admins/list',
-                meta: { title: 'admins', keepAlive: true, permission: ['admins'] },
+                meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/admins/list',
                     name: 'AdminsList',
                     component: () => import('@/views/admins/AdminsList'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/admins/create',
                     name: 'AdminsCreate',
                     component: () => import('@/views/admins/AdminsCreate'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/admins/update/:id',
                     name: 'AdminsUpdate',
                     component: () => import('@/views/admins/AdminsCreate'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -574,25 +573,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/permissions/list',
-                meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] },
+                meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/permissions/list',
                     name: 'PermissionsList',
                     component: () => import('@/views/permissions/PermissionsList'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/permissions/create',
                     name: 'PermissionsCreate',
                     component: () => import('@/views/permissions/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/permissions/update/:id',
                     name: 'PermissionsUpdate',
                     component: () => import('@/views/permissions/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -602,25 +601,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/staff/list',
-                meta: { title: 'staff', keepAlive: true, permission: ['admins'] },
+                meta: { title: 'staff', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/staff/list',
                     name: 'staffList',
                     component: () => import('@/views/staff/staffList'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/staff/create',
                     name: 'staffCreate',
                     component: () => import('@/views/staff/staffEdit'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/staff/update/:id',
                     name: 'staffUpdate',
                     component: () => import('@/views/staff/staffEdit'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -630,25 +629,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/roles/list',
-                meta: { title: 'roles', keepAlive: true, permission: ['admins'] },
+                meta: { title: 'roles', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/roles/list',
                     name: 'rolesList',
                     component: () => import('@/views/roles/roleList'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/roles/create',
                     name: 'rolesCreate',
                     component: () => import('@/views/roles/roleEdit'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/roles/update/:id',
                     name: 'rolesUpdate',
                     component: () => import('@/views/roles/roleEdit'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['admins'] }
+                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               },
@@ -658,25 +657,25 @@ export const asyncRouterMap = [
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/permissions-new/list',
-                meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] },
+                meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/permissions-new/list',
                     name: 'PermissionsNewList',
                     component: () => import('@/views/permissionsNew/PermissionsList'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/permissions-new/create',
                     name: 'PermissionsNewCreate',
                     component: () => import('@/views/permissionsNew/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/permissions-new/update/:id',
                     name: 'PermissionsNewUpdate',
                     component: () => import('@/views/permissionsNew/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['permissions'] }
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               }
@@ -688,25 +687,25 @@ export const asyncRouterMap = [
             component: RouteView,
             hideChildrenInMenu: true,
             redirect: '/pages/list',
-            meta: { title: 'pages', keepAlive: true, icon: myIcons.directoryPages, permission: ['pages'] },
+            meta: { title: 'pages', keepAlive: true, icon: myIcons.directoryPages, permission: ['directory'] },
             children: [
               {
                 path: '/pages/list',
                 name: 'PagesList',
                 component: () => import('@/views/pages/PagesList'),
-                meta: { title: 'pages', keepAlive: true, permission: ['pages'] }
+                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/pages/create',
                 name: 'PagesCreate',
                 component: () => import('@/views/pages/PagesCreate'),
-                meta: { title: 'pages', keepAlive: true, permission: ['pages'] }
+                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/pages/update/:id',
                 name: 'PagesUpdate',
                 component: () => import('@/views/pages/PagesCreate'),
-                meta: { title: 'pages', keepAlive: true, permission: ['pages'] }
+                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
               }
             ]
           }
@@ -746,25 +745,25 @@ export const asyncRouterMap = [
         component: RouteView,
         hideChildrenInMenu: true,
         redirect: '/inventory/list',
-        meta: { title: 'inventory', keepAlive: true, icon: myIcons.warehouse, permission: ['news'] },
+        meta: { title: 'inventory', keepAlive: true, icon: myIcons.warehouse, permission: ['warehouse'] },
         children: [
           {
             path: '/inventory/list',
             name: 'inventoryList',
             component: () => import('@/views/inventory/inventoryList'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
           },
           {
             path: '/inventory/create',
             name: 'inventoryCreate',
             component: () => import('@/views/inventory/inventoryCreate'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
           },
           {
             path: '/inventory/update/:id',
             name: 'inventoryUpdate',
             component: () => import('@/views/inventory/inventoryCreate'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['news'] }
+            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
           }
         ]
       },
@@ -820,7 +819,7 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/account',
-            name: 'account',
+            name: 'accountDetail',
             component: () => import('@/views/account/UserAccount'),
             meta: { title: 'account', keepAlive: true, permission: ['dashboard'] }
           }

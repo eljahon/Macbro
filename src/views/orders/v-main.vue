@@ -23,6 +23,7 @@
               disabled
               type="number"
               v-model="orderNumber"
+              test-attr="number-order"
             />
           </a-form-model-item>
         </a-col>
@@ -38,7 +39,7 @@
             <a-row>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="status" :label="$t('status')" prop="status">
-                  <a-select v-model="order.status" @change="handleStatus">
+                  <a-select v-model="order.status" @change="handleStatus" test-attr="status-order">
                     <a-select-option value="in-process">
                       В обработке
                     </a-select-option>
@@ -53,7 +54,7 @@
               </a-col>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="deliveryMethod" :label="$t('delivery_method')" prop="deliveryMethod">
-                  <a-select v-model="order.delivery_method" @change="handleDeliveryMethod">
+                  <a-select v-model="order.delivery_method" @change="handleDeliveryMethod" test-attr="delivery-order">
                     <a-select-option value="self">
                       Самовывоз
                     </a-select-option>
@@ -65,7 +66,7 @@
               </a-col>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="paymentMethod" :label="$t('payment_method')" prop="paymentMethod">
-                  <a-select v-model="order.payment_method" @change="handlePaymentMethod">
+                  <a-select v-model="order.payment_method" @change="handlePaymentMethod" test-attr="payment-order">
                     <a-select-option value="cash" :disabled="this.isUnired">
                       Наличные
                     </a-select-option>
@@ -88,6 +89,7 @@
                 <a-form-model-item ref="address" :label="$t('address')" prop="address">
                   <a-input
                     v-model="order.address"
+                    test-attr="address-order"
                   />
                 </a-form-model-item>
               </a-col>
@@ -97,7 +99,10 @@
                     :coords="coords"
                     v-model="coords"
                     :zoom="18"
+                    @click="onLocationChange"
+                    searchControlProvider="yandex#search"
                     style="width: 100%; max-width: 1000px; height: 80vh;"
+                    test-attr="coords-order"
                   >
                     <ymap-marker
                       :coords="coords"
@@ -118,6 +123,7 @@
                   :columns="columns"
                   :data-source="getProducts"
                   bordered
+                  test-attr="products-list-order"
                 >
                   <template slot="price" slot-scope="text, row">
                     {{ numberToPrice(row.price) }}
@@ -132,6 +138,7 @@
                 <a-form-model-item ref="customerName" :label="$t('firstName')" prop="customerName">
                   <a-input
                     v-model="order.customer_name"
+                    test-attr="customer_name-order"
                   />
                 </a-form-model-item>
               </a-col>
@@ -140,6 +147,7 @@
                   <a-input
                     disabled
                     v-model="order.phone"
+                    test-attr="phone-order"
                   />
                 </a-form-model-item>
               </a-col>
@@ -147,6 +155,7 @@
                 <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
                   <a-input
                     v-model="order.note"
+                    test-attr="note-order"
                   />
                 </a-form-model-item>
               </a-col>
@@ -165,8 +174,9 @@
 import request from '@/utils/request'
 import numberToPrice from '@/utils/numberToPrice'
 import calcTotalPrice from '@/utils/calcTotalPrice'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import userActivities from './UserActivities'
+import { pointSearch } from '@/utils/yandexMap'
 export default {
   components: {
     'user-activities': userActivities
@@ -216,12 +226,15 @@ export default {
   },
   mounted () {
     this.getOrderAttrs()
-    this.getAdmin().then(res => {
-      console.log('this.admin', this.admin)
-    })
+    // this.getAdmin().then(res => {
+    //   console.log('this.admin', this.admin)
+    // })
   },
   computed: {
       ...mapGetters(['admin']),
+      ...mapState({
+        userId: state => state.user.userId
+      }),
       getProducts () {
           return this.items
       },
@@ -231,6 +244,16 @@ export default {
   },
   methods: {
     ...mapActions(['getAdmin']),
+    onLocationChange (e) {
+      // var eMap = e.get('target')
+      this.coords = e.get('coords')
+      // console.log('MAP', e)
+      const searchCoord = [this.coords[0], this.coords[1]]
+      // console.log(searchCoord)
+      pointSearch(searchCoord.toString()).then(result => {
+        this.order.address = result[0].name
+      })
+    },
     getOrderAttrs () {
       request({
         url: `/order/${this.orderNumber}`,
@@ -257,7 +280,7 @@ export default {
         this.order.status = status
         this.order.delivery_method = deliveryMethod
         this.order.payment_method = paymentMethod
-        this.coords = longlat ? [Number(longlat.split(',')[0]), Number(longlat.split(',')[1])] : this.coords
+        this.coords = longlat && longlat.length > 2 ? [Number(longlat.split(',')[0]), Number(longlat.split(',')[1])] : this.coords
         console.log('this.coords', this.coords)
       })
     },
@@ -302,7 +325,7 @@ export default {
               data: {
                 ...this.order,
                 longlat: `${this.coords[0]},${this.coords[1]}`,
-                user_id: this.admin.id
+                user_id: this.userId
               },
               headers: headers
           }).then(res => {

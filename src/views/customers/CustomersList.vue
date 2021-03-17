@@ -15,6 +15,7 @@
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
+                  test-attr="search-customer"
                   id="inputSearch"
                   :placeholder="`${$t('phone')}...`"
                   v-decorator="['search', { initialValue: this.getSearchQuery }]"
@@ -24,7 +25,7 @@
             </a-col>
             <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
+                <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-customer">{{ $t('search') }}</a-button>
               </a-form-item>
             </a-col>
           </a-row>
@@ -38,9 +39,10 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        test-attr="list-customer"
       >
         <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)"/>
+          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/>
           <!-- <a-tooltip>
             <template slot="title">{{ $t('read') }}</template>
             <a-button
@@ -51,9 +53,9 @@
             ></a-button>
           </a-tooltip> -->
           <router-link :to="`./update/${row.id}`">
-            <edit-btn/>
+            <edit-btn test-attr="edit-customer"/>
           </router-link>
-          <delete-btn @confirm="deleteCustomer($event, row.id)"/>
+          <delete-btn @confirm="deleteCustomer($event, row.id)" test-attr="delete-customer"/>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
@@ -86,7 +88,7 @@
         </a-descriptions-item>
       </a-descriptions>
       <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel">
+        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-customer">
           {{ $t('cancel') }}
         </a-button>
       </template>

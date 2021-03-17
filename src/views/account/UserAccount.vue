@@ -25,35 +25,35 @@
             <a-row>
               <a-col :span="24" style="padding: 0 15px">
                 <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
-                  <a-input v-model="admin.name" />
+                  <a-input v-model="admin.name" test-attr="name-account" />
                 </a-form-model-item>
               </a-col>
               <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="username" :label="$t('username')" prop="username">
+                <a-form-model-item ref="username" :label="$t('username')" prop="username" test-attr="username-account">
                   <a-input v-model="admin.username" />
                 </a-form-model-item>
               </a-col>
               <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
+                <a-form-model-item ref="phone" :label="$t('phone')" prop="phone" test-attr="phone-account">
                   <a-input type="tel" v-model="phone" />
                 </a-form-model-item>
               </a-col>
               <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="password" :label="$t('password')" prop="password">
+                <a-form-model-item ref="password" :label="$t('password')" prop="password" test-attr="password-account">
                   <a-input v-model="admin.password" />
                 </a-form-model-item>
               </a-col>
               <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="confirmPassword" :label="$t('confirmPassword')" prop="confirmPassword">
+                <a-form-model-item ref="confirmPassword" :label="$t('confirmPassword')" prop="confirmPassword" test-attr="confirmPass-account">
                   <a-input v-model="confirmPassword" />
                 </a-form-model-item>
               </a-col>
               <a-col :span="24" style="padding: 0 15px">
                 <a-form-model-item>
-                  <a-button type="primary" html-type="submit" @click="onSubmit">
+                  <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-account">
                     {{ $t('save') }}
                   </a-button>
-                  <a-button style="margin-left: 10px;" @click="resetForm">
+                  <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-account">
                     {{ $t('reset') }}
                   </a-button>
                 </a-form-model-item>

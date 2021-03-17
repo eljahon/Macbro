@@ -14,6 +14,7 @@
             <a-input
               :disabled="requesting"
               v-model="company.name"
+              test-attr="name-company"
             />
           </a-form-model-item>
         </a-col>
@@ -23,6 +24,7 @@
               style="width: 100%"
               :disabled="requesting"
               v-model="company.account_number"
+              test-attr="account_number-company"
             />
           </a-form-model-item>
         </a-col>
@@ -31,6 +33,7 @@
             <a-input
               :disabled="requesting"
               v-model="company.email"
+              test-attr="email-company"
             />
           </a-form-model-item>
         </a-col>
@@ -40,6 +43,7 @@
             <a-input
               :disabled="requesting"
               v-model="company.phone_number"
+              test-attr="phone-number-company"
             />
           </a-form-model-item>
         </a-col>
@@ -50,6 +54,7 @@
               style="width: 100%"
               :disabled="requesting"
               v-model="company.inn"
+              test-attr="inn-company"
             />
           </a-form-model-item>
         </a-col>
@@ -59,6 +64,7 @@
             <a-input
               :disabled="requesting"
               v-model="company.address"
+              test-attr="address-company"
             />
           </a-form-model-item>
         </a-col>
@@ -69,17 +75,13 @@
               style="width: 100%"
               :disabled="requesting"
               v-model="company.mfo"
+              test-attr="mfo-company"
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <a-textarea
-              placeholder="Basic usage"
-              :rows="4"
-              v-model="company.description"
-              :disbled="requesting"
-            />
+            <tinymce v-model="company.description" test-attr="descrition-company"></tinymce>
           </a-form-model-item>
         </a-col>
       </a-row>

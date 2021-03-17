@@ -6,18 +6,18 @@ const headers = {
 
 const roles = {
   state: {
-    roles: [],
+    rolesList: [],
     rolesPagination: {},
     searchQuery: ''
   },
   getters: {
-    rolesList: state => state.roles,
+    rolesList: state => state.rolesList,
     rolesPagination: state => state.rolesPagination,
     searchQuery: state => state.searchQuery
   },
   mutations: {
-    SET_ROLES: (state, roles) => {
-        state.roles = roles
+    SET_ROLES: (state, rolesList) => {
+        state.rolesList = rolesList
     },
     SET_ROLES_PAGINATION: (state, rolesPagination) => {
         state.rolesPagination = rolesPagination

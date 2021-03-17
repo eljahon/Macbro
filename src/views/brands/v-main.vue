@@ -7,6 +7,7 @@
       :un-checked-children="$t('inactive')"
       default-checked
       style="margin: 15px 0"
+      test-attr="active-brand"
     />
     <a-form-model
       @submit="onSubmit"
@@ -21,6 +22,7 @@
           <a-form-model-item ref="name" :label="$t('brand_name')" prop="name">
             <a-input
               v-model="brand.name"
+              test-attr="name-brand"
             />
           </a-form-model-item>
         </a-col>
@@ -29,6 +31,7 @@
             <a-input
               disabled
               v-model="brandSlug"
+              test-attr="slug-brand"
             />
           </a-form-model-item>
         </a-col>
@@ -37,6 +40,7 @@
             <a-input
               type="number"
               v-model="brand.order"
+              test-attr="order-brand"
             />
           </a-form-model-item>
         </a-col>
@@ -44,6 +48,7 @@
           <a-form-model-item ref="preview_text" :label="$t('preview_text')" prop="preview_text">
             <a-input
               v-model="brand.preview_text"
+              test-attr="preview-text-brand"
             />
           </a-form-model-item>
         </a-col>
@@ -55,6 +60,7 @@
               class="avatar-uploader"
               :show-upload-list="false"
               :before-upload="beforeUpload"
+              test-attr="image-brand"
             >
               <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
               <div v-else>
@@ -68,15 +74,15 @@
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="brand.description"></tinymce>
+            <tinymce v-model="brand.description" test-attr="description-brand"></tinymce>
           </a-form-model-item>
         </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit">
+            <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-brand">
               {{ $t('save') }}
             </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
+            <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-brand">
               {{ $t('reset') }}
             </a-button>
           </a-form-model-item>

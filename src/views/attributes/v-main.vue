@@ -5,6 +5,7 @@
         <a-col :span="12" style="padding-right: 15px">
           <a-form-model-item ref="name" :label="`${$t('attr_name')} (Появится на сайте):`" prop="name">
             <a-input
+              test-attr="name-attribute"
               style="margin-left:0px; margin-right: 0px"
               v-model="productProperty.name"
               type="text"
@@ -15,6 +16,7 @@
         <a-col :span="12" style="padding-left: 15px">
           <a-form-model-item ref="name" :label="$t('attribute_type')">
             <a-select
+              test-attr="property-type-attribute"
               show-search
               style="width: 100%"
               v-model="productProperty.type"
@@ -31,12 +33,12 @@
       <a-row>
         <a-col :span="12" style="padding-right: 15px">
           <a-form-model-item :label="`${$t('description')} (Полное название атрибута):`">
-            <a-input v-model="productProperty.description" type="text" :placeholder="$t('description')" />
+            <a-input v-model="productProperty.description" type="text" :placeholder="$t('description')" test-attr="description-attribute" />
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding-left: 15px">
           <a-form-model-item :label="$t('order_no')">
-            <a-input v-model="productProperty.order" type="number" :placeholder="$t('order_no')" />
+            <a-input v-model="productProperty.order" type="number" :placeholder="$t('order_no')" test-attr="order-attribute"/>
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -50,14 +52,14 @@
         </h3>
         <div v-if="productProperty.type == 'radio'">
           <a-radio-group>
-            <a-radio v-for="item in productProperty.options" :key="'radio' + item.name" :value="item.name">
+            <a-radio v-for="item in productProperty.options" :key="'radio' + item.name" :value="item.name" test-attr="option-attribute">
               {{ item.name === '' ? 'Example' : item.name }}
             </a-radio>
           </a-radio-group>
         </div>
         <div v-if="productProperty.type == 'select'">
           <a-select default-value="Example" style="width: 250px">
-            <a-select-option v-for="item in productProperty.options" :key="'select' + item.name">
+            <a-select-option v-for="item in productProperty.options" :key="'select' + item.name" test-attr="name-attribute">
               {{ item.name === '' ? 'Example' : item.name }}
             </a-select-option>
           </a-select>
@@ -66,7 +68,7 @@
           <a-checkbox-group>
             <a-row>
               <a-col v-for="item in productProperty.options" :key="'checkbox' + item.name" :span="24">
-                <a-checkbox :value="'checkbox' + item.name">
+                <a-checkbox :value="'checkbox' + item.name" test-attr="options-attribute">
                   {{ item.name === '' ? 'Example' : item.name }}
                 </a-checkbox>
               </a-col>
@@ -74,10 +76,10 @@
           </a-checkbox-group>
         </div>
         <div v-if="productProperty.type == 'text'">
-          <a-input default-value="Example" style="width: 250px" placeholder="Text" />
+          <a-input default-value="Example" style="width: 250px" placeholder="Text" test-attr="type-attribute" />
         </div>
         <div v-if="productProperty.type == 'number'">
-          <a-input default-value="0" style="width: 250px" type="number" placeholder="Number" />
+          <a-input default-value="0" style="width: 250px" type="number" placeholder="Number" test-attr="type-attribute" />
         </div>
       </a-card>
       <a-card
@@ -87,17 +89,18 @@
         <a-row v-for="(option, i) in productProperty.options" :key="i">
           <a-col :span="12" style="padding: 0 15px">
             <a-form-model-item :label="$t('option_name')">
-              <a-input v-model="option.name" type="text" :placeholder="$t('option_name')" />
+              <a-input v-model="option.name" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/>
             </a-form-model-item>
           </a-col>
           <a-col :span="12" style="padding: 0 15px">
             <a-form-model-item :label="`${$t('code')} (значение):`">
               <a-row>
                 <a-col :span="20">
-                  <a-input v-model="option.value" type="text" :placeholder="$t('code')" />
+                  <a-input v-model="option.value" type="text" :placeholder="$t('code')" test-attr="options-value-attribute" />
                 </a-col>
                 <a-col :span="4">
                   <a-button
+                    test-attr="remove-option-attribute"
                     @click="removeAttr(i)"
                     type="danger"
                     style="margin-left: 20px"
@@ -111,7 +114,7 @@
         </a-row>
         <a-row>
           <a-col :span="24">
-            <a-button @click="addAttr" style="width: 97%;margin: 0 1.5%" type="dashed" icon="plus">
+            <a-button @click="addAttr" style="width: 97%;margin: 0 1.5%" type="dashed" icon="plus" test-attr="add-option-attribute">
               {{ $t('add') }}
             </a-button>
           </a-col>
@@ -294,6 +297,21 @@ export default {
     },
     filterOption (input, option) {
       return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    },
+    resetForm () {
+      this.productProperty = {
+        name: '',
+        active: true,
+        description: '',
+        order: null,
+        options: [
+          {
+            name: '',
+            value: null
+          }
+        ],
+        type: ''
+      }
     }
   }
 }
