@@ -19,6 +19,20 @@
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
+          <a-form-model-item ref="company_id" :label="$t('company')" prop="company_id">
+            <a-select
+              style="width: 100%"
+              v-model="branch.company_id"
+              :placeholder="$t('company')"
+              test-attr="company-branch"
+            >
+              <a-select-option v-for="company in companiesList" :key="company.value" :value="company.id">{{
+                company.name
+              }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
+        <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
             <a-select
               style="width: 100%"
@@ -77,7 +91,7 @@
 import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     'a-auto-complete': AutoComplete,
@@ -92,7 +106,7 @@ export default {
       cityList: [],
       requesting: false,
       activeTabKey: '1',
-      branchId: this.$route.params.branch_id,
+      branchId: this.$route.params.id,
       shopId: null,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
@@ -105,7 +119,7 @@ export default {
         phone_number: '',
         address: '',
         city_id: '',
-        company_id: this.$route.params.company_id,
+        company_id: '',
         number_of_employees: null
       },
       rules: {
@@ -124,11 +138,13 @@ export default {
       })
     }
     this.getCities()
+    this.getCompanies()
   },
   computed: {
+    ...mapGetters(['companiesList'])
   },
   methods: {
-    ...mapActions(['getCompanyBranches']),
+    ...mapActions(['getCompanies']),
     getCities () {
       return new Promise((resolve) => {
         request({
@@ -148,7 +164,7 @@ export default {
       this.loading = true
       return new Promise((resolve) => {
         request({
-          url: `/branch/${this.branchId}?lang=${this.lang}`,
+          url: `/branch/${this.branchId}`,
           method: 'get'
         }).then((response) => {
           this.loading = false

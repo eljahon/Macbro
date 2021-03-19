@@ -96,7 +96,22 @@
             <a-form-model-item :label="`${$t('code')} (значение):`">
               <a-row>
                 <a-col :span="20">
-                  <a-input v-model="option.value" type="text" :placeholder="$t('code')" test-attr="options-value-attribute" />
+                  <div class="form__input" v-if="productPropertySlug === 'color'">
+                    <v-swatches
+                      test-attr="options-value-attribute"
+                      v-model="option.value"
+                      show-fallback
+                      fallback-input-type="color"
+                      popover-x="left"
+                    ></v-swatches>
+                  </div>
+                  <a-input
+                    v-else
+                    v-model="option.value"
+                    type="text"
+                    :placeholder="$t('code')"
+                    test-attr="options-value-attribute"
+                  />
                 </a-col>
                 <a-col :span="4">
                   <a-button

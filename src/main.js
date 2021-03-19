@@ -23,6 +23,9 @@ import previewBtn from './components/previewBtn.vue'
 import mainBreadcrumb from './components/mainBreadcrumb.vue'
 import numberToPrice from './utils/numberToPrice'
 
+import myIcons from './core/icons'
+import VSwatches from 'vue-swatches'
+import 'vue-swatches/dist/vue-swatches.css'
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 // import './mock'
@@ -42,6 +45,8 @@ const settings = {
   coordorder: 'latlong',
   version: '2.1'
 }
+
+Vue.prototype.$myIcons = myIcons
 Vue.prototype.$numberToPrice = numberToPrice
 Vue.use(YmapPlugin, settings)
 Vue.use(FlagIcon)
@@ -52,7 +57,8 @@ Vue.use(tinymce)
 Vue.use(VueAxios)
 Vue.use(FormModel)
 
-Vue.component('main-breadcrumb', mainBreadcrumb)
+Vue.component('v-swatches', VSwatches)
+Vue.component('breadcrumb-row', mainBreadcrumb)
 Vue.component('preview-btn', previewBtn)
 Vue.component('delete-btn', deleteBtn)
 Vue.component('edit-btn', editBtn)

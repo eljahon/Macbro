@@ -65,13 +65,16 @@ const permission = {
         const { roles } = data
         const mainRoutes = [...asyncRouterMap]
         let accessedRouters = ''
-        console.log('MASHETTA', 'sadas', mainRoutes, constantRouterMap)
+        // console.log('MASHETTA', 'sadas', mainRoutes, constantRouterMap)
         if (roles) {
           accessedRouters = filterAsyncRouter(mainRoutes, roles)
         } else {
           accessedRouters = mainRoutes
         }
         console.log('MASHETTA', accessedRouters, mainRoutes)
+        if (accessedRouters.length && accessedRouters[0].children && accessedRouters[0].children.length) {
+          accessedRouters[0].redirect = accessedRouters[0].children[0].path
+        }
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

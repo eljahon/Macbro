@@ -47,9 +47,9 @@
         @change="handleTableChange"
         test-attr="list-roles"
       >
-        <template slot="action" slot-scope="text, row">
+        <template slot="action" slot-scope="text, row, index">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn test-attr="edit-roles"/>
+              <edit-btn :test-attr="`edit-roles${index}`"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteRole($event, row.id)"/> -->
         </template>

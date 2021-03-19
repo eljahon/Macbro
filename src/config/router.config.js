@@ -102,48 +102,66 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/company',
-        name: 'company',
+        path: '/branches',
         component: RouteView,
-        hideChildrenInMenu: true,
         redirect: '/company/list',
-        meta: { title: 'companies', keepAlive: true, show: true, icon: 'bank', permission: ['company'] },
+        meta: { title: 'branches', keepAlive: true, show: true, icon: 'bank', permission: ['company'] },
         children: [
           {
-            path: '/company/list',
-            name: 'companiesList',
-            component: () => import('@/views/companies/CompaniesList'),
-            meta: { title: 'companies', keepAlive: true, permission: ['company'] }
+            path: '/company',
+            name: 'company',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/company/list',
+            meta: { title: 'companies', keepAlive: true, show: true, permission: ['company'] },
+            children: [
+              {
+                path: '/company/list',
+                name: 'companiesList',
+                component: () => import('@/views/companies/CompaniesList'),
+                meta: { title: 'companies', keepAlive: true, permission: ['company'] }
+              },
+              {
+                path: '/company/create',
+                name: 'CompaniesCreate',
+                component: () => import('@/views/companies/CompaniesEdit'),
+                meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
+              },
+              {
+                path: '/company/update/:id',
+                name: 'CompaniesEdit',
+                component: () => import('@/views/companies/CompaniesEdit'),
+                meta: { title: 'update', keepAlive: true, show: true, permission: ['company'] }
+              }
+            ]
           },
           {
-            path: '/company/create',
-            name: 'CompaniesCreate',
-            component: () => import('@/views/companies/CompaniesEdit'),
-            meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:id',
-            name: 'CompaniesEdit',
-            component: () => import('@/views/companies/CompaniesEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/:company_id/branches/list',
-            name: 'branchesList',
-            component: () => import('@/views/companies/branches/BranchesList'),
-            meta: { title: 'branches', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/:company_id/branches/create',
-            name: 'branchesCreate',
-            component: () => import('@/views/companies/branches/BranchesEdit'),
-            meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/:company_id/branches/update/:branch_id',
-            name: 'BranchesEdit',
-            component: () => import('@/views/companies/branches/BranchesEdit'),
-            meta: { title: 'update', keepAlive: true, permission: ['company'] }
+            path: '/branch',
+            name: 'branch',
+            component: RouteView,
+            hideChildrenInMenu: true,
+            redirect: '/branch/list',
+            meta: { title: 'branches', keepAlive: true, show: true, permission: ['company'] },
+            children: [
+              {
+                path: '/branch/list',
+                name: 'branchesList',
+                component: () => import('@/views/companies/branches/BranchesList'),
+                meta: { title: 'branches', keepAlive: true, show: true, permission: ['company'] }
+              },
+              {
+                path: '/branch/create',
+                name: 'branchesCreate',
+                component: () => import('@/views/companies/branches/BranchesEdit'),
+                meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
+              },
+              {
+                path: '/branch/update/:id',
+                name: 'BranchesEdit',
+                component: () => import('@/views/companies/branches/BranchesEdit'),
+                meta: { title: 'update', keepAlive: true, permission: ['company'] }
+              }
+            ]
           }
         ]
       },

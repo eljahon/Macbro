@@ -9,7 +9,7 @@
       :wrapper-col="wrapperCol"
     >
       <a-row>
-        <a-tabs type="card" v-model="activeTabKey">
+        <a-tabs v-model="activeTabKey">
           <a-tab-pane key="1" :tab="$t('basicSettings')">
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('name')" prop="name">

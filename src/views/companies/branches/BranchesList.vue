@@ -1,23 +1,18 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-            <a-breadcrumb-item>
-                <router-link to="/company/list" test-attr="companies-branch">{{ $t('companies') }}</router-link>
-            </a-breadcrumb-item>
-            <a-breadcrumb-item>{{ $t('branches') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('branches') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
+    <a-card :title="$t('branches')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
+      </router-link>
+    </a-card>
 
-    <a-card :title="$t('list')">
+    <a-card :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -50,17 +45,17 @@
         @change="handleTableChange"
         test-attr="list-branch"
       >
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/>
+        <template slot="action" slot-scope="text, row, index">
+          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/> -->
           <!-- <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn test-attr="edit-branch"/>
+              <edit-btn :test-attr="`edit-branch${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" test-attr="delete-branch"/>
+          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
         </template>
       </a-table>
     </a-card>
@@ -147,7 +142,7 @@ export default {
   },
   mounted () {
       this.setSearchQuery()
-    this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.companyId })
+    this.getCompanyBranches({ page: this.companyBranchesPagination })
       .then(() => (console.log('companybranches')))
       .catch(error => {
         this.requestFailed(error)
@@ -159,7 +154,7 @@ export default {
     ...mapActions(['getCompanyBranches', 'setSearchQuery']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true, company_id: this.companyId })
+      this.getCompanyBranches({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -186,7 +181,7 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCompanyBranches({ company_id: this.companyId })
+      this.getCompanyBranches()
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -201,7 +196,7 @@ export default {
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.companyId })
+        this.getCompanyBranches({ page: this.companyBranchesPagination })
       })
       .catch(err => {
         this.$message.error(err)
@@ -215,7 +210,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getCompanyBranches({ company_id: this.companyId })
+          this.getCompanyBranches()
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

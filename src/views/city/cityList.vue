@@ -1,42 +1,44 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-            <a-breadcrumb-item>{{ $t('cities') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-
-      <a-col :span="12">
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('cities') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+    <a-card class="breadcrumb-row" :title="$t('cities')" :bordered="false">
+      <div slot="extra">
         <router-link to="././create">
           <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-city">{{ $t('add') }}</a-button>
         </router-link>
-      </a-col>
-    </a-row>
-
-    <a-card :title="$t('list')">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-city"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
       </div>
+    </a-card>
+    <a-card class="breadcrumb-row" :bordered="false">
+      <a-row>
+        <a-col :span="18">
+          <!-- <div class="time-pickers-row" style="display: flex">
+            <a-space size="middle">
+              <a-date-picker @change="onChange" />
+              <a-tag :color="true ? 'blue' :'null'">Сегодня</a-tag>
+              <a-tag :color="false ? 'blue' :'null'">Вчера</a-tag>
+              <a-tag :color="false ? 'blue' :'null'">Прошлая неделя</a-tag>
+              <a-tag :color="false ? 'blue' :'null'">Прошлый месяц</a-tag>
+              <a-tag :color="false ? 'blue' :'null'">Прошлый год</a-tag>
+            </a-space>
+          </div> -->
+        </a-col>
+        <a-col :lg="6">
+          <a-input
+            test-attr="search-city"
+            id="inputSearch"
+            :placeholder="$t('search') + '...'"
+            v-decorator="['search', { initialValue: this.getSearchQuery }]"
+            v-debounce="debouncedSearch"
+          />
+        </a-col>
+      </a-row>
+    </a-card>
+
+    <a-card :bordered="false">
 
       <a-table
         :columns="columns"
@@ -47,9 +49,9 @@
         @change="handleTableChange"
         test-attr="list-city"
       >
-        <template slot="action" slot-scope="text, row">
+        <template slot="action" slot-scope="text, row, index">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn test-attr="edit-city"/>
+              <edit-btn :test-attr="`edit-city${index}`"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteCity($event, row.id)"/> -->
         </template>

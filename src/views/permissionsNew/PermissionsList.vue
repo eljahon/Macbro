@@ -59,7 +59,7 @@
       >
         <template slot="action" slot-scope="text, row">
           <router-link :to="'./update/'+row.id">
-            <edit-btn test-attr="edit-permissions"/>
+            <edit-btn :test-attr="`edit-permissions${index}`"/>
           </router-link>
           <!-- <delete-btn @confirm="deletePermission($event, row.id)"/> -->
         </template>

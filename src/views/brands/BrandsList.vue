@@ -61,12 +61,12 @@
         <template slot="description" slot-scope="desc">
           <div v-html="desc"></div>
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-brand"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-brand${index}`"/>
           <router-link :to="'./update/'+row.id">
-            <edit-btn test-attr="edit-brand"/>
+            <edit-btn :test-attr="`edit-brand${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteBrand($event, row.id)" test-attr="delete-brand"/>
+          <delete-btn @confirm="deleteBrand($event, row.id)" :test-attr="`delete-brand${index}`"/>
         </template>
       </a-table>
     </a-card>

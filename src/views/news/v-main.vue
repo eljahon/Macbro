@@ -71,6 +71,28 @@
                 </a-upload>
               </a-form-item>
             </a-col>
+            <a-col :span="24" :style="{ padding: '0 15px' }">
+              <a-form-item :label="$t('uploadVideo')">
+                <a-upload
+                  :custom-request="uploadVideo"
+                  list-type="picture-card"
+                  class="avatar-uploader"
+                  :show-upload-list="false"
+                  :before-upload="beforeUploadVideo"
+                  test-attr="video-news"
+                >
+                  <video width="100%" height="240" v-if="news.video" controls>
+                    <source :src="news.video">
+                  </video>
+                  <div v-else>
+                    <a-icon :type="loading ? 'loading' : 'plus'" />
+                    <div class="ant-upload-text">
+                      {{ $t('uploadVideo') }}
+                    </div>
+                  </div>
+                </a-upload>
+              </a-form-item>
+            </a-col>
             <a-col :span="24" :style="{ minHeight: '180px', padding: '0 15px' }">
               <a-form-item ref="previewImage" :label="$t('uploadNewsPreviewImage')" prop="previewImage">
                 <a-upload
@@ -161,6 +183,7 @@ export default {
         preview_image: '',
         full_text: '',
         active: true,
+        video: '',
         meta: {
             title: '',
             description: '',
@@ -216,12 +239,29 @@ export default {
         data
       }).then(response => {
         console.log('response', response)
-        getBase64(e.file, imageUrl => {
-            this.imageUrl = imageUrl
-            this.loading = false
-            })
         this.news.imageURL = response.filename
         })
+    },
+    uploadVideo (e) {
+      this.loading = true
+      var data = new FormData()
+      data.append('file', e.file)
+      request({
+        url: '/upload',
+        method: 'post',
+        data
+      }).then(response => {
+        console.log('response', response)
+        this.news.video = response.filename
+        this.loading = false
+        })
+    },
+    beforeUploadVideo (file) {
+      const isLt2M = file.size / 1024 / 1024 < 100
+      if (!isLt2M) {
+        this.$message.error('Video must smaller than 100MB!')
+      }
+      return isLt2M
     },
     uploadPreviewImage (e) {
       this.loading = true

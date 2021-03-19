@@ -90,6 +90,7 @@ const locale = {
   meta_tags: 'Meta Keywords',
   meta_description: 'Описание',
   uploadImage: 'Загрузить изображение',
+  uploadVideo: 'Загрузить видео',
   uploadPreviewImage: 'Загрузить preview',
   url: 'URL',
   title: 'Название',

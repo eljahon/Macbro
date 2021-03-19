@@ -1,38 +1,34 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
-    <div v-if="edit">
-      <a-card :title="$t('fillIn')">
-        <!-- <a-row>
-          <a-tabs type="card" v-model="activeTabKey">
-            <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
-              <span slot="tab">
-                <flag :iso="flagMapper(lang)" />
-                {{ langMapper(lang) }}
-              </span>
-              <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
-            </a-tab-pane>
-          </a-tabs>
-        </a-row> -->
-        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-      </a-card>
-    </div>
-    <div v-else>
-      <a-card :title="$t('fillIn')">
-        <a-row>
-          <v-main @clickParent="clickParent" ref="createForm"></v-main>
-        </a-row>
-      </a-card>
-    </div>
+
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+
+    <a-card :title="$t('fillIn')" :bordered="false" v-if="edit">
+      <!-- <a-row>
+        <a-tabs type="card" v-model="activeTabKey">
+          <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
+            <span slot="tab">
+              <flag :iso="flagMapper(lang)" />
+              {{ langMapper(lang) }}
+            </span>
+            <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
+          </a-tab-pane>
+        </a-tabs>
+      </a-row> -->
+      <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+    </a-card>
+    <a-card :title="$t('fillIn')" :bordered="false" v-else>
+      <a-row>
+        <v-main @clickParent="clickParent" ref="createForm"></v-main>
+      </a-row>
+    </a-card>
     <a-row>
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>

@@ -56,12 +56,12 @@
         <template slot="time" slot-scope="time">
           <a-tag class="time-tag" color="blue">{{ new Date(time).toLocaleString() }}</a-tag>
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-promos"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-promos${index}`"/>
           <router-link :to="`./update/${row.slug}`" >
-              <edit-btn test-attr="edit-promos"/>
+              <edit-btn :test-attr="`edit-promos${index}`"/>
           </router-link>
-          <delete-btn @confirm="deletePromos($event, row.slug)" test-attr="delete-promos"/>
+          <delete-btn @confirm="deletePromos($event, row.slug)" :test-attr="`delete-promos${index}`"/>
         </template>
       </a-table>
     </a-card>

@@ -1,26 +1,22 @@
 <template>
-  <a-card :title="$t('attributes')">
-    <a-card>
-      <a-row type="flex" justify="space-between">
-        <a-col :span="4">
-          <router-link to="././create">
-            <a-button type="primary">{{ $t('attribute_create') }}</a-button>
-          </router-link>
-        </a-col>
-        <a-col :span="5">
-          <a-form layout="horizontal">
-            <a-row>
-              <a-col :span="24" style="padding: 5px">
-                <a-form-item style="margin: 0">
-                  <a-input id="inputSearch" :placeholder="$t('search') + '...'" v-debounce="debouncedSearch" test-attr="search-attribute" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-          </a-form>
-        </a-col>
-      </a-row>
+  <div>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('attributes') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+
+    <a-card :title="$t('attributes')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-attribute">{{ $t('add') }}</a-button>
+      </router-link>
     </a-card>
-    <a-row>
+
+    <a-card class="breadcrumb-row" :bordered="false">
+      <a-input slot="extra" id="inputSearch" :placeholder="$t('search') + '...'" v-debounce="debouncedSearch" test-attr="search-attribute" />
+    </a-card>
+
+    <a-card :bordered="false">
       <a-table
         bordered
         :columns="columns"
@@ -37,11 +33,11 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="item">
-          <router-link :to="`./update/${item.slug}`" test-attr="edit-attribute">
+        <template slot="action" slot-scope="text, item, index">
+          <router-link :to="`./update/${item.slug}`" :test-attr="`edit-attribute${index}`">
             <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteAttr(item)" test-attr="delete-attribute"/>
+          <delete-btn @confirm="deleteAttr(item)" :test-attr="`delete-attribute${index}`"/>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
@@ -61,8 +57,8 @@
           </a-popconfirm> -->
         </template>
       </a-table>
-    </a-row>
-  </a-card>
+    </a-card>
+  </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'

@@ -1,22 +1,24 @@
 <template>
-    <div>
-        <a-breadcrumb style="margin: 10px 5px">
-            <a-breadcrumb-item
-                v-for="(item, index) in getRoutes"
-                :key="item.path"
-            >
-                <router-link :to="item.path" v-if="index !== getRoutes.length - 1">{{ $t(item.meta.title) }}</router-link>
-                <span v-else>{{ $t(item.meta.title) }}</span>
-            </a-breadcrumb-item>
-          <!-- <a-breadcrumb-item>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item> -->
-        </a-breadcrumb>
-    </div>
+    <a-card class="breadcrumb-row" :bordered="false">
+        <a-row type="flex" align="middle">
+            <a-button v-if="hasBack" type="link" @click="$router.go(-1)" style="padding: 0 25px 0 0">
+                <a-icon :component="$myIcons.leftArrow"/>
+            </a-button>
+            <a-col span="auto">
+                <slot/>
+            </a-col>
+        </a-row>
+    </a-card>
 </template>
 
 <script>
     export default {
+        props: {
+            hasBack: {
+                type: Boolean,
+                default: true
+            }
+        },
         computed: {
             getRoutes () {
                 console.log('ROUTES')
@@ -26,6 +28,10 @@
     }
 </script>
 
-<style lang="less" scoped>
-
+<style lang="less">
+.breadcrumb-row {
+    .ant-card-body {
+        padding: 11px 24px;
+    }
+}
 </style>

@@ -1,36 +1,33 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-    <a-card :title="$t('list')">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-order"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a :href="excelFile"><a-button type="success" icon="file-excel" @click="exportExcel">Export</a-button></a>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :title="$t('orders')" class="breadcrumb-row" :bordered="false">
+    </a-card>
+
+    <a-card class="breadcrumb-row" :bordered="false">
+      <a-row type="flex" align="middle">
+        <a-col :span="12">
+          <span>{{ $t('list') }}</span>
+        </a-col>
+        <a-col :span="12">
+          <a-input
+            style="float: right; width: 200px"
+            test-attr="search-order"
+            id="inputSearch"
+            :placeholder="$t('search') + '...'"
+            v-decorator="['search', { initialValue: this.getSearchQuery }]"
+            v-debounce="debouncedSearch"
+          />
+        </a-col>
+      </a-row>
+    </a-card>
+
+    <a-card :bordered="false">
 
       <a-table
         :columns="columns"
@@ -42,20 +39,23 @@
         showPagination="auto"
         test-attr="list-order"
       >
-        <template slot="tag" slot-scope="tag">
+        <span style="color: #1890FF" slot="tag" slot-scope="tag">
+          {{ tag }}
+        </span>
+        <!-- <template slot="tag" slot-scope="tag">
           <a-tag color="red">{{ tag }}</a-tag>
-        </template>
+        </template> -->
         <template slot="status" slot-scope="text, row">
           <status-tag
             :color="statusColor[row.status]"
             :text="statusTranslator(row.status)"
           />
         </template>
-        <template slot="action" slot-scope="text, row">
+        <template slot="action" slot-scope="text, row, index">
           <router-link :to="`/order/details/${row.number}`">
-            <preview-btn icon="link" test-attr="preview-order"/>
+            <preview-btn icon="link" :test-attr="`preview-order${index}`"/>
           </router-link>
-          <router-link :to="`/order/edit/${row.number}`" test-attr="edit-order">
+          <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
             <edit-btn/>
           </router-link>
         </template>
