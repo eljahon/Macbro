@@ -1,20 +1,16 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/customers/list" test-attr="prev-link-customer">{{ $t('customers') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/customers/list" test-attr="prev-link-customer">{{ $t('customers') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-    <a-card :title="$t('fillIn')">
-      <a-row>
-        <v-main></v-main>
-      </a-row>
+    <a-card :bordered="false">
+      <v-main></v-main>
     </a-card>
   </div>
 </template>

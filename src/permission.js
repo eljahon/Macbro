@@ -33,10 +33,11 @@ router.beforeEach((to, from, next) => {
             console.log(res)
             // const roles = res.result && res.result.role
             const roles = res.role
-            console.log('roles', roles, res)
+            console.log('roles', from, to, router)
             store.dispatch('GenerateRoutes', { roles }).then(() => {
               router.addRoutes(store.getters.addRouters)
-              const redirect = decodeURIComponent(from.query.redirect || to.path)
+              // const redirect = decodeURIComponent(from.query.redirect || to.path)
+              const redirect = decodeURIComponent(to.path)
               if (to.path === redirect) {
                 next({ ...to, replace: true })
               } else {

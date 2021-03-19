@@ -1,20 +1,18 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('inventory') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('inventory') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-      <a-col :span="12">
-        <router-link to="././create">
+    <a-card :title="$t('inventory')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
           <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-inventory">{{ $t('add') }}</a-button>
         </router-link>
-      </a-col>
-    </a-row>
+    </a-card>
 
-    <a-card :title="$t('list')">
+    <a-card :title="$t('list')" :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -47,10 +45,10 @@
         @change="handleTableChange"
         test-attr="list-inventory"
       >
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-inventory"/>
+        <template slot="action" slot-scope="text, row, index">
+          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-inventory${index}`"/> -->
           <router-link :to="`./update/${row.id}`" >
-            <edit-btn test-attr="edit-inventory"/>
+            <edit-btn :test-attr="`edit-inventory${index}`"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteItem($event, row.slug)"/> -->
         </template>

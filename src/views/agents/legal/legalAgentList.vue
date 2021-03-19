@@ -47,12 +47,12 @@
         @change="handleTableChange"
         test-attr="list-legal-agent"
       >
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-attribute"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-legal${index}`"/>
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn test-attr="edit-attribute"/>
+            <edit-btn :test-attr="`edit-legal${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" test-attr="delete-attribute"/>
+          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-legal${index}`"/>
         </template>
       </a-table>
     </a-card>

@@ -69,7 +69,7 @@ const user = {
         var result = {}
         var roleObj = {}
         const actions = storage.get(USER_ROLE)
-        console.log('actions', actions)
+        // console.log('actions', actions)
         if (actions && actions.id) {
           roleObj = {
             'id': actions.id,
@@ -143,6 +143,7 @@ const user = {
       console.log('Logout routers', asyncRouterMap)
       storage.remove(USER_ROLE)
       storage.remove(ACCESS_TOKEN)
+      location.reload(true)
     }
 
   }

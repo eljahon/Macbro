@@ -56,7 +56,8 @@ const orders = {
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
-        page.showQuickJumper = { goButton: 'Your text', goText: 'Your text' }
+        page.showQuickJumper = { goButton: 'Your text', text: 'asdad' }
+        page.showSizeChanger = true
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
@@ -64,6 +65,7 @@ const orders = {
             headers: headers,
             params: {
               page: page.current,
+              limit: page.pageSize,
               search: searchQuery
             }
         })

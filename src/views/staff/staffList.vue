@@ -50,11 +50,11 @@
         <template slot="fullname" slot-scope="row">
             {{ row.name }} {{ row.last_name }}
         </template>
-        <template slot="action" slot-scope="text, row">
+        <template slot="action" slot-scope="text, row, index">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn test-attr="edit-staff"/>
+              <edit-btn :test-attr="`edit-staff${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteStaff($event, row.id)" test-attr="delete-staff"/>
+          <delete-btn @confirm="deleteStaff($event, row.id)" :test-attr="`delete-staff${index}`"/>
         </template>
       </a-table>
     </a-card>

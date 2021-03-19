@@ -57,12 +57,12 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-banner-pos"/>
-          <router-link :to="'./update/'+row.id" test-attr="edit-banner-pos">
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-banner-pos${index}`"/>
+          <router-link :to="'./update/'+row.id" :test-attr="`edit-banner-pos${index}`">
             <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteBannerPosition($event, row.id)" test-attr="delete-banner-pos"/>
+          <delete-btn @confirm="deleteBannerPosition($event, row.id)" :test-attr="`delete-banner-pos${index}`"/>
         </template>
       </a-table>
     </a-card>

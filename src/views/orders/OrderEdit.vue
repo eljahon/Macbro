@@ -1,17 +1,15 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/orders/list" test-attr="prev-link-order">{{ $t('orders') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/orders/list" test-attr="prev-link-order">{{ $t('orders') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('update') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-    <a-card :title="$t('fillIn')">
+    <a-card :title="$t('fillIn')" :bordered="false">
       <a-row>
         <v-main ref="orderDetailsEdit"></v-main>
       </a-row>

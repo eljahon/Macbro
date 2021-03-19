@@ -1,18 +1,16 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-category">{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
+    <a-card :title="$t('categories')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-category">{{ $t('add') }}</a-button>
+      </router-link>
+    </a-card>
 
     <a-card :title="$t('list')">
       <div slot="extra">
@@ -53,12 +51,12 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-category"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-category${index}`"/>
           <router-link :to="'./update/'+row.slug" >
-            <edit-btn test-attr="edit-category"/>
+            <edit-btn :test-attr="`edit-category${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteCategory($event, row.slug)" test-attr="delete-category"/>
+          <delete-btn @confirm="deleteCategory($event, row.slug)" :test-attr="`delete-category${index}`"/>
         </template>
       </a-table>
     </a-card>

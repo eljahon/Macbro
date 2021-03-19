@@ -56,12 +56,12 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-products"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-products${index}`"/>
           <router-link :to="{path: `./update/${row.slug}`, pagination: getPagination}" >
-              <edit-btn test-attr="edit-products"/>
+              <edit-btn :test-attr="`edit-products${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteProduct($event, row.slug)" test-attr="delete-products"/>
+          <delete-btn @confirm="deleteProduct($event, row.slug)" :test-attr="`delete-products${index}`"/>
         </template>
       </a-table>
     </a-card>

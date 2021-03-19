@@ -47,6 +47,7 @@
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.1.2",
     "vue-svg-component-runtime": "^1.0.1",
+    "vue-swatches": "^2.1.0",
     "vue-treeselect": "^1.0.7",
     "vue-upload-image": "^1.1.5",
     "vue-yandex-maps": "^0.10.9",

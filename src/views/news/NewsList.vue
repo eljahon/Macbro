@@ -53,12 +53,12 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.slug)" test-attr="preview-news"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-news${index}`"/>
           <router-link :to="`./update/${row.slug}`" >
-            <edit-btn test-attr="edit-news"/>
+            <edit-btn :test-attr="`edit-news${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteNews($event, row.slug)" test-attr="delete-news"/>
+          <delete-btn @confirm="deleteNews($event, row.slug)" :test-attr="`delete-news${index}`"/>
         </template>
       </a-table>
     </a-card>

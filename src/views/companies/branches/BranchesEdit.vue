@@ -1,18 +1,14 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/company/list" test-attr="companies-branch">{{ $t('companies') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>
-            <router-link :to="`/company/${ $route.params.company_id }/branches/list`" test-attr="branches-branch">{{ $t('branches') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link :to="`/branch/list`" test-attr="branches-branch">{{ $t('branches') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+
     <div v-if="edit">
       <a-card :title="$t('fillIn')">
         <!-- <a-row>
@@ -58,7 +54,7 @@ export default {
     return {
       btnLoading: false,
       activeTabKey: 1,
-      edit: !!this.$route.params.company_id,
+      edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
   },

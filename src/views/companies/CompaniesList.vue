@@ -1,20 +1,18 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-company">{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
+    <a-card :title="$t('companies')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-company">{{ $t('add') }}</a-button>
+      </router-link>
+    </a-card>
 
-    <a-card :title="$t('list')">
+    <a-card :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -47,17 +45,17 @@
         @change="handleTableChange"
         test-attr="list-company"
       >
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-company"/>
-          <router-link :to="`./${row.id}/branches/list`" >
+        <template slot="action" slot-scope="text, row, index">
+          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-company"/> -->
+          <!-- <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
               <a-button id="buttonPreview" type="default" icon="branches" test-attr="branches-company"></a-button>
             </a-tooltip>
-          </router-link>
-          <router-link :to="`./update/${row.id}`" test-attr="edit-company" >
+          </router-link> -->
+          <router-link :to="`./update/${row.id}`" :test-attr="`edit-company${index}`" >
               <edit-btn/>
           </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" test-attr="delete-company"/>
+          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-company${index}`"/>
         </template>
       </a-table>
     </a-card>

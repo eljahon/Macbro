@@ -60,12 +60,12 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-banner"/>
+        <template slot="action" slot-scope="text, row, index">
+          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-banner${index}`"/>
           <router-link :to="'./update/'+row.slug">
-            <edit-btn test-attr="edit-banner"/>
+            <edit-btn :test-attr="`edit-banner${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteBanner($event, row.slug)" test-attr="delete-banner"/>
+          <delete-btn @confirm="deleteBanner($event, row.slug)" :test-attr="`delete-banner${index}`"/>
         </template>
       </a-table>
     </a-card>

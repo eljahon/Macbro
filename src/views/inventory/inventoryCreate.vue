@@ -1,17 +1,15 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/inventory/list" test-attr="prev-link-inventory">{{ $t('inventory') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/inventory/list" test-attr="prev-link-inventory">{{ $t('inventory') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-    <a-card :title="$t('fillIn')">
+    <a-card :title="$t('fillIn')" :bordered="false">
       <a-row>
         <v-main></v-main>
       </a-row>
@@ -21,6 +19,11 @@
 <script>
 import vMain from './v-main'
 export default {
-  components: { 'v-main': vMain }
+  components: { 'v-main': vMain },
+  data () {
+    return {
+      edit: !!this.$route.params.id
+    }
+  }
 }
 </script>

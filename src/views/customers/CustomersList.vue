@@ -1,18 +1,16 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('customers') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('customers') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
 
-    <a-card :title="$t('list')">
+    <a-card :title="$t('customers')" class="breadcrumb-row" :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
-            <a-col :span="12" style="padding: 5px">
+            <a-col :span="12">
               <a-form-item style="margin: 0">
                 <a-input
                   test-attr="search-customer"
@@ -23,7 +21,7 @@
                 />
               </a-form-item>
             </a-col>
-            <a-col :span="12" style="padding: 5px">
+            <a-col :span="12">
               <a-form-item style="margin: 0">
                 <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-customer">{{ $t('search') }}</a-button>
               </a-form-item>
@@ -31,7 +29,9 @@
           </a-row>
         </a-form>
       </div>
+    </a-card>
 
+    <a-card :bordered="false">
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
@@ -41,8 +41,8 @@
         @change="handleTableChange"
         test-attr="list-customer"
       >
-        <template slot="action" slot-scope="text, row">
-          <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/>
+        <template slot="action" slot-scope="text, row, index">
+          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
           <!-- <a-tooltip>
             <template slot="title">{{ $t('read') }}</template>
             <a-button
@@ -53,9 +53,9 @@
             ></a-button>
           </a-tooltip> -->
           <router-link :to="`./update/${row.id}`">
-            <edit-btn test-attr="edit-customer"/>
+            <edit-btn :test-attr="`edit-customer${index}`"/>
           </router-link>
-          <delete-btn @confirm="deleteCustomer($event, row.id)" test-attr="delete-customer"/>
+          <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
