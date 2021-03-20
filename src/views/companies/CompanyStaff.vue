@@ -1,36 +1,11 @@
 <template>
   <div>
-
-    <a-card :title="$t('branches')" class="breadcrumb-row" :bordered="false">
-      <router-link :to="{ path: `${$route.path}/branch/create` }" slot="extra">
-        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
-      </router-link>
-    </a-card>
-
-    <a-card :bordered="false">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                  test-attr="search-branch"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
-      </div>
-
+    <a-card :title="$t('staff')" :bordered="false">
+        <div slot="extra">
+            <router-link to="././create" slot="extra">
+                <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
+            </router-link>
+        </div>
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
@@ -47,7 +22,7 @@
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`/branch/update/${row.id}`" >
+          <router-link :to="`./update/${row.id}`" >
               <edit-btn :test-attr="`edit-branch${index}`"/>
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
@@ -94,12 +69,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companyBranchesList', 'companyBranchesPagination', 'searchQuery']),
+    ...mapGetters(['searchQuery']),
     getPagination () {
-      return this.companyBranchesPagination
+      return {}
     },
     getCompanyBranchesList () {
-      return this.companyBranchesList
+      return []
     },
     getSearchQuery () {
       return this.searchQuery
@@ -107,7 +82,7 @@ export default {
   },
   mounted () {
       this.setSearchQuery()
-    this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.$route.params.id })
+    this.getCompanyBranches({ page: this.companyBranchesPagination })
       .then(() => (console.log('companybranches')))
       .catch(error => {
         this.requestFailed(error)
@@ -119,34 +94,15 @@ export default {
     ...mapActions(['getCompanyBranches', 'setSearchQuery']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true, company_id: this.$route.params.id })
+      this.getCompanyBranches({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
     },
-    showPreviewModal (companyId) {
-      this.getselectedBranch(companyId)
-      this.previewVisible = true
-    },
-    getselectedBranch (companyId) {
-      request({
-        url: `/branch/${companyId}`,
-        method: 'get'
-      }).then((response) => {
-        console.log(response)
-        this.selectedCompany = response
-      })
-    },
-    handleCancel () {
-      this.previewVisible = false
-    },
-    handleCloseModal () {
-      this.selectedCompany = null
-    },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCompanyBranches({ company_id: this.$route.params.id })
+      this.getCompanyBranches()
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -161,7 +117,7 @@ export default {
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanyBranches({ page: this.companyBranchesPagination, company_id: this.$route.params.id })
+        this.getCompanyBranches({ page: this.companyBranchesPagination })
       })
       .catch(err => {
         this.$message.error(err)
@@ -175,7 +131,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getCompanyBranches({ company_id: this.$route.params.id })
+          this.getCompanyBranches()
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

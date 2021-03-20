@@ -49,6 +49,9 @@
                     <a-select-option value="finished">
                       Завершено
                     </a-select-option>
+                    <a-select-option value="order_accepted">
+                      Заказ принят
+                    </a-select-option>
                   </a-select>
                 </a-form-model-item>
               </a-col>
@@ -533,7 +536,7 @@ export default {
             payment_method: paymentMethod
         } = response
           console.log('this.cooords', this.coords)
-        this.items = items
+        this.items = items.length ? items : []
         this.cacheData = JSON.parse(JSON.stringify(items))
         this.order.customer_name = customerName
         this.order.address = address

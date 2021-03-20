@@ -10,26 +10,25 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="$t('fillIn')" :bordered="false" v-if="edit">
-      <!-- <a-row>
-        <a-tabs type="card" v-model="activeTabKey">
-          <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
-            <span slot="tab">
-              <flag :iso="flagMapper(lang)" />
-              {{ langMapper(lang) }}
-            </span>
-            <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
-          </a-tab-pane>
-        </a-tabs>
-      </a-row> -->
-      <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+    <a-card :bordered="false" v-if="edit" class="no-space-tab" >
+      <a-tabs v-model="activeTabKey" default-active-key="1">
+        <a-tab-pane :tab="$t('information')" :key="1">
+          <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+        </a-tab-pane>
+        <a-tab-pane :tab="$t('staff')" :key="2">
+          <company-staff></company-staff>
+        </a-tab-pane>
+        <a-tab-pane :tab="$t('inventory')" :key="3">
+          <company-inventory></company-inventory>
+        </a-tab-pane>
+        <a-tab-pane :tab="$t('branches')" :key="4">
+          <branches></branches>
+        </a-tab-pane>
+      </a-tabs>
+      <!-- <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main> -->
     </a-card>
-    <a-card :title="$t('fillIn')" :bordered="false" v-else>
-      <a-row>
-        <v-main @clickParent="clickParent" ref="createForm"></v-main>
-      </a-row>
-    </a-card>
-    <a-row>
+    <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
+    <a-row v-if="activeTabKey === 1" class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-company">
@@ -45,6 +44,9 @@
 </template>
 <script>
 import vMain from './v-main'
+import companyStaff from './CompanyStaff'
+import companyInventory from './CompanyInventory'
+import branches from './branches/BranchesList'
 import { langMapper, flagMapper } from '@/utils/mappers'
 export default {
   data () {
@@ -54,6 +56,12 @@ export default {
       edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
+  },
+  components: {
+    'v-main': vMain,
+    companyStaff,
+    companyInventory,
+    branches
   },
   // mounted() {
   //   console.log('$refs', this.$refs)
@@ -89,8 +97,7 @@ export default {
         this.$refs.createForm.resetForm()
       }
     }
-  },
-  components: { 'v-main': vMain }
+  }
 }
 </script>
 <style></style>

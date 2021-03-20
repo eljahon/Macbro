@@ -44,7 +44,7 @@ const locale = {
   list: 'Список',
   action: 'Действия',
   save: 'Сохранить',
-  reset: 'Сброс',
+  reset: 'Сбросить',
   add: 'Добавить',
   showOnMap: 'Показать на карте',
   update: 'Изменить',
@@ -358,7 +358,8 @@ const locale = {
   inventory: 'Склад',
   buy_price: 'Цена покупки',
   sell_price: 'Цена продажи',
-  phoneInUse: 'Этот номер используется'
+  phoneInUse: 'Этот номер используется',
+  information: 'Информация'
 }
 
 export default {

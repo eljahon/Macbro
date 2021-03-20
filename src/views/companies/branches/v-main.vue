@@ -18,7 +18,7 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <!-- <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="company_id" :label="$t('company')" prop="company_id">
             <a-select
               style="width: 100%"
@@ -31,7 +31,7 @@
               }}</a-select-option>
             </a-select>
           </a-form-model-item>
-        </a-col>
+        </a-col> -->
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
             <a-select
@@ -119,14 +119,13 @@ export default {
         phone_number: '',
         address: '',
         city_id: '',
-        company_id: '',
+        company_id: this.$route.params.company_id || '',
         number_of_employees: null
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        company_id: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       }
     }
