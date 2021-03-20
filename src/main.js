@@ -21,6 +21,8 @@ import editBtn from './components/editBtn.vue'
 import deleteBtn from './components/deleteBtn.vue'
 import previewBtn from './components/previewBtn.vue'
 import mainBreadcrumb from './components/mainBreadcrumb.vue'
+import UnderlineTabs from './components/CustomTabs/TabsUnderline.vue'
+import UnderlineTabsItem from './components/CustomTabs/TabsUnderlineItem.vue'
 import numberToPrice from './utils/numberToPrice'
 
 import myIcons from './core/icons'
@@ -57,8 +59,10 @@ Vue.use(tinymce)
 Vue.use(VueAxios)
 Vue.use(FormModel)
 
-Vue.component('v-swatches', VSwatches)
+Vue.component('underline-tabs', UnderlineTabs)
+Vue.component('underline-tabs-item', UnderlineTabsItem)
 Vue.component('breadcrumb-row', mainBreadcrumb)
+Vue.component('v-swatches', VSwatches)
 Vue.component('preview-btn', previewBtn)
 Vue.component('delete-btn', deleteBtn)
 Vue.component('edit-btn', editBtn)

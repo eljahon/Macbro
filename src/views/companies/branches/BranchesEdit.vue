@@ -54,7 +54,7 @@ export default {
     return {
       btnLoading: false,
       activeTabKey: 1,
-      edit: !!this.$route.params.id,
+      edit: !!this.$route.params.branch_id,
       langs: ['ru', 'uz', 'en']
     }
   },
