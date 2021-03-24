@@ -79,10 +79,12 @@
                   class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUploadVideo"
+                  handle
                   test-attr="video-news"
+                  @change="onVideoFileChange"
                 >
-                  <video width="100%" height="240" v-if="news.video" controls>
-                    <source :src="news.video">
+                  <video ref="videoPlayer" width="100%" height="240" v-if="news.video && !loading" controls>
+                    <source :src="videoUrl"/>
                   </video>
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
@@ -190,6 +192,7 @@ export default {
             tags: ''
         }
       },
+      videoUrl: '',
       rules: {
         title: [
           { required: true, message: this.$t('required'), trigger: 'change' }
@@ -215,7 +218,7 @@ export default {
         method: 'get'
       }).then((response) => {
         console.log('response', response)
-        const { new: { title, description, active, preview_image: previewImage, imageURL, meta, full_text: fullText } } = response
+        const { new: { title, description, active, preview_image: previewImage, imageURL, meta, full_text: fullText, video } } = response
         this.news.title = title
         this.news.description = description
         this.news.active = active
@@ -226,6 +229,8 @@ export default {
         this.news.imageURL = imageURL.split('/')[4] || ''
         // images' urls to show images to user
         this.imageUrl = imageURL
+        this.news.video = video.split('/')[video.split('/').length - 1] || ''
+        this.videoUrl = video
         this.previewImageUrl = previewImage
       })
     },
@@ -242,13 +247,21 @@ export default {
         this.news.imageURL = response.filename
         })
     },
+    onVideoFileChange (e) {
+      console.log('file', e)
+      this.videoUrl = URL.createObjectURL(e.file.originFileObj)
+      this.news.video = ''
+      this.$refs.videoPlayer.load()
+    },
     uploadVideo (e) {
       this.loading = true
       var data = new FormData()
+      this.videoUrl = e.file
       data.append('file', e.file)
       request({
-        url: '/upload',
+        url: '/video-upload',
         method: 'post',
+        timeout: 100000,
         data
       }).then(response => {
         console.log('response', response)

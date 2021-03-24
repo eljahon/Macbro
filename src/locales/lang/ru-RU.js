@@ -359,7 +359,10 @@ const locale = {
   buy_price: 'Цена покупки',
   sell_price: 'Цена продажи',
   phoneInUse: 'Этот номер используется',
-  information: 'Информация'
+  information: 'Информация',
+  branchType: 'Тип филиала',
+  own: 'Собственный',
+  franchise: 'Франшиза'
 }
 
 export default {

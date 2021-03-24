@@ -77,6 +77,23 @@
             />
           </a-form-model-item>
         </a-col>
+        <a-col :span="12" style="padding: 0 15px">
+          <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
+            <a-select
+              style="width: 100%"
+              v-model="branch.branch_type"
+              :placeholder="$t('branchType')"
+              test-attr="branch_type-branch"
+            >
+              <a-select-option value="franchise">
+                {{ $t('franchise') }}
+              </a-select-option>
+              <a-select-option value="own">
+                {{ $t('own') }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
             <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
@@ -120,13 +137,16 @@ export default {
         address: '',
         city_id: '',
         company_id: this.$route.params.company_id || '',
-        number_of_employees: null
+        number_of_employees: null,
+        branch_type: '',
+        corporate_id: '770aa014-b7c9-4456-966b-224cc515b3b7'
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        branch_type: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       }
     }
   },
