@@ -230,7 +230,7 @@ const locale = {
   company_name: 'Название компании',
   email: 'Адрес электронной почты',
   inn: 'ИНН',
-  mfo: 'МФО',
+  mfo: 'МФО код',
   //
   branchName: 'Название филиала',
   destinationAddress: 'Адрес назначения',
@@ -363,7 +363,13 @@ const locale = {
   branchType: 'Тип филиала',
   own: 'Собственный',
   franchise: 'Франшиза',
-  color: 'Цвет'
+  color: 'Цвет',
+
+  // company
+  corporates: 'Корпорации',
+  corporate: 'Корпорация',
+  bank_name: 'Название банка',
+  juristicEntity: 'Юридическое лицо'
 }
 
 export default {

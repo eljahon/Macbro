@@ -98,7 +98,7 @@
                 <a-input-number
                   v-model="option.order"
                   test-attr="options-order-attribute"
-                  :min="1"
+                  :min="0"
                   :placeholder="$t('orderno')"
                 />
                 <!-- <a-input v-model="option.order" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/> -->
