@@ -86,45 +86,57 @@
         v-if="productProperty.type && productProperty.type != 'text' && productProperty.type != 'number'"
         :title="$t('parameter')"
       >
-        <a-row v-for="(option, i) in productProperty.options" :key="i">
+        <a-row v-for="(option, i) in productProperty.options" :key="i" type="flex" class="attribute-options-item">
           <a-col :span="12" style="padding: 0 15px">
             <a-form-model-item :label="$t('option_name')">
-              <a-input v-model="option.name" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/>
+              <div>
+                <a-input v-model="option.name" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/>
+              </div>
+            </a-form-model-item>
+            <a-form-model-item :label="$t('order_no')">
+              <div>
+                <a-input-number
+                  v-model="option.order"
+                  test-attr="options-order-attribute"
+                  :min="1"
+                  :placeholder="$t('orderno')"
+                />
+                <!-- <a-input v-model="option.order" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/> -->
+              </div>
             </a-form-model-item>
           </a-col>
-          <a-col :span="12" style="padding: 0 15px">
+          <a-col :span="8" style="padding: 0 15px">
             <a-form-model-item :label="`${$t('code')} (значение):`">
-              <a-row>
-                <a-col :span="20">
-                  <div class="form__input" v-if="productPropertySlug === 'color'">
-                    <v-swatches
-                      test-attr="options-value-attribute"
-                      v-model="option.value"
-                      show-fallback
-                      fallback-input-type="color"
-                      popover-x="left"
-                    ></v-swatches>
-                  </div>
-                  <a-input
-                    v-else
-                    v-model="option.value"
-                    type="text"
-                    :placeholder="$t('code')"
-                    test-attr="options-value-attribute"
-                  />
-                </a-col>
-                <a-col :span="4">
-                  <a-button
-                    test-attr="remove-option-attribute"
-                    @click="removeAttr(i)"
-                    type="danger"
-                    style="margin-left: 20px"
-                    shape="circle"
-                    icon="delete"
-                  />
-                </a-col>
-              </a-row>
+              <div>
+                <a-input
+                  v-model="option.value"
+                  type="text"
+                  :placeholder="$t('code')"
+                  test-attr="options-value-attribute"
+                />
+              </div>
             </a-form-model-item>
+            <a-form-model-item :label="`Екстра`" v-if="productPropertySlug === 'color'">
+              <div class="form__input">
+                <v-swatches
+                  test-attr="options-value-attribute"
+                  v-model="option.extra"
+                  show-fallback
+                  fallback-input-type="color"
+                  popover-x="left"
+                ></v-swatches>
+              </div>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="4" style="align-items: center;display: flex;">
+            <a-button
+              test-attr="remove-option-attribute"
+              @click="removeAttr(i)"
+              type="danger"
+              style="margin-left: 20px"
+              shape="circle"
+              icon="delete"
+            />
           </a-col>
         </a-row>
         <a-row>
@@ -332,8 +344,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .colo {
   color: rgb(184, 182, 182);
+}
+.attribute-options-item {
+  border-bottom: 1px solid #ededed;
+}
+.attribute-options-item:last-child {
+  border-bottom: none;
 }
 </style>
