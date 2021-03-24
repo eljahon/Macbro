@@ -88,7 +88,7 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
+            <a-col :md="24"  :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
                   v-model="product.external_id"
@@ -662,7 +662,8 @@ export default {
   },
   props: {
   // eslint-disable-next-line
-    lang: String
+    lang: String,
+    type: String
   },
   computed: {
     ...mapGetters(['productsData', 'productsPagination', 'reviewsData', 'reviewsPagination', 'categories', 'brands', 'allAttrs']),

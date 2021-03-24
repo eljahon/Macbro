@@ -7,7 +7,7 @@
         :okText="$t('yes')"
         :cancelText="$t('no')"
     >
-        <a-tooltip>
+        <a-tooltip placement="right">
             <template slot="title">{{ $t('delete') }}</template>
             <a-button class="ant-btn-icon-only" id="buttonDelete" type="danger">
                 <a-icon :component="myIcons.binSvg" />
