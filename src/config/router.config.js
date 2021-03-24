@@ -150,6 +150,18 @@ export const asyncRouterMap = [
             name: 'corporateEdit',
             component: () => import('@/views/companies/corporate/CorporateEdit'),
             meta: { title: 'update', keepAlive: true, permission: ['company'] }
+          },
+          {
+            path: '/company/update/:company_id/warehouse/create',
+            name: 'warehouseCreate',
+            component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+            meta: { title: 'add', keepAlive: true, permission: ['company'] }
+          },
+          {
+            path: '/warehouse/update/:id',
+            name: 'warehouseEdit',
+            component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+            meta: { title: 'update', keepAlive: true, permission: ['company'] }
           }
         ]
       },

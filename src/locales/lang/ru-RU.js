@@ -369,7 +369,8 @@ const locale = {
   corporates: 'Корпорации',
   corporate: 'Корпорация',
   bank_name: 'Название банка',
-  juristicEntity: 'Юридическое лицо'
+  juristicEntity: 'Юридическое лицо',
+  warehouse: 'Склад'
 }
 
 export default {

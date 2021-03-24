@@ -19,7 +19,7 @@
                 <flag :iso="flagMapper(lang)" />
                 {{ langMapper(lang) }}
               </span>
-              <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
+              <v-main @clickParent="clickParent" type="edit" :ref="`${lang}EditForm`" :lang="lang"></v-main>
             </a-tab-pane>
           </a-tabs>
         </a-row>
