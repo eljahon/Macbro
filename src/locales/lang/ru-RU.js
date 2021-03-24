@@ -362,7 +362,8 @@ const locale = {
   information: 'Информация',
   branchType: 'Тип филиала',
   own: 'Собственный',
-  franchise: 'Франшиза'
+  franchise: 'Франшиза',
+  color: 'Цвет'
 }
 
 export default {

@@ -116,7 +116,7 @@
                 />
               </div>
             </a-form-model-item>
-            <a-form-model-item :label="`Екстра`" v-if="productPropertySlug === 'color'">
+            <a-form-model-item :label="`${$t('color')}`" v-if="productPropertySlug === 'color'">
               <div class="form__input">
                 <v-swatches
                   test-attr="options-value-attribute"
