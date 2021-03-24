@@ -3,14 +3,17 @@
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px">
         <a-breadcrumb-item>
-          <router-link :to="`/branch/list`" test-attr="branches-branch">{{ $t('branches') }}</router-link>
+          <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <a @click="$router.go(-1)" test-attr="branches-branch">{{ $t('branches') }}</a>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
 
     <div v-if="edit">
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('information')"  :bordered="false">
         <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
@@ -26,13 +29,13 @@
       </a-card>
     </div>
     <div v-else>
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('fillIn')"  :bordered="false">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>
       </a-card>
     </div>
-    <a-row>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-branch">
@@ -54,7 +57,7 @@ export default {
     return {
       btnLoading: false,
       activeTabKey: 1,
-      edit: !!this.$route.params.branch_id,
+      edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
   },

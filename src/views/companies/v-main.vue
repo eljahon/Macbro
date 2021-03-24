@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" :title="companySlug ? $t('fillIn') : ''">
+  <a-card :bordered="false" :title="companySlug ? $t('information') : $t('fillIn')">
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -9,7 +9,7 @@
       :wrapper-col="wrapperCol"
     >
       <a-row>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('company')" prop="name">
             <a-input
               :disabled="requesting"
@@ -18,7 +18,7 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
             <a-input-number
               style="width: 100%"
@@ -28,7 +28,7 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="email" :label="$t('email')" prop="email">
             <a-input
               :disabled="requesting"
@@ -38,7 +38,7 @@
           </a-form-model-item>
         </a-col>
         <!-- number -->
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
               :disabled="requesting"
@@ -48,7 +48,7 @@
           </a-form-model-item>
         </a-col>
         <!-- work hours -->
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
             <a-input-number
               style="width: 100%"
@@ -59,7 +59,7 @@
           </a-form-model-item>
         </a-col>
         <!-- address 1 -->
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
               :disabled="requesting"
@@ -69,7 +69,7 @@
           </a-form-model-item>
         </a-col>
         <!-- address 2 -->
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
             <a-input-number
               style="width: 100%"

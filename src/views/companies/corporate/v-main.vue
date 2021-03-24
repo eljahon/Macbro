@@ -3,100 +3,70 @@
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
-      :model="branch"
+      :model="corporate"
       :rules="rules"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
       <a-row>
         <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('name')" prop="name">
+          <a-form-model-item ref="bank_name" :label="$t('bank_name')" prop="bank_name">
             <a-input
               :disabled="requesting"
-              v-model="branch.name"
-              test-attr="name-branch"
+              v-model="corporate.bank_name"
+              test-attr="name-corporate"
             />
           </a-form-model-item>
         </a-col>
-        <!-- <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="company_id" :label="$t('company')" prop="company_id">
-            <a-select
-              style="width: 100%"
-              v-model="branch.company_id"
-              :placeholder="$t('company')"
-              test-attr="company-branch"
-            >
-              <a-select-option v-for="company in companiesList" :key="company.value" :value="company.id">{{
-                company.name
-              }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col> -->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
-            <a-select
+          <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
+            <a-input-number
               style="width: 100%"
-              v-model="branch.city_id"
-              :placeholder="$t('city')"
-              test-attr="city-branch"
-            >
-              <a-select-option v-for="city in cityList" :key="city.value" :value="city.id">{{
-                city.name
-              }}</a-select-option>
-            </a-select>
+              :disabled="requesting"
+              v-model="corporate.account_number"
+              test-attr="inn-corporate"
+            />
           </a-form-model-item>
         </a-col>
         <!-- number -->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
+          <a-form-model-item ref="address" :label="$t('address')" prop="address">
+            <a-input
+              :disabled="requesting"
+              v-model="corporate.address"
+              test-attr="address-corporate"
+            />
+          </a-form-model-item>
+        </a-col>
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
               :disabled="requesting"
-              v-model="branch.phone_number"
-              test-attr="phone_number-branch"
+              v-model="corporate.phone_number"
+              test-attr="phone_number-corporate"
             />
           </a-form-model-item>
         </a-col>
         <!-- address 1 -->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="address" :label="$t('address')" prop="address">
-            <a-input
-              :disabled="requesting"
-              v-model="branch.address"
-              test-attr="address-branch"
-            />
-          </a-form-model-item>
-        </a-col>
         <!-- address 2 -->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">
+          <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
             <a-input-number
               style="width: 100%"
               :disabled="requesting"
-              v-model="branch.number_of_employees"
-              test-attr="number_of_employees-branch"
+              v-model="corporate.inn"
+              test-attr="inn-corporate"
             />
           </a-form-model-item>
         </a-col>
         <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
-            <a-select
+          <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
+            <a-input-number
               style="width: 100%"
-              v-model="branch.branch_type"
-              :placeholder="$t('branchType')"
-              test-attr="branch_type-branch"
-            >
-              <a-select-option value="franchise">
-                {{ $t('franchise') }}
-              </a-select-option>
-              <a-select-option value="own">
-                {{ $t('own') }}
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="24" style="padding: 0 15px">
-          <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
+              :disabled="requesting"
+              v-model="corporate.mfo"
+              test-attr="inn-corporate"
+            />
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -108,7 +78,7 @@
 import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: {
     'a-auto-complete': AutoComplete,
@@ -123,75 +93,53 @@ export default {
       cityList: [],
       requesting: false,
       activeTabKey: '1',
-      branchId: this.$route.params.id,
+      corporateId: this.$route.params.id,
       shopId: null,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
       other: '',
       loading: false,
       loadingTable: false,
-      branch: {
-        name: '',
-        description: '',
+      corporate: {
+        bank_name: '',
         phone_number: '',
         address: '',
-        city_id: '',
-        company_id: this.$route.params.company_id || '',
-        number_of_employees: null,
-        branch_type: '',
-        corporate_id: '770aa014-b7c9-4456-966b-224cc515b3b7'
+        inn: null,
+        mfo: null,
+        account_number: null
       },
       rules: {
-        name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        bank_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        branch_type: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       }
     }
   },
   mounted () {
-    if (this.branchId) {
-      this.getBranchAttrs(this.branchId).then(res => {
+    if (this.corporateId) {
+      this.getCorporateAttrs(this.corporateId).then(res => {
         this.loadingTable = true
       })
     }
-    this.getCities()
-    this.getCompanies()
-  },
-  computed: {
-    ...mapGetters(['companiesList'])
   },
   methods: {
     ...mapActions(['getCompanies']),
-    getCities () {
-      return new Promise((resolve) => {
-        request({
-          url: `/city`,
-          method: 'get'
-        }).then((response) => {
-          resolve()
-          // images' urls to show images to user
-          this.cityList = response.cities
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      })
-    },
-    getBranchAttrs () {
+    getCorporateAttrs () {
       this.loading = true
       return new Promise((resolve) => {
         request({
-          url: `/branch/${this.branchId}`,
+          url: `/corporate/${this.corporateId}`,
           method: 'get'
         }).then((response) => {
           this.loading = false
           resolve()
           console.log('response', response)
-          Object.keys(this.branch).forEach(key => {
+          Object.keys(this.corporate).forEach(key => {
             if (response[key] !== null) {
-              this.branch[key] = response[key]
+              this.corporate[key] = response[key]
             }
           })
           // images' urls to show images to user
@@ -207,8 +155,8 @@ export default {
         if (valid) {
           this.requesting = true
           const req = {
-            url: this.branchId ? `/branch/${this.branchId}` : '/branch',
-            method: this.branchId ? 'put' : 'post'
+            url: this.corporateId ? `/corporate/${this.corporateId}` : '/corporate',
+            method: this.corporateId ? 'put' : 'post'
           }
           const headers = {
             'Content-Type': 'application/json'
@@ -217,7 +165,7 @@ export default {
           request({
               url: req.url,
               method: req.method,
-              data: this.branch,
+              data: this.corporate,
               headers: headers
           })
           .then(res => {
