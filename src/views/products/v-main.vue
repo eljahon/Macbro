@@ -820,8 +820,11 @@ export default {
     },
     onScrollBottom (event) {
       var target = event.target
+      console.log('on Scroll enter', this.fetching, target)
       if (!this.fetching && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        console.log('if Scroll', this.variantParams.total, this.variantList.length)
         if (this.variantParams.total > this.variantList.length) {
+          console.log('on Scroll request')
           this.variantParams.page += 1
           this.variantParams.lang = this.lang || 'ru'
           target.scrollTo(0, target.scrollHeight)
