@@ -272,7 +272,7 @@ const locale = {
 
   // product
   'featured-products': 'Коллекция продуктов',
-  'featuredProducts': 'Коллекция продуктов',
+  featuredProducts: 'Коллекция продуктов',
   add_product: 'Добавить продукт',
   products: 'Продукты',
   product: 'Продукт',
@@ -356,6 +356,7 @@ const locale = {
   validatePassword: 'Пароль должен состоять минимум из 5 символов, 1 цифры, 1 буквы',
   // inventory
   inventory: 'Склад',
+  prixod: 'Товары',
   buy_price: 'Цена покупки',
   sell_price: 'Цена продажи',
   phoneInUse: 'Этот номер используется',
@@ -364,6 +365,12 @@ const locale = {
   own: 'Собственный',
   franchise: 'Франшиза',
   color: 'Цвет',
+
+  // inventory-item
+  imeiCode: 'ИМЕИ Код',
+  sellPrice: 'Цена продажи',
+  buyPrice: 'Цена покупки',
+  productState: 'Состояние',
 
   // company
   corporates: 'Корпорации',

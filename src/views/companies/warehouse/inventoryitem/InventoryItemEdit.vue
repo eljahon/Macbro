@@ -6,7 +6,10 @@
           <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
         </a-breadcrumb-item>
         <a-breadcrumb-item>
-          <a @click="$router.go(-1)" test-attr="branches-warehouse">{{ $t('warehouse') }}</a>
+          <a @click="$router.go(-2)" test-attr="branches-warehouse">{{ $t('warehouse') }}</a>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <a @click="$router.go(-1)" test-attr="branches-warehouse-detail">{{ $t('prixod') }}</a>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -14,22 +17,10 @@
 
     <div v-if="edit">
       <a-card :bordered="false">
-        <a-tabs v-model="activeTabKey">
-          <a-tab-pane :key="1">
-            <span slot="tab">
-              {{ $t('information') }}
-            </span>
-            <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-          </a-tab-pane>
-
-          <a-tab-pane :key="2">
-            <span slot="tab">
-              {{ $t('prixod') }}
-            </span>
-
-            <inventory-item />
-          </a-tab-pane>
-        </a-tabs>
+        <span slot="tab">
+          {{ $t('information') }}
+        </span>
+        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
       </a-card>
     </div>
     <div v-else>
@@ -39,7 +30,7 @@
         </a-row>
       </a-card>
     </div>
-    <a-row class="edit-btns" v-if="activeTabKey === 1">
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button
@@ -61,25 +52,20 @@
 </template>
 <script>
 import vMain from './v-main'
-import InventoryItem from './inventoryitem/InventoryItemList'
 import { langMapper, flagMapper } from '@/utils/mappers'
 
 export default {
   data () {
     return {
       btnLoading: false,
-      activeTabKey: 1,
+      activeTabKey: '1',
       edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
   },
   mounted () {
-    // console.log('$refs', this.$refs)
     console.log('ROUTES', this.$route)
   },
-  // updated() {
-  //   console.warn('$refs', this.$refs)
-  // },
   methods: {
     langMapper,
     flagMapper,
@@ -109,7 +95,7 @@ export default {
       }
     }
   },
-  components: { 'v-main': vMain, InventoryItem }
+  components: { 'v-main': vMain }
 }
 </script>
 <style></style>

@@ -162,6 +162,18 @@ export const asyncRouterMap = [
             name: 'warehouseEdit',
             component: () => import('@/views/companies/warehouse/WarehouseEdit'),
             meta: { title: 'update', keepAlive: true, permission: ['company'] }
+          },
+          {
+            path: '/warehouse/update/:warehouse_id/items/create',
+            name: 'inventoryItemCreate',
+            component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
+            meta: { title: 'add', keepAlive: true, permission: ['company'] }
+          },
+          {
+            path: '/warehouse/update/:warehouse_id/items/update/:id',
+            name: 'inventoryItemEdit',
+            component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
+            meta: { title: 'update', keepAlive: true, permission: ['company'] }
           }
         ]
       },

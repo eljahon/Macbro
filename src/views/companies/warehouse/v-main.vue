@@ -27,7 +27,32 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="24" style="padding: 0 15px">
+        <a-col :span="12" style="padding: 0 15px">
+          <a-form-model-item ref="branch_name" :label="$t('branch_name')" prop="branch_name">
+            <a-select
+                show-search
+                :auto-clear-search-value="false"
+                @search="onSearch($event, 'branch')"
+                :value="warehouse.branch_id"
+                :filter-option="false"
+                @popupScroll="onScrollBottom($event, 'branch')"
+                placeholder="branch"
+                @change="handleChange($event, 'branch')"
+                :disbled="loading"
+                test-attr="branch_name-inventory"
+            >
+                <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
+                    {{ branch.name }}
+                </a-select-option>
+                <a-select-option key="productFetching" v-if="branchParams.total > branchList.length || branchFetching">
+                    <a-spin slot="notFoundContent" size="small" />
+                </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col :span="20" style="padding: 0 15px">
             <a-form-model-item ref="map" :label="$t('map')" prop="map">
                 <yandex-map
                     :coords="coords"
@@ -35,7 +60,7 @@
                     :zoom="18"
                     @click="onLocationChange"
                     searchControlProvider="yandex#search"
-                    style="width: 100%; max-width: 1000px; height: 80vh;"
+                    style="width: 100%; max-width: 1000px; height: 50vh;"
                     test-attr="coords-order"
                 >
                     <ymap-marker
@@ -56,6 +81,8 @@ import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
 import { pointSearch } from '@/utils/yandexMap'
+import debounce from 'lodash/debounce'
+
 export default {
   components: {
     'a-auto-complete': AutoComplete,
@@ -66,6 +93,9 @@ export default {
     lang: String
   },
   data () {
+    this.onSearch = debounce(this.onSearch, 400)
+    this.branchGetAll = debounce(this.branchGetAll, 100)
+
     return {
       cityList: [],
       coords: [41.31, 69.28],
@@ -81,11 +111,21 @@ export default {
       warehouse: {
         name: '',
         address: '',
-        company_id: this.$route.params.company_id || ''
+        company_id: this.$route.params.company_id || '',
+        branch_id: '',
+        branch_name: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+      },
+      branchList: [],
+      branchFetching: false,
+      branchParams: {
+        company_id: this.$route.params.company_id || '',
+        limit: 10,
+        page: 1,
+        total: null
       }
     }
   },
@@ -95,6 +135,9 @@ export default {
         this.loadingTable = true
       })
     }
+
+    this.branchParams = { search: '', lang: this.lang, limit: 10, page: 1 }
+    this.branchGetAll()
   },
   methods: {
     onLocationChange (e) {
@@ -106,6 +149,31 @@ export default {
       pointSearch(searchCoord.toString()).then(result => {
         this.warehouse.address = result[0].name
       })
+    },
+    handleChange (value, type) {
+        if (type === 'branch') {
+            const branch = this.branchList.find(item => item.id === value)
+            this.warehouse.branch_id = branch.id
+            this.warehouse.branch_name = branch.name
+        }
+    },
+    onSearch (value, type) {
+      this[`${type}Fetching`] = true
+      this[`${type}List`] = []
+      this[`${type}Params`] = { search: value, lang: this.lang, limit: 10, page: 1 }
+      this[`${type}GetAll`]()
+    },
+    onScrollBottom (event, type) {
+      var target = event.target
+
+      if (!this[`${type}Fetching`] && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        if (this[`${type}Params`].total > this[`${type}List`].length) {
+          this[`${type}Params`].page += 1
+          this[`${type}Params`].lang = this.lang || 'ru'
+          target.scrollTo(0, target.scrollHeight)
+          this[`${type}GetAll`]()
+        }
+      }
     },
     getBranchAttrs () {
       this.loading = true
@@ -129,6 +197,20 @@ export default {
           console.log(err)
           this.loading = false
         })
+      })
+    },
+    branchGetAll () {
+      this.branchFetching = true
+      request({
+        url: '/branch',
+        method: 'get',
+        params: this.branchParams
+      }).then(response => {
+        this.branchFetching = false
+        this.branchList.push(...response.branches)
+        this.branchParams.total = response.count
+      }).catch(() => {
+        this.branchFetching = false
       })
     },
     onSubmit () {
