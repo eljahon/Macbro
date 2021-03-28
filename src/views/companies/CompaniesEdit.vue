@@ -70,7 +70,7 @@ export default {
     corporates
   },
   mounted () {
-    this.lastTab = 1
+    this.setLastTab(1)
   },
   // updated() {
   //   console.warn('$refs', this.$refs)
