@@ -69,9 +69,8 @@ export default {
     branches,
     corporates
   },
-  mounted () {
-    this.setLastTab(1)
-  },
+  // mounted () {
+  // },
   // updated() {
   //   console.warn('$refs', this.$refs)
   // },

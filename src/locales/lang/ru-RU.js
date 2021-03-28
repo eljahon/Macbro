@@ -356,6 +356,7 @@ const locale = {
   validatePassword: 'Пароль должен состоять минимум из 5 символов, 1 цифры, 1 буквы',
   // inventory
   inventory: 'Склад',
+  prixod: 'Товары',
   buy_price: 'Цена покупки',
   sell_price: 'Цена продажи',
   phoneInUse: 'Этот номер используется',
