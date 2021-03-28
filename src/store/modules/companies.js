@@ -14,7 +14,8 @@ const companies = {
     companyCorporatesPagination: {},
     companyWarehouse: [],
     companyWarehousePagination: {},
-    searchQuery: ''
+    searchQuery: '',
+    lastTab: 1
   },
   getters: {
     companiesList: state => state.companies,
@@ -25,7 +26,8 @@ const companies = {
     companyCorporatesPagination: state => state.companyCorporatesPagination,
     companyWarehouseList: state => state.companyWarehouse,
     companyWarehousePagination: state => state.companyWarehousePagination,
-    searchQuery: state => state.searchQuery
+    searchQuery: state => state.searchQuery,
+    lastTab: state => state.lastTab
   },
   mutations: {
     SET_COMPANIES: (state, companies) => {
@@ -54,9 +56,15 @@ const companies = {
     },
     SET_SEARCH_QUERY: (state, query) => {
       state.searchQuery = query
+    },
+    SET_LAST_TAB: (state, lastTab) => {
+      state.lastTab = lastTab
     }
   },
   actions: {
+    setLastTab ({ commit }, tab) {
+      commit('SET_LAST_TAB', tab)
+    },
     setSearchQuery ({ commit }, searchQuery) {
       commit('SET_SEARCH_QUERY', searchQuery)
     },

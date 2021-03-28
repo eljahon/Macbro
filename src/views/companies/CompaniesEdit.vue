@@ -11,7 +11,7 @@
     </breadcrumb-row>
 
     <a-card :bordered="false" v-if="edit" class="no-space-tab" >
-      <a-tabs v-model="activeTabKey" default-active-key="1">
+      <a-tabs :activeKey="currentTab" @change="onTabChange">
         <a-tab-pane :tab="$t('information')" :key="1">
           <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
         </a-tab-pane>
@@ -52,6 +52,7 @@ import branches from './branches/BranchesList'
 import corporates from './corporate/CorporateList'
 import warehouse from './warehouse/WarehouseList'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -74,9 +75,19 @@ export default {
   // updated() {
   //   console.warn('$refs', this.$refs)
   // },
+  computed: {
+    ...mapGetters(['lastTab']),
+    currentTab () {
+      return this.lastTab
+    }
+  },
   methods: {
+    ...mapActions(['setLastTab']),
     langMapper,
     flagMapper,
+    onTabChange (value) {
+      this.setLastTab(value)
+    },
     clickParent (e) {
       this.btnLoading = e
     },
