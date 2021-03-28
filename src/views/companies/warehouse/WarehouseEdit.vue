@@ -20,6 +20,24 @@
               {{ $t('information') }}
             </span>
             <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+            <a-row class="edit-btns">
+              <a-col :span="24" style="padding: 15px 0">
+                <a-form-model-item>
+                  <a-button
+                    :loading="btnLoading"
+                    type="primary"
+                    html-type="submit"
+                    @click.prevent="submit"
+                    test-attr="save-branch"
+                  >
+                    {{ $t('save') }}
+                  </a-button>
+                  <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-branch">
+                    {{ $t('reset') }}
+                  </a-button>
+                </a-form-model-item>
+              </a-col>
+            </a-row>
           </a-tab-pane>
 
           <a-tab-pane key="2">
@@ -27,7 +45,7 @@
               {{ $t('prixod') }}
             </span>
 
-            <inventory-item/>
+            <inventory-item />
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -39,29 +57,11 @@
         </a-row>
       </a-card>
     </div>
-    <a-row class="edit-btns">
-      <a-col :span="24" style="padding: 15px 0">
-        <a-form-model-item>
-          <a-button
-            :loading="btnLoading"
-            type="primary"
-            html-type="submit"
-            @click.prevent="submit"
-            test-attr="save-branch"
-          >
-            {{ $t('save') }}
-          </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-branch">
-            {{ $t('reset') }}
-          </a-button>
-        </a-form-model-item>
-      </a-col>
-    </a-row>
   </div>
 </template>
 <script>
 import vMain from './v-main'
-import InventoryItem from './inventory-item/InventoryItemList'
+import InventoryItem from './inventoryitem/InventoryItemList'
 import { langMapper, flagMapper } from '@/utils/mappers'
 
 export default {

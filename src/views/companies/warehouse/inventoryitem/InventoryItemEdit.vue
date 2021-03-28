@@ -27,7 +27,7 @@
               {{ $t('prixod') }}
             </span>
 
-            <inventory-item/>
+            <inventory-item />
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -61,7 +61,6 @@
 </template>
 <script>
 import vMain from './v-main'
-import InventoryItem from './inventory-item/InventoryItemList'
 import { langMapper, flagMapper } from '@/utils/mappers'
 
 export default {
@@ -74,12 +73,8 @@ export default {
     }
   },
   mounted () {
-    // console.log('$refs', this.$refs)
     console.log('ROUTES', this.$route)
   },
-  // updated() {
-  //   console.warn('$refs', this.$refs)
-  // },
   methods: {
     langMapper,
     flagMapper,
@@ -109,7 +104,7 @@ export default {
       }
     }
   },
-  components: { 'v-main': vMain, InventoryItem }
+  components: { 'v-main': vMain }
 }
 </script>
 <style></style>

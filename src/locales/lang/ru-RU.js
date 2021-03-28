@@ -272,7 +272,7 @@ const locale = {
 
   // product
   'featured-products': 'Коллекция продуктов',
-  'featuredProducts': 'Коллекция продуктов',
+  featuredProducts: 'Коллекция продуктов',
   add_product: 'Добавить продукт',
   products: 'Продукты',
   product: 'Продукт',
@@ -365,6 +365,12 @@ const locale = {
   own: 'Собственный',
   franchise: 'Франшиза',
   color: 'Цвет',
+
+  // inventory-item
+  imeiCode: 'ИМЕИ Код',
+  sellPrice: 'Цена продажи',
+  buyPrice: 'Цена покупки',
+  productState: 'Состояние',
 
   // company
   corporates: 'Корпорации',
