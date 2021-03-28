@@ -170,7 +170,7 @@ export const asyncRouterMap = [
             meta: { title: 'add', keepAlive: true, permission: ['company'] }
           },
           {
-            path: '/warehouse/update/:warehouse_id/item/:id/update',
+            path: '/warehouse/update/:warehouse_id/items/update/:id',
             name: 'inventoryItemEdit',
             component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
             meta: { title: 'update', keepAlive: true, permission: ['company'] }

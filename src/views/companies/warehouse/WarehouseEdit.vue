@@ -15,32 +15,14 @@
     <div v-if="edit">
       <a-card :bordered="false">
         <a-tabs v-model="activeTabKey">
-          <a-tab-pane key="1">
+          <a-tab-pane :key="1">
             <span slot="tab">
               {{ $t('information') }}
             </span>
             <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-            <a-row class="edit-btns">
-              <a-col :span="24" style="padding: 15px 0">
-                <a-form-model-item>
-                  <a-button
-                    :loading="btnLoading"
-                    type="primary"
-                    html-type="submit"
-                    @click.prevent="submit"
-                    test-attr="save-branch"
-                  >
-                    {{ $t('save') }}
-                  </a-button>
-                  <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-branch">
-                    {{ $t('reset') }}
-                  </a-button>
-                </a-form-model-item>
-              </a-col>
-            </a-row>
           </a-tab-pane>
 
-          <a-tab-pane key="2">
+          <a-tab-pane :key="2">
             <span slot="tab">
               {{ $t('prixod') }}
             </span>
@@ -57,6 +39,24 @@
         </a-row>
       </a-card>
     </div>
+    <a-row class="edit-btns" v-if="activeTabKey === 1">
+      <a-col :span="24" style="padding: 15px 0">
+        <a-form-model-item>
+          <a-button
+            :loading="btnLoading"
+            type="primary"
+            html-type="submit"
+            @click.prevent="submit"
+            test-attr="save-branch"
+          >
+            {{ $t('save') }}
+          </a-button>
+          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-branch">
+            {{ $t('reset') }}
+          </a-button>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
   </div>
 </template>
 <script>
@@ -68,7 +68,7 @@ export default {
   data () {
     return {
       btnLoading: false,
-      activeTabKey: '1',
+      activeTabKey: 1,
       edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }

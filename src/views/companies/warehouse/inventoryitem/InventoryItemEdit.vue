@@ -6,7 +6,10 @@
           <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
         </a-breadcrumb-item>
         <a-breadcrumb-item>
-          <a @click="$router.go(-1)" test-attr="branches-warehouse">{{ $t('warehouse') }}</a>
+          <a @click="$router.go(-2)" test-attr="branches-warehouse">{{ $t('warehouse') }}</a>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <a @click="$router.go(-1)" test-attr="branches-warehouse-detail">{{ $t('prixod') }}</a>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -14,22 +17,10 @@
 
     <div v-if="edit">
       <a-card :bordered="false">
-        <a-tabs v-model="activeTabKey">
-          <a-tab-pane key="1">
-            <span slot="tab">
-              {{ $t('information') }}
-            </span>
-            <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-          </a-tab-pane>
-
-          <a-tab-pane key="2">
-            <span slot="tab">
-              {{ $t('prixod') }}
-            </span>
-
-            <inventory-item />
-          </a-tab-pane>
-        </a-tabs>
+        <span slot="tab">
+          {{ $t('information') }}
+        </span>
+        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
       </a-card>
     </div>
     <div v-else>

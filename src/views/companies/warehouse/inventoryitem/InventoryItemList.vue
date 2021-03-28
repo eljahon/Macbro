@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-card :title="$t('warehouse')" class="breadcrumb-row" :bordered="false">
-      <router-link :to="{ path: `${$route.path}/warehouse/create` }" slot="extra">
+      <router-link :to="{ path: `${$route.path}/items/create` }" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-warehouse">{{
           $t('add')
         }}</a-button>
@@ -19,7 +19,7 @@
         test-attr="list-inventoryitems"
       >
         <template slot="action" slot-scope="text, row, index">
-          <router-link :to="`/warehouse/update/${row.id}`">
+          <router-link :to="`${$route.path}/items/update/${row.id}`">
             <edit-btn :test-attr="`edit-warehouse${index}`" />
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`" />
@@ -31,6 +31,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import request from '@/utils/request'
 
 export default {
   data () {
@@ -112,6 +113,22 @@ export default {
         .then(res => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
+    },
+    deleteCompany (e, slug) {
+      this.loading = true
+      request({
+        url: `/inventory-item/${slug}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.getInventoryItems({ page: this.inventoryItemsPagination, search: true, warehouse_id: this.$route.params.id })
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
     },
     search (e) {
       e.preventDefault()
