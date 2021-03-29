@@ -32,7 +32,7 @@ import permissions from './modules/permissions'
 import companies from './modules/companies'
 import admins from './modules/admins'
 import agents from './modules/agents'
-import cities from './modules/cities'
+import countries from './modules/countries'
 import featuredProducts from './modules/featured'
 import staff from './modules/staff'
 import roles from './modules/roles'
@@ -76,7 +76,7 @@ export default new Vuex.Store({
     socket,
     companies,
     agents,
-    cities,
+    countries,
     featuredProducts,
     staff,
     roles,

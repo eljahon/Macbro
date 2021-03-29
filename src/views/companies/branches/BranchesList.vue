@@ -47,7 +47,7 @@
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`/branch/update/${row.id}`" >
+          <router-link :to="`${$route.path}/branch/update/${row.id}`" >
               <edit-btn :test-attr="`edit-branch${index}`"/>
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>

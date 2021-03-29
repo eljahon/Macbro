@@ -94,6 +94,28 @@
             </a-select>
           </a-form-model-item>
         </a-col>
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
+          <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')" prop="corporate_id">
+            <a-select
+                show-search
+                :auto-clear-search-value="false"
+                @search="onSearch"
+                v-model="branch.corporate_id"
+                :filter-option="false"
+                @popupScroll="onScrollBottom"
+                placeholder="brand"
+                :disbled="loading"
+                test-attr="branch_name-inventory"
+            >
+                <a-select-option v-for="corporate in corporateList" :title="corporate.name" :key="corporate.id" :value="corporate.id">
+                    {{ corporate.bank_name }}
+                </a-select-option>
+                <a-select-option key="corporateFetching" v-if="corporateParams.total > corporateList.length || corporateFetching">
+                    <a-spin slot="notFoundContent" size="small" />
+                </a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
             <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
@@ -109,6 +131,7 @@ import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash/debounce'
 export default {
   components: {
     'a-auto-complete': AutoComplete,
@@ -119,6 +142,8 @@ export default {
     lang: String
   },
   data () {
+    this.onSearch = debounce(this.onSearch, 400)
+    this.corporateGetAll = debounce(this.corporateGetAll, 100)
     return {
       cityList: [],
       requesting: false,
@@ -139,14 +164,23 @@ export default {
         company_id: this.$route.params.company_id || '',
         number_of_employees: null,
         branch_type: '',
-        corporate_id: '770aa014-b7c9-4456-966b-224cc515b3b7'
+        corporate_id: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        branch_type: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        branch_type: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        corporate_id: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+      },
+      corporateFetching: false,
+      corporateList: [],
+      corporateParams: {
+        limit: 10,
+        page: 1,
+        total: null,
+        company_id: this.$route.params.company_id
       }
     }
   },
@@ -158,12 +192,47 @@ export default {
     }
     this.getCities()
     this.getCompanies()
+    this.onSearch()
   },
   computed: {
     ...mapGetters(['companiesList'])
   },
   methods: {
     ...mapActions(['getCompanies']),
+    onSearch (value) {
+      this.corporateFetching = true
+      this.corporateList = []
+      this.corporateParams = { search: value, lang: this.lang, limit: 10, page: 1, company_id: this.$route.params.company_id }
+      console.log('Corporate params', this.corporateParams, this.$route.params.company_id)
+      this.corporateGetAll()
+    },
+    onScrollBottom (event) {
+      var target = event.target
+      if (!this.corporateFetching && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        if (this.corporateParams.total > this.corporateList.length) {
+          this.corporateParams.page += 1
+          this.corporateParams.lang = this.lang || 'ru'
+          target.scrollTo(0, target.scrollHeight)
+          this.corporateGetAll()
+        }
+      }
+    },
+    corporateGetAll () {
+      this.corporateFetching = true
+      request({
+        url: '/corporate',
+        method: 'get',
+        params: this.corporateParams
+      })
+      .then(response => {
+        this.corporateFetching = false
+        this.corporateList.push(...response.corporates)
+        this.corporateParams.total = response.count
+      })
+      .catch(() => {
+        this.corporateFetching = false
+      })
+    },
     getCities () {
       return new Promise((resolve) => {
         request({

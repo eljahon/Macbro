@@ -53,7 +53,7 @@
         </template>
         <template slot="action" slot-scope="text, row, index">
           <router-link :to="`/order/details/${row.number}`">
-            <preview-btn icon="link" :test-attr="`preview-order${index}`"/>
+            <preview-btn :test-attr="`preview-order${index}`"/>
           </router-link>
           <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
             <edit-btn/>
@@ -140,13 +140,15 @@ export default {
           'in-process': 'В обработке',
           'finished': 'Завершено',
           'cancelled': 'Отменен',
-          'payment': 'Оплачено'
+          'payment': 'Оплачено',
+          'order_accepted': 'Заказ принят'
       },
       statusColor: {
           'in-process': 'blue',
           'finished': 'green',
           'cancelled': 'red',
-          'payment': 'orange'
+          'payment': 'orange',
+          'order_accepted': 'purple'
       }
     }
   },

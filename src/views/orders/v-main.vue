@@ -384,8 +384,15 @@ export default {
       const searchCoord = [this.coords[0], this.coords[1]]
       // console.log(searchCoord)
       pointSearch(searchCoord.toString()).then(result => {
-        this.order.address = result[0].name
+        // this.order.address = result[0].name
+        this.order.address = this.arrangeAddress(result)
       })
+    },
+    arrangeAddress (addressArray) {
+      if (addressArray.length === 1) {
+        return addressArray[0].name
+      }
+      return `${this.arrangeAddress(addressArray.slice(1, addressArray.length))}, ${addressArray[0].name}`
     },
     deleteProduct (index) {
       // console.log('Delete product', index)
@@ -427,13 +434,13 @@ export default {
     getProductsList () {
       this.fetching = true
       request({
-        url: '/product',
+        url: '/product-variant',
         method: 'get',
         params: this.productParams
       })
       .then(response => {
         this.fetching = false
-        this.productList.push(...response.products)
+        this.productList.push(...response.product_variants)
         this.productParams.total = response.count
       })
       .catch(() => {
@@ -536,8 +543,8 @@ export default {
             payment_method: paymentMethod
         } = response
           console.log('this.cooords', this.coords)
-        this.items = items.length ? items : []
-        this.cacheData = JSON.parse(JSON.stringify(items))
+        this.items = items && items.length ? items : []
+        this.cacheData = JSON.parse(JSON.stringify(items)) || []
         this.order.customer_name = customerName
         this.order.address = address
         this.order.phone = phone

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-card :bordered="false" :title="cityId ? $t('information') : $t('fillIn')">
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -14,12 +14,13 @@
             <a-input
               :disabled="requesting"
               v-model="form.name"
+              test-attr="name-city"
             />
           </a-form-model-item>
         </a-col>
       </a-row>
     </a-form-model>
-  </div>
+  </a-card>
 </template>
 
 <script>
@@ -48,7 +49,7 @@ export default {
       loading: false,
       form: {
         name: '',
-        country_id: 'cf89eb10-dd40-44a7-9a46-74e4ffe04f4a'
+        country_id: this.$route.params.country_id
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }]
@@ -71,7 +72,9 @@ export default {
           this.loading = false
           console.log('response', response)
           Object.keys(this.form).forEach(key => {
-            if (response[key] !== null) {
+            if (key === 'country_id') {
+              this.form[key] = response.country.id
+            } else if (response[key] !== null) {
               this.form[key] = response[key]
             }
           })

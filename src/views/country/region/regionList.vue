@@ -1,20 +1,12 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-            <a-breadcrumb-item>{{ $t('cities') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <a-card :title="$t('countries')" class="breadcrumb-row" :bordered="false">
+      <router-link :to="{ path: `${$route.path}/region/create` }" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
+      </router-link>
+    </a-card>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
-
-    <a-card :title="$t('list')">
+    <a-card :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -46,10 +38,10 @@
         @change="handleTableChange"
       >
         <template slot="action" slot-scope="text, row">
-          <router-link :to="`./update/${row.id}`" >
+          <router-link :to="`${$route.path}/region/update/${row.id}`" >
               <edit-btn/>
           </router-link>
-          <!-- <delete-btn @confirm="deleteCity($event, row.id)"/> -->
+          <delete-btn @confirm="deleteCity($event, row.id)"/>
         </template>
       </a-table>
     </a-card>
@@ -65,6 +57,7 @@ export default {
       value: '',
       data: [],
       loading: true,
+      countryId: this.$route.params.id,
       columns: [
         {
           title: this.$t('name'),
@@ -96,7 +89,7 @@ export default {
   },
   mounted () {
       this.setSearchQuery()
-    this.getCities({ page: this.citiesPagination })
+    this.getCities({ page: this.citiesPagination, country_id: this.countryId })
     .then(() => (console.log('companybranches')))
       .catch(error => {
         this.requestFailed(error)
@@ -108,7 +101,7 @@ export default {
     ...mapActions(['getCities', 'setSearchQuery']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCities({ page: pagination, search: true })
+      this.getCities({ page: pagination, search: true, country_id: this.countryId })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -116,7 +109,7 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCities()
+      this.getCities({ country_id: this.countryId })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -131,7 +124,7 @@ export default {
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCities({ page: this.citiesPagination })
+        this.getCities({ page: this.citiesPagination, country_id: this.countryId })
       })
       .catch(err => {
         this.$message.error(err)
@@ -145,7 +138,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getCities()
+          this.getCities({ country_id: this.countryId })
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

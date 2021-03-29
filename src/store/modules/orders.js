@@ -56,7 +56,7 @@ const orders = {
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
-        page.showQuickJumper = { goButton: 'Your text', text: 'asdad' }
+        page.showQuickJumper = true
         page.showSizeChanger = true
         return new Promise((resolve, reject) => {
           console.log(page)

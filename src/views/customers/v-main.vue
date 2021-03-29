@@ -65,7 +65,7 @@
             >
               <template slot="action" slot-scope="text, row">
                 <router-link :to="`/order/details/${row.number}`" >
-                  <preview-btn icon="link" test-attr="order-detail-customer"/>
+                  <preview-btn test-attr="order-detail-customer"/>
                 </router-link>
               </template>
               <template slot="status" slot-scope="text, row">
