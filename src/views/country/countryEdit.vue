@@ -1,45 +1,32 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
           <a-breadcrumb-item>
-            <router-link to="/company/list">{{ $t('companies') }}</router-link>
+            <router-link to="/country/list" test-attr="prev-link-city">{{ $t('countries') }}</router-link>
           </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
+          <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
         </a-breadcrumb>
-      </a-col>
-    </a-row>
-    <div v-if="edit">
-      <a-card :title="$t('fillIn')">
-        <!-- <a-row>
-          <a-tabs type="card" v-model="activeTabKey">
-            <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
-              <span slot="tab">
-                <flag :iso="flagMapper(lang)" />
-                {{ langMapper(lang) }}
-              </span>
-              <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
-            </a-tab-pane>
-          </a-tabs>
-        </a-row> -->
-        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-      </a-card>
-    </div>
-    <div v-else>
-      <a-card :title="$t('fillIn')">
-        <a-row>
-          <v-main @clickParent="clickParent" ref="createForm"></v-main>
-        </a-row>
-      </a-card>
-    </div>
-    <a-row>
+    </breadcrumb-row>
+
+    <a-card :bordered="false" v-if="edit" class="no-space-tab" >
+      <a-tabs :activeKey="currentTab" @change="onTabChange">
+        <a-tab-pane :tab="$t('information')" :key="1">
+          <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+        </a-tab-pane>
+        <a-tab-pane :tab="$t('regions')" :key="2">
+          <regions></regions>
+        </a-tab-pane>
+      </a-tabs>
+    </a-card>
+    <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
+    <a-row class="edit-btns" v-if="currentTab === 1">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit">
+          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-city">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm">
+          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-city">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>
@@ -50,11 +37,13 @@
 <script>
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import Regions from './region/regionList'
 export default {
   data () {
     return {
       btnLoading: false,
       activeTabKey: 1,
+      currentTab: 1,
       edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
@@ -68,6 +57,9 @@ export default {
   methods: {
     langMapper,
     flagMapper,
+    onTabChange (value) {
+      this.currentTab = value
+    },
     clickParent (e) {
       this.btnLoading = e
     },
@@ -76,8 +68,8 @@ export default {
       if (this.edit) {
         Object.values(this.$refs).forEach(form => {
           console.log('form', form)
-          // if (form) form[0].onSubmit()
           if (form) form.onSubmit()
+          // if (form) form.onSubmit()
         })
       } else {
         this.$refs.createForm.onSubmit()
@@ -85,8 +77,9 @@ export default {
     },
     resetForm () {
       if (this.edit) {
+        // console.log('Refs', this.$refs)
         Object.entries(this.$refs).forEach(form => {
-          console.log(form)
+          // console.log(form)
           if (form) form[1].resetForm()
         })
       } else {
@@ -94,7 +87,7 @@ export default {
       }
     }
   },
-  components: { 'v-main': vMain }
+  components: { 'v-main': vMain, Regions }
 }
 </script>
 <style></style>

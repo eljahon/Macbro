@@ -1,11 +1,11 @@
 <template>
   <div>
     <a-card :title="$t('warehouse')" class="breadcrumb-row" :bordered="false">
-      <router-link :to="{ path: `${$route.path}/items/create` }" slot="extra">
+      <!-- <router-link :to="{ path: `${$route.path}/items/create` }" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-warehouse">{{
           $t('add')
         }}</a-button>
-      </router-link>
+      </router-link> -->
     </a-card>
 
     <a-card :bordered="false">

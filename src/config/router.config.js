@@ -74,29 +74,41 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/city',
-        name: 'city',
+        path: '/country',
+        name: 'country',
         component: RouteView,
         hideChildrenInMenu: true,
-        redirect: '/city/list',
-        meta: { title: 'cities', keepAlive: true, show: true, icon: 'environment', permission: ['cities'] },
+        redirect: '/country/list',
+        meta: { title: 'countries', keepAlive: true, show: true, icon: 'environment', permission: ['cities'] },
         children: [
           {
-            path: '/city/list',
-            name: 'citiesList',
-            component: () => import('@/views/city/cityList'),
-            meta: { title: 'cities', keepAlive: true, permission: ['cities'] }
+            path: '/country/list',
+            name: 'countriesList',
+            component: () => import('@/views/country/countryList'),
+            meta: { title: 'countries', keepAlive: true, permission: ['cities'] }
           },
           {
-            path: '/city/create',
-            name: 'citiesCreate',
-            component: () => import('@/views/city/cityEdit'),
+            path: '/country/create',
+            name: 'countriesCreate',
+            component: () => import('@/views/country/countryEdit'),
             meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
           },
           {
-            path: '/city/update/:id',
-            name: 'citiesEdit',
-            component: () => import('@/views/city/cityEdit'),
+            path: '/country/update/:id',
+            name: 'countriesEdit',
+            component: () => import('@/views/country/countryEdit'),
+            meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
+          },
+          {
+            path: '/country/update/:country_id/region/create',
+            name: 'regionCreate',
+            component: () => import('@/views/country/region/regionEdit'),
+            meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
+          },
+          {
+            path: '/country/update/:country_id/region/update/:id',
+            name: 'regionEdit',
+            component: () => import('@/views/country/region/regionEdit'),
             meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
           }
         ]
@@ -134,7 +146,7 @@ export const asyncRouterMap = [
             meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
           },
           {
-            path: '/branch/update/:id',
+            path: '/company/update/:company_id/branch/update/:id',
             name: 'BranchesEdit',
             component: () => import('@/views/companies/branches/BranchesEdit'),
             meta: { title: 'update', keepAlive: true, permission: ['company'] }

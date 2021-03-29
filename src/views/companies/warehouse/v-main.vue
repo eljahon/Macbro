@@ -147,8 +147,14 @@ export default {
       const searchCoord = [this.coords[0], this.coords[1]]
       // console.log(searchCoord)
       pointSearch(searchCoord.toString()).then(result => {
-        this.warehouse.address = result[0].name
+        this.warehouse.address = this.arrangeAddress(result)
       })
+    },
+    arrangeAddress (addressArray) {
+      if (addressArray.length === 1) {
+        return addressArray[0].name
+      }
+      return `${this.arrangeAddress(addressArray.slice(1, addressArray.length))}, ${addressArray[0].name}`
     },
     handleChange (value, type) {
         if (type === 'branch') {

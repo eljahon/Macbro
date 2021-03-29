@@ -135,7 +135,7 @@ const companies = {
         request({
           url: '/corporate',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery }
+          params: { page: page.current, limit: page.pageSize, search: searchQuery, company_id: page.company_id }
         })
           .then(result => {
             const pagination = { ...page }

@@ -106,7 +106,8 @@ export default {
         address: '',
         inn: null,
         mfo: null,
-        account_number: null
+        account_number: null,
+        company_id: this.$route.params.company_id
       },
       rules: {
         bank_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
@@ -138,7 +139,9 @@ export default {
           resolve()
           console.log('response', response)
           Object.keys(this.corporate).forEach(key => {
-            if (response[key] !== null) {
+            if (key === 'company_id') {
+              this.corporate[key] = response.company.id
+            } else if (response[key] !== null) {
               this.corporate[key] = response[key]
             }
           })

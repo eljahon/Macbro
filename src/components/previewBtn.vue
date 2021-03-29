@@ -1,6 +1,7 @@
 <template>
     <a-tooltip><template slot="title">{{ $t('read') }}</template>
-        <a-button id="buttonPreview" type="default" :icon="icon" @click="$emit('click')"></a-button>
+        <!-- <a-button id="buttonPreview" type="default" :icon="icon" @click="$emit('click')"></a-button> -->
+        <a-button type="default" :icon="icon" @click="$emit('click')"></a-button>
     </a-tooltip>
 </template>
 

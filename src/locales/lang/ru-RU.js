@@ -377,7 +377,11 @@ const locale = {
   corporate: 'Корпорация',
   bank_name: 'Название банка',
   juristicEntity: 'Юридическое лицо',
-  warehouse: 'Склад'
+  warehouse: 'Склад',
+
+  // countries
+  countries: 'Страны',
+  regions: 'Регионы'
 }
 
 export default {

@@ -1,45 +1,26 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/city/list">{{ $t('cities') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
-    <div v-if="edit">
-      <a-card :title="$t('fillIn')">
-        <!-- <a-row>
-          <a-tabs type="card" v-model="activeTabKey">
-            <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
-              <span slot="tab">
-                <flag :iso="flagMapper(lang)" />
-                {{ langMapper(lang) }}
-              </span>
-              <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
-            </a-tab-pane>
-          </a-tabs>
-        </a-row> -->
-        <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-      </a-card>
-    </div>
-    <div v-else>
-      <a-card :title="$t('fillIn')">
-        <a-row>
-          <v-main @clickParent="clickParent" ref="createForm"></v-main>
-        </a-row>
-      </a-card>
-    </div>
-    <a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/country/list" test-attr="prev-link-city">{{ $t('countries') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <a @click="$router.go(-1)" test-attr="prev-link-city">{{ $t('regions') }}</a>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+
+    <v-main @clickParent="clickParent" v-if="edit" :ref="`EditForm`"></v-main>
+    <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit">
+          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-city">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm">
+          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-city">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>
@@ -50,6 +31,7 @@
 <script>
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -65,9 +47,22 @@ export default {
   // updated() {
   //   console.warn('$refs', this.$refs)
   // },
+  computed: {
+    ...mapGetters(['lastTab']),
+    currentTab () {
+      return this.lastTab
+    }
+  },
+  beforeDestroy () {
+    this.setLastTab(1)
+  },
   methods: {
+    ...mapActions(['setLastTab']),
     langMapper,
     flagMapper,
+    onTabChange (value) {
+      this.setLastTab(value)
+    },
     clickParent (e) {
       this.btnLoading = e
     },
@@ -85,9 +80,10 @@ export default {
     },
     resetForm () {
       if (this.edit) {
+        // console.log('Refs', this.$refs)
         Object.entries(this.$refs).forEach(form => {
-          console.log(form)
-          if (form) form.resetForm()
+          // console.log(form)
+          if (form) form[1].resetForm()
         })
       } else {
         this.$refs.createForm.resetForm()
