@@ -1,0 +1,381 @@
+<template>
+  <div>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('product_variants') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+
+    <a-card :title="$t('product_variants')" :bordered="false">
+      <div slot="extra">
+        <a-form layout="horizontal" :form="form" @submit="search">
+          <a-row>
+            <a-col :span="12" style="padding: 5px">
+              <a-form-item style="margin: 0">
+                <a-input
+                  :disabled="editingKey !== ''"
+                  id="inputSearch"
+                  :placeholder="$t('search') + '...'"
+                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
+                  v-debounce="debouncedSearch"
+                  test-attr="search-product-vars"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" style="padding: 5px">
+              <a-form-item style="margin: 0">
+                <a-button
+                  id="buttonSearch"
+                  type="default"
+                  :disabled="editingKey !== ''"
+                  html-type="submit"
+                  icon="search"
+                  test-attr="search-btn-product-vars"
+                >{{ $t('search') }}</a-button
+                >
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+      </div>
+
+      <a-form-model
+        ref="productRuleForm"
+        :model="editingKey !== '' ? items[editingKey] : {}"
+        :rules="productRules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+      >
+        <a-table
+          :columns="columns"
+          :rowKey="record => record.slug"
+          :dataSource="items"
+          :pagination="getPagination"
+          :loading="loading"
+          @change="handleTableChange"
+          test-attr="list-product-vars"
+        >
+          <template v-for="col in ['price', 'old_price']" :slot="col" slot-scope="text, record, index">
+            <div :key="col">
+              <template v-if="record.editable">
+                <a-form-model-item :ref="col" :prop="col">
+                  <a-input-number
+                    style="margin: -5px 0"
+                    :min="0"
+                    :value="col === 'price' ? record.price : record.old_price"
+                    @change="e => handleChange(e, index, col)"
+                  />
+                </a-form-model-item>
+              </template>
+              <template v-else>
+                {{ col === 'price' ? $numberToPrice(record.price) : $numberToPrice(record.old_price) }}
+              </template>
+            </div>
+          </template>
+          <template slot="operation" slot-scope="text, record, index">
+            <div class="editable-row-operations">
+              <span v-if="record.editable">
+                <!-- <a-button @click="() => save(index)">{{ $t('save') }}</a-button> -->
+                <a-popconfirm title="Sure to save?" @confirm="() => save(index)">
+                  <a-tooltip>
+                    <template slot="title">{{ $t('save') }}</template>
+                    <a-button icon="check" type="primary"/>
+                  </a-tooltip>
+                </a-popconfirm>
+                <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(index)">
+                  <a-tooltip placement="bottom">
+                    <template slot="title">{{ $t('cancel') }}</template>
+                    <a-button icon="close" type="danger"/>
+                  </a-tooltip>
+                </a-popconfirm>
+              </span>
+              <span v-else>
+                <!-- <a :disabled="editingKey !== '' || order.status !== 'in-process'" @click="() => edit(index)">{{ $t('update') }}</a> -->
+                <a-tooltip>
+                  <template slot="title">{{ $t('update') }}</template>
+                  <a-button
+                    @click="() => edit(index)"
+                    :disabled="editingKey !== ''"
+                    id="buttonOrderDetails"
+                    type="primary"
+                    icon="edit"
+                  ></a-button>
+                </a-tooltip>
+              </span>
+            </div>
+          </template>
+        </a-table>
+      </a-form-model>
+    </a-card>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex'
+import request from '@/utils/request'
+import { numberToPrice } from '@/utils/util'
+function getSelected (productVariants, selectedProductVariant) {
+  for (let i = 0; i < productVariants.length; i++) {
+    if (productVariants[i].id === selectedProductVariant) {
+      return productVariants[i]
+    }
+  }
+}
+export default {
+  data () {
+    return {
+      items: [],
+      cacheData: [],
+      editingKey: '',
+      productRules: {
+        price: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        old_price: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+      },
+      data: [],
+      loading: true,
+      labelCol: { span: 24 },
+      wrapperCol: { span: 24 },
+      columns: [
+        {
+          title: this.$t('name'),
+          dataIndex: 'name',
+          width: '50%'
+        },
+        {
+          title: this.$t('price'),
+          key: 'price',
+          width: '30%',
+          scopedSlots: { customRender: 'price' }
+        },
+        {
+          title: this.$t('old_price'),
+          key: 'old_price',
+          width: '20%',
+          scopedSlots: { customRender: 'old_price' }
+        },
+        {
+          title: this.$t('action'),
+          dataIndex: 'operation',
+          scopedSlots: { customRender: 'operation' }
+        }
+      ],
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      previewVisible: false,
+      productVariants: [],
+      selectedProductVariant: null,
+      productVariantsPaginationCurrent: {},
+      selectedProductVariantCategory: '',
+      updateVisible: false,
+      filterParams: {},
+      page: { current: 1, pageSize: 10, total: 45 },
+      Interval: null
+    }
+  },
+  computed: {
+    ...mapGetters(['productVariantsData', 'productVariantsPagination', 'searchQuery']),
+    getPagination () {
+      return this.productVariantsPagination
+    },
+    getSearchQuery () {
+      return this.searchQuery
+    }
+  },
+  mounted () {
+    this.getProductVariants({ page: this.productVariantsPagination })
+      .then(() => {
+        this.ArrangeItemsList()
+        console.log('this.productVariantsData', this.productVariantsData)
+      })
+      .catch(err => {
+        this.$message.error(this.$t('error'))
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+  },
+  beforeDestroy () {
+    this.setSearchQuery('')
+  },
+  methods: {
+    ...mapActions(['getProductVariants', 'setSearchQuery']),
+    ArrangeItemsList () {
+      if (this.productVariantsData) {
+        this.items = this.productVariantsData.map(item => {
+          return {
+            slug: item.slug,
+            name: item.name,
+            price: +item.price.price,
+            old_price: +item.price.old_price
+          }
+        })
+      } else {
+        this.items = []
+      }
+      this.cacheData = JSON.parse(JSON.stringify(this.items))
+    },
+    handleChange (value, index, column) {
+      // console.log('CHANGE', index, value)
+      const newData = [...this.items]
+      const target = newData[index]
+      if (target) {
+        target[column] = value
+        this.items = newData
+      }
+    },
+    edit (index) {
+      const newData = [...this.items]
+      const target = newData[index]
+      this.editingKey = index
+      if (target) {
+        target.editable = true
+        this.items = newData
+      }
+    },
+    save (index) {
+      this.$refs.productRuleForm.validate(valid => {
+        if (valid) {
+          const newData = [...this.items]
+          const target = newData[index]
+          delete target.editable
+          this.editingKey = ''
+          this.updateProductPrice(target)
+        } else {
+          console.log('error submit, validation failed')
+          return false
+        }
+      })
+    },
+    cancel (index) {
+      const newData = [...this.items]
+      const target = newData[index]
+      this.editingKey = ''
+      if (target) {
+        Object.assign(target, this.cacheData[index])
+        delete target.editable
+        this.items = newData
+      }
+    },
+    updateProductPrice (item) {
+      console.log('ITEM', item)
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      this.loading = true
+      request({
+        url: '/product-variant/' + item.slug + '/update-price',
+        method: 'put',
+        data: {
+          price_type_id: '0',
+          price: String(item.price),
+          old_price: String(item.old_price)
+        },
+        headers: headers
+      })
+        .then(() => {
+          this.ArrangeItemsList()
+        })
+        .catch(err => this.$message.error(err))
+        .finally(() => (this.loading = false))
+    },
+    handleTableChange (pagination) {
+      console.log(pagination)
+      this.editingKey = ''
+      this.loading = true
+      this.getProductVariants({ page: pagination, search: true })
+        .then(res => {
+          this.ArrangeItemsList()
+          console.log(res)
+        })
+        .catch(err => this.$message.error(err))
+        .finally(() => (this.loading = false))
+    },
+    getSelectedProductVariant (selectedProductVariant) {
+      this.selectedProductVariant = getSelected(this.productVariantsData, selectedProductVariant)
+    },
+    showPreviewModal (productVariantId) {
+      this.getSelectedProductVariant(productVariantId)
+      this.previewVisible = true
+      console.log('selected', this.selectedProductVariant)
+    },
+    handleCancel () {
+      this.previewVisible = false
+    },
+    handleCloseModal () {
+      this.selectedProductVariant = null
+    },
+    debouncedSearch (searchQuery) {
+      this.setSearchQuery(searchQuery)
+      this.loading = true
+      this.getProductVariants()
+        .then(res => {
+          this.ArrangeItemsList()
+          console.log(res)
+        })
+        .catch(err => this.$message.error(err))
+        .finally(() => (this.loading = false))
+      console.log('debounce')
+    },
+    deleteProductVariant (e, slug) {
+      console.log('slug', slug)
+      this.loading = true
+      request({
+        url: '/product-variant/' + slug,
+        method: 'delete'
+      })
+        .then(res => {
+          console.log(res)
+          this.$message.success(this.$t('successfullyDeleted'))
+          this.getProductVariants({ page: this.productVariantsPagination }).then(() => {
+            this.ArrangeItemsList()
+            this.productVariants = []
+            if (this.productVariantsPaginationCurrent.total - this.productVariantsPaginationCurrent.current * 10 > 0) {
+              for (let i = 0; i < 10; i++) {
+                this.productVariants.push(
+                  this.productVariantsData[i + (this.productVariantsPaginationCurrent.current - 1) * 10]
+                )
+              }
+              this.productVariantsthis.productVariantsPaginationCurrentCurrent = this.productVariantsPaginationCurrent
+            } else {
+              var size =
+                this.productVariantsPaginationCurrent.total - (this.productVariantsPaginationCurrent.current - 1) * 10
+              console.log(size)
+              for (let i = 0; i < size; i++) {
+                this.productVariants.push(
+                  this.productVariantsData[i + (this.productVariantsPaginationCurrent.current - 1) * 10]
+                )
+              }
+              this.productVariantsPaginationCurrent = this.productVariantsPagination
+            }
+          })
+          this.handleTableChange(this.productVariantsPaginationCurrent)
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
+        .finally(() => (this.loading = false))
+    },
+    search (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.loading = true
+          this.filterParams = values
+          this.getProductVariants()
+            .then(res => {
+              this.ArrangeItemsList()
+              console.log('res', res)
+            })
+            .catch(err => {
+              console.error(err)
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        }
+      })
+    },
+    numberToPrice (num) {
+      return numberToPrice(num)
+    }
+  }
+}
+</script>

@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@ant-design-vue/pro-layout@^0.2.11-0":
-  version "0.2.11-0"
-  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-0.2.11-0.tgz#945cbbc6b24e888f2cc8315e7e31ebff1250bf05"
-  integrity sha512-BzEg/QJKtpMQWiOFSONkfsG+OIx01IRwDQl5lfv2WzM5TRXxQFAZ8z1Dl22skMce2dCq9TzoEcLC0utqg789NA==
+"@ant-design-vue/pro-layout@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@ant-design-vue/pro-layout/-/pro-layout-1.0.8.tgz#400d7e0cbab08187d017f740533b7a89774b9866"
+  integrity sha512-gCno9pktp9ex5fSCOmWoJaEhNXpWt1QcDQwvxBTB9sRsyTvPUoiSS+mc5KxQaUOS4p4xDsyqgM0Y9oFxlZuYsw==
   dependencies:
-    ant-design-vue "^1.5.3"
+    ant-design-vue "^1.6.2"
     classnames "^2.2.6"
     insert-css "^2.0.0"
     lodash "^4.17.15"
     omit.js "^1.0.2"
     umi-request "^1.2.11"
     vue-container-query "^0.1.0"
-    vue-copy-to-clipboard "^1.0.1"
+    vue-copy-to-clipboard "^1.0.3"
 
 "@ant-design/colors@^3.1.0", "@ant-design/colors@^3.2.1":
   version "3.2.2"
@@ -1354,6 +1354,14 @@
     material-colors "^1.2.6"
     watch-size "^2.0.0"
 
+"@simonwep/pickr@~1.7.0":
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.7.4.tgz#b14fcd945890388b870cd6db4d6c78d531f25141"
+  integrity sha512-fq7jgKJT21uWGC1mARBHvvd1JYlEf93o7SuVOB4Lr0x/2UPuNC9Oe9n/GzVeg4oVtqMDfh1wIEJpsdOJEZb+3g==
+  dependencies:
+    core-js "^3.6.5"
+    nanopop "^2.1.0"
+
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@soda/friendly-errors-webpack-plugin/-/friendly-errors-webpack-plugin-1.7.1.tgz#706f64bcb4a8b9642b48ae3ace444c70334d615d"
@@ -2230,13 +2238,14 @@ ant-design-vue@1.6.0:
     vue-ref "^2.0.0"
     warning "^4.0.0"
 
-ant-design-vue@^1.5.3:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.6.2.tgz#983634caac9cdaca0b3a095b540105b4f76da29f"
-  integrity sha512-VEwWomHxY+0rt0RKRd4FqrW+udCr7cpFt0GwVOCJPwIdulkZkB3GjK64GslEl9XtBp/rKzcorfAx4t1ues6Izg==
+ant-design-vue@^1.6.2:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-1.7.4.tgz#854e90985dc0fa9ccc6d681c104560c00eaaf855"
+  integrity sha512-f9/4I34Yq562X70aspSFzw4BCuKRICzDvIocXpsYCC+B9+kjB8db246fpSMtV/1anqxcmGHf7Vh0XJ+ovHJKMw==
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@ant-design/icons-vue" "^2.0.0"
+    "@simonwep/pickr" "~1.7.0"
     add-dom-event-listener "^1.0.2"
     array-tree-filter "^2.1.0"
     async-validator "^3.0.3"
@@ -7949,6 +7958,11 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+nanopop@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/nanopop/-/nanopop-2.1.0.tgz#23476513cee2405888afd2e8a4b54066b70b9e60"
+  integrity sha512-jGTwpFRexSH+fxappnGQtN9dspgE2ipa1aOjtR24igG0pv6JCxImIAmrLRHX+zUF5+1wtsFVbKyfP51kIGAVNw==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
@@ -11302,10 +11316,10 @@ vue-container-query@^0.1.0:
     resize-observer-lite "^0.2.3"
     vue "^2.5.17"
 
-vue-copy-to-clipboard@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/vue-copy-to-clipboard/-/vue-copy-to-clipboard-1.0.1.tgz#eb2af3f2be73f519d93e41af75e604d964a5d05a"
-  integrity sha512-7N3y5zrwsbczGUlV1MHf3qHLpHdq4GS6zOFG5nHgVdNLL4VPpf97DuaS2Cjv2iZ4GMGzuX15vWUHjhReOkgseA==
+vue-copy-to-clipboard@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-copy-to-clipboard/-/vue-copy-to-clipboard-1.0.3.tgz#b415302b343b9185add4fc579c0721a16c8e65ac"
+  integrity sha512-FSgewqG+2NwNsAnKOZqZ6GZqNvrbauVh/Y5z+xkbu9AmFqiWlQLKaFc+7BcsYCVZ2TaQnhjcHbDycVRVGFJypQ==
   dependencies:
     copy-to-clipboard "^3.3.1"
 
