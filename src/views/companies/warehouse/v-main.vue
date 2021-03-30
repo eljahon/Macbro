@@ -136,7 +136,7 @@ export default {
       })
     }
 
-    this.branchParams = { search: '', lang: this.lang, limit: 10, page: 1 }
+    this.branchParams = { search: '', lang: this.lang, limit: 10, page: 1, company_id: this.$route.params.company_id }
     this.branchGetAll()
   },
   methods: {
