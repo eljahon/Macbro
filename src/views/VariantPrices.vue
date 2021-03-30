@@ -75,9 +75,18 @@
           <template slot="operation" slot-scope="text, record, index">
             <div class="editable-row-operations">
               <span v-if="record.editable">
-                <a @click="() => save(index)">{{ $t('save') }}</a>
+                <!-- <a-button @click="() => save(index)">{{ $t('save') }}</a-button> -->
+                <a-popconfirm title="Sure to save?" @confirm="() => save(index)">
+                  <a-tooltip>
+                    <template slot="title">{{ $t('save') }}</template>
+                    <a-button icon="check" type="primary"/>
+                  </a-tooltip>
+                </a-popconfirm>
                 <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(index)">
-                  <a>{{ $t('cancel') }}</a>
+                  <a-tooltip placement="bottom">
+                    <template slot="title">{{ $t('cancel') }}</template>
+                    <a-button icon="close" type="danger"/>
+                  </a-tooltip>
                 </a-popconfirm>
               </span>
               <span v-else>
@@ -145,7 +154,7 @@ export default {
           scopedSlots: { customRender: 'old_price' }
         },
         {
-          title: this.$t('operation'),
+          title: this.$t('action'),
           dataIndex: 'operation',
           scopedSlots: { customRender: 'operation' }
         }
@@ -189,14 +198,18 @@ export default {
   methods: {
     ...mapActions(['getProductVariants', 'setSearchQuery']),
     ArrangeItemsList () {
-      this.items = this.productVariantsData.map(item => {
-        return {
-          slug: item.slug,
-          name: item.name,
-          price: +item.price.price,
-          old_price: +item.price.old_price
-        }
-      })
+      if (this.productVariantsData) {
+        this.items = this.productVariantsData.map(item => {
+          return {
+            slug: item.slug,
+            name: item.name,
+            price: +item.price.price,
+            old_price: +item.price.old_price
+          }
+        })
+      } else {
+        this.items = []
+      }
       this.cacheData = JSON.parse(JSON.stringify(this.items))
     },
     handleChange (value, index, column) {
@@ -265,6 +278,7 @@ export default {
     },
     handleTableChange (pagination) {
       console.log(pagination)
+      this.editingKey = ''
       this.loading = true
       this.getProductVariants({ page: pagination, search: true })
         .then(res => {
