@@ -754,61 +754,39 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/shops',
-        hideChildrenInMenu: true,
-        name: 'Shops',
-        component: RouteView,
-        redirect: '/shops/list',
-        meta: { title: 'shops', keepAlive: true, show: true, icon: myIcons.branches, permission: ['shops'] },
-        children: [
-          {
-            path: '/shops/list',
-            name: 'ShopsList',
-            component: () => import('@/views/shops/ShopsList'),
-            meta: { title: 'shops', keepAlive: true, permission: ['shops'] }
-          },
-          {
-            path: '/shops/create',
-            name: 'ShopsCreate',
-            component: () => import('@/views/shops/ShopsCreate'),
-            meta: { title: 'add', keepAlive: true, show: true, permission: ['shops'] }
-          },
-          {
-            path: '/shops/update/:id',
-            name: 'ShopsUpdate',
-            component: () => import('@/views/shops/ShopsCreate'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['shops'] }
-          }
-        ]
+        path: '/product-variants',
+        name: 'productVariantPrices',
+        component: () => import('@/views/VariantPrices'),
+        meta: { title: 'product_variants', keepAlive: true, icon: 'inbox', permission: ['directory'] }
       },
-      {
-        path: '/inventory',
-        name: 'inventory',
-        component: RouteView,
-        hideChildrenInMenu: true,
-        redirect: '/inventory/list',
-        meta: { title: 'inventory', keepAlive: true, icon: myIcons.warehouse, permission: ['warehouse'] },
-        children: [
-          {
-            path: '/inventory/list',
-            name: 'inventoryList',
-            component: () => import('@/views/inventory/inventoryList'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
-          },
-          {
-            path: '/inventory/create',
-            name: 'inventoryCreate',
-            component: () => import('@/views/inventory/inventoryCreate'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
-          },
-          {
-            path: '/inventory/update/:id',
-            name: 'inventoryUpdate',
-            component: () => import('@/views/inventory/inventoryCreate'),
-            meta: { title: 'inventory', keepAlive: true, permission: ['warehouse'] }
-          }
-        ]
-      },
+      // {
+      //   path: '/shops',
+      //   hideChildrenInMenu: true,
+      //   name: 'Shops',
+      //   component: RouteView,
+      //   redirect: '/shops/list',
+      //   meta: { title: 'shops', keepAlive: true, show: true, icon: myIcons.branches, permission: ['shops'] },
+      //   children: [
+      //     {
+      //       path: '/shops/list',
+      //       name: 'ShopsList',
+      //       component: () => import('@/views/shops/ShopsList'),
+      //       meta: { title: 'shops', keepAlive: true, permission: ['shops'] }
+      //     },
+      //     {
+      //       path: '/shops/create',
+      //       name: 'ShopsCreate',
+      //       component: () => import('@/views/shops/ShopsCreate'),
+      //       meta: { title: 'add', keepAlive: true, show: true, permission: ['shops'] }
+      //     },
+      //     {
+      //       path: '/shops/update/:id',
+      //       name: 'ShopsUpdate',
+      //       component: () => import('@/views/shops/ShopsCreate'),
+      //       meta: { title: 'update', keepAlive: true, show: true, permission: ['shops'] }
+      //     }
+      //   ]
+      // },
       // {
       //   path: '/1c',
       //   redirect: '/1c/update-prices',

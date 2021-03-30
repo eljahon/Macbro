@@ -26,8 +26,9 @@
 import { SettingDrawer } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState, mapActions } from 'vuex'
-import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
+import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
 
+import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import LogoSvg from '../assets/logo.svg?inline'
@@ -42,15 +43,15 @@ export default {
   data () {
     return {
       menus: [],
-      collapsed: true,
+      collapsed: false,
       settings: {
-        layout: 'sidemenu', // 'sidemenu', 'topmenu'
-        contentWidth: false,
-        theme: 'light',
-        primaryColor: '#000000',
-        fixedHeader: false,
-        fixSiderbar: false,
-        colorWeak: false,
+        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
+        contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
+        theme: defaultSettings.navTheme,
+        primaryColor: defaultSettings.primaryColor,
+        fixedHeader: defaultSettings.fixedHeader,
+        fixSiderbar: defaultSettings.fixSiderbar,
+        colorWeak: defaultSettings.colorWeak,
         hideHintAlert: false,
         hideCopyButton: false
       },
@@ -99,7 +100,7 @@ export default {
       if (!this.isMobile && val['screen-xs']) {
         this.isMobile = true
         this.collapsed = false
-        this.settings.contentWidth = false
+        this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
       }
     },
     handleCollapse (val) {
@@ -113,14 +114,14 @@ export default {
       type && (this.settings[type] = value)
       switch (type) {
         case 'contentWidth':
-          this.settings[type] = value === 'Fixed'
+          this.settings[type] = value
           break
         case 'layout':
           if (value === 'sidemenu') {
-            this.settings.contentWidth = false
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
           } else {
             this.settings.fixSiderbar = false
-            this.settings.contentWidth = true
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fixed
           }
           break
       }

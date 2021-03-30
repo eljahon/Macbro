@@ -6,11 +6,11 @@
     </span>
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
-        <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
+        <!-- <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
           <a-icon type="setting" />
           {{ $t('personal_settings') }}
         </a-menu-item>
-        <a-menu-divider v-if="menu" />
+        <a-menu-divider v-if="menu" /> -->
         <a-menu-item key="logout" @click="handleLogout">
           <a-icon type="logout" />
           {{ $t('logout') }}
