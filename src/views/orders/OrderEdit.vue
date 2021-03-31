@@ -14,7 +14,7 @@
         <v-main ref="orderDetailsEdit"></v-main>
       </a-row>
     </a-card>
-    <a-row>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button type="primary" html-type="submit" @click.prevent="submit" test-attr="save-order">
