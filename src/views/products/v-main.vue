@@ -51,6 +51,7 @@
                   id="selectCategory"
                   v-model="product.category_id"
                   :multiple="false"
+                  :normalizer="normalizer"
                   :set-fields-value="product.category_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
@@ -81,6 +82,7 @@
                   id="selectCategory"
                   v-model="product.additional_categories"
                   :multiple="true"
+                  :normalizer="normalizer"
                   :set-fields-value="product.additional_categories"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
@@ -270,8 +272,13 @@
             </a-col> -->
           </a-row>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')">
-          <a-row>
+        <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')" style="position: relative">
+          <div v-if="attributeLoading" class="ghost-loader">
+            <center>
+              <a-spin slot="notFoundContent"/>
+            </center>
+          </div>
+          <a-row :style="{ 'pointer-events': attributeLoading ? 'none' : 'all' }">
             <a-col
               class="attributes"
               :md="24"
@@ -305,8 +312,8 @@
                 <label class="propertyLabel">{{ property.name }}</label>
                 <a-checkbox-group
                   name="checkboxgroup"
-                  @change="handleProperty($event, property.type, property.id)"
-                  :default-value="setDefaultProperty(property.id)"
+                  @change="handleProperty($event, property.type, property)"
+                  :value="setDefaultProperty(property)"
                 >
                   <a-checkbox v-for="option in property.options" :value="option.value" :key="option.value">
                     {{ option.name }}
@@ -371,11 +378,12 @@
                       show-search
                       :auto-clear-search-value="false"
                       @search="onVariatSearch"
-                      v-model="item.value"
+                      :value="hasVariantNameInList(item.value) ? item.value : item.valueName"
                       :filter-option="false"
                       @popupScroll="onScrollBottom"
+                      @change="onVariantProductSelect($event, index)"
                       placeholder="brand">
-                      <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id">
+                      <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id" :selected="item.value === variant.id">
                         {{ variant.name }}
                       </a-select-option>
                       <a-select-option key="fetching" v-if="variantParams.total > variantList.length || fetching">
@@ -506,6 +514,7 @@ export default {
     this.getProductVariants = debounce(this.getProductVariants, 100)
     this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
     return {
+      attributeLoading: false,
       variantParams: {
         limit: 10,
         page: 1,
@@ -731,7 +740,7 @@ export default {
             text: 'Select All Data',
             onSelect: () => {
               // this.selectedRowKeys = this.productsData
-              console.log('onSelect')
+              // console.log('onSelect')
             }
           }
           // {
@@ -775,7 +784,7 @@ export default {
       this.brandsSelect = this.brands
     })
     this.getProducts({ page: this.productsPagination, search: false })
-    this.getReviews({ page: null, productSlug: this.productSlug })
+    // this.getReviews({ page: null, productSlug: this.productSlug })
     if (this.productSlug) {
       this.getProductData()
       // console.log('this.product', this.product)
@@ -787,6 +796,18 @@ export default {
   },
   methods: {
     ...mapActions(['getCategories', 'getBrands', 'getProducts', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    normalizer (node) {
+      if (node.children === null || node.children === 'null') {
+        delete node.children
+      }
+    },
+    hasVariantNameInList (itemId) {
+      return this.variantList.find(item => item.id === itemId)
+    },
+    onVariantProductSelect (valueId, index) {
+      this.product.variants[index].value = valueId
+      this.product.variants[index].valueName = this.variantList.find(item => item.id === valueId).name
+    },
     onAttributeVariantSeach (text) {
       if (text) {
         this.attrVarSearchText = text
@@ -814,17 +835,18 @@ export default {
     onAddVariant () {
       this.product.variants.push({
           name: '',
-          value: ''
+          value: '',
+          valueName: ''
         }
       )
     },
     onScrollBottom (event) {
       var target = event.target
-      console.log('on Scroll enter', this.fetching, target)
+      // console.log('on Scroll enter', this.fetching, target)
       if (!this.fetching && target.scrollTop + target.offsetHeight === target.scrollHeight) {
-        console.log('if Scroll', this.variantParams.total, this.variantList.length)
+        // console.log('if Scroll', this.variantParams.total, this.variantList.length)
         if (this.variantParams.total > this.variantList.length) {
-          console.log('on Scroll request')
+          // console.log('on Scroll request')
           this.variantParams.page += 1
           this.variantParams.lang = this.lang || 'ru'
           target.scrollTo(0, target.scrollHeight)
@@ -897,7 +919,7 @@ export default {
         this.product.code = product.code
         this.product.order = product.order || 1
         this.product.variants = product.variants && product.variants.map(item => {
-          return { name: item.name, value: item.value.id }
+          return { name: item.name, value: item.value.id, valueName: item.value.name }
         }) || []
         this.imageUrl = product.image
         this.product.image = product.image.split('/')[4]
@@ -937,10 +959,10 @@ export default {
           uid: idx,
           url: img
         })) : []
-        console.log('Properties', product.properties)
+        // console.log('Properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
           if (prop.property.type === 'checkbox') {
-            console.log('prop.value', prop.value.map(item => item.value))
+            // console.log('prop.value', prop.value.map(item => item.value))
             return {
               ...prop,
               value: prop.value.map(item => item.value)
@@ -958,7 +980,7 @@ export default {
             values: item.value,
             id: item.property.id,
             properties: item.property && item.property.options.filter(option => {
-              console.log('Options', (option.value in item.value), option.value)
+              // console.log('Options', (option.value in item.value), option.value)
               if (item.value.includes(option.value)) {
                 return option
               }
@@ -968,7 +990,7 @@ export default {
         // console.log('response', response)
         return response
       }).then((data) => {
-          console.log('data', data)
+          // console.log('data', data)
           const { product: { category: { slug: productCategorySlug }, properties: attrs } } = data
           this.getProductAttributes(productCategorySlug, attrs)
       }).catch((err) => console.error(err))
@@ -978,25 +1000,32 @@ export default {
         url: `/category/${productCategorySlug}?lang=${this.lang}`,
         method: 'get'
       }).then(res => {
-        console.log('res', res)
-        console.log('res.category.product_properties', res.category.product_properties)
+        // console.log('res', res)
+        // console.log('res.category.product_properties', res.category.product_properties)
         const categoryProperties = res.category.product_properties || []
-        this.productDefaultProperties && this.productDefaultProperties.map(prop => prop.property).forEach((prop) => {
+        this.productDefaultProperties && this.productDefaultProperties.forEach((prop) => {
           const a = categoryProperties.filter((cprop, i) => {
-            return cprop.id === prop.id
+            return cprop.id === prop.property.id
           })
           if (!a.length) {
-            categoryProperties.push(prop)
+            const currentProp = { ...prop.property }
+            currentProp.options = currentProp.options.map(item => {
+              return {
+                ...item,
+                checked: prop.value.includes(item.value)
+              }
+            })
+            categoryProperties.push(currentProp)
           }
         })
         this.productProperties = categoryProperties
-        console.log('this.productProperties', this.productProperties)
+        // console.log('this.productProperties', this.productProperties)
       })
     },
     addProductProperty () {
-      console.log('this.attrs_id', this.attrs_id)
+      // console.log('this.attrs_id', this.attrs_id)
       const selectedProductProperty = this.allProductProperties.find(prop => prop.id === this.attrs_id)
-      console.log('selectedProductProperty', selectedProductProperty)
+      // console.log('selectedProductProperty', selectedProductProperty)
       this.productProperties = [...this.productProperties, selectedProductProperty]
       this.addAttrProductModal = false
       this.attrs_id = null
@@ -1026,7 +1055,7 @@ export default {
             id: brand.id
           })
         })
-        console.log(this.brandsSelect, 'after')
+        // console.log(this.brandsSelect, 'after')
       })
     },
     // image upload
@@ -1043,7 +1072,7 @@ export default {
           filename: response.filename,
           uid: e.file.uid
         })
-        console.log('this.product.gallery', this.product.gallery)
+        // console.log('this.product.gallery', this.product.gallery)
       })
       .catch(error => {
         console.error(error)
@@ -1081,7 +1110,7 @@ export default {
       this.getProducts({ page: this.productsPagination, search: false }).then(res => console.log('res', res))
     },
     handleTableChange (pagination) {
-       console.log('pagination', pagination)
+      //  console.log('pagination', pagination)
        this.getProducts({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.$message.error(err))
@@ -1089,15 +1118,15 @@ export default {
     // reviews
     handleReviewTableChange (pagination) {
       this.loadTable = true
-       console.log('pagination', pagination)
+      //  console.log('pagination', pagination)
        this.getReviews({ page: pagination, productSlug: this.productSlug })
         .then((res) => console.log(res))
         .catch(err => this.$message.error(err))
         .finally(() => (this.loadTable = false))
     },
     openReviewsModal (review) {
-      console.log('review', review)
-      console.log('customerId', review.customer_id)
+      // console.log('review', review)
+      // console.log('customerId', review.customer_id)
       this.reviewsModalStatus = true
       this.selectedReview = review
     },
@@ -1106,7 +1135,7 @@ export default {
     },
     handleReviewEdit () {
       const { id, active, comment, customer_id: customerId, customer_name: customerName, rate } = this.selectedReview
-      console.log('customerId', customerId)
+      // console.log('customerId', customerId)
       request({
         url: `/feedback/${id}`,
         method: 'put',
@@ -1119,7 +1148,7 @@ export default {
         }
       })
       .then((res) => {
-        console.log('res', res)
+        // console.log('res', res)
         this.$message.success(this.$t('successfullyUpdated'))
       })
       .catch(err => {
@@ -1135,7 +1164,7 @@ export default {
         method: 'delete'
       })
       .then((res) => {
-        console.log('res', res)
+        // console.log('res', res)
         this.getReviews({ page: this.reviewsPagination, productSlug: this.productSlug })
         this.$message.success(this.$t('successfullyDeleted'))
       })
@@ -1182,7 +1211,7 @@ export default {
           const variants = []
           this.product.variants.forEach(item => {
             if (item.value && item.name) {
-              variants.push(item)
+              variants.push({ value: item.value, name: item.name })
             }
           })
           // request for editing product by slug
@@ -1335,7 +1364,7 @@ export default {
           if (uids.includes(item.uid)) acc.push(item)
           return acc
         }, [])
-        console.log('this.product.gallery', this.product.gallery)
+        // console.log('this.product.gallery', this.product.gallery)
       }
     },
     activeTabHandler (_activeTabKey) {
@@ -1361,7 +1390,7 @@ export default {
           .catch(err => console.error(err))
           .finally(() => (this.loading = false))
     },
-    handleProperty (e, type, id) {
+    handleProperty (e, type, property) {
       this.attVariantsList = []
       this.loading = true
       let value
@@ -1370,52 +1399,68 @@ export default {
       } else {
         value = e
       }
-      // console.log('value', value)
+      console.log('value', value)
       // console.log('id', id, this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id)))
-      const indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === id))
-      if (indexOfProperty >= 0) {
-        this.checkedAttList[indexOfProperty].values = value
-        const prodProp = this.productProperties.find(item => item.id === id)
-        this.checkedAttList[indexOfProperty].properties = prodProp.options.filter(option => {
-          if (value.includes(option.value)) {
-            return option
-          }
-        })
-      } else {
-        const prodProp = this.productProperties.find(item => item.id === id)
-        this.checkedAttList.push({
-          values: value,
-          id: id,
-          properties: prodProp.options.filter(option => {
-            if (value.includes(option.value)) {
-              return option
-            }
-          })
-        })
-      }
-      const properties = this.checkedAttList.find(item => item.id === id)
+      this.arrangeCheckedProperties(value, property)
+      const properties = this.checkedAttList.find(item => item.id === property.id)
       const headers = {
         'Content-Type': 'application/json'
       }
+      this.attributeLoading = true
       request({
               url: `/product/${this.productId}/update-property`,
               method: 'put',
               data: {
-                property_id: id,
+                property_id: property.id,
                 value: properties.properties
               },
               headers: headers
           })
           .then(res => console.log('res', res))
-          .catch(err => console.error(err))
-          .finally(() => (this.loading = false))
+          .catch(err => {
+            console.log(err)
+            value.pop()
+            this.arrangeCheckedProperties(value, property)
+            console.error(err)
+          })
+          .finally(() => (this.attributeLoading = false))
     },
-    setDefaultProperty (propId) {
+    arrangeCheckedProperties (value, property) {
+      console.log('Value', value)
+      const indexOfProperty = this.checkedAttList.indexOf(this.checkedAttList.find(item => item.id === property.id))
+      if (indexOfProperty >= 0) {
+        this.checkedAttList[indexOfProperty].values = value
+        property.options = property.options.map(item => {
+          return {
+            ...item,
+            checked: value.includes(item.value)
+          }
+        })
+        this.checkedAttList[indexOfProperty].properties = property.options.filter(option => option.checked).map(({ checked, ...others }) => {
+          return others
+        })
+      } else {
+        property.options = property.options.map(item => {
+          return {
+            ...item,
+            checked: value.includes(item.value)
+          }
+        })
+        this.checkedAttList.push({
+          values: value,
+          id: property.id,
+          properties: property.options.filter(option => option.checked).map(({ checked, ...others }) => {
+            return others
+          })
+        })
+      }
+    },
+    setDefaultProperty (prop) {
       var result = []
-      if (this.productDefaultProperties && this.productDefaultProperties.length) {
-        for (let i = 0; i < this.productDefaultProperties.length; i++) {
-          if (this.productDefaultProperties[i] && this.productDefaultProperties[i].property.id === propId) {
-            result = this.productDefaultProperties[i].value
+      if (prop && prop.options && prop.options.length) {
+        for (const item of prop.options) {
+          if (item.checked) {
+            result.push(item.value)
           }
         }
       }
@@ -1425,6 +1470,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.ghost-loader {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(245, 245, 245, 0.66);
+    z-index: 1000000;
+    pointer-events: none;
+  }
   .attributes > * {
     margin-bottom: 25px;
     width: 100%;

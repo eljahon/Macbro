@@ -90,7 +90,12 @@
           <a-col :span="12" style="padding: 0 15px">
             <a-form-model-item :label="$t('option_name')">
               <div>
-                <a-input v-model="option.name" type="text" :placeholder="$t('option_name')" test-attr="options-name-attribute"/>
+                <a-input
+                  v-model="option.name"
+                  type="text"
+                  :placeholder="$t('option_name')"
+                  test-attr="options-name-attribute"
+                />
               </div>
             </a-form-model-item>
             <a-form-model-item :label="$t('order_no')">
@@ -109,8 +114,10 @@
             <a-form-model-item :label="`${$t('code')} (значение):`">
               <div>
                 <a-input
-                  v-model="option.value"
+                  @keydown="onCodeKeydown"
+                  :value="option.value"
                   type="text"
+                  @input="onCodeInput($event, i)"
                   :placeholder="$t('code')"
                   test-attr="options-value-attribute"
                 />
@@ -209,6 +216,15 @@ export default {
   },
   methods: {
     ...mapActions(['createAttrs', 'getAllAttrs', 'updateAttrs', 'getAttrsById']),
+    onCodeInput (e, index) {
+      console.log('INput', e.target.value.replace(/-/g, ''))
+      this.productProperty.options[index].value = e.target.value.replace(/-/g, '')
+    },
+    onCodeKeydown (event) {
+      if (event.key === '-') {
+        event.preventDefault()
+      }
+    },
     getProductPropertyAttrs () {
       request({
         url: `/product-property/${this.productPropertySlug}?lang=${this.lang}`,

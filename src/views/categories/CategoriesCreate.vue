@@ -32,7 +32,7 @@
         </a-row>
       </a-card>
     </div>
-    <a-row>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-category">

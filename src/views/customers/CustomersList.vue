@@ -9,8 +9,8 @@
     <a-card :title="$t('customers')" class="breadcrumb-row" :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="12">
+          <a-row type="flex">
+            <a-col span="auto">
               <a-form-item style="margin: 0">
                 <a-input
                   test-attr="search-customer"
@@ -21,7 +21,7 @@
                 />
               </a-form-item>
             </a-col>
-            <a-col :span="12">
+            <a-col span="auto">
               <a-form-item style="margin: 0">
                 <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-customer">{{ $t('search') }}</a-button>
               </a-form-item>
