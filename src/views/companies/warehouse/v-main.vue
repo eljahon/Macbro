@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-card :bordered="false" :title="warehouseId ? $t('information') : $t('fillIn')">
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -73,7 +73,7 @@
         </a-col>
       </a-row>
     </a-form-model>
-  </div>
+  </a-card>
 </template>
 
 <script>
