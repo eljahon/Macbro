@@ -383,7 +383,9 @@ const locale = {
 
   // countries
   countries: 'Страны',
-  regions: 'Регионы'
+  regions: 'Регионы',
+  state: 'Состояние',
+  'bar_code': 'Штрих-код'
 }
 
 export default {

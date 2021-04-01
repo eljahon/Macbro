@@ -62,19 +62,6 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('categories')">
-                <treeselect
-                  id="selectCategory"
-                  v-model="productVariant.category_id"
-                  :multiple="false"
-                  :set-fields-value="productVariant.category_id"
-                  :options="getAllCategories"
-                  :placeholder="$t('selectCategory')"
-                  test-attr="category-product-vars"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('brand')" prop="parent_id">
                 <a-select
                   show-search
@@ -92,15 +79,24 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('additional_categories')">
-                <treeselect
-                  id="selectCategory"
-                  v-model="productVariant.additional_categories"
-                  :multiple="true"
-                  :set-fields-value="productVariant.additional_categories"
-                  :options="getAllCategories"
-                  :placeholder="$t('selectCategory')"
-                  test-attr="additional-category-product-vars"
+              <a-form-model-item :label="$t('state')" prop="state">
+                <a-select
+                  show-search
+                  v-model="productVariant.state"
+                  placeholder="state"
+                  test-attr="state-product-vars"
+                >
+                  <a-select-option v-for="(state, key) of stateList" :key="state" :value="key">
+                    {{ state }}
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item :label="$t('bar_code')" prop="bar_code">
+                <a-input
+                  v-model="productVariant.bar_code"
+                  test-attr="bar_code-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -117,6 +113,32 @@
                 <a-input
                   v-model="productVariant.code"
                   test-attr="code-product-vars"
+                />
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item :label="$t('categories')">
+                <treeselect
+                  id="selectCategory"
+                  v-model="productVariant.category_id"
+                  :multiple="false"
+                  :set-fields-value="productVariant.category_id"
+                  :options="getAllCategories"
+                  :placeholder="$t('selectCategory')"
+                  test-attr="category-product-vars"
+                />
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item :label="$t('additional_categories')">
+                <treeselect
+                  id="selectCategory"
+                  v-model="productVariant.additional_categories"
+                  :multiple="true"
+                  :set-fields-value="productVariant.additional_categories"
+                  :options="getAllCategories"
+                  :placeholder="$t('selectCategory')"
+                  test-attr="additional-category-product-vars"
                 />
               </a-form-model-item>
             </a-col>
@@ -457,7 +479,9 @@ export default {
           description: ''
         },
         external_id: null,
-        code: ''
+        code: '',
+        state: '',
+        bar_code: ''
       },
       previewVisible: false,
       previewImage: '',
@@ -467,6 +491,12 @@ export default {
       reviewsModalStatus: false,
       selectedReview: null,
       customerComment: null,
+      stateList: {
+        new: 'Новый',
+        used: 'Использовал',
+        defect: 'Дефект',
+        restoration: 'Реставрирован'
+      },
       rules: {
         name: [
           { required: true, message: this.$t('required'), trigger: 'change' }
@@ -755,6 +785,8 @@ export default {
         this.productVariant.active = productVariant.active
         this.productVariant.showPrice = productVariant.show_price
         this.productVariant.additional_categories = productVariant.additional_categories ? productVariant.additional_categories.map(ac => ac.id) : []
+        this.productVariant.bar_code = productVariant.bar_code
+        this.productVariant.state = productVariant.state
         var isInBrands = false
         this.brands.map(brand => {
           if (brand.id === productVariant.brand.id) {
@@ -816,7 +848,7 @@ export default {
         return response
       }).then((data) => {
           console.log('data', data)
-          const { product: { category: { slug: productCategorySlug }, properties: attrs } } = data
+          const { product_variant: { category: { slug: productCategorySlug }, properties: attrs } } = data
           this.getProductAttributes(productCategorySlug, attrs)
       }).catch((err) => console.error(err))
     },
