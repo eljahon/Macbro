@@ -41,7 +41,7 @@
                 :value="form.branch_name"
                 :filter-option="false"
                 @popupScroll="onScrollBottom($event, 'branch')"
-                placeholder="brand"
+                placeholder="branch"
                 @change="handleChange($event, 'branch')"
                 :disbled="loading"
                 test-attr="branch_name-inventory"
@@ -249,16 +249,16 @@ export default {
         .then((response) => {
             this.loading = false
             console.log('response', response)
-            this.form.branch_id = response.branch_id
-            this.form.branch_name = response.branch_name
-            this.form.buy_price = response.buy_price
-            this.form.comment = response.comment
-            this.form.code = response.code
-            this.form.cagent_id = response.cagent_id
+            this.form.branch_id = response.party.branch_id
+            this.form.branch_name = response.party.branch_name
+            this.form.buy_price = +response.buy_price
+            this.form.comment = response.party.comment
+            this.form.code = response.code || 'test'
+            this.form.cagent_id = response.party.cagent_id
             this.form.product_name = response.product_name
             this.form.product_slug = response.product_slug
-            this.form.sell_price = response.sell_price
-            this.form.warehouse_id = response.warehouse_id
+            this.form.sell_price = +response.sell_price
+            this.form.warehouse_id = this.$route.params.warehouse_id
             this.form.product_state = response.product_state
         })
         .catch(() => {
@@ -280,8 +280,6 @@ export default {
           }
           this.$emit('clickParent', true)
           const newForm = { ...this.form }
-          newForm.buy_price = String(newForm.buy_price)
-          newForm.sell_price = String(newForm.sell_price)
           request({
               url: url,
               method: method,
@@ -291,7 +289,7 @@ export default {
           .then(res => {
               console.log(res)
                 this.loading = false
-              this.$router.replace('/inventory/list')
+              this.$router.go(-1)
           })
           .catch(err => {
               console.log(err)

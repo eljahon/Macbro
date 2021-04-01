@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-card :bordered="false" :title="warehouseId ? $t('information') : $t('fillIn')">
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -28,7 +28,7 @@
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="branch_name" :label="$t('branch_name')" prop="branch_name">
+          <a-form-model-item ref="branch_name" :label="$t('branchName')" prop="branch_name">
             <a-select
                 show-search
                 :auto-clear-search-value="false"
@@ -73,7 +73,7 @@
         </a-col>
       </a-row>
     </a-form-model>
-  </div>
+  </a-card>
 </template>
 
 <script>

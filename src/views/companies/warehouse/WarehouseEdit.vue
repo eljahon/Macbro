@@ -12,33 +12,18 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <div v-if="edit">
-      <a-card :bordered="false">
-        <a-tabs v-model="activeTabKey">
-          <a-tab-pane :key="1">
-            <span slot="tab">
-              {{ $t('information') }}
-            </span>
-            <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-          </a-tab-pane>
+    <a-card :bordered="false" v-if="edit" class="no-space-tab">
+      <a-tabs v-model="activeTabKey">
+        <a-tab-pane :key="1" :tab="$t('information')">
+          <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
+        </a-tab-pane>
 
-          <a-tab-pane :key="2">
-            <span slot="tab">
-              {{ $t('prixod') }}
-            </span>
-
-            <inventory-item />
-          </a-tab-pane>
-        </a-tabs>
-      </a-card>
-    </div>
-    <div v-else>
-      <a-card :title="$t('fillIn')" :bordered="false">
-        <a-row>
-          <v-main @clickParent="clickParent" ref="createForm"></v-main>
-        </a-row>
-      </a-card>
-    </div>
+        <a-tab-pane :key="2" :tab="$t('prixod')">
+          <inventory-item />
+        </a-tab-pane>
+      </a-tabs>
+    </a-card>
+    <v-main v-else @clickParent="clickParent" ref="createForm"></v-main>
     <a-row class="edit-btns" v-if="activeTabKey === 1">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>

@@ -189,7 +189,7 @@ const companies = {
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
             commit('SET_INVENTORY_ITEMS_PAGINATION', pagination)
-            commit('SET_INVENTORY_ITEMS', result.warehouses)
+            commit('SET_INVENTORY_ITEMS', result.inventory_items)
             resolve()
           })
           .catch(error => {

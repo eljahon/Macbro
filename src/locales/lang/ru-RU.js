@@ -369,7 +369,7 @@ const locale = {
   color: 'Цвет',
 
   // inventory-item
-  imeiCode: 'ИМЕИ Код',
+  imeiCode: 'IMEI Код',
   sellPrice: 'Цена продажи',
   buyPrice: 'Цена покупки',
   productState: 'Состояние',

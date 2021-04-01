@@ -19,7 +19,7 @@
         test-attr="list-inventoryitems"
       >
         <template slot="action" slot-scope="text, row, index">
-          <router-link :to="`${$route.path}/items/update/${row.id}`">
+          <router-link :to="`/warehouse/update/${$route.params.id}/items/update/${row.id}`">
             <edit-btn :test-attr="`edit-warehouse${index}`" />
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`" />
