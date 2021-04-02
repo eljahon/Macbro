@@ -138,6 +138,7 @@ export default {
     }
   },
  mounted () {
+    this.setSearchQuery('')
     this.getBrands({ page: this.paginationBrands })
       .then((res) => console.log('res', res))
       .catch(err => console.error(err))

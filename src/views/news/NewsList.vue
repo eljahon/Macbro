@@ -146,6 +146,7 @@ export default {
     }
   },
   mounted () {
+      this.setSearchQuery()
     this.getNews({ page: this.newsPagination })
       .then((res) => console.log('res', res))
       .catch(err => {

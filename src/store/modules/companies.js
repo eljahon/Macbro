@@ -89,7 +89,7 @@ const companies = {
         request({
           url: '/company',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery }
         })
           .then(result => {
             const pagination = { ...page }
@@ -112,7 +112,7 @@ const companies = {
         request({
           url: '/branch',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery, company_id: page.company_id }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery, company_id: page.company_id }
         })
           .then(result => {
             const pagination = { ...page }
@@ -158,7 +158,7 @@ const companies = {
         request({
           url: '/warehouse',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery, company_id: page.company_id }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery, company_id: page.company_id }
         })
           .then(result => {
             const pagination = { ...page }
@@ -182,7 +182,7 @@ const companies = {
         request({
           url: '/inventory-item',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery, warehouse_id: page.warehouse_id }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery, warehouse_id: page.warehouse_id }
         })
           .then(result => {
             console.log(result.warehouses)

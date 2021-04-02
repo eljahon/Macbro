@@ -9,13 +9,15 @@ const countries = {
     countries: [],
     countriesPagination: {},
     cities: [],
-    citiesPagination: {}
+    citiesPagination: {},
+    searchQuery: ''
   },
   getters: {
     countriesList: state => state.countries,
     countriesPagination: state => state.countriesPagination,
     citiesList: state => state.cities,
-    citiesPagination: state => state.citiesPagination
+    citiesPagination: state => state.citiesPagination,
+    searchQuery: state => state.searchQuery
   },
   mutations: {
     SET_CITIES: (state, cities) => {
@@ -29,9 +31,15 @@ const countries = {
     },
     SET_COUNTRIES_PAGINATION: (state, countriesPagination) => {
         state.countriesPagination = countriesPagination
+    },
+    SET_SEARCH_QUERY: (state, query) => {
+      state.searchQuery = query
     }
   },
   actions: {
+    setSearchQuery ({ commit }, searchQuery) {
+      commit('SET_SEARCH_QUERY', searchQuery)
+    },
     getCountries ({ commit, state }, page) {
       const { searchQuery } = state
       if (!page) {
@@ -83,7 +91,7 @@ const countries = {
       request({
           url: '/city',
           headers: headers,
-          params: { page: page.current, limit: page.pageSize, search: searchQuery, country_id: page.country_id }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery, country_id: page.country_id }
       })
         .then(result => {
           const pagination = { ...page }

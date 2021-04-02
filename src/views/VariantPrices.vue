@@ -181,6 +181,7 @@ export default {
     }
   },
   mounted () {
+    this.setSearchQuery()
     this.getProductVariants({ page: this.productVariantsPagination })
       .then(() => {
         this.ArrangeItemsList()

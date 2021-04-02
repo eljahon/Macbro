@@ -120,6 +120,7 @@ export default {
     }
   },
   mounted () {
+    this.setSearchQuery('')
     this.getFeaturedProducts({ page: this.featuredProductsPagination })
       .then(res => console.log('res', res))
       .catch(err => console.error(err))

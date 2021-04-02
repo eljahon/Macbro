@@ -147,6 +147,7 @@ export default {
     // }
   },
   mounted () {
+    this.setSearchQuery('')
     console.log('this.categories', this.categories)
     this.getCategories({ page: this.paginationCategories })
       .then((res) => console.log('res', res))

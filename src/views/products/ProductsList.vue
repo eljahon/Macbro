@@ -193,6 +193,7 @@ export default {
     }
   },
   mounted () {
+    this.setSearchQuery('')
     this.getCategories()
     this.getProducts({ page: this.productsPagination })
       .then(() => console.log('this.productsData', this.productsData))

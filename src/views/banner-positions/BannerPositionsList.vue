@@ -145,6 +145,7 @@ export default {
     }
   },
  mounted () {
+      this.setSearchQuery()
     this.getBannerPositions({ page: this.bannerPositionsPagination })
       .then((res) => console.log('res', res))
       .catch(err => console.error(err))

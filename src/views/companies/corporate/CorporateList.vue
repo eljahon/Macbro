@@ -11,7 +11,7 @@
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
-            <a-col :span="24" style="padding: 5px">
+            <!-- <a-col :span="24" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-input
                   id="inputSearch"
@@ -21,7 +21,7 @@
                   test-attr="search-branch"
                 />
               </a-form-item>
-            </a-col>
+            </a-col> -->
             <!-- <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>

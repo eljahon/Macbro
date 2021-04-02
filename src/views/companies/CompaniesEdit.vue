@@ -31,7 +31,7 @@
       <!-- <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main> -->
     </a-card>
     <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
-    <a-row v-if="activeTabKey === 1" class="edit-btns">
+    <a-row v-if="currentTab === 1" class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-company">
