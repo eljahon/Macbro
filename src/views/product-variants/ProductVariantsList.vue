@@ -188,6 +188,7 @@ export default {
     }
   },
   mounted () {
+    this.setSearchQuery('')
     this.getCategories()
     this.getProductVariants({ page: this.productVariantsPagination })
       .then(() => console.log('this.productVariantsData', this.productVariantsData))

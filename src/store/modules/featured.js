@@ -3,11 +3,13 @@ import request from '@/utils/request'
 const featuredProducts = {
   state: {
     featuredProducts: [],
-    pagination: {}
+    pagination: {},
+    searchQuery: ''
   },
   getters: {
     featuredProductsPagination: state => state.pagination,
-    featuredProducts: state => state.featuredProducts
+    featuredProducts: state => state.featuredProducts,
+    searchQuery: state => state.searchQuery
   },
   mutations: {
     GET_FEATURED_PRODUCTS: (state, featuredProducts) => {
@@ -15,9 +17,15 @@ const featuredProducts = {
     },
     GET_FEATURED_PRODUCTS_PAGINATION: (state, pagination) => {
       state.pagination = pagination
+    },
+    SET_SEARCH_QUERY: (state, query) => {
+      state.searchQuery = query
     }
   },
   actions: {
+    setSearchQuery ({ commit }, searchQuery) {
+      commit('SET_SEARCH_QUERY', searchQuery)
+    },
     getFeaturedProducts ({ commit, state }, payload = { page: null, search: true }) {
       let { page } = payload
       // if search === false all widget positions will be requested
@@ -28,10 +36,8 @@ const featuredProducts = {
       }
       const params = {
         page: page.current,
-        limit: page.pageSize
-      }
-      if (search) {
-        params.search = searchQuery
+        limit: page.pageSize,
+        search: search ? (searchQuery !== '' ? searchQuery : '') : ''
       }
       return new Promise((resolve, reject) => {
         request({

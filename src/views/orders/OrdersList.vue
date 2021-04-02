@@ -166,11 +166,15 @@ export default {
   },
   mounted () {
     // this.exportExcel()
+    this.setSearchQuery('')
     console.log('this.ordersPagination', this.ordersPagination)
     this.getOrders({ page: this.ordersPagination })
       .then((res) => console.log('res', res))
       .catch((err) => console.error(err))
       .finally(() => (this.loading = false))
+  },
+  beforeDestroy () {
+    this.setSearchQuery('')
   },
   methods: {
     ...mapActions(['getOrders', 'setSearchQuery']),

@@ -140,6 +140,7 @@ export default {
     }
   },
   mounted () {
+    this.setSearchQuery()
     this.loading = true
     this.getPages({ page: this.pagesPagination })
       .then(() => {

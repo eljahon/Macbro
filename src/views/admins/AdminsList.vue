@@ -115,6 +115,7 @@ export default {
     }
   },
  mounted () {
+      this.setSearchQuery()
     this.getAdmins({ page: this.adminsPagination })
       .then((res) => console.log('admins', this.admins))
       .catch(err => console.error(err))

@@ -2,9 +2,9 @@
   <div>
     <a-card :title="$t('staff')" :bordered="false">
         <div slot="extra">
-            <router-link to="././create" slot="extra">
+            <!-- <router-link to="././create" slot="extra">
                 <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
-            </router-link>
+            </router-link> -->
         </div>
       <a-table
         :columns="columns"
