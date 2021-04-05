@@ -61,8 +61,11 @@
                     <a-select-option value="self">
                       Самовывоз
                     </a-select-option>
-                    <a-select-option value="delivery">
+                    <a-select-option value="dayDelivery">
                       Доставка в течении дня
+                    </a-select-option>
+                    <a-select-option value="expressDelivery">
+                      Экспресс-доставка
                     </a-select-option>
                   </a-select>
                 </a-form-model-item>
@@ -73,8 +76,11 @@
                     <a-select-option value="cash" :disabled="this.isUnired">
                       Наличные
                     </a-select-option>
-                    <a-select-option value="card" :disabled="this.isUnired">
+                    <a-select-option value="terminal" :disabled="this.isUnired">
                       Терминал
+                    </a-select-option>
+                    <a-select-option value="card" :disabled="this.isUnired">
+                      Карта
                     </a-select-option>
                     <a-select-option value="click" :disabled="this.isUnired">
                       Click
