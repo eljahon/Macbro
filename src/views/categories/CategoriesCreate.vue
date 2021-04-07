@@ -1,22 +1,20 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/catalog/categories/list" test-attr="prev-link-category">{{ $t('categories') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/catalog/categories/list" test-attr="prev-link-category">{{ $t('categories') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ this.edit ? $t('update') :$t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
     <div v-if="edit">
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('update')" :bordered="false">
         <a-row>
-          <a-tabs type="card" v-model="activeTabKey">
+          <a-tabs v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
               <span slot="tab">
-                <flag :iso="flagMapper(lang)" />
+                <flag :iso="flagMapper(lang)" style="margin-right: 5px"/>
                 {{ langMapper(lang) }}
               </span>
               <v-main @clickParent="clickParent" :ref="`${lang}EditForm`" :lang="lang"></v-main>
@@ -26,7 +24,7 @@
       </a-card>
     </div>
     <div v-else>
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('fillIn')" :bordered="false">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>

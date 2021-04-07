@@ -324,8 +324,8 @@ const locale = {
   agents: 'Агенты',
   counterAgents: 'Контр агенты',
   agent: 'Агент',
-  physicalAgents: 'Физические лица',
-  legalAgents: 'Юридические лица',
+  physicalAgents: 'Физические агенты',
+  legalAgents: 'Юридические агенты',
   previewAgent: 'Информация об агенте',
 
   // branches

@@ -5,16 +5,16 @@
         <a-breadcrumb-item>
           <router-link to="/catalog/products/list" test-attr="prev-link-products">{{ $t('products') }}</router-link>
         </a-breadcrumb-item>
-        <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
     <div v-if="edit">
-      <a-card :title="$t('fillIn')" :bordered="false">
+      <a-card :title="$t('update')" :bordered="false">
         <a-row>
-          <a-tabs type="card" v-model="activeTabKey">
+          <a-tabs v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
               <span slot="tab">
-                <flag :iso="flagMapper(lang)" />
+                <flag :iso="flagMapper(lang)" style="margin-right: 5px"/>
                 {{ langMapper(lang) }}
               </span>
               <v-main @clickParent="clickParent" type="edit" :ref="`${lang}EditForm`" :lang="lang"></v-main>
@@ -24,7 +24,7 @@
       </a-card>
     </div>
     <div v-else>
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('fillIn')" :bordered="false">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>

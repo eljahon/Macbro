@@ -1,17 +1,15 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/agents/physical/list">{{ $t('physicalAgents') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
+    <breadcrumb-row>
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>
+          <router-link to="/agents/physical/list">{{ $t('physicalAgents') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
     <div v-if="edit">
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('update')" :bordered="false">
         <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
@@ -27,13 +25,13 @@
       </a-card>
     </div>
     <div v-else>
-      <a-card :title="$t('fillIn')">
+      <a-card :title="$t('fillIn')" :bordered="false">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>
       </a-card>
     </div>
-    <a-row>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-physical-agent">
