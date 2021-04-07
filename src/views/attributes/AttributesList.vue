@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb-row>
+    <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px">
         <a-breadcrumb-item>{{ $t('attributes') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -13,7 +13,24 @@
     </a-card>
 
     <a-card class="breadcrumb-row" :bordered="false">
-      <a-input slot="extra" id="inputSearch" :placeholder="$t('search') + '...'" v-debounce="debouncedSearch" test-attr="search-attribute" />
+      <a-row type="flex" align="middle">
+        <a-col :span="12">
+          <span>{{ $t('list') }}</span>
+        </a-col>
+        <a-col :span="12">
+          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
+            <a-form-item style="margin: 0">
+              <a-input
+                slot="extra"
+                id="inputSearch"
+                :placeholder="$t('search') + '...'"
+                v-debounce="debouncedSearch"
+                test-attr="search-attribute"
+              />
+            </a-form-item>
+          </a-form>
+        </a-col>
+      </a-row>
     </a-card>
 
     <a-card :bordered="false">

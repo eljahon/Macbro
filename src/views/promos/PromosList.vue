@@ -1,42 +1,47 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('promos') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px">
+        <a-breadcrumb-item>{{ $t('promos') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+    <a-card :title="$t('promos')" class="breadcrumb-row" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-promos">{{ $t('add') }}</a-button>
+      </router-link>
+    </a-card>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-promos">{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
+    <a-card class="breadcrumb-row" :bordered="false">
+      <a-row type="flex" align="middle">
+        <a-col :span="12">
+          <span>{{ $t('list') }}</span>
+        </a-col>
+        <a-col :span="12">
+          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
+            <a-row type="flex">
+              <a-col span="auto">
+                <a-form-item style="margin: 0">
+                  <a-input
+                    test-attr="search-promos"
+                    id="inputSearch"
+                    :placeholder="$t('search') + '...'"
+                    v-decorator="['search', { initialValue: this.getSearchQuery }]"
+                    v-debounce="debouncedSearch"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col span="auto" style="padding-left: 5px">
+                <a-form-item style="margin: 0">
+                  <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-promos">{{ $t('search') }}</a-button>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+        </a-col>
+      </a-row>
+    </a-card>
 
-    <a-card :title="$t('list')">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-promos"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-promos">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :bordered="false">
 
       <a-table
         :columns="columns"

@@ -66,7 +66,7 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
+        <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
             <a-textarea
               placeholder="Basic usage"
