@@ -436,6 +436,7 @@ export default {
   },
   data () {
     return {
+      productId: '',
       attrs_id: '',
       addAttrProductModal: false,
       allProductProperties: null,
@@ -1098,6 +1099,7 @@ export default {
           }).then(res => {
             // console.log('res', res)
             this.createdProductVariantSlug = res.product_variant.slug
+            this.productVariantId = res.product_variant.id
             this.priceUpdatable = true
             this.activeTabKey = '4'
             this.updatePriceOnly = true
