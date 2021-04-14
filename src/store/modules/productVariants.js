@@ -69,6 +69,21 @@ const productVariants = {
             reject(error)
           })
       })
+    },
+    getProductVariantsAll ({ commit, state }, params) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `/product-variant`,
+          headers: headers,
+          params: params
+        })
+          .then(result => {
+            resolve(result)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
   }
 }

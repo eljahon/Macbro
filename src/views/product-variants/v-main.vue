@@ -23,6 +23,28 @@
           test-attr="show-price-product-vars"
         />
       </a-col>
+      <a-col :lg="12" :md="24" style="margin: 0 0 15px" v-if="!$route.params.id">
+        <a-form-model-item :label="$t('importDataFromVariant')">
+          <a-select
+            show-search
+            :auto-clear-search-value="false"
+            @search="onVarantSearch"
+            @change="getVariantData"
+            @popupScroll="onScrollBottom"
+            :filter-option="false"
+            placeholder="variant"
+            test-attr="brand-product-vars"
+            style="width: 300px"
+          >
+            <a-select-option v-for="brand in getProductVariantsList" :title="brand.name" :key="brand.id" :value="brand.id">
+              {{ brand.name }}
+            </a-select-option>
+            <a-select-option key="productVariantListLoading" v-if="productVariantListParams.total > getProductVariantsList.length || productVariantListLoading">
+                <a-spin slot="notFoundContent" size="small" />
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+      </a-col>
     </a-row>
     <a-form-model
       @submit="onSubmit"
@@ -122,6 +144,7 @@
                   id="selectCategory"
                   v-model="productVariant.category_id"
                   :multiple="false"
+                  :normalizer="normalizer"
                   :set-fields-value="productVariant.category_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
@@ -135,6 +158,7 @@
                   id="selectCategory"
                   v-model="productVariant.additional_categories"
                   :multiple="true"
+                  :normalizer="normalizer"
                   :set-fields-value="productVariant.additional_categories"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
@@ -394,6 +418,7 @@ import request from '@/utils/request'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash/debounce'
 // import { ISO_8601 } from 'moment'
 
 function getCategoriesTree (categories) {
@@ -435,7 +460,16 @@ export default {
     Treeselect
   },
   data () {
+    this.onVarantSearch = debounce(this.onVarantSearch, 400)
+    this.variantsGetAll = debounce(this.variantsGetAll, 100)
     return {
+      productVariantList: [],
+      productVariantListLoading: false,
+      productVariantListParams: {
+        page: 1,
+        mimit: 10,
+        total: null
+      },
       productId: '',
       attrs_id: '',
       addAttrProductModal: false,
@@ -577,6 +611,9 @@ export default {
         return true
       }) || []
     },
+    getProductVariantsList () {
+      return this.productVariantList
+    },
     getAllCategories () {
       return getCategoriesTree(this.categories)
     },
@@ -649,7 +686,7 @@ export default {
     this.getBrands({ page: null, search: false }).then(() => {
       this.brandsSelect = this.brands
     })
-    this.getProductVariants({ page: this.productVariantsPagination, search: false })
+    this.onVarantSearch('')
     this.getReviews({ page: null, productSlug: this.productVariantSlug })
     if (this.productVariantSlug) {
       this.getProductVariantData()
@@ -659,7 +696,78 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getCategories', 'getBrands', 'getProductVariants', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    ...mapActions(['getCategories', 'getBrands', 'getProductVariants', 'getProductVariantsAll', 'getReviews', 'setSearchQuery', 'getAllAttrs']),
+    normalizer (node) {
+      if (node.children === null || node.children === 'null') {
+        delete node.children
+      }
+    },
+    onScrollBottom (event) {
+      var target = event.target
+      if (!this.productVariantListLoading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        if (this.productVariantListParams.total > this.productVariantList.length) {
+          this.productVariantListParams.page += 1
+          this.productVariantListParams.lang = this.lang || 'ru'
+          target.scrollTo(0, target.scrollHeight)
+          this.variantsGetAll()
+        }
+      }
+    },
+    onVarantSearch (val) {
+      console.log(val)
+      this.productVariantListLoading = true
+      this.productVariantList = []
+      this.productVariantListParams = { search: val, lang: this.lang, limit: 10, page: 1 }
+      this.variantsGetAll()
+    },
+    variantsGetAll () {
+      this.productVariantListLoading = true
+      this.getProductVariantsAll(this.productVariantListParams)
+        .then(res => {
+          this.productVariantListLoading = false
+          this.productVariantList.push(...res.product_variants)
+          this.productVariantListParams.total = res.count
+        })
+        .catch(() => {
+          this.productVariantListLoading = true
+        })
+    },
+    getVariantData (id) {
+      if (!id) {
+        return
+      }
+      request({
+        url: `/product-variant/${id}`,
+        method: 'get',
+        params: {
+          lang: this.lang,
+          onlyRelatedProducts: true
+        }
+      }).then((response) => {
+        const { product_variant: productVariant } = response
+
+        this.productVariant.name = productVariant.name
+        this.productVariant.description = productVariant.description
+        this.productVariant.preview_text = productVariant.preview_text
+        this.productVariant.characteristics = productVariant.characteristics
+        this.imageUrl = productVariant.image
+        this.productVariant.image = productVariant.image.split('/')[4]
+        this.productVariant.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => {
+          const filename = img.split('/')[4]
+          return {
+            filename,
+            uid: idx
+          }
+        }) : []
+        this.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => ({
+          type: 'image/jpg',
+          status: 'done',
+          uid: idx,
+          url: img
+        })) : []
+        this.galleryList = JSON.parse(JSON.stringify(this.gallery))
+      })
+    },
     addProductProperty () {
       console.log('this.attrs_id', this.attrs_id)
       const selectedProductProperty = this.allProductProperties.find(prop => prop.id === this.attrs_id)
@@ -1148,5 +1256,12 @@ export default {
   }
 }
 </script>
-<style>
+
+<style lang="less" scoped>
+  .propertyLabel {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
 </style>

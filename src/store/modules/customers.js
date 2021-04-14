@@ -39,11 +39,11 @@ const customers = {
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
-            url: `/customer`,
+            url: `/client`,
             headers: headers,
             params: {
               page: page.current,
-              phone: searchQuery
+              phone_number: searchQuery
             }
         })
           .then(result => {
@@ -52,7 +52,7 @@ const customers = {
           console.log(pagination)
           console.log('pagination')
           commit('GET_CUSTOMERS_PAGINATION', pagination)
-          commit('GET_CUSTOMERS', result.customers)
+          commit('GET_CUSTOMERS', result.clients)
           resolve()
         })
         .catch(error => {

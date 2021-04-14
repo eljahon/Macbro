@@ -114,11 +114,11 @@ export default {
         },
         {
           title: this.$t('lastName'),
-          dataIndex: 'lastname'
+          dataIndex: 'last_name'
         },
         {
           title: this.$t('phone'),
-          dataIndex: 'phone'
+          dataIndex: 'phone_number'
         },
         {
           title: this.$t('action'),

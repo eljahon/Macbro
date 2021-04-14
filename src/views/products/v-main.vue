@@ -286,14 +286,14 @@
               :key="property.id"
             >
               <div v-if="property.type === 'text' || property.type === 'number'">
-                <label class="propertyLabel">{{ property.name }}</label>
+                <div class="propertyLabel">{{ property.name }}</div>
                 <a-input
                   v-debounce="() => debouncedRequest(value, property.id)"
                   :default-value="setDefaultProperty(property.id)"
                 />
               </div>
               <div v-if="property.type === 'select'">
-                <label class="propertyLabel">{{ property.name }}</label>
+                <div class="propertyLabel">{{ property.name }}</div>
                 <a-select
                   @change="handleProperty($event, property.type, property.id)"
                   placeholder="Select an option"
@@ -309,7 +309,7 @@
                 </a-select>
               </div>
               <div v-if="property.type === 'checkbox'">
-                <label class="propertyLabel">{{ property.name }}</label>
+                <div class="propertyLabel">{{ property.name }}</div>
                 <a-checkbox-group
                   name="checkboxgroup"
                   @change="handleProperty($event, property.type, property)"
@@ -321,7 +321,7 @@
                 </a-checkbox-group>
               </div>
               <div v-if="property.type === 'radio'">
-                <label class="propertyLabel">{{ property.name }}</label>
+                <div class="propertyLabel">{{ property.name }}</div>
                 <a-radio-group
                   button-style="solid"
                   @change="handleProperty($event, property.type, property.id)"
