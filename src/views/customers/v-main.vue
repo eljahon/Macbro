@@ -20,17 +20,17 @@
               </a-form-model-item>
             </a-col>
             <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="lastname" :label="$t('lastName')" prop="lastname">
+              <a-form-model-item ref="lastname" :label="$t('lastName')" prop="last_name">
                 <a-input
-                  v-model="customer.lastname"
+                  v-model="customer.last_name"
                   test-attr="lastname-customer"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
+              <a-form-model-item ref="phone" :label="$t('phone')" prop="phone_number">
                 <a-input
-                  v-model="customer.phone"
+                  v-model="customer.phone_number"
                   test-attr="phone-customer"
                 />
               </a-form-model-item>
@@ -105,8 +105,8 @@ export default {
       activeTabKey: '1',
       customer: {
         name: '',
-        lastname: '',
-        phone: ''
+        'last_name': '',
+        'phone_number': ''
         // address: ''
       },
       columns: [
@@ -142,10 +142,10 @@ export default {
         name: [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
-        lastname: [
+        'last_name': [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
-        phone: [
+        'phone_number': [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ]
       },
@@ -182,14 +182,14 @@ export default {
     ...mapActions(['getCustomerOrders']),
     getCustomerAttrs () {
       request({
-        url: `/customer/profile/${this.customerId}`,
+        url: `/get/client/${this.customerId}`,
         method: 'get'
       }).then((response) => {
-          const { customer: { name, lastname, phone } } = response
+          const { name } = response
           console.log('response', response)
           this.customer.name = name
-          this.customer.lastname = lastname
-          this.customer.phone = phone
+          this.customer.last_name = response.last_name
+          this.customer.phone_number = response.phone_number
           // this.customer.address = address
       })
     },
@@ -204,7 +204,7 @@ export default {
       e.preventDefault()
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-            var url = `/customer/profile/${this.customerId}`
+            var url = `/client/${this.customerId}`
             var method = 'put'
             const headers = {
                 'Content-Type': 'application/json'

@@ -385,7 +385,8 @@ const locale = {
   countries: 'Страны',
   regions: 'Регионы',
   state: 'Состояние',
-  'bar_code': 'Штрих-код'
+  'bar_code': 'Штрих-код',
+  importDataFromVariant: 'Импортировать данные из существующего варианта продукта'
 }
 
 export default {
