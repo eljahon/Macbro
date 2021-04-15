@@ -2,11 +2,11 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px">
-        <a-breadcrumb-item>{{ $t('product_variants') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('product_variants_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="$t('product_variants')" :bordered="false">
+    <a-card :title="$t('product_variants_list')" :bordered="false">
       <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -104,9 +104,27 @@
               </span>
             </div>
           </template>
+          <template slot="update_price" slot-scope="text, record, index">
+            <span>
+              <a-input-number
+                style="margin: -5px 0"
+                :min="0"
+                v-model="updatePricesForm.item_new_prices[index].price"
+              />
+            </span>
+          </template>
         </a-table>
       </a-form-model>
     </a-card>
+    <a-row class="edit-btns">
+      <a-col :span="24" style="padding: 15px 0">
+        <a-form-model-item>
+          <a-button :loading="loading" type="primary" html-type="submit" @click.prevent="updateAllPrices" test-attr="save-category">
+            {{ $t('save') }}
+          </a-button>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -126,6 +144,9 @@ export default {
     return {
       items: [],
       cacheData: [],
+      updatePricesForm: {
+        item_new_prices: []
+      },
       editingKey: '',
       productRules: {
         price: [{ required: true, message: this.$t('required'), trigger: 'change' }],
@@ -142,22 +163,21 @@ export default {
           width: '50%'
         },
         {
-          title: this.$t('price'),
+          title: this.$t('currentPrice'),
           key: 'price',
           width: '30%',
           scopedSlots: { customRender: 'price' }
         },
         {
-          title: this.$t('old_price'),
-          key: 'old_price',
-          width: '20%',
-          scopedSlots: { customRender: 'old_price' }
-        },
-        {
-          title: this.$t('action'),
-          dataIndex: 'operation',
-          scopedSlots: { customRender: 'operation' }
+          title: this.$t('newPriceInput'),
+          key: 'newPrice',
+          scopedSlots: { customRender: 'update_price' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   dataIndex: 'operation',
+        //   scopedSlots: { customRender: 'operation' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -198,6 +218,31 @@ export default {
   },
   methods: {
     ...mapActions(['getProductVariants', 'setSearchQuery']),
+    updateAllPrices () {
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      this.loading = true
+      const form = { ...this.updatePricesForm }
+      form.item_new_prices = form.item_new_prices.map(item => {
+        return {
+          ...item,
+          price: String(item.price),
+          'old_price': String(item.old_price)
+        }
+      })
+      request({
+        url: '/many-product-variants',
+        method: 'put',
+        data: form,
+        headers: headers
+      })
+        .then(() => {
+          this.ArrangeItemsList()
+        })
+        .catch(err => this.$message.error(err))
+        .finally(() => (this.loading = false))
+    },
     ArrangeItemsList () {
       if (this.productVariantsData) {
         this.items = this.productVariantsData.map(item => {
@@ -212,6 +257,14 @@ export default {
         this.items = []
       }
       this.cacheData = JSON.parse(JSON.stringify(this.items))
+      this.updatePricesForm.item_new_prices = this.productVariantsData.map(item => {
+        return {
+          'old_price': +item.price.old_price,
+          'price': +item.price.price,
+          'price_type_id': '0',
+          'product_variant_id': item.slug
+        }
+      })
     },
     handleChange (value, index, column) {
       // console.log('CHANGE', index, value)

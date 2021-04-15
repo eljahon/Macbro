@@ -307,6 +307,7 @@ const locale = {
   review_edit: 'Форма редактирования отзыва',
   variants: 'Варианты',
   product_variants: 'Варианты продуктов',
+  product_variants_list: 'Продукт лист',
   product_variant: 'Вариант продукта',
   // measures
   measure_name: 'Название измерения',
@@ -386,7 +387,9 @@ const locale = {
   regions: 'Регионы',
   state: 'Состояние',
   'bar_code': 'Штрих-код',
-  importDataFromVariant: 'Импортировать данные из существующего варианта продукта'
+  importDataFromVariant: 'Импортировать данные из существующего варианта продукта',
+  newPriceInput: 'Новая цена (инпут)',
+  currentPrice: 'Текущая цена'
 }
 
 export default {

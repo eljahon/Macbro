@@ -757,7 +757,7 @@ export const asyncRouterMap = [
         path: '/product-variants',
         name: 'productVariantPrices',
         component: () => import('@/views/VariantPrices'),
-        meta: { title: 'product_variants', keepAlive: true, icon: 'inbox', permission: ['directory'] }
+        meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] }
       },
       // {
       //   path: '/shops',
