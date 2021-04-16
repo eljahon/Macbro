@@ -23,7 +23,7 @@
           test-attr="show-price-product-vars"
         />
       </a-col>
-      <a-col :lg="12" :md="24" style="margin: 0 0 15px" v-if="!$route.params.id">
+      <a-col :lg="12" :md="24" style="margin: 0 0 15px">
         <a-form-model-item :label="$t('importDataFromVariant')">
           <a-select
             show-search
@@ -746,26 +746,27 @@ export default {
       }).then((response) => {
         const { product_variant: productVariant } = response
 
-        this.productVariant.name = productVariant.name
-        this.productVariant.description = productVariant.description
-        this.productVariant.preview_text = productVariant.preview_text
-        this.productVariant.characteristics = productVariant.characteristics
-        this.imageUrl = productVariant.image
-        this.productVariant.image = productVariant.image.split('/')[4]
-        this.productVariant.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => {
-          const filename = img.split('/')[4]
-          return {
-            filename,
-            uid: idx
-          }
-        }) : []
-        this.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => ({
-          type: 'image/jpg',
-          status: 'done',
-          uid: idx,
-          url: img
-        })) : []
-        this.galleryList = JSON.parse(JSON.stringify(this.gallery))
+        this.productVariant.description = this.productVariant.description ? this.productVariant.description : productVariant.description
+        this.productVariant.preview_text = this.productVariant.preview_text ? this.productVariant.preview_text : productVariant.preview_text
+        this.productVariant.characteristics = this.productVariant.characteristics ? this.productVariant.characteristics : productVariant.characteristics
+        this.imageUrl = this.imageUrl ? this.imageUrl : productVariant.image
+        this.productVariant.image = this.productVariant.image ? this.productVariant.image : productVariant.image.split('/')[4]
+        if (!this.productVariant.gallery.length) {
+          this.productVariant.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => {
+            const filename = img.split('/')[4]
+            return {
+              filename,
+              uid: idx
+            }
+          }) : []
+          this.gallery = productVariant.gallery ? productVariant.gallery.map((img, idx) => ({
+            type: 'image/jpg',
+            status: 'done',
+            uid: idx,
+            url: img
+          })) : []
+          this.galleryList = JSON.parse(JSON.stringify(this.gallery))
+        }
       })
     },
     addProductProperty () {
