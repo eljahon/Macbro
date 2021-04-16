@@ -157,8 +157,8 @@
                   </div>
                 </div>
               </a-upload>
-              <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-                <img alt="example" :src="previewImage" />
+              <a-modal :visible="previewVisible" :width="650" :footer="null" @cancel="handleCancel">
+                <img alt="example" style="max-width: 600px" :src="previewImage" />
               </a-modal>
             </a-form-item>
           </a-row>
