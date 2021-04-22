@@ -8,13 +8,13 @@ const productVariants = {
   state: {
     productVariants: [],
     productVariantsPagination: {},
-    searchQuery: '',
+    searchQueryProductVar: '',
     loading: false
   },
   getters: {
     productVariantsData: state => state.productVariants,
     productVariantsPagination: state => state.productVariantsPagination,
-    searchQuery: state => state.searchQuery,
+    searchQueryProductVar: state => state.searchQueryProductVar,
     loading: state => state.loading
   },
   mutations: {
@@ -25,7 +25,7 @@ const productVariants = {
       state.productVariantsPagination = productVariantsPagination
     },
     SET_SEARCH_QUERY: (state, query) => {
-      state.searchQuery = query
+      state.searchQueryProductVar = query
     },
     SET_LOADING: (state, loadingStatus) => {
       state.loading = loadingStatus
@@ -35,14 +35,14 @@ const productVariants = {
     setLoading ({ commit }, status) {
       commit('SET_LOADING', status)
     },
-    setSearchQuery ({ commit }, searchQuery) {
-      commit('SET_SEARCH_QUERY', searchQuery)
+    setSearchQueryProductVar ({ commit }, searchQueryProductVar) {
+      commit('SET_SEARCH_QUERY', searchQueryProductVar)
     },
     getProductVariants ({ commit, state }, payload = { page: null, search: true }) {
       let { page } = payload
       // if search === false all productVariants will be requested
       const { search } = payload
-      const { searchQuery } = state
+      const { searchQueryProductVar } = state
       if (!page) {
         page = { current: 1, pageSize: 10, total: null }
       }
@@ -53,7 +53,7 @@ const productVariants = {
           headers: headers,
           params: {
             page: page.current,
-            search: search ? (searchQuery !== '' ? searchQuery : '') : ''
+            search: search ? (searchQueryProductVar !== '' ? searchQueryProductVar : '') : ''
           }
         })
           .then(result => {

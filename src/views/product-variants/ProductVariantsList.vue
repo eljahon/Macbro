@@ -185,18 +185,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['productVariantsData', 'productVariantsPagination', 'categories', 'categoriesWithChildren', 'searchQuery']),
+    ...mapGetters(['productVariantsData', 'productVariantsPagination', 'categories', 'categoriesWithChildren', 'searchQueryProductVar']),
     getPagination () {
       return this.productVariantsPagination
     },
     getSearchQuery () {
-      return this.searchQuery
+      return this.searchQueryProductVar
     }
   },
   mounted () {
-    this.setSearchQuery('')
     this.getCategories()
-    this.getProductVariants({ page: this.productVariantsPagination })
+    this.getProductVariants({ page: this.productVariantsPagination, search: true })
       .then(() => console.log('this.productVariantsData', this.productVariantsData))
       .catch(err => {
         this.$message.error(this.$t('error'))
@@ -204,10 +203,8 @@ export default {
       })
       .finally(() => (this.loading = false))
   },
-  beforeDestroy () {
-  },
   methods: {
-    ...mapActions(['getProductVariants', 'getCategories', 'setSearchQuery']),
+    ...mapActions(['getProductVariants', 'getCategories', 'setSearchQueryProductVar']),
     handleTableChange (pagination) {
       console.log(pagination)
       this.loading = true
@@ -232,7 +229,7 @@ export default {
       this.selectedProductVariant = null
     },
     debouncedSearch (searchQuery) {
-      this.setSearchQuery(searchQuery)
+      this.setSearchQueryProductVar(searchQuery)
       this.loading = true
       this.getProductVariants()
         .then((res) => console.log(res))
