@@ -1247,7 +1247,8 @@ export default {
               url: `/product/${slug}/update-price`,
               method: 'put',
               data: this.price,
-              headers: headers
+              headers: headers,
+              timeout: 12000
             })
             .then(res => {
               console.log('res', res)
@@ -1258,7 +1259,8 @@ export default {
               url: `/product/${slug}/update-price`,
               method: 'put',
               data: this.unired,
-              headers: headers
+              headers: headers,
+              timeout: 12000
             })
             .then(res => {
               console.log('res', res)
@@ -1281,7 +1283,8 @@ export default {
               url: `/product/${slug}/update-price`,
               method: 'put',
               data: this.price,
-              headers: headers
+              headers: headers,
+              timeout: 12000
             })
             .then(res => {
               console.log('res', res)
@@ -1291,7 +1294,8 @@ export default {
               url: `/product/${slug}/update-price`,
               method: 'put',
               data: this.unired,
-              headers: headers
+              headers: headers,
+              timeout: 12000
             })
             .then(res => {
               console.log('res', res)
