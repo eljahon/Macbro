@@ -185,7 +185,7 @@
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('images')">
           <a-row>
-            <a-col :span="4" :style="{ minHeight: '180px', padding: '0 15px' }">
+            <a-col :lg="4" :md="12" :style="{ minHeight: '180px', padding: '0 15px' }">
               <a-form-item :label="$t('uploadProductImage')">
                 <a-upload
                   :custom-request="uploadImage"
@@ -195,7 +195,7 @@
                   :before-upload="beforeUpload"
                   test-attr="image-product-vars"
                 >
-                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                  <img v-if="imageUrl" :src="imageUrl" style="max-width: 100%;" alt="avatar" />
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
                     <div class="ant-upload-text">

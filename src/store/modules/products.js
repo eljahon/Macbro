@@ -9,14 +9,14 @@ const products = {
       products: [],
       productsPagination: {},
       productsMenu: [],
-      searchQuery: '',
+      searchQueryProduct: '',
       loading: false
     },
     getters: {
       productsData: state => state.products,
       productsMenu: state => state.productsMenu,
       productsPagination: state => state.productsPagination,
-      searchQuery: state => state.searchQuery,
+      searchQueryProduct: state => state.searchQueryProduct,
       loading: state => state.loading
     },
     mutations: {
@@ -29,8 +29,8 @@ const products = {
       GET_PRODUCTS_MENU: (state, products) => {
         state.productsMenu = products
       },
-      SET_SEARCH_QUERY: (state, query) => {
-        state.searchQuery = query
+      SET_SEARCH_QUERY_PRODUCT: (state, query) => {
+        state.searchQueryProduct = query
       },
       SET_LOADING: (state, loadingStatus) => {
         state.loading = loadingStatus
@@ -40,14 +40,15 @@ const products = {
       setLoading ({ commit }, status) {
         commit('SET_LOADING', status)
       },
-      setSearchQuery ({ commit }, searchQuery) {
-        commit('SET_SEARCH_QUERY', searchQuery)
+      setSearchQueryProduct ({ commit }, searchQueryProduct) {
+        commit('SET_SEARCH_QUERY_PRODUCT', searchQueryProduct)
       },
       getProducts ({ commit, state }, payload = { page: null, search: true }) {
         let { page } = payload
         // if search === false all products will be requested
+        console.log('Payload', payload)
         const { search } = payload
-        const { searchQuery } = state
+        const { searchQueryProduct } = state
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
@@ -58,7 +59,7 @@ const products = {
             headers: headers,
             params: {
               page: page.current,
-              search: search ? (searchQuery !== '' ? searchQuery : '') : ''
+              search: search ? (searchQueryProduct !== '' ? searchQueryProduct : '') : ''
             }
         })
           .then(result => {
