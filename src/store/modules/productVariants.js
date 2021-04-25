@@ -41,6 +41,7 @@ const productVariants = {
     getProductVariants ({ commit, state }, payload = { page: null, search: true }) {
       let { page } = payload
       // if search === false all productVariants will be requested
+      console.log('Page', page)
       const { search } = payload
       const { searchQueryProductVar } = state
       if (!page) {
@@ -53,7 +54,8 @@ const productVariants = {
           headers: headers,
           params: {
             page: page.current,
-            search: search ? (searchQueryProductVar !== '' ? searchQueryProductVar : '') : ''
+            search: search ? (searchQueryProductVar !== '' ? searchQueryProductVar : '') : '',
+            category: payload.category
           }
         })
           .then(result => {

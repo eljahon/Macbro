@@ -202,7 +202,7 @@ export default {
   },
   mounted () {
     this.setSearchQuery()
-    this.getProductVariants({ page: this.productVariantsPagination })
+    this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id })
       .then(() => {
         this.ArrangeItemsList()
         console.log('this.productVariantsData', this.productVariantsData)
@@ -257,7 +257,7 @@ export default {
         this.items = []
       }
       this.cacheData = JSON.parse(JSON.stringify(this.items))
-      this.updatePricesForm.item_new_prices = this.productVariantsData.map(item => {
+      this.updatePricesForm.item_new_prices = this.productVariantsData && this.productVariantsData.map(item => {
         return {
           'old_price': +item.price.old_price,
           'price': +item.price.price,
@@ -334,7 +334,7 @@ export default {
       console.log(pagination)
       this.editingKey = ''
       this.loading = true
-      this.getProductVariants({ page: pagination, search: true })
+      this.getProductVariants({ page: pagination, search: true, category: this.$route.params.id })
         .then(res => {
           this.ArrangeItemsList()
           console.log(res)
@@ -359,7 +359,7 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getProductVariants()
+      this.getProductVariants({ category: this.$route.params.id })
         .then(res => {
           this.ArrangeItemsList()
           console.log(res)
@@ -378,7 +378,7 @@ export default {
         .then(res => {
           console.log(res)
           this.$message.success(this.$t('successfullyDeleted'))
-          this.getProductVariants({ page: this.productVariantsPagination }).then(() => {
+          this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id }).then(() => {
             this.ArrangeItemsList()
             this.productVariants = []
             if (this.productVariantsPaginationCurrent.total - this.productVariantsPaginationCurrent.current * 10 > 0) {
@@ -413,7 +413,7 @@ export default {
         if (!err) {
           this.loading = true
           this.filterParams = values
-          this.getProductVariants()
+          this.getProductVariants({ category: this.$route.params.id })
             .then(res => {
               this.ArrangeItemsList()
               console.log('res', res)
