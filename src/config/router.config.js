@@ -756,8 +756,24 @@ export const asyncRouterMap = [
       {
         path: '/product-variants',
         name: 'productVariantPrices',
-        component: () => import('@/views/VariantPrices'),
-        meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] }
+        meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] },
+        hideChildrenInMenu: true,
+        component: RouteView,
+        redirect: '/product-variants/category',
+        children: [
+          {
+            path: '/product-variants/category',
+            name: 'productVariantPricesCategory',
+            component: () => import('@/views/UpdateVariantsPrice/CategoryList'),
+            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] },
+          },
+          {
+            path: '/product-variants/category/:id/list',
+            name: 'productVariantPricesList',
+            component: () => import('@/views/UpdateVariantsPrice/VariantPrices'),
+            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] },
+          },
+        ]
       },
       // {
       //   path: '/shops',
