@@ -93,7 +93,7 @@ const orders = {
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
-            url: `/user-activity`,
+            url: `/user-activities`,
             headers: headers,
             params: {
               page: page.current,

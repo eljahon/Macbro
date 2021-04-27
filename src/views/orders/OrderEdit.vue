@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb-row>
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/orders/list" test-attr="prev-link-order">{{ $t('orders') }}</router-link>
         </a-breadcrumb-item>
@@ -9,7 +9,10 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="$t('fillIn')" :bordered="false">
+    <a-card :title="this.$route.params.id ? $t('update') : $t('fillIn')" class="breadcrumb-row" :bordered="false">
+    </a-card>
+
+    <a-card :bordered="false">
       <a-row>
         <v-main ref="orderDetailsEdit"></v-main>
       </a-row>

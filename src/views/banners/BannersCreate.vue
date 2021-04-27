@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb-row>
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/banners/list" test-attr="prev-link-banner">{{ $t('banners') }}</router-link>
         </a-breadcrumb-item>

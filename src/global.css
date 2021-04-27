@@ -2,12 +2,8 @@
   width: 75%;
   height: auto;
 }
-.ant-table {
-  border: 1px solid #ece9e9;
-  border-radius: 4px;
-}
 .ant-table-thead > tr > th {
-  background: rgba(0, 0, 0, 5%);
+  background: #fff
 }
 .ant-tag-blue {
   color: #007Aff;

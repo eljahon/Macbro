@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb-row :hasBack="false">
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('promos') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>

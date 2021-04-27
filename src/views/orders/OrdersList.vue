@@ -1,30 +1,24 @@
 <template>
   <div>
     <breadcrumb-row :hasBack="false">
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra" style="float: right">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('orders')" class="breadcrumb-row" :bordered="false">
-    </a-card>
-
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-input
-            style="float: right; width: 200px"
-            test-attr="search-order"
-            id="inputSearch"
-            :placeholder="$t('search') + '...'"
-            v-decorator="['search', { initialValue: this.getSearchQuery }]"
-            v-debounce="debouncedSearch"
-          />
-        </a-col>
-      </a-row>
     </a-card>
 
     <a-card :bordered="false">
@@ -38,6 +32,7 @@
         @change="handleTableChange"
         showPagination="auto"
         test-attr="list-order"
+        bordered
       >
         <span style="color: #1890FF" slot="tag" slot-scope="tag">
           {{ tag }}

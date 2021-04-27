@@ -4,8 +4,11 @@
             <a-button v-if="hasBack" type="link" @click="$router.go(-1)" style="padding: 0 25px 0 0">
                 <a-icon :component="$myIcons.leftArrow"/>
             </a-button>
-            <a-col span="auto">
-                <slot/>
+            <a-col :span="12">
+                <slot name="links"/>
+            </a-col>
+            <a-col :span="12">
+                <slot name="extra"/>
             </a-col>
         </a-row>
     </a-card>
