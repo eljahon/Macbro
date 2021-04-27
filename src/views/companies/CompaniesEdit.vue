@@ -2,7 +2,7 @@
   <div>
 
     <breadcrumb-row>
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
         </a-breadcrumb-item>

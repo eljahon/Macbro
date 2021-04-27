@@ -54,6 +54,7 @@ const user = {
           storage.set(ACCESS_TOKEN, res.access_token, 60 * 1000)
           storage.set(REFRESH_TOKEN, res.refresh_token, 60 * 1000)
           commit('SET_TOKEN', res.access_token)
+          storage.set('user_id', res.id)
           commit('SET_USERID', res.id)
           resolve()
         })
@@ -132,6 +133,8 @@ const user = {
         commit('SET_INFO', result)
         commit('SET_NAME', { name: result.name, welcome: welcome() })
         commit('SET_AVATAR', result.avatar)
+        const userId = storage.get('user_id')
+        commit('SET_USERID', userId)
         resolve(result)
     })
   },

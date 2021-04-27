@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb-row :hasBack="false">
-      <a-breadcrumb style="margin: 10px 5px">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('customers') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
@@ -197,7 +197,7 @@ export default {
     deleteCustomer (e, id) {
       this.loading = true
       request({
-        url: `/customer/profile/${id}`,
+        url: `/client/${id}`,
         method: 'delete'
       })
       .then(res => {
