@@ -2,7 +2,7 @@ services:
   - docker:19.03.1-dind
 
 variables:
-  GIT_STRATEGY: fetch
+  GIT_STRATEGY: none
   BUILD_DIR: "~/builds/$CI_RUNNER_SHORT_TOKEN/0"
   CLONE_DIR: "$BUILD_DIR/$CI_PROJECT_PATH"
   NAMESPACE: "microservices"
