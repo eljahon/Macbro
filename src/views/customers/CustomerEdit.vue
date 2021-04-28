@@ -9,6 +9,9 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
+    <a-card :title="$t('update')" class="breadcrumb-row" :bordered="false">
+    </a-card>
+
     <a-card :bordered="false">
       <v-main></v-main>
     </a-card>
