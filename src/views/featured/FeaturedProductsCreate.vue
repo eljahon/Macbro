@@ -3,7 +3,7 @@
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
-          <router-link to="/featured-products/list">{{ $t('featuredProducts') }}</router-link>
+          <router-link to="/catalog/featured-products/list">{{ $t('featuredProducts') }}</router-link>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>

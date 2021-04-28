@@ -36,6 +36,7 @@ const customers = {
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
+        page.showQuickJumper = true
         return new Promise((resolve, reject) => {
           console.log(page)
         request({

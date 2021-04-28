@@ -8,50 +8,77 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-row>
-        <a-tabs v-model="activeTabKey">
+        <a-tabs type="card" v-model="activeTabKey">
           <a-tab-pane key="1" :tab="$t('basicSettings')">
-            <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="name" :label="$t('name')" prop="name">
-                <a-input
-                  v-model="customer.name"
-                  test-attr="name-customer"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="lastname" :label="$t('lastName')" prop="last_name">
-                <a-input
-                  v-model="customer.last_name"
-                  test-attr="lastname-customer"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="12" style="padding: 0 15px">
-              <a-form-model-item ref="phone" :label="$t('phone')" prop="phone_number">
-                <a-input
-                  v-model="customer.phone_number"
-                  test-attr="phone-customer"
-                />
-              </a-form-model-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="address" :label="$t('address')" prop="address">
-            <a-input
-              v-model="customer.address"
-            />
-          </a-form-model-item>
-        </a-col> -->
-            <a-col :span="24" style="padding: 0 15px">
-              <a-form-model-item>
-                <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-customer">
-                  {{ $t('save') }}
-                </a-button>
-                <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-customer">
-                  {{ $t('reset') }}
-                </a-button>
-              </a-form-model-item>
-            </a-col>
+            <a-row>
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="name" :label="$t('name')" prop="name">
+                  <a-input
+                    size="large"
+                    v-model="customer.name"
+                    test-attr="name-customer"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="lastname" :label="$t('lastName')" prop="last_name">
+                  <a-input
+                    size="large"
+                    v-model="customer.last_name"
+                    test-attr="lastname-customer"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="phone" :label="$t('phone')" prop="phone_number">
+                  <a-input
+                    size="large"
+                    v-model="customer.phone_number"
+                    test-attr="phone-customer"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="phone" label="Рейтинг клиента">
+                  <a-rate :value="5" >
+                    <a-icon
+                      slot="character"
+                      style="font-size: 30px"
+                      allowClear
+                      theme="filled"
+                      type="star"></a-icon>
+                  </a-rate>
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="phone" :label="'Баланс'" prop="phone_number">
+                  <a-input
+                    size="large"
+                    test-attr="balance-customer"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row class="edit-btns">
+              <a-col :span="24" style="padding: 0 15px">
+                <a-form-model-item>
+                  <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-customer">
+                    {{ $t('save') }}
+                  </a-button>
+                  <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-customer">
+                    {{ $t('reset') }}
+                  </a-button>
+                </a-form-model-item>
+              </a-col>
+            </a-row>
           </a-tab-pane>
           <a-tab-pane key="2" :tab="$t('orderHistory')">
             <a-table
@@ -84,7 +111,6 @@
             </a-table>
           </a-tab-pane>
         </a-tabs>
-      </a-row>
     </a-form-model>
   </div>
 </template>

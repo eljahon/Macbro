@@ -10,7 +10,7 @@ import i18n from './locales'
 import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
-import { FormModel } from 'ant-design-vue'
+import { FormModel, Rate } from 'ant-design-vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import FlagIcon from 'vue-flag-icon'
 import YmapPlugin from 'vue-yandex-maps'
@@ -28,6 +28,7 @@ import numberToPrice from './utils/numberToPrice'
 import myIcons from './core/icons'
 import VSwatches from 'vue-swatches'
 import 'vue-swatches/dist/vue-swatches.css'
+
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 // import './mock'
@@ -58,6 +59,7 @@ Vue.use(vueDebounce, {
 Vue.use(tinymce)
 Vue.use(VueAxios)
 Vue.use(FormModel)
+Vue.use(Rate)
 
 Vue.component('underline-tabs', UnderlineTabs)
 Vue.component('underline-tabs-item', UnderlineTabsItem)
