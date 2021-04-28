@@ -71,6 +71,8 @@ export default {
                     return `Пользователь ${name.bold()} ${lastName.bold()} изменил имя клиента с ${fromValue.bold()} на ${toValue.bold()}`
                 case 'change-note':
                     return `Пользователь ${name.bold()} ${lastName.bold()} изменил комментарий на ${toValue.bold()}`
+                case 'change-order-items':
+                    return `Пользователь ${name.bold()} ${lastName.bold()} внес некоторые изменения в товары заказа`
                 default:
                     return activity
             }
