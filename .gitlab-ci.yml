@@ -2,8 +2,8 @@ services:
   - docker:19.03.1-dind
 
 variables:
-  GIT_STRATEGY: none
-  BUILD_DIR: "/home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0"
+  GIT_STRATEGY: clone
+  BUILD_DIR: "~/builds/$CI_RUNNER_SHORT_TOKEN/0"
   CLONE_DIR: "$BUILD_DIR/$CI_PROJECT_PATH"
   NAMESPACE: "microservices"
 
@@ -14,6 +14,8 @@ before_script:
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   ##  cloning
+  - cd ~
+  - mkdir -p builds/$CI_RUNNER_SHORT_TOKEN/0
   - cd $BUILD_DIR
   - rm -rf $CLONE_DIR && mkdir -p $CLONE_DIR
   - git clone --recurse-submodules git@gitlab.udevs.io:${CI_PROJECT_PATH}.git $CLONE_DIR
