@@ -819,9 +819,53 @@ body::-webkit-scrollbar-thumb {
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar {
   .ant-tabs-tab {
     background-color: white;
+    margin-right: 8px;
   }
 
   .ant-tabs-tab-active {
     border-bottom: 2px solid #1890ff
   }
+}
+
+.custom-badge {
+  min-width: 20px;
+  height: 20px;
+  background: #1890FF;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ant-tag {
+  border: none;
+  min-width: 128px;
+  text-align: center;
+  padding: 4px 16px;
+  border-radius: 4px;
+  
+  &-blue {
+    background-color: rgba(24, 144, 255, 0.15);
+  }
+  &-green {
+    background-color: rgba(76, 217, 100, 0.15);
+  }
+  &-red {
+    background-color: rgba(255, 61, 0, 0.15);
+  }
+  &-orange {
+    background-color: rgba(255, 152, 0, 0.15);
+  }
+  &-purple {
+    background-color: rgba(114, 46, 209, 0.15);
+  }
+  &-cyan {
+    background-color: rgba(19, 194, 194, 0.15);
+  }
+}
+
+.filter-dropdown-icon.ant-table-filter-icon > svg {
+    margin-left: -12px !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: flex; flex-direction: column">
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
@@ -12,23 +12,23 @@
     <a-card :title="this.$route.params.id ? $t('update') : $t('fillIn')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="height: 100%">
       <a-row>
         <v-main ref="orderDetailsEdit"></v-main>
+        <a-row class="edit-btns">
+          <a-col :span="24" style="padding: 15px 0">
+            <a-form-model-item>
+              <a-button @click.prevent="resetForm" test-attr="reset-order">
+                {{ $t('reset') }}
+              </a-button>
+              <a-button type="primary" style="margin-left: 10px;" html-type="submit" @click.prevent="submit" test-attr="save-order">
+                {{ $t('save') }}
+              </a-button>
+            </a-form-model-item>
+          </a-col>
+        </a-row>
       </a-row>
     </a-card>
-    <a-row class="edit-btns">
-      <a-col :span="24" style="padding: 15px 0">
-        <a-form-model-item>
-          <a-button type="primary" html-type="submit" @click.prevent="submit" test-attr="save-order">
-            {{ $t('save') }}
-          </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-order">
-            {{ $t('reset') }}
-          </a-button>
-        </a-form-model-item>
-      </a-col>
-    </a-row>
   </div>
 </template>
 <script>

@@ -57,7 +57,7 @@ const orders = {
           page = { current: 1, pageSize: 10, total: null }
         }
         page.showQuickJumper = true
-        page.showSizeChanger = true
+        // page.showSizeChanger = true
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
@@ -107,7 +107,7 @@ const orders = {
           console.log(pagination)
           console.log('pagination')
           commit('GET_USER_ACTIVITIES_PAGINATION', pagination)
-          commit('GET_USER_ACTIVITIES', result.activities)
+          commit('GET_USER_ACTIVITIES', result.user_activities)
           resolve()
         })
         .catch(error => {

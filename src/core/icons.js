@@ -30,6 +30,8 @@
  import lockSvg from '@/assets/icons/lock.svg?inline' // path to your '*.svg?inline' file.
  import directory from '@/assets/icons/directory.svg?inline' // path to your '*.svg?inline' file.
  import leftArrow from '@/assets/icons/left-arrow.svg?inline' // path to your '*.svg?inline' file.
+ import arrowDown from '@/assets/icons/arrow-down.svg?inline' // path to your '*.svg?inline' file.
+ import filterDownIcon from '@/assets/icons/filter-down-icon.svg?inline' // path to your '*.svg?inline' file.
  const myIcons = {
      bxAnaalyse,
      minusSvg,
@@ -56,6 +58,8 @@
      directoryPages,
      directoryCounterAgents,
      directoryContent,
-     leftArrow
+     leftArrow,
+     arrowDown,
+     filterDownIcon
 }
  export default myIcons

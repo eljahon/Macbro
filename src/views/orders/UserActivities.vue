@@ -1,7 +1,6 @@
 <template>
   <a-table
     :columns="columns"
-    :rowKey="record => record.id"
     :dataSource="getAllUserActivities"
     :pagination="getUserActivitiesPagination"
     :loading="loading"
@@ -42,7 +41,8 @@ export default {
             orderStatus: {
                 'in-process': 'В обработке',
                 'finished': 'Завершено',
-                'cancelled': 'Отменен'
+                'cancelled': 'Отменен',
+                'order_accepted': 'Заказ принят'
             }
         }
     },
@@ -59,18 +59,20 @@ export default {
                 .finally(() => (this.loading = false))
         },
         sortUserActivities (activity) {
-            const { action, user: { name }, from_value: fromValue, to_value: toValue } = activity
+            const { action, user: { name, last_name: lastName }, from_value: fromValue, to_value: toValue } = activity
             switch (action) {
                 case 'change-status':
-                    return `Пользователь ${name.bold()} изменил статус с ${this.textChanger(fromValue, action)} на ${this.textChanger(toValue, action)}`
+                    return `Пользователь ${name.bold()} ${lastName.bold()} изменил статус с ${this.textChanger(fromValue, action)} на ${this.textChanger(toValue, action)}`
                 case 'change-payment-method':
-                    return `Пользователь ${name.bold()} изменил способ оплаты с ${this.textChanger(fromValue, action)} на ${this.textChanger(toValue, action)}`
+                    return `Пользователь ${name.bold()} ${lastName.bold()} изменил способ оплаты с ${this.textChanger(fromValue, action)} на ${this.textChanger(toValue, action)}`
                 case 'change-address':
-                    return `Пользователь ${name.bold()} изменил адрес с ${fromValue.bold()} на ${toValue.bold()}`
+                    return `Пользователь ${name.bold()} ${lastName.bold()} изменил адрес с ${fromValue.bold()} на ${toValue.bold()}`
                 case 'change-customer-name':
-                    return `Пользователь ${name.bold()} изменил имя клиента с ${fromValue.bold()} на ${toValue.bold()}`
+                    return `Пользователь ${name.bold()} ${lastName.bold()} изменил имя клиента с ${fromValue.bold()} на ${toValue.bold()}`
                 case 'change-note':
-                    return `Пользователь ${name.bold()} изменил комментарий на ${toValue.bold()}`
+                    return `Пользователь ${name.bold()} ${lastName.bold()} изменил комментарий на ${toValue.bold()}`
+                case 'change-order-items':
+                    return `Пользователь ${name.bold()} ${lastName.bold()} внес некоторые изменения в товары заказа`
                 default:
                     return activity
             }

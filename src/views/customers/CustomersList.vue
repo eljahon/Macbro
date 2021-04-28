@@ -4,10 +4,22 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('customers') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra" style="float: right">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('customers')" class="breadcrumb-row" :bordered="false">
-      <div slot="extra">
+      <!-- <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row type="flex">
             <a-col span="auto">
@@ -28,49 +40,59 @@
             </a-col>
           </a-row>
         </a-form>
-      </div>
+      </div> -->
     </a-card>
 
     <a-card :bordered="false">
-      <a-table
-        :columns="columns"
-        :rowKey="record => record.id"
-        :dataSource="getAllCustomers"
-        :pagination="getPagination"
-        :loading="loading"
-        @change="handleTableChange"
-        test-attr="list-customer"
-      >
-        <template slot="action" slot-scope="text, row, index">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
-          <!-- <a-tooltip>
-            <template slot="title">{{ $t('read') }}</template>
-            <a-button
-              id="buttonPreview"
-              type="default"
-              @click="showPreviewModal(row.id)"
-              icon="eye"
-            ></a-button>
-          </a-tooltip> -->
-          <router-link :to="`./update/${row.id}`">
-            <edit-btn :test-attr="`edit-customer${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
-          <!-- <a-popconfirm
-            placement="topRight"
-            slot="extra"
-            :title="$t('deleteMsg')"
-            @confirm="deleteCustomer($event, row.id)"
-            :okText="$t('yes')"
-            :cancelText="$t('no')"
+      <a-tabs default-active-key="1" type="card">
+        <a-tab-pane key="1">
+          <div slot="tab">
+            <span>
+              Клиенты <span class="custom-badge" style="margin-left: 10px;">1</span>
+            </span>
+          </div>
+          <a-table
+            :columns="columns"
+            :rowKey="record => record.id"
+            :dataSource="getAllCustomers"
+            :pagination="getPagination"
+            :loading="loading"
+            @change="handleTableChange"
+            test-attr="list-customer"
+            bordered
           >
-            <a-tooltip>
-              <template slot="title">{{ $t('delete') }}</template>
-              <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
-            </a-tooltip>
-          </a-popconfirm> -->
-        </template>
-      </a-table>
+            <template slot="action" slot-scope="text, row, index">
+              <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
+              <!-- <a-tooltip>
+                <template slot="title">{{ $t('read') }}</template>
+                <a-button
+                  id="buttonPreview"
+                  type="default"
+                  @click="showPreviewModal(row.id)"
+                  icon="eye"
+                ></a-button>
+              </a-tooltip> -->
+              <router-link :to="`./update/${row.id}`" style="margin-right: 10px">
+                <edit-btn :test-attr="`edit-customer${index}`"/>
+              </router-link>
+              <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
+              <!-- <a-popconfirm
+                placement="topRight"
+                slot="extra"
+                :title="$t('deleteMsg')"
+                @confirm="deleteCustomer($event, row.id)"
+                :okText="$t('yes')"
+                :cancelText="$t('no')"
+              >
+                <a-tooltip>
+                  <template slot="title">{{ $t('delete') }}</template>
+                  <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
+                </a-tooltip>
+              </a-popconfirm> -->
+            </template>
+          </a-table>
+        </a-tab-pane>
+      </a-tabs>
     </a-card>
     <a-modal
       @cancel="handleCloseModal"
@@ -123,7 +145,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: 120,
           scopedSlots: { customRender: 'action' }
         }
       ],

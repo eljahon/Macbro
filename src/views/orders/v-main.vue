@@ -16,7 +16,7 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-row>
+      <!-- <a-row>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="orderNumber" :label="$t('order_number')" prop="orderNumber">
             <a-input
@@ -32,14 +32,30 @@
           <div>{{ this.items ? numberToPrice(calcTotalPrice(this.items)) : null }}</div>
         </a-col>
       </a-row>
-      <a-row>
+      <a-row> -->
         <!-- tabs -->
         <a-tabs type="card" @change="activeTabHandler" v-model="activeTabKey" style="padding: 0 15px">
           <a-tab-pane key="1" :tab="$t('order_data')">
             <a-row>
+              <a-col
+                style="padding: 0 15px 0 0; margin-bottom: 30px"
+                :lg="12"
+                :md="24"
+              >
+              <a-table
+                bordered
+                :columns="[{ title: 'Общие сведение', dataIndex: 'text' }, { title: '', dataIndex: 'orderNumber' }]"
+                :dataSource="[{ text: 'Номер заказа', orderNumber: orderNumber }, { text: 'Сумма заказа', orderNumber: numberToPrice(calcTotalPrice(this.items)) }]"
+                :pagination="false"
+              >
+              </a-table>
+              </a-col>
+            </a-row>
+            <a-row>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="status" :label="$t('status')" prop="status">
-                  <a-select v-model="order.status" @change="handleStatus" test-attr="status-order">
+                  <a-select v-model="order.status" size="large" @change="handleStatus" test-attr="status-order">
+                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                     <a-select-option value="in-process">
                       В обработке
                     </a-select-option>
@@ -57,7 +73,8 @@
               </a-col>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="deliveryMethod" :label="$t('delivery_method')" prop="deliveryMethod">
-                  <a-select v-model="order.delivery_method" @change="handleDeliveryMethod" test-attr="delivery-order">
+                  <a-select v-model="order.delivery_method" size="large" @change="handleDeliveryMethod" test-attr="delivery-order">
+                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                     <a-select-option value="self">
                       Самовывоз
                     </a-select-option>
@@ -72,7 +89,8 @@
               </a-col>
               <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="paymentMethod" :label="$t('payment_method')" prop="paymentMethod">
-                  <a-select v-model="order.payment_method" @change="handlePaymentMethod" test-attr="payment-order">
+                  <a-select v-model="order.payment_method" size="large" @change="handlePaymentMethod" test-attr="payment-order">
+                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                     <a-select-option value="cash" :disabled="this.isUnired">
                       Наличные
                     </a-select-option>
@@ -98,11 +116,12 @@
                 <a-form-model-item ref="address" :label="$t('address')" prop="address">
                   <a-input
                     v-model="order.address"
+                    size="large"
                     test-attr="address-order"
                   />
                 </a-form-model-item>
               </a-col>
-              <a-col :span="24" style="padding: 0 15px">
+              <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="map" :label="$t('map')" prop="map">
                   <yandex-map
                     :coords="coords"
@@ -110,7 +129,7 @@
                     :zoom="18"
                     @click="onLocationChange"
                     searchControlProvider="yandex#search"
-                    style="width: 100%; max-width: 1000px; height: 80vh;"
+                    style="width: 100%; max-width: 1000px; height: 40vh;"
                     test-attr="coords-order"
                   >
                     <ymap-marker
@@ -245,23 +264,30 @@
               <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item ref="customerName" :label="$t('firstName')" prop="customerName">
                   <a-input
+                    size="large"
                     v-model="order.customer_name"
                     test-attr="customer_name-order"
                   />
                 </a-form-model-item>
               </a-col>
+            </a-row>
+            <a-row>
               <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
                   <a-input
+                    size="large"
                     disabled
                     v-model="order.phone"
                     test-attr="phone-order"
                   />
                 </a-form-model-item>
               </a-col>
+            </a-row>
+            <a-row>
               <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
                   <a-input
+                    size="large"
                     v-model="order.note"
                     test-attr="note-order"
                   />

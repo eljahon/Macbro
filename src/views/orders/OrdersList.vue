@@ -22,42 +22,83 @@
     </a-card>
 
     <a-card :bordered="false">
+      <a-tabs default-active-key="1" type="card">
+        <a-tab-pane key="1">
+          <div slot="tab">
+            <span>
+              Все заказы <span class="custom-badge" style="margin-left: 10px;">1</span>
+            </span>
+          </div>
+          <a-table
+            :columns="columns"
+            :rowKey="record => record.id"
+            :dataSource="getAllOrders"
+            :pagination="getPagination"
+            :loading="loading"
+            @change="handleTableChange"
+            showPagination="auto"
+            test-attr="list-order"
+            bordered
+          >
+            <div
+              slot="filterDropdown"
+              slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+              style="padding: 8px"
+            >
+              <a-input
+                v-ant-ref="c => (searchInput = c)"
+                :placeholder="`Search ${column.dataIndex}`"
+                :value="selectedKeys[0]"
+                style="width: 188px; margin-bottom: 8px; display: block;"
+                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+              />
+              <a-button
+                type="primary"
+                icon="search"
+                size="small"
+                style="width: 90px; margin-right: 8px"
+                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+              >
+                Search
+              </a-button>
+              <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                Reset
+              </a-button>
+            </div>
+            <a-icon
+              style="font-size: 20px; color: transparent; background-color: transparent"
+              slot="filterIcon"
+              class="filter-dropdown-icon"
+              :component="$myIcons.filterDownIcon"
+            />
+            <span style="color: #1890FF" slot="tag" slot-scope="tag">
+              {{ tag }}
+            </span>
+            <!-- <template slot="tag" slot-scope="tag">
+              <a-tag color="red">{{ tag }}</a-tag>
+            </template> -->
+            <template slot="status" slot-scope="text, row">
+              <status-tag
+                :color="statusColor[row.status]"
+                :text="statusTranslator(row.status)"
+              />
+            </template>
+            <template slot="action" slot-scope="text, row, index">
+              <!-- <router-link :to="`/order/details/${row.number}`">
+                <preview-btn :test-attr="`preview-order${index}`"/>
+              </router-link> -->
+              <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
+                <edit-btn/>
+              </router-link>
+            </template>
+            <template slot="total" slot-scope="text, row">
+              <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
+            </template>
+          </a-table>
+        </a-tab-pane>
+      </a-tabs>
 
-      <a-table
-        :columns="columns"
-        :rowKey="record => record.id"
-        :dataSource="getAllOrders"
-        :pagination="getPagination"
-        :loading="loading"
-        @change="handleTableChange"
-        showPagination="auto"
-        test-attr="list-order"
-        bordered
-      >
-        <span style="color: #1890FF" slot="tag" slot-scope="tag">
-          {{ tag }}
-        </span>
-        <!-- <template slot="tag" slot-scope="tag">
-          <a-tag color="red">{{ tag }}</a-tag>
-        </template> -->
-        <template slot="status" slot-scope="text, row">
-          <status-tag
-            :color="statusColor[row.status]"
-            :text="statusTranslator(row.status)"
-          />
-        </template>
-        <template slot="action" slot-scope="text, row, index">
-          <router-link :to="`/order/details/${row.number}`">
-            <preview-btn :test-attr="`preview-order${index}`"/>
-          </router-link>
-          <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
-            <edit-btn/>
-          </router-link>
-        </template>
-        <template slot="total" slot-scope="text, row">
-          <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
-        </template>
-      </a-table>
       <!-- <a-pagination show-quick-jumper :default-current="getPagination.current" :total="getPagination.total" @change="handleTableChange" /> -->
     </a-card>
     <a-modal
@@ -84,6 +125,9 @@ import numberToPrice from '@/utils/numberToPrice'
 export default {
   data () {
     return {
+      searchText: '',
+      searchInput: null,
+      searchedColumn: '',
       value: '',
       excelFile: null,
       data: [],
@@ -93,32 +137,56 @@ export default {
           title: this.$t('order_number'),
           key: 'tag',
           dataIndex: 'number',
-          scopedSlots: { customRender: 'tag' },
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            customRender: 'tag',
+            filterIcon: 'filterIcon'
+          },
           width: '10%'
         },
         {
           title: this.$t('customer_name'),
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon'
+          },
           dataIndex: 'customer_name'
         },
         {
           title: this.$t('phone'),
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon'
+          },
           dataIndex: 'phone'
         },
         {
           title: this.$t('date'),
           dataIndex: 'created_at',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon'
+          },
           width: '20%'
         },
         {
           title: this.$t('total'),
           key: 'total',
           width: '20%',
-          scopedSlots: { customRender: 'total' }
+          scopedSlots: {
+            customRender: 'total',
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon'
+          }
         },
         {
           title: this.$t('status'),
           key: 'status',
-          scopedSlots: { customRender: 'status' }
+          scopedSlots: {
+            customRender: 'status',
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon'
+          }
         },
         {
           title: this.$t('action'),
