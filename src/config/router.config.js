@@ -70,6 +70,34 @@ export const asyncRouterMap = [
             name: 'CustomerEdit',
             component: () => import('@/views/customers/CustomerEdit'),
             meta: { title: 'update', keepAlive: true, show: true, permission: ['clients'] }
+          },
+          {
+            path: '/history/:id',
+            name: 'CustomerHistoryEdit',
+            component: () => import('@/views/customers/HistoryDetail'),
+            meta: { title: 'history', keepAlive: true, show: true, permission: ['clients'] }
+          }
+        ]
+      },
+      {
+        path: '/product-variants',
+        name: 'productVariantPrices',
+        meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] },
+        hideChildrenInMenu: true,
+        component: RouteView,
+        redirect: '/product-variants/category',
+        children: [
+          {
+            path: '/product-variants/category',
+            name: 'productVariantPricesCategory',
+            component: () => import('@/views/UpdateVariantsPrice/CategoryList'),
+            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
+          },
+          {
+            path: '/product-variants/category/:id/list',
+            name: 'productVariantPricesList',
+            component: () => import('@/views/UpdateVariantsPrice/VariantPrices'),
+            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
           }
         ]
       },
@@ -750,28 +778,6 @@ export const asyncRouterMap = [
                 meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
               }
             ]
-          }
-        ]
-      },
-      {
-        path: '/product-variants',
-        name: 'productVariantPrices',
-        meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] },
-        hideChildrenInMenu: true,
-        component: RouteView,
-        redirect: '/product-variants/category',
-        children: [
-          {
-            path: '/product-variants/category',
-            name: 'productVariantPricesCategory',
-            component: () => import('@/views/UpdateVariantsPrice/CategoryList'),
-            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
-          },
-          {
-            path: '/product-variants/category/:id/list',
-            name: 'productVariantPricesList',
-            component: () => import('@/views/UpdateVariantsPrice/VariantPrices'),
-            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
           }
         ]
       },

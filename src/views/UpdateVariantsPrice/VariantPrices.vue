@@ -4,40 +4,22 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('product_variants_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra" style="float: right">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          :disabled="editingKey !== ''"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
-    <a-card :title="$t('product_variants_list')" :bordered="false">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  :disabled="editingKey !== ''"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                  test-attr="search-product-vars"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button
-                  id="buttonSearch"
-                  type="default"
-                  :disabled="editingKey !== ''"
-                  html-type="submit"
-                  icon="search"
-                  test-attr="search-btn-product-vars"
-                >{{ $t('search') }}</a-button
-                >
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false">
 
       <a-form-model
         ref="productRuleForm"
@@ -54,6 +36,7 @@
           :loading="loading"
           @change="handleTableChange"
           test-attr="list-product-vars"
+          bordered
         >
           <template v-for="col in ['price', 'old_price']" :slot="col" slot-scope="text, record, index">
             <div :key="col">
