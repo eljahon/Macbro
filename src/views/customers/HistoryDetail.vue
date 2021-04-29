@@ -2,14 +2,11 @@
   <div>
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-        <a-breadcrumb-item>
-          <router-link to="/customers/list" test-attr="prev-link-customer">{{ $t('customers') }}</router-link>
-        </a-breadcrumb-item>
-        <a-breadcrumb-item>{{ $t('add') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('back') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="$t('update')" class="breadcrumb-row" :bordered="false">
+    <a-card :title="$t('История заказов')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
     <a-card :bordered="false">
@@ -24,11 +21,12 @@
             <a-tabs type="card" v-model="activeTabKey">
                 <a-tab-pane key="1" :tab="$t('Общие сведение')">
                     <a-row>
-                        <a-col :lg="16" :md="24">
+                        <a-col :lg="16" :md="24" style="padding-right: 20px">
                             <a-table
                                 :columns="generalCol"
                                 :dataSource="geberalInfo"
                                 test-attr="history-list-customer"
+                                bordered
                             />
                         </a-col>
                         <a-col :lg="8" :md="24">
@@ -36,21 +34,29 @@
                                 :columns="generalCol2"
                                 :dataSource="geberalInfo"
                                 test-attr="history-list-customer"
+                                bordered
                             />
                         </a-col>
                     </a-row>
                 </a-tab-pane>
                 <a-tab-pane key="2" :tab="$t('Типы оплаты')">
-                    <a-table
-                        :columns="paymentCol"
-                        :dataSource="paymentTypes"
-                        test-attr="history-list-customer"
-                    >
-                        <img slot="type" width="48" height="32" src="https://webmoney.uz/img/logo/logo_uzcard.png" alt="uzcard">
-                        <span slot="money" slot-scope="text">
-                            {{ text }}
-                        </span>
-                    </a-table>
+                    <a-col span="12">
+                        <a-table
+                            :showHeader="false"
+                            :columns="paymentCol"
+                            :dataSource="paymentTypes"
+                            :pagination="false"
+                            test-attr="history-list-customer"
+                        >
+                            <div slot="type" slot-scope="text, row">
+                                <img width="48" height="32" style="margin-right: 20px" src="https://webmoney.uz/img/logo/logo_uzcard.png" alt="uzcard">
+                                <span>{{ row.text }}</span>
+                            </div>
+                            <span slot="money" slot-scope="text">
+                                {{ $moneyFormat(text) }}
+                            </span>
+                        </a-table>
+                    </a-col>
                 </a-tab-pane>
             </a-tabs>
         </a-form-model>
@@ -66,7 +72,7 @@ export default {
         paymentTypes: [
             {
                 text: 'Узкард',
-
+                amount: 20000
             }
         ],
         generalCol: [
@@ -99,10 +105,7 @@ export default {
                 }
             },
             {
-                dataIndex: 'text'
-            },
-            {
-                dataIndex: 'money',
+                dataIndex: 'amount',
                 scopedSlots: {
                     customRender: 'money'
                 }

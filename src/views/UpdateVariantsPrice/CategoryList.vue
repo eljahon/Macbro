@@ -4,42 +4,51 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra" style="float: right">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('categories')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
-            <a-row type="flex">
-              <a-col span="auto">
-                <a-form-item style="margin: 0">
-                  <a-input
-                    test-attr="search-category"
-                    id="inputSearch"
-                    :placeholder="$t('search') + '...'"
-                    v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                    v-debounce="debouncedSearch"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col span="auto" style="padding-left: 5px">
-                <a-form-item style="margin: 0">
-                  <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-category">{{ $t('search') }}</a-button>
-                </a-form-item>
-              </a-col>
-            </a-row>
-          </a-form>
-        </a-col>
-      </a-row>
-    </a-card>
-
     <a-card :bordered="false">
+
+      <div v-for="item in categories" :key="item.id">
+        <a-form-model-item>
+          <span slot="label" @click="onIconClick(item)" style="cursor: pointer">
+            <b>
+              {{ item.name }}
+            </b>
+          </span>
+          <a-row type="flex" v-if="item.children && item.children.length">
+              <div class="custom-card-variants" v-for="sub in item.children" :key="sub.id">
+                <div
+                  style="width: 160px; height: 120px; display: flex; align-items: center; justify-content: center"
+                >
+                  <img
+                    alt="example"
+                    style="max-width: 100%; max-height: 100%"
+                    :src="sub.image"
+                  />
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-top: 1px solid #d9d9d9">
+                  <span style="font-weight: bold">{{ sub.name }}</span>
+                  <a-icon :component="$myIcons.arrowDown" @click="onIconClick(sub)" style="transform: rotate(-90deg); cursor: pointer" ></a-icon>
+                </div>
+              </div>
+          </a-row>
+        </a-form-model-item>
+      </div>
 
       <a-table
         :columns="columns"
@@ -127,6 +136,9 @@ export default {
             }
         }
     },
+    onIconClick (record) {
+      this.$router.push(`${this.$route.path}/${record.id}/list`)
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCategories({ page: pagination, search: true })
@@ -199,5 +211,12 @@ export default {
   max-width: 600px !important;
   width: auto !important;
   height: auto !important;
+}
+.custom-card-variants{
+  width: 160px;
+  min-height: 160px;
+  border: 1px solid #d9d9d9;
+  margin-left: 20px;
+  margin-top: 20px
 }
 </style>

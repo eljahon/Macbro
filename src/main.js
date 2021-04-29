@@ -78,6 +78,10 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places'
   }
 })
+Vue.prototype.$moneyFormat = (str) => {
+  if (!str) return ''
+  return str.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')
+}
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
 
 new Vue({

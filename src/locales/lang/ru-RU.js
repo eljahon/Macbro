@@ -389,7 +389,8 @@ const locale = {
   'bar_code': 'Штрих-код',
   importDataFromVariant: 'Импортировать данные из существующего варианта продукта',
   newPriceInput: 'Новая цена (инпут)',
-  currentPrice: 'Текущая цена'
+  currentPrice: 'Текущая цена',
+  back: 'Назад'
 }
 
 export default {
