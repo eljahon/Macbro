@@ -3,7 +3,7 @@ services:
 
 variables:
   GIT_DEPTH: 10
-  GIT_STRATEGY: clone
+  GIT_STRATEGY: none
   BUILD_DIR: "~/builds/$CI_RUNNER_SHORT_TOKEN/0"
   CLONE_DIR: "$BUILD_DIR/$CI_PROJECT_PATH"
   NAMESPACE: "microservices"
@@ -13,7 +13,7 @@ before_script:
   - eval $(ssh-agent -s)
   - echo "$RUNNER_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
-  - chmod 777 ~/.ssh
+  - chmod 700 ~/.ssh
   ##  cloning
   - cd ~
   - mkdir -p builds/$CI_RUNNER_SHORT_TOKEN/0
