@@ -1,6 +1,7 @@
 CURRENT_DIR=$(shell pwd)
 
-APP=$(shell basename ${CURRENT_DIR})
+# APP=$(shell basename ${CURRENT_DIR})
+APP=mb_admin
 
 APP_CMD_DIR=${CURRENT_DIR}/cmd
 
