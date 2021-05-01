@@ -6,7 +6,7 @@
       :checked-children="$t('active')"
       :un-checked-children="$t('inactive')"
       default-checked
-      style="margin: 15px 0"
+      style="margin: 15px 0; height: 32px"
       test-attr="active-category"
     />
     <a-form-model
@@ -23,6 +23,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('category_name')" prop="name">
                 <a-input
+                  size="large"
                   v-model="category.name"
                   test-attr="name-category"
                 />
@@ -31,6 +32,7 @@
             <a-col v-if="this.categorySlug" :span="12" style="padding: 0 15px">
               <a-form-model-item ref="url" :label="$t('category_url')" prop="url">
                 <a-input
+                  size="large"
                   disabled
                   v-model="categorySlug"
                   test-attr="slug-category"
@@ -40,15 +42,18 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item :label="$t('position')" prop="order">
                 <a-input
+                  size="large"
                   type="number"
                   v-model="category.order"
                   test-attr="order-category"
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" :style="{ minHeight: '180px', padding: '0 15px' }">
+            <a-col :md="24" :lg="12" :style="{ minHeight: '180px', padding: '0 15px' }">
               <a-form-item :label="$t('parentCategory')">
                 <treeselect
+                  size="large"
+                  style="width: 100%"
                   id="selectCategory"
                   v-model="category.parent_id"
                   :multiple="false"
@@ -57,6 +62,7 @@
                   :placeholder="$t('selectCategory')"
                   test-attr="parent_id-category"
                 />
+                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
               </a-form-item>
             </a-col>
             <a-col :span="24" :style="{ minHeight: '180px', padding: '0 15px' }">
@@ -69,7 +75,7 @@
                   :before-upload="beforeUpload"
                   test-attr="image-category"
                 >
-                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-width: 100%" />
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
                     <div class="ant-upload-text">
@@ -89,17 +95,17 @@
             <a-row>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_title')">
-                  <a-input type="text" v-model="category.meta.title" :placeholder="$t('meta_title')" test-attr="meta_title-category"/>
+                  <a-input size="large" type="text" v-model="category.meta.title" :placeholder="$t('meta_title')" test-attr="meta_title-category"/>
                 </a-form-model-item>
               </a-col>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_description')">
-                  <a-input type="text" v-model="category.meta.description" :placeholder="$t('meta_description')" test-attr="meta_description-category"/>
+                  <a-input size="large" type="text" v-model="category.meta.description" :placeholder="$t('meta_description')" test-attr="meta_description-category"/>
                 </a-form-model-item>
               </a-col>
               <a-col :span="8" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_tags')">
-                  <a-input type="text" v-model="category.meta.tags" :placeholder="$t('meta_tags')" test-attr="meta-tags-category"/>
+                  <a-input size="large" type="text" v-model="category.meta.tags" :placeholder="$t('meta_tags')" test-attr="meta-tags-category"/>
                 </a-form-model-item>
               </a-col>
             </a-row>

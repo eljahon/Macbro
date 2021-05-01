@@ -4,7 +4,7 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('customers') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style="float: right">
+      <div slot="extra">
         <a-input
           style="float: right; width: 200px"
           test-attr="search-order"
@@ -43,7 +43,7 @@
       </div> -->
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
       <a-tabs default-active-key="1" type="card">
         <a-tab-pane key="1">
           <div slot="tab">
@@ -60,6 +60,7 @@
             @change="handleTableChange"
             test-attr="list-customer"
             bordered
+            :customRow="customRowClick"
           >
             <template slot="action" slot-scope="text, row, index">
               <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
@@ -72,10 +73,12 @@
                   icon="eye"
                 ></a-button>
               </a-tooltip> -->
-              <router-link :to="`./update/${row.id}`" style="margin-right: 10px">
-                <edit-btn :test-attr="`edit-customer${index}`"/>
-              </router-link>
-              <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
+              <div style="display: flex; justify-content: space-around;">
+                <router-link :to="`./update/${row.id}`" style="margin-right: 10px">
+                  <edit-btn :test-attr="`edit-customer${index}`"/>
+                </router-link>
+                <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
+              </div>
               <!-- <a-popconfirm
                 placement="topRight"
                 slot="extra"
@@ -175,6 +178,15 @@ export default {
   },
   methods: {
     ...mapActions(['getCustomers', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`/customers/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCustomers({ page: pagination })

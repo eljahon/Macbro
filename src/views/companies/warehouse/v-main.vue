@@ -12,6 +12,7 @@
         <a-col :md="24" :lg="12" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('name')" prop="name">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="warehouse.name"
               test-attr="name-warehouse"
@@ -21,6 +22,7 @@
         <a-col :md="24" :lg="12" style="padding: 0 15px">
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="warehouse.address"
               test-attr="address-warehouse"
@@ -30,16 +32,17 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="branch_name" :label="$t('branchName')" prop="branch_name">
             <a-select
-                show-search
-                :auto-clear-search-value="false"
-                @search="onSearch($event, 'branch')"
-                :value="warehouse.branch_id"
-                :filter-option="false"
-                @popupScroll="onScrollBottom($event, 'branch')"
-                placeholder="branch"
-                @change="handleChange($event, 'branch')"
-                :disbled="loading"
-                test-attr="branch_name-inventory"
+              size="large"
+              show-search
+              :auto-clear-search-value="false"
+              @search="onSearch($event, 'branch')"
+              :value="warehouse.branch_id"
+              :filter-option="false"
+              @popupScroll="onScrollBottom($event, 'branch')"
+              placeholder="branch"
+              @change="handleChange($event, 'branch')"
+              :disbled="loading"
+              test-attr="branch_name-inventory"
             >
                 <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
                     {{ branch.name }}
@@ -52,7 +55,7 @@
         </a-col>
       </a-row>
       <a-row>
-        <a-col :span="20" style="padding: 0 15px">
+        <a-col :span="12" style="padding: 0 15px">
             <a-form-model-item ref="map" :label="$t('map')" prop="map">
                 <yandex-map
                     :coords="coords"

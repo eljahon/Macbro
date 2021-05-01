@@ -27,16 +27,16 @@
                 return this.text ? this.text : this.active ? this.$t('active') : this.$t('inactive')
             },
             colour () {
-                return this.color ? this.color : this.active ? '#108ee9' : '#EC5B56'
+                return this.color ? this.color : this.active ? 'blue' : 'red'
             }
         }
     }
 </script>
 
 <style lang="less" scoped>
-    .ant-tag-custom {
-        border: none !important;
-        border-radius: 4px !important;
-        color: white !important;
-    }
+    // .ant-tag-custom {
+    //     border: none !important;
+    //     border-radius: 4px !important;
+    //     color: white !important;
+    // }
 </style>

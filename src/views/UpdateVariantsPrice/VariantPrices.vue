@@ -19,7 +19,7 @@
       </div>
     </breadcrumb-row>
 
-    <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false">
+    <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false"  style="flex: 1">
 
       <a-form-model
         ref="productRuleForm"

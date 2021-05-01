@@ -12,7 +12,7 @@
     <a-card :title="this.$route.params.id ? $t('update') : $t('fillIn')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false" style="height: 100%">
+    <a-card :bordered="false" style="flex: 1">
       <a-row>
         <v-main ref="orderDetailsEdit"></v-main>
         <a-row class="edit-btns">
