@@ -297,6 +297,7 @@ export default {
         method: 'get'
       }).then((response) => {
         console.log('response', response)
+        this.category.active = response.category.active
         this.category.name = response.category.name
         this.category.description = response.category.description
         this.category.order = response.category.order
