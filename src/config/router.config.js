@@ -80,24 +80,133 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/product-variants',
+        path: '/price-list',
         name: 'productVariantPrices',
         meta: { title: 'product_variants_list', keepAlive: true, icon: 'inbox', permission: ['directory'] },
         hideChildrenInMenu: true,
         component: RouteView,
-        redirect: '/product-variants/category',
+        redirect: '/price-list/category',
         children: [
           {
-            path: '/product-variants/category',
+            path: '/price-list/category',
             name: 'productVariantPricesCategory',
             component: () => import('@/views/UpdateVariantsPrice/CategoryList'),
             meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
           },
           {
-            path: '/product-variants/category/:id/list',
+            path: '/price-list/category/:id/list',
             name: 'productVariantPricesList',
             component: () => import('@/views/UpdateVariantsPrice/VariantPrices'),
             meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
+          }
+        ]
+      },
+      {
+        path: '/warehouse',
+        redirect: '/warehouse/income',
+        component: RouteView,
+        meta: { title: 'warehouse', icon: myIcons.warehouse, permission: ['directory'] },
+        children: [
+          {
+            path: '/warehouse/income',
+            hideChildrenInMenu: true,
+            name: 'warehouseList',
+            component: RouteView,
+            redirect: '/warehouse/income/list',
+            meta: { title: 'Приход', permission: ['directory'] },
+            children: [
+              {
+                path: '/warehouse/income/list',
+                name: 'warehouseIncomeListMain',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseList'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/income/list/create',
+                name: 'warehouseIncomeCreate',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/income/list/update/:id',
+                name: 'warehouseIncomeUpdate',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              }
+            ]
+          },
+          {
+            path: '/warehouse/moving',
+            hideChildrenInMenu: true,
+            name: 'warehouseList',
+            component: RouteView,
+            redirect: '/warehouse/moving/list',
+            meta: { title: 'Перемещение', permission: ['directory'] },
+            children: [
+              {
+                path: '/warehouse/moving/list',
+                name: 'warehouseMovingListMain',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseList'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/moving/list/create',
+                name: 'warehouseMovingCreate',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/moving/list/update/:id',
+                name: 'warehouseMovingUpdate',
+                props: true,
+                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              }
+            ]
+          },
+          {
+            path: '/warehouse/remainder',
+            redirect: '/warehouse/remainder/abay',
+            component: RouteView,
+            meta: { title: 'Остаток', permission: ['directory'] },
+            children: [
+              {
+                path: '/warehouse/remainder/abay',
+                hideChildrenInMenu: true,
+                name: 'warehouseList',
+                component: RouteView,
+                redirect: '/warehouse/remainder/abay/list',
+                meta: { title: 'МакБро Абай', permission: ['directory'] },
+                children: [
+                  {
+                    path: '/warehouse/remainder/abay/list',
+                    name: 'warehouseRemainderListMain',
+                    props: true,
+                    component: () => import('@/views/companies/warehouse/WarehouseList'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/warehouse/remainder/abay/list/create',
+                    name: 'warehouseRemainderCreate',
+                    props: true,
+                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/warehouse/remainder/abay/list/update/:id',
+                    name: 'warehouseRemainderUpdate',
+                    props: true,
+                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -227,7 +336,7 @@ export const asyncRouterMap = [
             path: '/catalog',
             redirect: '/catalog/categories',
             component: RouteView,
-            meta: { title: 'catalog', icon: myIcons.directoryCatalog, permission: ['directory'] },
+            meta: { title: 'catalog', permission: ['directory'] },
             children: [
               {
                 path: '/catalog/categories',

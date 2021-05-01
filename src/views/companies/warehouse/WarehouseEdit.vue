@@ -12,16 +12,16 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :bordered="false" v-if="edit" class="no-space-tab">
-      <a-tabs v-model="activeTabKey">
-        <a-tab-pane :key="1" :tab="$t('information')">
+    <a-card :bordered="false" v-if="edit" class="no-space-tab"  style="flex: 1">
+      <!-- <a-tabs v-model="activeTabKey">
+        <a-tab-pane :key="1" :tab="$t('information')"> -->
           <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-        </a-tab-pane>
+        <!-- </a-tab-pane>
 
         <a-tab-pane :key="2" :tab="$t('prixod')">
           <inventory-item />
         </a-tab-pane>
-      </a-tabs>
+      </a-tabs> -->
     </a-card>
     <v-main v-else @clickParent="clickParent" ref="createForm"></v-main>
     <a-row class="edit-btns" v-if="activeTabKey === 1">

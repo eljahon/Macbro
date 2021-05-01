@@ -8,10 +8,12 @@
         <a-breadcrumb-item>{{ this.edit ? $t('update') :$t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
+    <a-card :title="$t('update')" class="breadcrumb-row" :bordered="false">
+    </a-card>
     <div v-if="edit">
-      <a-card :title="$t('update')" :bordered="false">
+      <a-card :bordered="false">
         <a-row>
-          <a-tabs v-model="activeTabKey">
+          <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
               <span slot="tab">
                 <flag :iso="flagMapper(lang)" style="margin-right: 5px"/>
@@ -24,7 +26,7 @@
       </a-card>
     </div>
     <div v-else>
-      <a-card :title="$t('fillIn')" :bordered="false">
+      <a-card :title="$t('fillIn')" :bordered="false" style="flex: 1">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>

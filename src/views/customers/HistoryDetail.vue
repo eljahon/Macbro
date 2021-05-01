@@ -9,7 +9,7 @@
     <a-card :title="$t('История заказов')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false"  style="flex: 1">
         <a-form-model
             @submit="onSubmit"
             ref="ruleForm"

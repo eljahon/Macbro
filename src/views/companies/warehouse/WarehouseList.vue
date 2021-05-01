@@ -1,35 +1,30 @@
 <template>
   <div>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>{{ $t('warehouse') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
+    </breadcrumb-row>
 
     <a-card :title="$t('warehouse')" class="breadcrumb-row" :bordered="false">
-      <router-link :to="{ path: `${$route.path}/warehouse/create` }" slot="extra">
+      <router-link :to="`${ $route.path }/create`" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-warehouse">{{ $t('add') }}</a-button>
       </router-link>
     </a-card>
 
-    <a-card :bordered="false">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                  test-attr="search-warehouse"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :bordered="false" style="flex: 1">
 
       <a-table
         :columns="columns"
@@ -39,6 +34,8 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-warehouse"
+        bordered
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/> -->
@@ -47,10 +44,12 @@
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`${$route.path}/warehouse/update/${row.id}`" >
-              <edit-btn :test-attr="`edit-warehouse${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`${$route.path}/update/${row.id}`">
+                <edit-btn :test-attr="`edit-warehouse${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -79,7 +78,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -113,6 +112,15 @@ export default {
   },
   methods: {
     ...mapActions(['getCompanyWarehouse', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`${this.$route.path}/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCompanyWarehouse({ page: pagination, search: true, company_id: this.$route.params.id })

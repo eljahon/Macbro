@@ -4,6 +4,18 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('attributes') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          v-model="searchVal"
+          :placeholder="$t('search') + '...'"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(searchVal)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('attributes')" class="breadcrumb-row" :bordered="false">
@@ -12,28 +24,7 @@
       </router-link>
     </a-card>
 
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
-            <a-form-item style="margin: 0">
-              <a-input
-                slot="extra"
-                id="inputSearch"
-                :placeholder="$t('search') + '...'"
-                v-debounce="debouncedSearch"
-                test-attr="search-attribute"
-              />
-            </a-form-item>
-          </a-form>
-        </a-col>
-      </a-row>
-    </a-card>
-
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
       <a-table
         bordered
         :columns="columns"
@@ -43,6 +34,7 @@
         @change="changeAttrs"
         :pagination="paginationAttrs"
         test-attr="list-attribute"
+        :customRow="customRowClick"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -51,10 +43,12 @@
           />
         </template>
         <template slot="action" slot-scope="text, item, index">
-          <router-link :to="`./update/${item.slug}`" :test-attr="`edit-attribute${index}`">
-            <edit-btn/>
-          </router-link>
-          <delete-btn @confirm="deleteAttr(item)" :test-attr="`delete-attribute${index}`"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`./update/${item.slug}`" :test-attr="`edit-attribute${index}`">
+              <edit-btn/>
+            </router-link>
+            <delete-btn @confirm="deleteAttr(item)" :test-attr="`delete-attribute${index}`"/>
+          </div>
           <!-- <a-popconfirm
             placement="topRight"
             slot="extra"
@@ -82,6 +76,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      searchVal: '',
       columns: [
         {
           title: this.$t('attr_name'),
@@ -99,7 +94,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ]
@@ -107,6 +102,15 @@ export default {
   },
   methods: {
     ...mapActions(['getAllAttrs', 'deleteAttrs', 'updateAttrs']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`/catalog/attribute/update/${record.slug}`)
+          }
+        }
+      }
+    },
     deleteAttr (item) {
       this.deleteAttrs(item.slug)
         .then(res => {

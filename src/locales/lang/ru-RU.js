@@ -307,7 +307,7 @@ const locale = {
   review_edit: 'Форма редактирования отзыва',
   variants: 'Варианты',
   product_variants: 'Варианты продуктов',
-  product_variants_list: 'Продукт лист',
+  product_variants_list: 'Прайс лист',
   product_variant: 'Вариант продукта',
   // measures
   measure_name: 'Название измерения',

@@ -21,7 +21,7 @@
     <a-card :title="$t('orders')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
       <a-tabs default-active-key="1" type="card">
         <a-tab-pane key="1">
           <div slot="tab">
@@ -39,6 +39,7 @@
             showPagination="auto"
             test-attr="list-order"
             bordered
+            :customRow="customRowClick"
           >
             <div
               slot="filterDropdown"
@@ -88,9 +89,11 @@
               <!-- <router-link :to="`/order/details/${row.number}`">
                 <preview-btn :test-attr="`preview-order${index}`"/>
               </router-link> -->
-              <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
-                <edit-btn/>
-              </router-link>
+              <div style="display: flex; justify-content: space-around;">
+                <router-link :to="`/order/edit/${row.number}`" :test-attr="`edit-order${index}`">
+                  <edit-btn/>
+                </router-link>
+              </div>
             </template>
             <template slot="total" slot-scope="text, row">
               <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
@@ -187,13 +190,13 @@ export default {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon'
           }
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '10%',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '10%',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -241,6 +244,15 @@ export default {
   },
   methods: {
     ...mapActions(['getOrders', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`/order/edit/${record.number}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       console.log('Pagination', pagination)
       this.loading = true

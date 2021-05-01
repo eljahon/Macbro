@@ -809,7 +809,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .edit-btns.ant-row {
-  float: right;
+  align-self: flex-end;
 }
 
 .ant-layout.ant-layout-has-sider > .ant-layout, .ant-layout.ant-layout-has-sider > .ant-layout-content, .ant-layout-footer {
@@ -869,3 +869,21 @@ body::-webkit-scrollbar-thumb {
 .filter-dropdown-icon.ant-table-filter-icon > svg {
     margin-left: -12px !important;
 }
+
+.ant-pro-grid-content > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
+}
+
+button.ant-switch {
+  height: 32px;
+  .ant-switch-inner {
+    margin-right: 4px;
+    margin-left: 44px;
+  }
+  &.ant-switch-checked .ant-switch-inner {
+    margin-right: 52px;
+    margin-left: 6px;
+  }
+} 

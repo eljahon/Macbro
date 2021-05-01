@@ -12,7 +12,7 @@
     <a-card :title="$t('update')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
       <v-main></v-main>
     </a-card>
   </div>

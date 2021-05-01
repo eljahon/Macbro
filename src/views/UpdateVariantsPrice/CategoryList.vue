@@ -4,7 +4,7 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style="float: right">
+      <div slot="extra">
         <a-input
           style="float: right; width: 200px"
           test-attr="search-order"
@@ -21,7 +21,7 @@
     <a-card :title="$t('categories')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
 
       <div v-for="item in categories" :key="item.id">
         <a-form-model-item>
@@ -31,26 +31,26 @@
             </b>
           </span>
           <a-row type="flex" v-if="item.children && item.children.length">
-              <div class="custom-card-variants" v-for="sub in item.children" :key="sub.id">
-                <div
-                  style="width: 160px; height: 120px; display: flex; align-items: center; justify-content: center"
-                >
-                  <img
-                    alt="example"
-                    style="max-width: 100%; max-height: 100%"
-                    :src="sub.image"
-                  />
-                </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-top: 1px solid #d9d9d9">
-                  <span style="font-weight: bold">{{ sub.name }}</span>
-                  <a-icon :component="$myIcons.arrowDown" @click="onIconClick(sub)" style="transform: rotate(-90deg); cursor: pointer" ></a-icon>
-                </div>
+            <div class="custom-card-variants" @click="onIconClick(sub)" v-for="sub in item.children" :key="sub.id">
+              <div
+                style="width: 160px; height: 120px; display: flex; align-items: center; justify-content: center"
+              >
+                <img
+                  alt="example"
+                  style="max-width: calc(100% - 4px); max-height: 100%"
+                  :src="sub.image"
+                />
               </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-top: 1px solid #d9d9d9">
+                <span style="font-weight: bold">{{ sub.name }}</span>
+                <a-icon :component="$myIcons.arrowDown" style="transform: rotate(-90deg)" ></a-icon>
+              </div>
+            </div>
           </a-row>
         </a-form-model-item>
       </div>
 
-      <a-table
+      <!-- <a-table
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="this.categories"
@@ -73,7 +73,7 @@
           </router-link>
           <delete-btn @confirm="deleteCategory($event, row.slug)" :test-attr="`delete-category${index}`"/>
         </template>
-      </a-table>
+      </a-table> -->
     </a-card>
   </div>
 </template>
@@ -213,10 +213,12 @@ export default {
   height: auto !important;
 }
 .custom-card-variants{
+  border-radius: 4px;
   width: 160px;
   min-height: 160px;
   border: 1px solid #d9d9d9;
   margin-left: 20px;
-  margin-top: 20px
+  margin-top: 20px;
+  cursor: pointer
 }
 </style>
