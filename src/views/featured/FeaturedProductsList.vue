@@ -4,32 +4,25 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('featuredProducts') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('featuredProducts')" class="breadcrumb-row" :bordered="false">
       <router-link to="././create" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus">{{ $t('add') }}</a-button>
       </router-link>
-    </a-card>
-
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
-            <a-form-item style="margin: 0">
-              <a-input
-                id="inputSearch"
-                :placeholder="$t('search') + '...'"
-                v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                v-debounce="debouncedSearch"
-              />
-            </a-form-item>
-          </a-form>
-        </a-col>
-      </a-row>
     </a-card>
 
     <a-card :bordered="false">
@@ -53,25 +46,27 @@
           />
         </template>
         <template slot="action" slot-scope="text, row">
-          <router-link :to="'./update/' + row.slug">
-            <a-tooltip>
-              <template slot="title">{{ $t('update') }}</template>
-              <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
-            </a-tooltip>
-          </router-link>
-          <a-popconfirm
-            placement="topRight"
-            slot="extra"
-            :title="$t('deleteMsg')"
-            @confirm="deleteFeaturedProduct($event, row.slug)"
-            :okText="$t('yes')"
-            :cancelText="$t('no')"
-          >
-            <a-tooltip>
-              <template slot="title">{{ $t('delete') }}</template>
-              <a-button type="danger" icon="delete"></a-button>
-            </a-tooltip>
-          </a-popconfirm>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="'./update/' + row.slug">
+              <a-tooltip>
+                <template slot="title">{{ $t('update') }}</template>
+                <a-button id="buttonUpdate" type="primary" icon="edit"></a-button>
+              </a-tooltip>
+            </router-link>
+            <a-popconfirm
+              placement="topRight"
+              slot="extra"
+              :title="$t('deleteMsg')"
+              @confirm="deleteFeaturedProduct($event, row.slug)"
+              :okText="$t('yes')"
+              :cancelText="$t('no')"
+            >
+              <a-tooltip>
+                <template slot="title">{{ $t('delete') }}</template>
+                <a-button type="danger" icon="delete"></a-button>
+              </a-tooltip>
+            </a-popconfirm>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -99,7 +94,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

@@ -19,7 +19,7 @@ const locale = {
   // general
   enterSystem: 'Войти в систему',
   directory: 'Справочник',
-  contentPages: 'Контент',
+  contentPages: 'Контент сервис',
   personal_settings: 'Личный кабинет',
   catalog: 'Каталог',
   product_kind: 'Тип продукта',
