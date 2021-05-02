@@ -211,122 +211,6 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/country',
-        name: 'country',
-        component: RouteView,
-        hideChildrenInMenu: true,
-        redirect: '/country/list',
-        meta: { title: 'countries', keepAlive: true, show: true, icon: 'environment', permission: ['cities'] },
-        children: [
-          {
-            path: '/country/list',
-            name: 'countriesList',
-            component: () => import('@/views/country/countryList'),
-            meta: { title: 'countries', keepAlive: true, permission: ['cities'] }
-          },
-          {
-            path: '/country/create',
-            name: 'countriesCreate',
-            component: () => import('@/views/country/countryEdit'),
-            meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
-          },
-          {
-            path: '/country/update/:id',
-            name: 'countriesEdit',
-            component: () => import('@/views/country/countryEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
-          },
-          {
-            path: '/country/update/:country_id/region/create',
-            name: 'regionCreate',
-            component: () => import('@/views/country/region/regionEdit'),
-            meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
-          },
-          {
-            path: '/country/update/:country_id/region/update/:id',
-            name: 'regionEdit',
-            component: () => import('@/views/country/region/regionEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
-          }
-        ]
-      },
-      {
-        path: '/company',
-        name: 'company',
-        component: RouteView,
-        hideChildrenInMenu: true,
-        redirect: '/company/list',
-        meta: { title: 'companies', keepAlive: true, show: true, icon: 'bank', permission: ['company'] },
-        children: [
-          {
-            path: '/company/list',
-            name: 'companiesList',
-            component: () => import('@/views/companies/CompaniesList'),
-            meta: { title: 'companies', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/company/create',
-            name: 'CompaniesCreate',
-            component: () => import('@/views/companies/CompaniesEdit'),
-            meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:id',
-            name: 'CompaniesEdit',
-            component: () => import('@/views/companies/CompaniesEdit'),
-            meta: { title: 'update', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:company_id/branch/create',
-            name: 'branchesCreate',
-            component: () => import('@/views/companies/branches/BranchesEdit'),
-            meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:company_id/branch/update/:id',
-            name: 'BranchesEdit',
-            component: () => import('@/views/companies/branches/BranchesEdit'),
-            meta: { title: 'update', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:company_id/corporate/create',
-            name: 'corporateCreate',
-            component: () => import('@/views/companies/corporate/CorporateEdit'),
-            meta: { title: 'add', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/corporate/update/:id',
-            name: 'corporateEdit',
-            component: () => import('@/views/companies/corporate/CorporateEdit'),
-            meta: { title: 'update', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:company_id/warehouse/create',
-            name: 'warehouseCreate',
-            component: () => import('@/views/companies/warehouse/WarehouseEdit'),
-            meta: { title: 'add', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/company/update/:company_id/warehouse/update/:id',
-            name: 'warehouseEdit',
-            component: () => import('@/views/companies/warehouse/WarehouseEdit'),
-            meta: { title: 'update', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/warehouse/update/:warehouse_id/items/create',
-            name: 'inventoryItemCreate',
-            component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
-            meta: { title: 'add', keepAlive: true, permission: ['company'] }
-          },
-          {
-            path: '/warehouse/update/:warehouse_id/items/update/:id',
-            name: 'inventoryItemEdit',
-            component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
-            meta: { title: 'update', keepAlive: true, permission: ['company'] }
-          }
-        ]
-      },
-      {
         path: '/directory',
         redirect: '/categories',
         component: RouteView,
@@ -518,93 +402,366 @@ export const asyncRouterMap = [
             ]
           },
           {
-            path: '/promos',
-            name: 'promos',
+            path: '/directory/user-service',
+            redirect: '/news',
             component: RouteView,
-            hideChildrenInMenu: true,
-            redirect: '/promos/list',
-            meta: { title: 'promos', keepAlive: true, icon: myIcons.directoryStock, permission: ['directory'] },
+            meta: { title: 'Юзер сервис', permission: ['directory'] },
             children: [
               {
-                path: '/promos/list',
-                name: 'PromosList',
-                component: () => import('@/views/promos/PromosList'),
-                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/promos/create',
-                name: 'PromosCreate',
-                component: () => import('@/views/promos/PromosCreate'),
-                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/promos/update/:id',
-                name: 'PromosUpdate',
-                component: () => import('@/views/promos/PromosCreate'),
-                meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
-              }
-            ]
-          },
-          {
-            path: '/agents',
-            name: 'agents',
-            component: RouteView,
-            redirect: '/agents/physical',
-            meta: { title: 'counterAgents', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['directory'] },
-            children: [
-              {
-                path: '/agents/physical',
-                name: 'agentsPhysical',
+                path: '/country',
+                name: 'country',
                 component: RouteView,
                 hideChildrenInMenu: true,
-                redirect: '/agents/physical/list',
-                meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] },
+                redirect: '/country/list',
+                meta: { title: 'countries', keepAlive: true, show: true, permission: ['cities'] },
                 children: [
                   {
-                    path: '/agents/physical/list',
-                    name: 'physicalAgentList',
-                    component: () => import('@/views/agents/physical/physicalAgentList'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/country/list',
+                    name: 'countriesList',
+                    component: () => import('@/views/country/countryList'),
+                    meta: { title: 'countries', keepAlive: true, permission: ['cities'] }
                   },
                   {
-                    path: '/agents/physical/create',
-                    name: 'physicalAgentCreate',
-                    component: () => import('@/views/agents/physical/physicalAgentEdit'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/country/create',
+                    name: 'countriesCreate',
+                    component: () => import('@/views/country/countryEdit'),
+                    meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
                   },
                   {
-                    path: '/agents/physical/update/:id',
-                    name: 'physicalAgentUpdate',
-                    component: () => import('@/views/agents/physical/physicalAgentEdit'),
-                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/country/update/:id',
+                    name: 'countriesEdit',
+                    component: () => import('@/views/country/countryEdit'),
+                    meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
+                  },
+                  {
+                    path: '/country/update/:country_id/region/create',
+                    name: 'regionCreate',
+                    component: () => import('@/views/country/region/regionEdit'),
+                    meta: { title: 'create', keepAlive: true, show: true, permission: ['cities'] }
+                  },
+                  {
+                    path: '/country/update/:country_id/region/update/:id',
+                    name: 'regionEdit',
+                    component: () => import('@/views/country/region/regionEdit'),
+                    meta: { title: 'update', keepAlive: true, show: true, permission: ['cities'] }
                   }
                 ]
               },
               {
-                path: '/agents/legal',
-                name: 'agentsLegal',
+                path: '/company',
+                name: 'company',
                 component: RouteView,
                 hideChildrenInMenu: true,
-                redirect: '/agents/legal/list',
-                meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] },
+                redirect: '/company/list',
+                meta: { title: 'companies', keepAlive: true, show: true, permission: ['company'] },
                 children: [
                   {
-                    path: '/agents/legal/list',
-                    name: 'agentsLegalList',
-                    component: () => import('@/views/agents/legal/legalAgentList'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/company/list',
+                    name: 'companiesList',
+                    component: () => import('@/views/companies/CompaniesList'),
+                    meta: { title: 'companies', keepAlive: true, permission: ['company'] }
                   },
                   {
-                    path: '/agents/legal/create',
-                    name: 'agentsLegalCreate',
-                    component: () => import('@/views/agents/legal/legalAgentEdit'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/company/create',
+                    name: 'CompaniesCreate',
+                    component: () => import('@/views/companies/CompaniesEdit'),
+                    meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
                   },
                   {
-                    path: '/agents/legal/update/:id',
-                    name: 'agentsLegalUpdate',
-                    component: () => import('@/views/agents/legal/legalAgentEdit'),
-                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                    path: '/company/update/:id',
+                    name: 'CompaniesEdit',
+                    component: () => import('@/views/companies/CompaniesEdit'),
+                    meta: { title: 'update', keepAlive: true, show: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/update/:company_id/branch/create',
+                    name: 'branchesCreate',
+                    component: () => import('@/views/companies/branches/BranchesEdit'),
+                    meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/update/:company_id/branch/update/:id',
+                    name: 'BranchesEdit',
+                    component: () => import('@/views/companies/branches/BranchesEdit'),
+                    meta: { title: 'update', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/update/:company_id/corporate/create',
+                    name: 'corporateCreate',
+                    component: () => import('@/views/companies/corporate/CorporateEdit'),
+                    meta: { title: 'add', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/corporate/update/:id',
+                    name: 'corporateEdit',
+                    component: () => import('@/views/companies/corporate/CorporateEdit'),
+                    meta: { title: 'update', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/update/:company_id/warehouse/create',
+                    name: 'warehouseCreate',
+                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    meta: { title: 'add', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/update/:company_id/warehouse/update/:id',
+                    name: 'warehouseEdit',
+                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    meta: { title: 'update', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/warehouse/update/:warehouse_id/items/create',
+                    name: 'inventoryItemCreate',
+                    component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
+                    meta: { title: 'add', keepAlive: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/warehouse/update/:warehouse_id/items/update/:id',
+                    name: 'inventoryItemEdit',
+                    component: () => import('@/views/companies/warehouse/inventoryitem/InventoryItemEdit'),
+                    meta: { title: 'update', keepAlive: true, permission: ['company'] }
+                  }
+                ]
+              },
+              {
+                path: '/agents',
+                name: 'agents',
+                component: RouteView,
+                redirect: '/agents/physical',
+                meta: { title: 'counterAgents', keepAlive: true, permission: ['directory'] },
+                children: [
+                  {
+                    path: '/agents/physical',
+                    name: 'agentsPhysical',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/agents/physical/list',
+                    meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/agents/physical/list',
+                        name: 'physicalAgentList',
+                        component: () => import('@/views/agents/physical/physicalAgentList'),
+                        meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/agents/physical/create',
+                        name: 'physicalAgentCreate',
+                        component: () => import('@/views/agents/physical/physicalAgentEdit'),
+                        meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/agents/physical/update/:id',
+                        name: 'physicalAgentUpdate',
+                        component: () => import('@/views/agents/physical/physicalAgentEdit'),
+                        meta: { title: 'physicalAgents', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
+                  {
+                    path: '/agents/legal',
+                    name: 'agentsLegal',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/agents/legal/list',
+                    meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/agents/legal/list',
+                        name: 'agentsLegalList',
+                        component: () => import('@/views/agents/legal/legalAgentList'),
+                        meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/agents/legal/create',
+                        name: 'agentsLegalCreate',
+                        component: () => import('@/views/agents/legal/legalAgentEdit'),
+                        meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/agents/legal/update/:id',
+                        name: 'agentsLegalUpdate',
+                        component: () => import('@/views/agents/legal/legalAgentEdit'),
+                        meta: { title: 'legalAgents', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                path: '/adminstrator',
+                name: 'adminstrator',
+                component: RouteView,
+                redirect: '/adminstrator',
+                meta: { title: 'adminstrators', keepAlive: true, permission: ['directory'] },
+                children: [
+                  {
+                    path: '/admins',
+                    name: 'admins',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/admins/list',
+                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/admins/list',
+                        name: 'AdminsList',
+                        component: () => import('@/views/admins/AdminsList'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/admins/create',
+                        name: 'AdminsCreate',
+                        component: () => import('@/views/admins/AdminsCreate'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/admins/update/:id',
+                        name: 'AdminsUpdate',
+                        component: () => import('@/views/admins/AdminsCreate'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
+                  {
+                    path: '/permissions',
+                    name: 'permissions',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/permissions/list',
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/permissions/list',
+                        name: 'PermissionsList',
+                        component: () => import('@/views/permissions/PermissionsList'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/permissions/create',
+                        name: 'PermissionsCreate',
+                        component: () => import('@/views/permissions/PermissionsCreate'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/permissions/update/:id',
+                        name: 'PermissionsUpdate',
+                        component: () => import('@/views/permissions/PermissionsCreate'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
+                  {
+                    path: '/staff',
+                    name: 'staff',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/staff/list',
+                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/staff/list',
+                        name: 'staffList',
+                        component: () => import('@/views/staff/staffList'),
+                        meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/staff/create',
+                        name: 'staffCreate',
+                        component: () => import('@/views/staff/staffEdit'),
+                        meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/staff/update/:id',
+                        name: 'staffUpdate',
+                        component: () => import('@/views/staff/staffEdit'),
+                        meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
+                  {
+                    path: '/roles',
+                    name: 'roles',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/roles/list',
+                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/roles/list',
+                        name: 'rolesList',
+                        component: () => import('@/views/roles/roleList'),
+                        meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/roles/create',
+                        name: 'rolesCreate',
+                        component: () => import('@/views/roles/roleEdit'),
+                        meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/roles/update/:id',
+                        name: 'rolesUpdate',
+                        component: () => import('@/views/roles/roleEdit'),
+                        meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
+                  {
+                    path: '/permissions-new',
+                    name: 'permissions-new',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/permissions-new/list',
+                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/permissions-new/list',
+                        name: 'PermissionsNewList',
+                        component: () => import('@/views/permissionsNew/PermissionsList'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/permissions-new/create',
+                        name: 'PermissionsNewCreate',
+                        component: () => import('@/views/permissionsNew/PermissionsCreate'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/permissions-new/update/:id',
+                        name: 'PermissionsNewUpdate',
+                        component: () => import('@/views/permissionsNew/PermissionsCreate'),
+                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                path: '/pages',
+                name: 'pages',
+                component: RouteView,
+                hideChildrenInMenu: true,
+                redirect: '/pages/list',
+                meta: { title: 'pages', keepAlive: true, permission: ['directory'] },
+                children: [
+                  {
+                    path: '/pages/list',
+                    name: 'PagesList',
+                    component: () => import('@/views/pages/PagesList'),
+                    meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/pages/create',
+                    name: 'PagesCreate',
+                    component: () => import('@/views/pages/PagesCreate'),
+                    meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/pages/update/:id',
+                    name: 'PagesUpdate',
+                    component: () => import('@/views/pages/PagesCreate'),
+                    meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
                   }
                 ]
               }
@@ -614,15 +771,43 @@ export const asyncRouterMap = [
             path: '/directory/content',
             redirect: '/news',
             component: RouteView,
-            meta: { title: 'contentPages', icon: myIcons.directoryContent, permission: ['directory'] },
+            meta: { title: 'contentPages', permission: ['directory'] },
             children: [
+              {
+                path: '/promos',
+                name: 'promos',
+                component: RouteView,
+                hideChildrenInMenu: true,
+                redirect: '/promos/list',
+                meta: { title: 'promos', keepAlive: true, permission: ['directory'] },
+                children: [
+                  {
+                    path: '/promos/list',
+                    name: 'PromosList',
+                    component: () => import('@/views/promos/PromosList'),
+                    meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/promos/create',
+                    name: 'PromosCreate',
+                    component: () => import('@/views/promos/PromosCreate'),
+                    meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/promos/update/:id',
+                    name: 'PromosUpdate',
+                    component: () => import('@/views/promos/PromosCreate'),
+                    meta: { title: 'promos', keepAlive: true, permission: ['directory'] }
+                  }
+                ]
+              },
               {
                 path: '/news',
                 name: 'news',
                 component: RouteView,
                 hideChildrenInMenu: true,
                 redirect: '/news/list',
-                meta: { title: 'news', keepAlive: true, icon: 'read', permission: ['directory'] },
+                meta: { title: 'news', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/news/list',
@@ -649,7 +834,7 @@ export const asyncRouterMap = [
                 name: 'banner',
                 component: RouteView,
                 redirect: '/banners',
-                meta: { title: 'banners', keepAlive: true, icon: 'picture', permission: ['directory'] },
+                meta: { title: 'banners', keepAlive: true, permission: ['directory'] },
                 children: [
                   {
                     path: '/banners',
@@ -708,183 +893,6 @@ export const asyncRouterMap = [
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            path: '/adminstrator',
-            name: 'adminstrator',
-            component: RouteView,
-            redirect: '/adminstrator',
-            meta: { title: 'adminstrators', keepAlive: true, icon: myIcons.directoryCounterAgents, permission: ['directory'] },
-            children: [
-              {
-                path: '/admins',
-                name: 'admins',
-                component: RouteView,
-                hideChildrenInMenu: true,
-                redirect: '/admins/list',
-                meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
-                children: [
-                  {
-                    path: '/admins/list',
-                    name: 'AdminsList',
-                    component: () => import('@/views/admins/AdminsList'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/admins/create',
-                    name: 'AdminsCreate',
-                    component: () => import('@/views/admins/AdminsCreate'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/admins/update/:id',
-                    name: 'AdminsUpdate',
-                    component: () => import('@/views/admins/AdminsCreate'),
-                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
-              },
-              {
-                path: '/permissions',
-                name: 'permissions',
-                component: RouteView,
-                hideChildrenInMenu: true,
-                redirect: '/permissions/list',
-                meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
-                children: [
-                  {
-                    path: '/permissions/list',
-                    name: 'PermissionsList',
-                    component: () => import('@/views/permissions/PermissionsList'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/permissions/create',
-                    name: 'PermissionsCreate',
-                    component: () => import('@/views/permissions/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/permissions/update/:id',
-                    name: 'PermissionsUpdate',
-                    component: () => import('@/views/permissions/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
-              },
-              {
-                path: '/staff',
-                name: 'staff',
-                component: RouteView,
-                hideChildrenInMenu: true,
-                redirect: '/staff/list',
-                meta: { title: 'staff', keepAlive: true, permission: ['directory'] },
-                children: [
-                  {
-                    path: '/staff/list',
-                    name: 'staffList',
-                    component: () => import('@/views/staff/staffList'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/staff/create',
-                    name: 'staffCreate',
-                    component: () => import('@/views/staff/staffEdit'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/staff/update/:id',
-                    name: 'staffUpdate',
-                    component: () => import('@/views/staff/staffEdit'),
-                    meta: { title: 'staff', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
-              },
-              {
-                path: '/roles',
-                name: 'roles',
-                component: RouteView,
-                hideChildrenInMenu: true,
-                redirect: '/roles/list',
-                meta: { title: 'roles', keepAlive: true, permission: ['directory'] },
-                children: [
-                  {
-                    path: '/roles/list',
-                    name: 'rolesList',
-                    component: () => import('@/views/roles/roleList'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/roles/create',
-                    name: 'rolesCreate',
-                    component: () => import('@/views/roles/roleEdit'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/roles/update/:id',
-                    name: 'rolesUpdate',
-                    component: () => import('@/views/roles/roleEdit'),
-                    meta: { title: 'roles', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
-              },
-              {
-                path: '/permissions-new',
-                name: 'permissions-new',
-                component: RouteView,
-                hideChildrenInMenu: true,
-                redirect: '/permissions-new/list',
-                meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
-                children: [
-                  {
-                    path: '/permissions-new/list',
-                    name: 'PermissionsNewList',
-                    component: () => import('@/views/permissionsNew/PermissionsList'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/permissions-new/create',
-                    name: 'PermissionsNewCreate',
-                    component: () => import('@/views/permissionsNew/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/permissions-new/update/:id',
-                    name: 'PermissionsNewUpdate',
-                    component: () => import('@/views/permissionsNew/PermissionsCreate'),
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/pages',
-            name: 'pages',
-            component: RouteView,
-            hideChildrenInMenu: true,
-            redirect: '/pages/list',
-            meta: { title: 'pages', keepAlive: true, icon: myIcons.directoryPages, permission: ['directory'] },
-            children: [
-              {
-                path: '/pages/list',
-                name: 'PagesList',
-                component: () => import('@/views/pages/PagesList'),
-                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/pages/create',
-                name: 'PagesCreate',
-                component: () => import('@/views/pages/PagesCreate'),
-                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/pages/update/:id',
-                name: 'PagesUpdate',
-                component: () => import('@/views/pages/PagesCreate'),
-                meta: { title: 'pages', keepAlive: true, permission: ['directory'] }
               }
             ]
           }

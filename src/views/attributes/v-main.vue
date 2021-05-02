@@ -5,6 +5,7 @@
         <a-col :span="12" style="padding-right: 15px">
           <a-form-model-item ref="name" :label="`${$t('attr_name')} (Появится на сайте):`" prop="name">
             <a-input
+              size="large"
               test-attr="name-attribute"
               style="margin-left:0px; margin-right: 0px"
               v-model="productProperty.name"
@@ -16,6 +17,7 @@
         <a-col :span="12" style="padding-left: 15px">
           <a-form-model-item ref="name" :label="$t('attribute_type')">
             <a-select
+              size="large"
               test-attr="property-type-attribute"
               show-search
               style="width: 100%"
@@ -23,6 +25,7 @@
               :placeholder="$t('attribute_type')"
               :filter-option="filterOption"
             >
+              <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
               <a-select-option v-for="type in types" :key="type.value" :value="type.value">{{
                 type.name
               }}</a-select-option>
@@ -33,12 +36,12 @@
       <a-row>
         <a-col :span="12" style="padding-right: 15px">
           <a-form-model-item :label="`${$t('description')} (Полное название атрибута):`">
-            <a-input v-model="productProperty.description" type="text" :placeholder="$t('description')" test-attr="description-attribute" />
+            <a-input size="large" v-model="productProperty.description" type="text" :placeholder="$t('description')" test-attr="description-attribute" />
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding-left: 15px">
           <a-form-model-item :label="$t('order_no')">
-            <a-input v-model="productProperty.order" type="number" :placeholder="$t('order_no')" test-attr="order-attribute"/>
+            <a-input size="large" v-model="productProperty.order" type="number" :placeholder="$t('order_no')" test-attr="order-attribute"/>
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -59,6 +62,7 @@
         </div>
         <div v-if="productProperty.type == 'select'">
           <a-select default-value="Example" style="width: 250px">
+            <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
             <a-select-option v-for="item in productProperty.options" :key="'select' + item.name" test-attr="name-attribute">
               {{ item.name === '' ? 'Example' : item.name }}
             </a-select-option>
@@ -76,10 +80,16 @@
           </a-checkbox-group>
         </div>
         <div v-if="productProperty.type == 'text'">
-          <a-input default-value="Example" style="width: 250px" placeholder="Text" test-attr="type-attribute" />
+          <a-input size="large" default-value="Example" style="width: 250px" placeholder="Text" test-attr="type-attribute" />
         </div>
         <div v-if="productProperty.type == 'number'">
-          <a-input default-value="0" style="width: 250px" type="number" placeholder="Number" test-attr="type-attribute" />
+          <a-input
+            size="large"
+            default-value="0"
+            style="width: 250px"
+            type="number"
+            placeholder="Number"
+            test-attr="type-attribute" />
         </div>
       </a-card>
       <a-card
@@ -91,6 +101,7 @@
             <a-form-model-item :label="$t('option_name')">
               <div>
                 <a-input
+                  size="large"
                   v-model="option.name"
                   type="text"
                   :placeholder="$t('option_name')"
@@ -101,6 +112,7 @@
             <a-form-model-item :label="$t('order_no')">
               <div>
                 <a-input-number
+                  size="large"
                   v-model="option.order"
                   test-attr="options-order-attribute"
                   :min="0"
@@ -114,6 +126,7 @@
             <a-form-model-item :label="`${$t('code')} (значение):`">
               <div>
                 <a-input
+                  size="large"
                   @keydown="onCodeKeydown"
                   :value="option.value"
                   type="text"
