@@ -24,6 +24,7 @@ import mainBreadcrumb from './components/mainBreadcrumb.vue'
 import UnderlineTabs from './components/CustomTabs/TabsUnderline.vue'
 import UnderlineTabsItem from './components/CustomTabs/TabsUnderlineItem.vue'
 import numberToPrice from './utils/numberToPrice'
+import numberToDollar from './utils/numberToDollar'
 
 import myIcons from './core/icons'
 import VSwatches from 'vue-swatches'
@@ -51,6 +52,7 @@ const settings = {
 
 Vue.prototype.$myIcons = myIcons
 Vue.prototype.$numberToPrice = numberToPrice
+Vue.prototype.$numberToDollar = numberToDollar
 Vue.use(YmapPlugin, settings)
 Vue.use(FlagIcon)
 Vue.use(vueDebounce, {

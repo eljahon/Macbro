@@ -30,7 +30,7 @@
       </router-link>
     </a-card>
 
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
 
       <a-table
         :columns="columns"

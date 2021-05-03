@@ -13,6 +13,7 @@
           <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
               :disabled="requesting"
+              size="large"
               v-model="physicalAgent.name"
               test-attr="name-physical-agent"
             />
@@ -23,6 +24,7 @@
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
               :disabled="requesting"
+              size="large"
               v-model="physicalAgent.phone_number"
               test-attr="phone_number-physical-agent"
             />
@@ -33,6 +35,7 @@
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
               :disabled="requesting"
+              size="large"
               v-model="physicalAgent.address"
               test-attr="address-physical-agent"
             />
@@ -43,6 +46,7 @@
             <a-textarea
               placeholder="Basic usage"
               :rows="4"
+              size="large"
               v-model="physicalAgent.description"
               :disbled="requesting"
               test-attr="description-physical-agent"

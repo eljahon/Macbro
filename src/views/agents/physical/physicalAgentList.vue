@@ -4,6 +4,19 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
           <a-breadcrumb-item>{{ $t('physicalAgents') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
     <a-card :title="$t('physicalAgents')" class="breadcrumb-row" :bordered="false">
       <router-link slot="extra" to="./create">
@@ -11,28 +24,7 @@
       </router-link>
     </a-card>
 
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
-            <a-form-item style="margin: 0">
-              <a-input
-                test-attr="search-physical-agent"
-                id="inputSearch"
-                :placeholder="$t('search') + '...'"
-                v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                v-debounce="debouncedSearch"
-              />
-            </a-form-item>
-          </a-form>
-        </a-col>
-      </a-row>
-    </a-card>
-
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
 
       <a-table
         :columns="columns"
@@ -42,13 +34,16 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-physical-agent"
+        bordered
       >
         <template slot="action" slot-scope="text, row, index">
-          <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-physical${index}`"/>
-          <router-link :to="`./update/${row.id}`" >
-              <edit-btn :test-attr="`edit-physical${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-physical${index}`"/>
+          <div style="display: flex; justify-content: space-around;">
+          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-physical${index}`"/> -->
+            <router-link :to="`./update/${row.id}`" >
+                <edit-btn :test-attr="`edit-physical${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-physical${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -107,7 +102,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

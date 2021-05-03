@@ -1,56 +1,6 @@
 <template>
   <div>
-    <a-form-model
-      @submit="onSubmit"
-      ref="ruleForm"
-      :model="permission"
-      :rules="rules"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
-      <a-row>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('name')" prop="name">
-            <a-input
-              v-model="permission.name"
-              test-attr="name-permissions"
-            />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="key" :label="$t('key')" prop="key">
-            <a-input
-              v-model="permission.key"
-              test-attr="key-permissions"
-            />
-          </a-form-model-item>
-        </a-col>
-        <!-- <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="role_id" :label="$t('role')" prop="role_id">
-            <a-select id="attrSelect" style="width: 100%" v-model="permission.role_id">
-              <a-select-option v-for="role in roleList" :key="role.id" :value="role.id">
-                {{ role.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col> -->
-        <a-col :span="24" style="padding: 0 15px">
-          <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="permission.description" test-attr="description-permissions"></tinymce>
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="24" style="padding: 0 15px">
-          <a-form-model-item>
-            <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-permissions">
-              {{ $t('save') }}
-            </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-permissions">
-              {{ $t('reset') }}
-            </a-button>
-          </a-form-model-item>
-        </a-col>
-      </a-row>
-    </a-form-model>
+    
   </div>
 </template>
 

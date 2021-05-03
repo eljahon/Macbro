@@ -4,6 +4,19 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
 
     <a-card :title="$t('companies')" class="breadcrumb-row" :bordered="false">
@@ -12,31 +25,10 @@
       </router-link>
     </a-card>
 
-    <a-card :bordered="false">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-company"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        bordered
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="getCompaniesList"
@@ -52,10 +44,12 @@
               <a-button id="buttonPreview" type="default" icon="branches" test-attr="branches-company"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`./update/${row.id}`" :test-attr="`edit-company${index}`" >
-              <edit-btn/>
-          </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-company${index}`"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`./update/${row.id}`" :test-attr="`edit-company${index}`" >
+                <edit-btn/>
+            </router-link>
+            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-company${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -120,7 +114,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

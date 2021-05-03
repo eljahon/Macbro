@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-card :title="bannerPositionId ? $t('update') : $t('fillIn')" :bordered="false">
+  <div style="flex: 1; display: flex; flex-direction: column">
+    <a-card :title="bannerPositionId ? $t('update') : $t('fillIn')" :bordered="false" style="flex: 1">
       <a-row>
         <a-switch
           slot="extra"
@@ -24,6 +24,7 @@
               <a-form-model-item ref="title" :label="$t('title')" prop="title">
                 <a-input
                   v-model="bannerPosition.title"
+                  size="large"
                   test-attr="title-banner-pos"
                 />
               </a-form-model-item>
@@ -31,6 +32,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="slug" :label="$t('url')" prop="slug">
                 <a-input
+                  size="large"
                   :disabled="bannerPositionId"
                   v-model="bannerPosition.slug"
                   test-attr="slug-banner-pos"
@@ -40,6 +42,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="size" :label="$t('size')" prop="size">
                 <a-input
+                  size="large"
                   v-model="bannerPosition.size"
                   test-attr="size-banner-pos"
                 />

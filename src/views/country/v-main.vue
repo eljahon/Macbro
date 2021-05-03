@@ -12,6 +12,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('name')" prop="name">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="form.name"
               test-attr="name-city"
@@ -21,6 +22,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="code" :label="$t('code')" prop="code">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="form.code"
               test-attr="code-city"

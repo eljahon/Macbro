@@ -49,6 +49,10 @@ export function numberToPrice (number) {
   return `${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} сум`
 };
 
+export function numberToDollar (number) {
+  return `$ ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}`
+}
+
 export function isIE () {
   const bw = window.navigator.userAgent
   const compare = (s) => bw.indexOf(s) >= 0

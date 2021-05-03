@@ -14,6 +14,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
+                  size="large"
                   :disabled="requesting"
                   v-model="form.name"
                   test-attr="name-roles"
@@ -23,6 +24,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="key" :label="$t('key')" prop="key">
                 <a-input
+                  size="large"
                   :disabled="requesting"
                   v-model="form.key"
                   test-attr="key-roles"

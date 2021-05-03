@@ -23,6 +23,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
+                  size="large"
                   v-model="page.title"
                   test-attr="title-pages"
                 />
@@ -31,6 +32,7 @@
             <a-col v-if="this.pageSlug" :span="12" style="padding: 0 15px">
               <a-form-model-item ref="url" :label="$t('url')" prop="url">
                 <a-input
+                  size="large"
                   disabled
                   v-model="pageSlug"
                   test-attr="slug-pages"
@@ -69,6 +71,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('meta_title')" prop="meta_title">
                 <a-input
+                  size="large"
                   v-model="page.meta.title"
                   test-attr="meta-title-pages"
                 />
@@ -77,6 +80,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
+                  size="large"
                   v-model="page.meta.description"
                   test-attr="meta-description-pages"
                 />
@@ -85,6 +89,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input
+                  size="large"
                   v-model="page.meta.tags"
                   test-attr="meta-tags-pages"
                 />

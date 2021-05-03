@@ -4,6 +4,19 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('promos') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
     <a-card :title="$t('promos')" class="breadcrumb-row" :bordered="false">
       <router-link to="././create" slot="extra">
@@ -11,37 +24,7 @@
       </router-link>
     </a-card>
 
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row type="flex" align="middle">
-        <a-col :span="12">
-          <span>{{ $t('list') }}</span>
-        </a-col>
-        <a-col :span="12">
-          <a-form layout="horizontal" :form="form" @submit="search" style="float: right">
-            <a-row type="flex">
-              <a-col span="auto">
-                <a-form-item style="margin: 0">
-                  <a-input
-                    test-attr="search-promos"
-                    id="inputSearch"
-                    :placeholder="$t('search') + '...'"
-                    v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                    v-debounce="debouncedSearch"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col span="auto" style="padding-left: 5px">
-                <a-form-item style="margin: 0">
-                  <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-promos">{{ $t('search') }}</a-button>
-                </a-form-item>
-              </a-col>
-            </a-row>
-          </a-form>
-        </a-col>
-      </a-row>
-    </a-card>
-
-    <a-card :bordered="false">
+    <a-card :bordered="false" style="flex: 1">
 
       <a-table
         :columns="columns"
@@ -51,6 +34,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-promos"
+        bordered
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -62,11 +46,13 @@
           <a-tag class="time-tag" color="blue">{{ new Date(time).toLocaleString() }}</a-tag>
         </template>
         <template slot="action" slot-scope="text, row, index">
-          <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-promos${index}`"/>
-          <router-link :to="`./update/${row.slug}`" >
-              <edit-btn :test-attr="`edit-promos${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deletePromos($event, row.slug)" :test-attr="`delete-promos${index}`"/>
+          <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-promos${index}`"/> -->
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`./update/${row.slug}`" >
+                <edit-btn :test-attr="`edit-promos${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deletePromos($event, row.slug)" :test-attr="`delete-promos${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -135,7 +121,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],
