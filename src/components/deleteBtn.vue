@@ -3,6 +3,7 @@
         placement="topRight"
         slot="extra"
         :title="$t('deleteMsg')"
+        @click.native.stop=""
         @confirm="$emit('confirm', arguments[0])"
         :okText="$t('yes')"
         :cancelText="$t('no')"

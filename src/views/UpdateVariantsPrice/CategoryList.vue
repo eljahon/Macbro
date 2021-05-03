@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-        <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('product_variants_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input
@@ -19,6 +19,9 @@
     </breadcrumb-row>
 
     <a-card :title="$t('categories')" class="breadcrumb-row" :bordered="false">
+      <div slot="extra">
+        {{ $t('dollarCurrency') }}: <b>{{ usd }}</b>
+      </div>
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
@@ -102,7 +105,8 @@ export default {
       previewVisible: false,
       selectedCategory: {},
       parentCategory: '',
-      filterParams: {}
+      filterParams: {},
+      usd: ''
     }
   },
   computed: {
@@ -121,23 +125,33 @@ export default {
       .then((res) => console.log('res', res))
       .catch(err => console.error(err))
       .finally(() => (this.loading = false))
+    this.getUSD()
   },
   beforeDestroy () {
   },
   methods: {
     ...mapActions(['getCategories', 'setSearchQuery']),
+    getUSD () {
+      request({
+        url: '/rate/usd',
+        method: 'get'
+      }).then((response) => {
+        console.log(response)
+        this.usd = response.rate.amount
+      })
+    },
     customRowClick (record) {
         return {
             on: {
                 click: (e) => {
                     console.log('Category id', record.id)
-                    this.$router.push(`${this.$route.path}/${record.id}/list`)
+                    this.$router.push(`${this.$route.path}/${record.id}`)
                 }
             }
         }
     },
     onIconClick (record) {
-      this.$router.push(`${this.$route.path}/${record.id}/list`)
+      this.$router.push(`${this.$route.path}/${record.id}`)
     },
     handleTableChange (pagination) {
       this.loading = true
