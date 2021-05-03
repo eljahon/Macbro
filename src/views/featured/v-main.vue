@@ -21,12 +21,12 @@
           <a-row>
             <a-col :span="24" style="padding: 0 15px">
               <a-form-model-item ref="title" :label="$t('title')" prop="title">
-                <a-input v-model="featuredProduct.title" />
+                <a-input size="large" v-model="featuredProduct.title" />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 0 15px">
               <a-form-model-item ref="order" :label="$t('order_no')" prop="order">
-                <a-input-number style="width: 100%" v-model="featuredProduct.order" />
+                <a-input-number size="large" style="width: 100%" v-model="featuredProduct.order" />
               </a-form-model-item>
             </a-col>
             <a-col :span="24" style="padding: 30px 0 15px 15px">
@@ -53,7 +53,7 @@
             <!--  -->
             <a-row>
               <a-col :span="24">
-                <a-input v-debounce="searchFeaturedProducts" :placeholder="$t('search')" />
+                <a-input size="large" v-debounce="searchFeaturedProducts" :placeholder="$t('search')" />
               </a-col>
             </a-row>
             <a-table

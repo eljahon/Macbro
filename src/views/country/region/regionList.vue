@@ -36,12 +36,15 @@
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
+        bordered
       >
         <template slot="action" slot-scope="text, row">
-          <router-link :to="`${$route.path}/region/update/${row.id}`" >
-              <edit-btn/>
-          </router-link>
-          <delete-btn @confirm="deleteCity($event, row.id)"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`${$route.path}/region/update/${row.id}`" >
+                <edit-btn/>
+            </router-link>
+            <delete-btn @confirm="deleteCity($event, row.id)"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -66,7 +69,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

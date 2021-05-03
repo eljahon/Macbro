@@ -12,6 +12,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
+              size="large"
               :disabled="checking || loading"
               v-model="form.name"
               test-attr="name-staff"
@@ -21,6 +22,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="last_name" :label="$t('lastName')" prop="last_name">
             <a-input
+              size="large"
               :disabled="checking || loading"
               v-model="form.last_name"
               test-attr="last_name-staff"
@@ -30,6 +32,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
+              size="large"
               :disabled="checking || loading"
               v-model="form.phone_number"
               test-attr="phone-number-staff"
@@ -39,6 +42,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="password" :label="$t('password')" prop="password">
             <a-input-password
+              size="large"
               :disabled="checking || loading"
               v-model="form.password"
               test-attr="password-staff"
@@ -47,7 +51,15 @@
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="user_type" :label="$t('userType')" prop="user_type">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.user_type" :disabled="checking || loading" test-attr="user-type-staff">
+            <a-select
+              size="large"
+              id="attrSelect"
+              style="width: 100%"
+              v-model="form.user_type"
+              :disabled="checking || loading"
+              test-attr="user-type-staff"
+            >
+              <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
               <a-select-option v-for="type in userTypeList" :key="type.key" :value="type.key">
                 {{ type.name }}
               </a-select-option>
@@ -56,7 +68,15 @@
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="role_id" :label="$t('role')" prop="role_id">
-            <a-select id="attrSelect" style="width: 100%" v-model="form.role_id" :disabled="checking || loading" test-attr="role-staff">
+            <a-select
+              size="large"
+              id="attrSelect"
+              style="width: 100%"
+              v-model="form.role_id"
+              :disabled="checking || loading"
+              test-attr="role-staff"
+            >
+              <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
               <a-select-option v-for="role in roleList" :key="role.id" :value="role.id">
                 {{ role.name }}
               </a-select-option>

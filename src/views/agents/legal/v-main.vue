@@ -12,6 +12,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('firstName')" prop="name">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="legalAgent.name"
               test-attr="name-legal-agent"
@@ -22,6 +23,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="legalAgent.phone_number"
               test-attr="phone_number-legal-agent"
@@ -33,6 +35,7 @@
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
               :disabled="requesting"
+              size="large"
               v-model="legalAgent.address"
               test-attr="address-legal-agent"
             />
@@ -43,6 +46,7 @@
           <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
             <a-input-number
               :disabled="requesting"
+              size="large"
               v-model="legalAgent.account_number"
               test-attr="account_number-legal-agent"
             />
@@ -52,6 +56,7 @@
           <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
             <a-input-number
               :disabled="requesting"
+              size="large"
               v-model="legalAgent.inn"
               test-attr="inn-legal-agent"
             />
@@ -61,6 +66,7 @@
           <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
             <a-input-number
               :disabled="requesting"
+              size="large"
               v-model="legalAgent.mfo"
               test-attr="mfo-legal-agent"
             />
@@ -70,6 +76,7 @@
           <a-form-model-item ref="description" :label="$t('description')" prop="description">
             <a-textarea
               placeholder="Basic usage"
+              size="large"
               :rows="4"
               v-model="legalAgent.description"
               :disbled="requesting"

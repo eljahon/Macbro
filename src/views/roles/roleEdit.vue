@@ -1,17 +1,16 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>
-            <router-link to="/roles/list" test-attr="prev-link-roles">{{ $t('roles') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
-    </a-row>
-    <div v-if="edit">
-      <a-card :title="$t('fillIn')">
+    <breadcrumb-row >
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>
+          <router-link to="/roles/list" test-attr="prev-link-roles">{{ $t('roles') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </breadcrumb-row>
+    <a-card :title="$t(edit ? 'update' : 'fillIn')" :bordered="false"></a-card>
+    <div v-if="edit" style="flex: 1; display: flex">
+      <a-card style="flex: 1" :bordered="false">
         <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
@@ -26,14 +25,14 @@
         <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
       </a-card>
     </div>
-    <div v-else>
-      <a-card :title="$t('fillIn')">
+    <div v-else style="flex: 1; display: flex">
+      <a-card style="flex: 1" :bordered="false">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>
       </a-card>
     </div>
-    <a-row>
+    <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-roles">

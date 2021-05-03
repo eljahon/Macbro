@@ -1,26 +1,34 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('permissions') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>{{ $t('permissions') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div slot="extra">
+        <!-- <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input> -->
+      </div>
+    </breadcrumb-row>
 
-      <a-col :span="12">
-        <router-link to="././create">
-          <a-button
-            style="float: right"
-            shape="round"
-            type="primary link"
-            icon="plus"
-            test-attr="add-permissions"
-          >{{ $t('add') }}</a-button>
-        </router-link>
-      </a-col>
-    </a-row>
-
-    <a-card :title="$t('list')">
+    <a-card :title="$t('list')" :bordered="false" style="flex: 1">
+      <router-link to="././create" slot="extra">
+        <a-button
+          style="float: right"
+          shape="round"
+          type="primary link"
+          icon="plus"
+          test-attr="add-permissions"
+        >{{ $t('add') }}</a-button>
+      </router-link>
       <!-- <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
@@ -56,11 +64,14 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-permissions"
+        bordered
       >
-        <template slot="action" slot-scope="text, row">
-          <router-link :to="'./update/'+row.id">
-            <edit-btn :test-attr="`edit-permissions${index}`"/>
-          </router-link>
+        <template slot="action" slot-scope="text, row, index">
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="'./update/'+row.id">
+              <edit-btn :test-attr="`edit-permissions${index}`"/>
+            </router-link>
+          </div>
           <!-- <delete-btn @confirm="deletePermission($event, row.id)"/> -->
         </template>
       </a-table>
@@ -91,7 +102,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

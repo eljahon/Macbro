@@ -39,6 +39,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-branch"
+        bordered
       >
         <template slot="action" slot-scope="text, row, index">
           <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/> -->
@@ -47,10 +48,12 @@
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`/corporate/update/${row.id}`" >
-              <edit-btn :test-attr="`edit-corporate${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-corporate${index}`"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`/corporate/update/${row.id}`" >
+                <edit-btn :test-attr="`edit-corporate${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-corporate${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -83,7 +86,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

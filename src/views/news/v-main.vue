@@ -24,6 +24,7 @@
               <a-form-model-item ref="url" :label="$t('url')" prop="url">
                 <a-input
                   disabled
+                  size="large"
                   v-model="newsSlug"
                   test-attr="slug-news"
                 />
@@ -32,6 +33,7 @@
             <a-col :span="24" style="padding: 0 15px">
               <a-form-model-item ref="title" :label="$t('news_title')" prop="title">
                 <a-input
+                  size="large"
                   v-model="news.title"
                   test-attr="title-news"
                 />
@@ -122,6 +124,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('meta_title')" prop="meta_title">
                 <a-input
+                  size="large"
                   v-model="news.meta.title"
                   test-attr="meta-title-news"
                 />
@@ -130,6 +133,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
+                  size="large"
                   v-model="news.meta.description"
                   test-attr="meta-description-news"
                 />
@@ -138,6 +142,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input
+                  size="large"
                   v-model="news.meta.tags"
                   test-attr="meta-tags-news"
                 />

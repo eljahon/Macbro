@@ -59,7 +59,7 @@
                 </a-form-model-item>
               </template>
               <template v-else>
-                {{ col === 'price' ? $numberToPrice(record.price) : $numberToPrice(record.old_price) }}
+                {{ col === 'price' ? $numberToDollar(record.price) : $numberToDollar(record.old_price) }}
               </template>
             </div>
           </template>
@@ -122,7 +122,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import request from '@/utils/request'
-import { numberToPrice } from '@/utils/util'
 // function getSelected (productVariants, selectedProductVariant) {
 //   for (let i = 0; i < productVariants.length; i++) {
 //     if (productVariants[i].id === selectedProductVariant) {
@@ -405,9 +404,6 @@ export default {
             })
         }
       })
-    },
-    numberToPrice (num) {
-      return numberToPrice(num)
     }
   }
 }

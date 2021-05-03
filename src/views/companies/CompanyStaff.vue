@@ -14,6 +14,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-branch"
+        bordered
       >
         <template slot="action" slot-scope="text, row, index">
           <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/> -->

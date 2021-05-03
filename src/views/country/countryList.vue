@@ -4,6 +4,19 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('countries') }}</a-breadcrumb-item>
       </a-breadcrumb>
+      <div slot="extra" style="float: right">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
     </breadcrumb-row>
     <a-card class="breadcrumb-row" :title="$t('countries')" :bordered="false">
       <div slot="extra">
@@ -12,35 +25,11 @@
         </router-link>
       </div>
     </a-card>
-    <a-card class="breadcrumb-row" :bordered="false">
-      <a-row>
-        <a-col :span="18">
-          <!-- <div class="time-pickers-row" style="display: flex">
-            <a-space size="middle">
-              <a-date-picker @change="onChange" />
-              <a-tag :color="true ? 'blue' :'null'">Сегодня</a-tag>
-              <a-tag :color="false ? 'blue' :'null'">Вчера</a-tag>
-              <a-tag :color="false ? 'blue' :'null'">Прошлая неделя</a-tag>
-              <a-tag :color="false ? 'blue' :'null'">Прошлый месяц</a-tag>
-              <a-tag :color="false ? 'blue' :'null'">Прошлый год</a-tag>
-            </a-space>
-          </div> -->
-        </a-col>
-        <a-col :lg="6">
-          <a-input
-            test-attr="search-city"
-            id="inputSearch"
-            :placeholder="$t('search') + '...'"
-            v-decorator="['search', { initialValue: this.getSearchQuery }]"
-            v-debounce="debouncedSearch"
-          />
-        </a-col>
-      </a-row>
-    </a-card>
 
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        bordered
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="getCountriesList"
@@ -50,10 +39,12 @@
         test-attr="list-city"
       >
         <template slot="action" slot-scope="text, row, index">
-          <router-link :to="`./update/${row.id}`" >
-              <edit-btn :test-attr="`edit-city${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deleteCity($event, row.id)"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`./update/${row.id}`" >
+                <edit-btn :test-attr="`edit-city${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deleteCity($event, row.id)"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -77,7 +68,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

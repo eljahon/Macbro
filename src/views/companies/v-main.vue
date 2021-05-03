@@ -12,6 +12,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="name" :label="$t('company')" prop="name">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="company.name"
               test-attr="name-company"
@@ -21,6 +22,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
             <a-input-number
+              size="large"
               style="width: 100%"
               :disabled="requesting"
               v-model="company.account_number"
@@ -31,6 +33,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="email" :label="$t('email')" prop="email">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="company.email"
               test-attr="email-company"
@@ -41,6 +44,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="company.phone_number"
               test-attr="phone-number-company"
@@ -51,6 +55,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
             <a-input-number
+              size="large"
               style="width: 100%"
               :disabled="requesting"
               v-model="company.inn"
@@ -62,6 +67,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="address" :label="$t('address')" prop="address">
             <a-input
+              size="large"
               :disabled="requesting"
               v-model="company.address"
               test-attr="address-company"
@@ -72,6 +78,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
             <a-input-number
+              size="large"
               style="width: 100%"
               :disabled="requesting"
               v-model="company.mfo"

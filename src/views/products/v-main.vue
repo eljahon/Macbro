@@ -60,7 +60,9 @@
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
                   test-attr="category-products"
-                />
+                >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                </treeselect>
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
@@ -75,6 +77,7 @@
                   placeholder="brand"
                   test-attr="brand-products"
                 >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                   <a-select-option v-for="brand in brandsSelect" :title="brand.name" :key="brand.id" :value="brand.id">
                     {{ brand.name }}
                   </a-select-option>
@@ -93,7 +96,9 @@
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
                   test-attr="additional-category-products"
-                />
+                >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                </treeselect>
               </a-form-model-item>
             </a-col>
             <a-col :md="24"  :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
@@ -381,6 +386,7 @@
                       @search="onAttributeVariantSeach"
                       :filter-option="false"
                       placeholder="brand">
+                       <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                       <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
                         {{ variant }}
                       </a-select-option>
@@ -398,6 +404,7 @@
                       @popupScroll="onScrollBottom"
                       @change="onVariantProductSelect($event, index)"
                       placeholder="brand">
+                        <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                       <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id" :selected="item.value === variant.id">
                         {{ variant.name }}
                       </a-select-option>

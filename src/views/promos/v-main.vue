@@ -23,6 +23,7 @@
             <a-col :span="12" style="padding: 0 15px">
               <a-form-model-item ref="title" :label="$t('title')" prop="title">
                 <a-input
+                  size="large"
                   v-model="promo.title"
                   test-attr="title-promos"
                 />
@@ -32,6 +33,7 @@
               <a-form-model-item ref="url" :label="$t('url')" prop="url">
                 <a-input
                   disabled
+                  size="large"
                   v-model="promoSlug"
                   test-attr="slug-promos"
                 />
@@ -123,6 +125,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('meta_title')" prop="meta_title">
                 <a-input
+                  size="large"
                   v-model="promo.meta.title"
                   test-attr="meta-title-promos"
                 />
@@ -131,6 +134,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
+                  size="large"
                   v-model="promo.meta.description"
                   test-attr="meta-description-promos"
                 />
@@ -139,6 +143,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input
+                  size="large"
                   v-model="promo.meta.tags"
                   test-attr="meta-tags-promos"
                 />

@@ -1,41 +1,29 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('pages') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>{{ $t('pages') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
+    </breadcrumb-row>
 
-      <a-col :span="12">
+    <a-card :title="$t('list')" :bordered="false" style="flex: 1">
+      <div slot="extra">
         <router-link to="././create">
           <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-pages">{{ $t('add') }}</a-button>
         </router-link>
-      </a-col>
-    </a-row>
-
-    <a-card :title="$t('list')">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-pages"
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col> -->
-          </a-row>
-        </a-form>
       </div>
 
       <a-table
@@ -46,6 +34,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-pages"
+        bordered
       >
         <template slot="image" slot-scope="page">
           <img :src="page.preview_image" alt="preview image">
@@ -57,11 +46,13 @@
           />
         </template>
         <template slot="action" slot-scope="text, row, index">
-          <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-pages${index}`"/>
-          <router-link :to="`./update/${row.slug}`" >
-            <edit-btn :test-attr="`edit-pages${index}`"/>
-          </router-link>
-          <delete-btn @confirm="deletePage($event, row.slug)" :test-attr="`delete-pages${index}`"/>
+          <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-pages${index}`"/> -->
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="`./update/${row.slug}`" >
+              <edit-btn :test-attr="`edit-pages${index}`"/>
+            </router-link>
+            <delete-btn @confirm="deletePage($event, row.slug)" :test-attr="`delete-pages${index}`"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -117,7 +108,7 @@ export default {
         {
           title: this.$t('action'),
           key: 'action',
-          width: '20%',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],

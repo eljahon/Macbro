@@ -26,6 +26,7 @@
       <a-col :lg="12" :md="24" style="margin: 0 0 15px">
         <a-form-model-item :label="$t('importDataFromVariant')">
           <a-select
+                  size="large"
             show-search
             :auto-clear-search-value="false"
             @search="onVarantSearch"
@@ -36,6 +37,7 @@
             test-attr="brand-product-vars"
             style="width: 300px"
           >
+            <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
             <a-select-option v-for="brand in getProductVariantsList" :title="brand.name" :key="brand.id" :value="brand.id">
               {{ brand.name }}
             </a-select-option>
@@ -60,6 +62,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('name')" prop="name">
                 <a-input
+                  size="large"
                   v-model="productVariant.name"
                   test-attr="name-product-vars"
                 />
@@ -69,6 +72,7 @@
               <a-form-model-item ref="url" :label="$t('product_url')" prop="url">
                 <a-input
                   disabled
+                  size="large"
                   v-model="productVariantSlug"
                   test-attr="slug-product-vars"
                 />
@@ -78,6 +82,7 @@
               <a-form-model-item :label="$t('position')" prop="order">
                 <a-input
                   type="number"
+                  size="large"
                   v-model="productVariant.order"
                   test-attr="order-product-vars"
                 />
@@ -86,6 +91,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('brand')" prop="parent_id">
                 <a-select
+                  size="large"
                   show-search
                   :auto-clear-search-value="false"
                   @search="onBrandSearch"
@@ -94,6 +100,7 @@
                   placeholder="brand"
                   test-attr="brand-product-vars"
                 >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                   <a-select-option v-for="brand in brandsSelect" :title="brand.name" :key="brand.id" :value="brand.id">
                     {{ brand.name }}
                   </a-select-option>
@@ -103,11 +110,13 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('state')" prop="state">
                 <a-select
+                  size="large"
                   show-search
                   v-model="productVariant.state"
                   placeholder="state"
                   test-attr="state-product-vars"
                 >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                   <a-select-option v-for="(state, key) of stateList" :key="state" :value="key">
                     {{ state }}
                   </a-select-option>
@@ -117,6 +126,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('bar_code')" prop="bar_code">
                 <a-input
+                  size="large"
                   v-model="productVariant.bar_code"
                   test-attr="bar_code-product-vars"
                 />
@@ -125,6 +135,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
+                  size="large"
                   v-model="productVariant.external_id"
                   test-attr="external-id-product-vars"
                 />
@@ -133,6 +144,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
                 <a-input
+                  size="large"
                   v-model="productVariant.code"
                   test-attr="code-product-vars"
                 />
@@ -235,6 +247,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('product_meta_title')" prop="meta_title">
                 <a-input
+                  size="large"
                   v-model="productVariant.meta.title"
                   test-attr="meta-title-product-vars"
                 />
@@ -243,6 +256,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('product_meta_description')" prop="meta_desc">
                 <a-input
+                  size="large"
                   v-model="productVariant.meta.description"
                   test-attr="meta-description-product-vars"
                 />
@@ -251,6 +265,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('product_meta_tags')" prop="meta_tags">
                 <a-input
+                  size="large"
                   v-model="productVariant.meta.tags"
                   test-attr="meta-tags-product-vars"
                 />
@@ -263,6 +278,7 @@
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
                 <a-input
+                  size="large"
                   v-model="price.price"
                   test-attr="price-price-product-vars"
                 />
@@ -271,6 +287,7 @@
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
                 <a-input
+                  size="large"
                   v-model="price.old_price"
                   test-attr="price-old-product-vars"
                 />
@@ -297,6 +314,7 @@
               <a-col :span="24">
                 <label style="margin-bottom: 5px" for="reviewEdit">{{ $t('comment') }}</label>
                 <a-textarea
+                  size="large"
                   id="reviewEdit"
                   v-model="selectedReview.comment"
                   :auto-size="{ minRows: 2, maxRows: 6 }"
@@ -344,6 +362,7 @@
               <div v-if="property.type === 'text' || property.type === 'number'">
                 <label class="propertyLabel">{{ property.name }}</label>
                 <a-input
+                  size="large"
                   v-debounce="() => debouncedRequest(value, property.id)"
                   :default-value="setDefaultProperty(property.id)"
                 />
@@ -351,10 +370,12 @@
               <div v-if="property.type === 'select'">
                 <label class="propertyLabel">{{ property.name }}</label>
                 <a-select
+                  size="large"
                   @change="handleProperty($event, property.type, property.id)"
                   placeholder="Select an option"
                   :default-value="setDefaultProperty(property.id)"
                 >
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                   <a-select-option
                     v-for="option in property.options"
                     :title="option.name"

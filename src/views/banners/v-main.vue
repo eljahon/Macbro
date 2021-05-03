@@ -21,6 +21,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="title" :label="$t('title')" prop="title">
             <a-input
+              size="large"
               v-model="banner.title"
               test-attr="title-banner"
             />
@@ -29,6 +30,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="url" :label="$t('url')" prop="url">
             <a-input
+              size="large"
               v-model="banner.url"
               test-attr="url-banner"
             />
@@ -37,6 +39,7 @@
         <a-col :span="24" style="padding: 0 15px">
           <a-form-model-item ref="slug" :label="$t('bannerPosition')" prop="slug">
             <a-select
+              size="large"
               show-search
               :auto-clear-search-value="false"
               @search="onBannerPositionSearch"
@@ -46,6 +49,7 @@
               placeholder="Banner"
               test-attr="position-banner"
             >
+              <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
               <a-select-option
                 v-for="option in bannerPos"
                 :title="option.title"

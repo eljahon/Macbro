@@ -630,62 +630,62 @@ export const asyncRouterMap = [
                 redirect: '/adminstrator',
                 meta: { title: 'adminstrators', keepAlive: true, permission: ['directory'] },
                 children: [
-                  {
-                    path: '/admins',
-                    name: 'admins',
-                    component: RouteView,
-                    hideChildrenInMenu: true,
-                    redirect: '/admins/list',
-                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
-                    children: [
-                      {
-                        path: '/admins/list',
-                        name: 'AdminsList',
-                        component: () => import('@/views/admins/AdminsList'),
-                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                      },
-                      {
-                        path: '/admins/create',
-                        name: 'AdminsCreate',
-                        component: () => import('@/views/admins/AdminsCreate'),
-                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                      },
-                      {
-                        path: '/admins/update/:id',
-                        name: 'AdminsUpdate',
-                        component: () => import('@/views/admins/AdminsCreate'),
-                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                      }
-                    ]
-                  },
-                  {
-                    path: '/permissions',
-                    name: 'permissions',
-                    component: RouteView,
-                    hideChildrenInMenu: true,
-                    redirect: '/permissions/list',
-                    meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
-                    children: [
-                      {
-                        path: '/permissions/list',
-                        name: 'PermissionsList',
-                        component: () => import('@/views/permissions/PermissionsList'),
-                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                      },
-                      {
-                        path: '/permissions/create',
-                        name: 'PermissionsCreate',
-                        component: () => import('@/views/permissions/PermissionsCreate'),
-                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                      },
-                      {
-                        path: '/permissions/update/:id',
-                        name: 'PermissionsUpdate',
-                        component: () => import('@/views/permissions/PermissionsCreate'),
-                        meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
-                      }
-                    ]
-                  },
+                  // {
+                  //   path: '/admins',
+                  //   name: 'admins',
+                  //   component: RouteView,
+                  //   hideChildrenInMenu: true,
+                  //   redirect: '/admins/list',
+                  //   meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
+                  //   children: [
+                  //     {
+                  //       path: '/admins/list',
+                  //       name: 'AdminsList',
+                  //       component: () => import('@/views/admins/AdminsList'),
+                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                  //     },
+                  //     {
+                  //       path: '/admins/create',
+                  //       name: 'AdminsCreate',
+                  //       component: () => import('@/views/admins/AdminsCreate'),
+                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                  //     },
+                  //     {
+                  //       path: '/admins/update/:id',
+                  //       name: 'AdminsUpdate',
+                  //       component: () => import('@/views/admins/AdminsCreate'),
+                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                  //     }
+                  //   ]
+                  // },
+                  // {
+                  //   path: '/permissions',
+                  //   name: 'permissions',
+                  //   component: RouteView,
+                  //   hideChildrenInMenu: true,
+                  //   redirect: '/permissions/list',
+                  //   meta: { title: 'permissions', keepAlive: true, permission: ['directory'] },
+                  //   children: [
+                  //     {
+                  //       path: '/permissions/list',
+                  //       name: 'PermissionsList',
+                  //       component: () => import('@/views/permissions/PermissionsList'),
+                  //       meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                  //     },
+                  //     {
+                  //       path: '/permissions/create',
+                  //       name: 'PermissionsCreate',
+                  //       component: () => import('@/views/permissions/PermissionsCreate'),
+                  //       meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                  //     },
+                  //     {
+                  //       path: '/permissions/update/:id',
+                  //       name: 'PermissionsUpdate',
+                  //       component: () => import('@/views/permissions/PermissionsCreate'),
+                  //       meta: { title: 'permissions', keepAlive: true, permission: ['directory'] }
+                  //     }
+                  //   ]
+                  // },
                   {
                     path: '/staff',
                     name: 'staff',
