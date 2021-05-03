@@ -9,7 +9,7 @@
         </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :bordered="false" v-if="edit" class="no-space-tab" >
+    <a-card :bordered="false" v-if="edit" class="no-space-tab" style="flex: 1">
       <a-tabs :activeKey="currentTab" @change="onTabChange">
         <a-tab-pane :tab="$t('information')" :key="1">
           <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
@@ -19,7 +19,7 @@
         </a-tab-pane>
       </a-tabs>
     </a-card>
-    <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
+    <v-main @clickParent="clickParent" ref="createForm" v-else style="flex: 1"></v-main>
     <a-row class="edit-btns" v-if="currentTab === 1">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>

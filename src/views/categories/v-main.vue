@@ -93,17 +93,21 @@
           </a-tab-pane>
           <a-tab-pane key="2" tab="SEO">
             <a-row>
-              <a-col :span="8" style="padding: 0 15px">
+              <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_title')">
                   <a-input size="large" type="text" v-model="category.meta.title" :placeholder="$t('meta_title')" test-attr="meta_title-category"/>
                 </a-form-model-item>
               </a-col>
-              <a-col :span="8" style="padding: 0 15px">
+          </a-row>
+          <a-row>
+              <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_description')">
                   <a-input size="large" type="text" v-model="category.meta.description" :placeholder="$t('meta_description')" test-attr="meta_description-category"/>
                 </a-form-model-item>
               </a-col>
-              <a-col :span="8" style="padding: 0 15px">
+          </a-row>
+          <a-row>
+              <a-col :span="12" style="padding: 0 15px">
                 <a-form-model-item :label="$t('meta_tags')">
                   <a-input size="large" type="text" v-model="category.meta.tags" :placeholder="$t('meta_tags')" test-attr="meta-tags-category"/>
                 </a-form-model-item>
