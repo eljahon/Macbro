@@ -59,7 +59,8 @@ const products = {
             headers: headers,
             params: {
               page: page.current,
-              search: search ? (searchQueryProduct !== '' ? searchQueryProduct : '') : ''
+              search: search ? (searchQueryProduct !== '' ? searchQueryProduct : '') : '',
+              category: payload.category
             }
         })
           .then(result => {

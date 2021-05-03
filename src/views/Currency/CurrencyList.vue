@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-        <a-breadcrumb-item>{{ $t('categories') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('Currency') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input
@@ -18,8 +18,8 @@
       </div>
     </breadcrumb-row>
 
-    <a-card :title="$t('categories')" class="breadcrumb-row" :bordered="false">
-      <router-link to="././create" slot="extra">
+    <a-card :title="$t('Currency')" class="breadcrumb-row" :bordered="false">
+      <router-link :to="`${$route.path}/create`" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-category">{{ $t('add') }}</a-button>
       </router-link>
     </a-card>
@@ -29,7 +29,7 @@
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
-        :dataSource="this.categories"
+        :dataSource="currencyList"
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
@@ -46,58 +46,20 @@
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
           <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-category${index}`"/> -->
-            <router-link :to="'./update/'+row.slug" >
+            <router-link :to="$route.path + row.currency" >
               <edit-btn :test-attr="`edit-category${index}`"/>
             </router-link>
-            <delete-btn @click.native.stop="" @confirm="deleteCategory($event, row.slug)" :test-attr="`delete-category${index}`"/>
+            <delete-btn @click.native.stop="" @confirm="deleteCategory($event, row.id)" :test-attr="`delete-category${index}`"/>
           </div>
         </template>
       </a-table>
     </a-card>
-    <a-modal v-model="previewVisible" width="800px" :title="$t('previewBranch')">
-      <a-descriptions layout="vertical" bordered>
-        <a-descriptions-item :label="$t('category_name')">
-          {{ selectedCategory.name }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('description')">
-          <div v-html="selectedCategory.description"></div>
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('parentCategory')">
-          {{ parentCategory ? parentCategory : 'None' }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('productPicture')">
-          <img class="category-img" :src="selectedCategory.image"/>
-        </a-descriptions-item>
-      </a-descriptions>
-      <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-preview-category">
-          {{ $t('cancel') }}
-        </a-button>
-      </template>
-    </a-modal>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import request from '@/utils/request'
-// function getCate (categories) {
-//       if (categories) {
-//         return categories.map((c) => {
-//         if (!c.child_categories) {
-//             return {
-//                 ...c,
-//                 children: c.child_categories
-//             }
-//         } else {
-//               return {
-//                   ...c,
-//                   children: getCate(c.child_categories)
-//               }
-//         }
-//       })
-//       }
-//     }
 export default {
   data () {
     return {
@@ -106,13 +68,12 @@ export default {
       loading: true,
       columns: [
         {
-          title: this.$t('category_name'),
-          dataIndex: 'name'
+          title: this.$t('name'),
+          dataIndex: 'currency'
         },
         {
-          title: this.$t('status'),
-          dataIndex: 'active',
-          scopedSlots: { customRender: 'status' }
+          title: this.$t('Currency'),
+          dataIndex: 'amount'
         },
         {
           title: this.$t('action'),
@@ -122,28 +83,22 @@ export default {
         }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
-      previewVisible: false,
-      selectedCategory: {},
-      parentCategory: '',
       filterParams: {}
     }
   },
   computed: {
-    ...mapGetters(['categories', 'paginationCategories', 'searchQuery']),
+    ...mapGetters(['currencyList', 'paginationCurrency', 'searchQuery']),
     getPagination () {
-      return this.paginationCategories
+      return this.paginationCurrency
     },
     getSearchQuery () {
       return this.searchQuery
     }
-    // getAllCategories () {
-    //   return getCate(this.categories)
-    // }
   },
   mounted () {
     this.setSearchQuery('')
-    console.log('this.categories', this.categories)
-    this.getCategories({ page: this.paginationCategories })
+    console.log('this.currencyList', this.currencyList)
+    this.getCurrencyList({ page: this.getPagination })
       .then((res) => console.log('res', res))
       .catch(err => console.error(err))
       .finally(() => (this.loading = false))
@@ -151,61 +106,45 @@ export default {
   beforeDestroy () {
   },
   methods: {
-    ...mapActions(['getCategories', 'setSearchQuery']),
+    ...mapActions(['getCurrencyList', 'setSearchQuery']),
     customRowClick (record) {
       return {
         on: {
           click: (event) => {
-            this.$router.push(`/catalog/categories/update/${record.slug}`)
+            this.$router.push(`/currency/list/${record.currency}`)
           }
         }
       }
     },
     handleTableChange (pagination) {
       this.loading = true
-      this.getCategories({ page: pagination, search: true })
+      this.getCurrencyList({ page: pagination, search: true })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
     },
-    showPreviewModal (categorySlug) {
-      this.getSelectedCategory(categorySlug)
-      this.previewVisible = true
-    },
-    getSelectedCategory (selectedCategory) {
-      request({
-        url: '/category/' + selectedCategory,
-        method: 'get'
-      }).then((response) => {
-        console.log(response)
-        this.selectedCategory = response.category
-      })
-    },
-    handleCancel () {
-      this.previewVisible = false
-    },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCategories()
+      this.getCurrencyList()
           .then(res => console.log('res', res))
           .catch(err => console.error('err', err))
           .finally(() => (this.loading = false))
       console.log('debounce')
     },
     deleteCategory (e, slug) {
-      this.loading = true
+        this.loading = true
       request({
-        url: `/category/${slug}`,
+          url: `/rate/${slug}`,
         method: 'delete'
       })
       .then(res => {
-        console.log(res)
+          console.log(res)
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCategories({ page: this.paginationCategories })
+        this.getCurrencyList({ page: this.paginationCurrency })
       })
       .catch(err => {
-        this.$message.error('error')
+          this.$message.error('error')
         console.error(err)
       })
       .finally(() => (this.loading = false))
@@ -216,7 +155,7 @@ export default {
         if (!err) {
           this.loading = true
           this.filterParams = values
-          this.getCategories()
+          this.getCurrencyList()
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

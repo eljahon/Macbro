@@ -91,13 +91,19 @@ export const asyncRouterMap = [
             path: '/price-list/category',
             name: 'productVariantPricesCategory',
             component: () => import('@/views/UpdateVariantsPrice/CategoryList'),
-            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
+            meta: { title: 'product_variants_list', keepAlive: true, permission: ['directory'] }
           },
           {
-            path: '/price-list/category/:id/list',
+            path: '/price-list/category/:id/',
             name: 'productVariantPricesList',
+            component: () => import('@/views/UpdateVariantsPrice/ProductList'),
+            meta: { title: 'product_variants_list', keepAlive: true, permission: ['directory'] }
+          },
+          {
+            path: '/price-list/category/:id/:product_id',
+            name: 'productProductVariantPricesList',
             component: () => import('@/views/UpdateVariantsPrice/VariantPrices'),
-            meta: { title: 'product_variants_l', keepAlive: true, permission: ['directory'] }
+            meta: { title: 'product_variants_list', keepAlive: true, permission: ['directory'] }
           }
         ]
       },
@@ -216,6 +222,35 @@ export const asyncRouterMap = [
         component: RouteView,
         meta: { title: 'directory', icon: myIcons.directory, permission: ['directory'] },
         children: [
+          {
+            path: '/currency',
+            redirect: '/currency/list',
+            name: 'Currency',
+            hideChildrenInMenu: true,
+            component: RouteView,
+            meta: { title: 'Currency', keepAlive: true, permission: ['directory'] },
+            children: [
+              {
+                path: '/currency/list',
+                name: 'CurrencyList',
+                props: true,
+                component: () => import('@/views/Currency/CurrencyList'),
+                meta: { title: 'Currency', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/currency/list/create',
+                name: 'currencyCreate',
+                component: () => import('@/views/Currency/Currency.vue'),
+                meta: { title: 'Currency', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/currency/list/:id',
+                name: 'currencyDetail',
+                component: () => import('@/views/Currency/Currency.vue'),
+                meta: { title: 'Currency', keepAlive: true, permission: ['directory'] }
+              }
+            ]
+          },
           {
             path: '/catalog',
             redirect: '/catalog/categories',

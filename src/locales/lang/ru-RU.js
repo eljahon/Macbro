@@ -390,7 +390,9 @@ const locale = {
   importDataFromVariant: 'Импортировать данные из существующего варианта продукта',
   newPriceInput: 'Новая цена (инпут)',
   currentPrice: 'Текущая цена',
-  back: 'Назад'
+  back: 'Назад',
+  Currency: 'Валюта',
+  dollarCurrency: 'Курс доллара'
 }
 
 export default {

@@ -2,9 +2,15 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>
+          <router-link to="/price-list/category" test-attr="prev-link-brand">{{ $t('categories') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <router-link :to="`/price-list/category/${$route.params.id}`" test-attr="prev-link-brand">{{ $t('products') }}</router-link>
+        </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('product_variants_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style="float: right">
+      <!-- <div slot="extra" style="float: right">
         <a-input
           style="float: right; width: 200px"
           test-attr="search-order"
@@ -16,11 +22,14 @@
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
         </a-input>
-      </div>
+      </div> -->
     </breadcrumb-row>
 
     <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false"  style="flex: 1">
 
+      <div slot="extra">
+        {{ $t('dollarCurrency') }}: <b>{{ usd }}</b>
+      </div>
       <a-form-model
         ref="productRuleForm"
         :model="editingKey !== '' ? items[editingKey] : {}"
@@ -32,7 +41,6 @@
           :columns="columns"
           :rowKey="record => record.slug"
           :dataSource="items"
-          :pagination="getPagination"
           :loading="loading"
           @change="handleTableChange"
           test-attr="list-product-vars"
@@ -115,16 +123,17 @@
 import { mapActions, mapGetters } from 'vuex'
 import request from '@/utils/request'
 import { numberToPrice } from '@/utils/util'
-function getSelected (productVariants, selectedProductVariant) {
-  for (let i = 0; i < productVariants.length; i++) {
-    if (productVariants[i].id === selectedProductVariant) {
-      return productVariants[i]
-    }
-  }
-}
+// function getSelected (productVariants, selectedProductVariant) {
+//   for (let i = 0; i < productVariants.length; i++) {
+//     if (productVariants[i].id === selectedProductVariant) {
+//       return productVariants[i]
+//     }
+//   }
+// }
 export default {
   data () {
     return {
+      productSlug: this.$route.params.product_id,
       items: [],
       cacheData: [],
       updatePricesForm: {
@@ -171,7 +180,8 @@ export default {
       updateVisible: false,
       filterParams: {},
       page: { current: 1, pageSize: 10, total: 45 },
-      Interval: null
+      Interval: null,
+      usd: ''
     }
   },
   computed: {
@@ -184,23 +194,61 @@ export default {
     }
   },
   mounted () {
-    this.setSearchQuery()
-    this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id })
-      .then(() => {
-        this.ArrangeItemsList()
-        console.log('this.productVariantsData', this.productVariantsData)
-      })
-      .catch(err => {
-        this.$message.error(this.$t('error'))
-        console.error(err)
-      })
-      .finally(() => (this.loading = false))
+    // this.setSearchQuery()
+    // this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id })
+    //   .then(() => {
+    //     this.ArrangeItemsList()
+    //     console.log('this.productVariantsData', this.productVariantsData)
+    //   })
+    //   .catch(err => {
+    //     this.$message.error(this.$t('error'))
+    //     console.error(err)
+    //   })
+    //   .finally(() => (this.loading = false))
+    this.getProductWithVariants()
+    this.getUSD()
   },
   beforeDestroy () {
     this.setSearchQuery('')
   },
   methods: {
     ...mapActions(['getProductVariants', 'setSearchQuery']),
+    getUSD () {
+      request({
+        url: '/rate/usd',
+        method: 'get'
+      }).then((response) => {
+        console.log(response)
+        this.usd = response.rate.amount
+      })
+    },
+    getProductWithVariants () {
+      this.loading = true
+      request({
+        url: `/product/${this.productSlug}`,
+        method: 'get',
+        params: {
+          lang: this.lang,
+          onlyRelatedProducts: true
+        }
+      }).then((response) => {
+        const { product } = response
+        console.log('response', response)
+        // this.product.variants = product.variants && product.variants.map(item => {
+        //   return { name: item.name, value: item.value.id, valueName: item.value.name }
+        // }) || []
+        this.productVariants = product.variants.map(item => {
+          return item.value
+        }) || []
+        this.ArrangeItemsList()
+        // console.log('response', response)
+      }).then((data) => {
+          console.log('data', data)
+      }).catch((err) => console.error(err))
+      .finally(() => {
+        this.loading = false
+      })
+    },
     updateAllPrices () {
       const headers = {
         'Content-Type': 'application/json'
@@ -221,14 +269,15 @@ export default {
         headers: headers
       })
         .then(() => {
+          this.getProductWithVariants()
           this.ArrangeItemsList()
         })
         .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
     },
     ArrangeItemsList () {
-      if (this.productVariantsData) {
-        this.items = this.productVariantsData.map(item => {
+      if (this.productVariants) {
+        this.items = this.productVariants.map(item => {
           return {
             slug: item.slug,
             name: item.name,
@@ -240,7 +289,7 @@ export default {
         this.items = []
       }
       this.cacheData = JSON.parse(JSON.stringify(this.items))
-      this.updatePricesForm.item_new_prices = this.productVariantsData && this.productVariantsData.map(item => {
+      this.updatePricesForm.item_new_prices = this.productVariants && this.productVariants.map(item => {
         return {
           'old_price': +item.price.old_price,
           'price': +item.price.price,
@@ -325,20 +374,6 @@ export default {
         .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
     },
-    getSelectedProductVariant (selectedProductVariant) {
-      this.selectedProductVariant = getSelected(this.productVariantsData, selectedProductVariant)
-    },
-    showPreviewModal (productVariantId) {
-      this.getSelectedProductVariant(productVariantId)
-      this.previewVisible = true
-      console.log('selected', this.selectedProductVariant)
-    },
-    handleCancel () {
-      this.previewVisible = false
-    },
-    handleCloseModal () {
-      this.selectedProductVariant = null
-    },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
@@ -350,45 +385,6 @@ export default {
         .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
       console.log('debounce')
-    },
-    deleteProductVariant (e, slug) {
-      console.log('slug', slug)
-      this.loading = true
-      request({
-        url: '/product-variant/' + slug,
-        method: 'delete'
-      })
-        .then(res => {
-          console.log(res)
-          this.$message.success(this.$t('successfullyDeleted'))
-          this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id }).then(() => {
-            this.ArrangeItemsList()
-            this.productVariants = []
-            if (this.productVariantsPaginationCurrent.total - this.productVariantsPaginationCurrent.current * 10 > 0) {
-              for (let i = 0; i < 10; i++) {
-                this.productVariants.push(
-                  this.productVariantsData[i + (this.productVariantsPaginationCurrent.current - 1) * 10]
-                )
-              }
-              this.productVariantsthis.productVariantsPaginationCurrentCurrent = this.productVariantsPaginationCurrent
-            } else {
-              var size =
-                this.productVariantsPaginationCurrent.total - (this.productVariantsPaginationCurrent.current - 1) * 10
-              console.log(size)
-              for (let i = 0; i < size; i++) {
-                this.productVariants.push(
-                  this.productVariantsData[i + (this.productVariantsPaginationCurrent.current - 1) * 10]
-                )
-              }
-              this.productVariantsPaginationCurrent = this.productVariantsPagination
-            }
-          })
-          this.handleTableChange(this.productVariantsPaginationCurrent)
-        })
-        .catch(err => {
-          this.$message.error(err)
-        })
-        .finally(() => (this.loading = false))
     },
     search (e) {
       e.preventDefault()

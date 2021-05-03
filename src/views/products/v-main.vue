@@ -22,6 +22,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="name" :label="$t('product_name')" prop="name">
                 <a-input
+                  size="large"
                   v-model="product.name"
                   test-attr="name-products"
                 />
@@ -30,6 +31,7 @@
             <a-col v-if="this.productSlug" :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="url" :label="$t('product_url')" prop="url">
                 <a-input
+                  size="large"
                   disabled
                   v-model="productSlug"
                   test-attr="slug-products"
@@ -39,6 +41,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('position')" prop="order">
                 <a-input
+                  size="large"
                   type="number"
                   v-model="product.order"
                   test-attr="order-products"
@@ -48,6 +51,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('categories')">
                 <treeselect
+                  size="large"
                   id="selectCategory"
                   v-model="product.category_id"
                   :multiple="false"
@@ -62,6 +66,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('brand')" prop="parent_id">
                 <a-select
+                  size="large"
                   show-search
                   :auto-clear-search-value="false"
                   @search="onBrandSearch"
@@ -79,6 +84,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('additional_categories')">
                 <treeselect
+                  size="large"
                   id="selectCategory"
                   v-model="product.additional_categories"
                   :multiple="true"
@@ -93,6 +99,7 @@
             <a-col :md="24"  :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
+                  size="large"
                   v-model="product.external_id"
                   test-attr="external-id-products"
                 />
@@ -101,6 +108,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
                 <a-input
+                  size="large"
                   v-model="product.code"
                   test-attr="code-products"
                 />
@@ -168,6 +176,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('product_meta_title')" prop="meta_title">
                 <a-input
+                  size="large"
                   v-model="product.meta.title"
                 />
               </a-form-model-item>
@@ -175,6 +184,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('product_meta_description')" prop="meta_desc">
                 <a-input
+                  size="large"
                   v-model="product.meta.description"
                 />
               </a-form-model-item>
@@ -182,6 +192,7 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('product_meta_tags')" prop="meta_tags">
                 <a-input
+                  size="large"
                   v-model="product.meta.tags"
                 />
               </a-form-model-item>
@@ -245,6 +256,7 @@
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
                 <a-input
+                  size="large"
                   v-model="price.price"
                 />
               </a-form-model-item>
@@ -252,6 +264,7 @@
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
                 <a-input
+                  size="large"
                   v-model="price.old_price"
                 />
               </a-form-model-item>
@@ -288,6 +301,7 @@
               <div v-if="property.type === 'text' || property.type === 'number'">
                 <div class="propertyLabel">{{ property.name }}</div>
                 <a-input
+                  size="large"
                   v-debounce="() => debouncedRequest(value, property.id)"
                   :default-value="setDefaultProperty(property.id)"
                 />
@@ -295,6 +309,7 @@
               <div v-if="property.type === 'select'">
                 <div class="propertyLabel">{{ property.name }}</div>
                 <a-select
+                  size="large"
                   @change="handleProperty($event, property.type, property.id)"
                   placeholder="Select an option"
                   :default-value="setDefaultProperty(property.id)"
