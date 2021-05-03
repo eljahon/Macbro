@@ -78,7 +78,7 @@
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('images')">
           <a-row>
-            <a-col :span="24" :style="{ minHeight: '180px', padding: '0 15px' }">
+            <a-col :span="12" :style="{ minHeight: '180px', padding: '0 15px' }">
               <a-form-item :label="$t('uploadImage')">
                 <a-upload
                   :custom-request="uploadImage"
@@ -88,7 +88,7 @@
                   :before-upload="beforeUpload"
                   test-attr="image-promos"
                 >
-                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-width: 100%"/>
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
                     <div class="ant-upload-text">
@@ -98,7 +98,9 @@
                 </a-upload>
               </a-form-item>
             </a-col>
-            <a-col :span="24" :style="{ minHeight: '180px', padding: '0 15px' }">
+          </a-row>
+          <a-row>
+            <a-col :span="12" :style="{ minHeight: '180px', padding: '0 15px' }">
               <a-form-item :label="$t('uploadPreviewImage')">
                 <a-upload
                   :custom-request="uploadPreviewImage"
@@ -108,7 +110,7 @@
                   :before-upload="beforeUpload"
                   test-attr="prev-image-promos"
                 >
-                  <img v-if="previewImageUrl" :src="previewImageUrl" alt="avatar" />
+                  <img v-if="previewImageUrl" :src="previewImageUrl" alt="avatar" style="max-width: 100%"/>
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
                     <div class="ant-upload-text">
@@ -131,6 +133,8 @@
                 />
               </a-form-model-item>
             </a-col>
+          </a-row>
+          <a-row>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('meta_description')" prop="meta_desc">
                 <a-input
@@ -140,6 +144,8 @@
                 />
               </a-form-model-item>
             </a-col>
+          </a-row>
+          <a-row>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('meta_tags')" prop="meta_tags">
                 <a-input

@@ -244,7 +244,7 @@
         </a-tab-pane>
         <a-tab-pane key="3" tab="SEO">
           <a-row>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
+            <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="meta_title" :label="$t('product_meta_title')" prop="meta_title">
                 <a-input
                   size="large"
@@ -253,7 +253,9 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
+          </a-row>
+          <a-row>
+            <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="meta_desc" :label="$t('product_meta_description')" prop="meta_desc">
                 <a-input
                   size="large"
@@ -262,7 +264,9 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
+          </a-row>
+          <a-row>
+            <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="meta_tags" :label="$t('product_meta_tags')" prop="meta_tags">
                 <a-input
                   size="large"
