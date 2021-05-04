@@ -12,18 +12,34 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :bordered="false" v-if="edit" class="no-space-tab"  style="flex: 1">
-      <!-- <a-tabs v-model="activeTabKey">
-        <a-tab-pane :key="1" :tab="$t('information')"> -->
-          <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
-        <!-- </a-tab-pane>
+    <a-card :bordered="false" :title="edit ? $t('information') : $t('fillIn')">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteWarehouse"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
+    <v-main @clickParent="clickParent" style="flex: 1" v-if="edit" :ref="`EditForm`"></v-main>
+    <!-- <a-card :bordered="false" class="no-space-tab" >
+      <a-tabs v-model="activeTabKey">
+        <a-tab-pane :key="1" :tab="$t('information')">
+        </a-tab-pane>
 
         <a-tab-pane :key="2" :tab="$t('prixod')">
           <inventory-item />
         </a-tab-pane>
-      </a-tabs> -->
-    </a-card>
-    <v-main v-else @clickParent="clickParent" ref="createForm"></v-main>
+      </a-tabs>
+    </a-card> -->
+    <v-main v-else @clickParent="clickParent" style="flex: 1" ref="createForm"></v-main>
     <a-row class="edit-btns" v-if="activeTabKey === 1">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
@@ -48,6 +64,7 @@
 import vMain from './v-main'
 import InventoryItem from './inventoryitem/InventoryItemList'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import request from '@/utils/request'
 
 export default {
   data () {
@@ -68,6 +85,23 @@ export default {
   methods: {
     langMapper,
     flagMapper,
+    deleteWarehouse (e) {
+      this.loading = true
+      request({
+        url: `/warehouse/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+        // this.getCompanyWarehouse({ page: this.companyWarehousePagination, company_id: this.$route.params.id })
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     clickParent (e) {
       this.btnLoading = e
     },

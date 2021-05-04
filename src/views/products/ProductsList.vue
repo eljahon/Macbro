@@ -35,6 +35,7 @@
         @change="handleTableChange"
         test-attr="list-products"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="tag" slot-scope="id">
           <a-tag color="red">{{ id }}</a-tag>
@@ -149,13 +150,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'active',
           scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -190,6 +191,16 @@ export default {
   },
   methods: {
     ...mapActions(['getProducts', 'getCategories', 'setSearchQueryProduct']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            console.log('ID', record.id)
+            this.$router.push(`/catalog/products/update/${record.slug}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       console.log(pagination)
       this.loading = true

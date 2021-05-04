@@ -35,6 +35,7 @@
         @change="handleTableChange"
         test-attr="list-legal-agent"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-legal${index}`"/>
@@ -96,13 +97,13 @@ export default {
         {
           title: this.$t('address'),
           dataIndex: 'address'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -134,6 +135,15 @@ export default {
   },
   methods: {
     ...mapActions(['getLegalAgents', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`/agents/legal/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getLegalAgents({ page: pagination, search: true })

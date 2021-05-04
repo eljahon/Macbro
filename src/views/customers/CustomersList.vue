@@ -144,13 +144,13 @@ export default {
         {
           title: this.$t('phone'),
           dataIndex: 'phone_number'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: 120,
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: 120,
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,

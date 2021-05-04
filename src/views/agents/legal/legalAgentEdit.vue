@@ -8,8 +8,24 @@
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
+    <a-card :title="edit ? $t('information') : $t('fillIn')" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteCompany"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
     <div v-if="edit" style="flex: 1;display: flex;">
-      <a-card :title="$t('update')" :bordered="false" style="flex: 1">
+      <a-card :bordered="false" style="flex: 1">
         <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">
@@ -25,7 +41,7 @@
       </a-card>
     </div>
     <div v-else style="flex: 1;display: flex">
-      <a-card :title="$t('fillIn')" :bordered="false" style="flex: 1">
+      <a-card :bordered="false" style="flex: 1">
         <a-row>
           <v-main @clickParent="clickParent" ref="createForm"></v-main>
         </a-row>
@@ -48,6 +64,7 @@
 <script>
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import request from '@/utils/request'
 export default {
   data () {
     return {
@@ -66,6 +83,22 @@ export default {
   methods: {
     langMapper,
     flagMapper,
+    deleteCompany (e) {
+      this.loading = true
+      request({
+        url: `/legal-counter-agent/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.getLegalAgents({ page: this.legalAgentsPagination })
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     clickParent (e) {
       this.btnLoading = e
     },

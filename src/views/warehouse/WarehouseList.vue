@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-        <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('warehouse') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input
@@ -10,7 +10,6 @@
           test-attr="search-order"
           id="inputSearch"
           :placeholder="$t('search') + '...'"
-          :value="getSearchQuery"
           v-decorator="['search', { initialValue: getSearchQuery }]"
           v-debounce="debouncedSearch"
         >
@@ -19,74 +18,41 @@
       </div>
     </breadcrumb-row>
 
-    <a-card :title="$t('companies')" class="breadcrumb-row" :bordered="false">
-      <router-link to="././create" slot="extra">
-        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-company">{{ $t('add') }}</a-button>
+    <a-card :title="$t('warehouse')" class="breadcrumb-row" :bordered="false">
+      <router-link :to="`${ $route.path }/create`" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-warehouse">{{ $t('add') }}</a-button>
       </router-link>
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
-        bordered
         :columns="columns"
         :rowKey="record => record.id"
-        :dataSource="getCompaniesList"
+        :dataSource="getCompanyBranchesList"
         :pagination="getPagination"
         :loading="loading"
         @change="handleTableChange"
-        test-attr="list-company"
+        test-attr="list-warehouse"
+        bordered
         :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-company"/> -->
+          <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-branch"/> -->
           <!-- <router-link :to="`./${row.id}/branches/list`" >
             <a-tooltip><template slot="title">{{ $t('branches') }}</template>
-              <a-button id="buttonPreview" type="default" icon="branches" test-attr="branches-company"></a-button>
+              <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
           <div style="display: flex; justify-content: space-around;">
-            <router-link :to="`./update/${row.id}`" :test-attr="`edit-company${index}`" >
-                <edit-btn/>
+            <router-link :to="`${$route.path}/update/${row.id}`">
+                <edit-btn :test-attr="`edit-warehouse${index}`"/>
             </router-link>
-            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-company${index}`"/>
+            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
           </div>
         </template>
       </a-table>
     </a-card>
-    <a-modal
-      @cancel="handleCloseModal"
-      v-if="selectedCompany"
-      v-model="previewVisible"
-      width="800px"
-      :title="$t('previewCompany')"
-    >
-      <a-descriptions layout="vertical" bordered>
-        <a-descriptions-item :label="$t('shops_name')">
-          {{ selectedCompany.name }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('phone_number')">
-          {{ selectedCompany.phone_number }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('description')">
-          {{ selectedCompany.description }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('address')">
-          {{ selectedCompany.address }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('email')">
-          {{ selectedCompany.email }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('inn')">
-          {{ selectedCompany.inn }}
-        </a-descriptions-item>
-      </a-descriptions>
-      <template slot="footer">
-        <a-button id="buttonCancel" key="back" @click="handleCancel" test-attr="cancel-preview-company">
-          {{ $t('cancel') }}
-        </a-button>
-      </template>
-    </a-modal>
   </div>
 </template>
 
@@ -98,15 +64,12 @@ export default {
     return {
       value: '',
       data: [],
+      companyId: this.$route.params.company_id,
       loading: true,
       columns: [
         {
           title: this.$t('company_name'),
           dataIndex: 'name'
-        },
-        {
-          title: this.$t('phone_number'),
-          dataIndex: 'phone_number'
         },
         {
           title: this.$t('address'),
@@ -115,7 +78,7 @@ export default {
         // {
         //   title: this.$t('action'),
         //   key: 'action',
-        //   width: '120px',
+        //   width: '120',
         //   scopedSlots: { customRender: 'action' }
         // }
       ],
@@ -126,21 +89,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companiesList', 'companiesPagination', 'searchQuery']),
+    ...mapGetters(['companyWarehouseList', 'companyWarehousePagination', 'searchQuery']),
     getPagination () {
-      return this.companiesPagination
+      return this.companyWarehousePagination
     },
-    getCompaniesList () {
-      return this.companiesList
+    getCompanyBranchesList () {
+      return this.companyWarehouseList
     },
     getSearchQuery () {
       return this.searchQuery
     }
   },
   mounted () {
-    this.setSearchQuery()
-    this.getCompanies({ page: this.companiesPagination })
-      .then(() => (console.log('companies')))
+      this.setSearchQuery()
+    this.getCompanyWarehouse({ page: this.companyWarehousePagination, company_id: this.$route.params.id })
+      .then(() => (console.log('companybranches')))
       .catch(error => {
         this.requestFailed(error)
         console.error(error)
@@ -148,31 +111,30 @@ export default {
       .finally(() => (this.loading = false))
   },
   methods: {
-    ...mapActions(['getCompanies', 'setSearchQuery']),
+    ...mapActions(['getCompanyWarehouse', 'setSearchQuery']),
     customRowClick (record) {
       return {
         on: {
           click: (event) => {
-            console.log('ID', record.id)
-            this.$router.push(`./update/${record.id}`)
+            this.$router.push(`${this.$route.path}/update/${record.id}`)
           }
         }
       }
     },
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanies({ page: pagination, search: true })
+      this.getCompanyWarehouse({ page: pagination, search: true, company_id: this.$route.params.id })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
     },
     showPreviewModal (companyId) {
-      this.getselectedShop(companyId)
+      this.getselectedBranch(companyId)
       this.previewVisible = true
     },
-    getselectedShop (companyId) {
+    getselectedBranch (companyId) {
       request({
-        url: `/company/${companyId}`,
+        url: `/branch/${companyId}`,
         method: 'get'
       }).then((response) => {
         console.log(response)
@@ -188,7 +150,7 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCompanies()
+      this.getCompanyWarehouse({ company_id: this.$route.params.id })
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -198,12 +160,12 @@ export default {
     deleteCompany (e, slug) {
       this.loading = true
       request({
-        url: `/company/${slug}`,
+        url: `/warehouse/${slug}`,
         method: 'delete'
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanies({ page: this.companiesPagination })
+        this.getCompanyWarehouse({ page: this.companyWarehousePagination, company_id: this.$route.params.id })
       })
       .catch(err => {
         this.$message.error(err)
@@ -217,7 +179,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getCompanies()
+          this.getCompanyWarehouse({ company_id: this.$route.params.id })
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

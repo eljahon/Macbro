@@ -9,7 +9,22 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="edit ? $t('update') : $t('fillIn')" :bordered="false"></a-card>
+    <a-card :title="edit ? $t('update') : $t('fillIn')" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteBrand"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
 
   <a-card :bordered="false">
     <a-row>
@@ -160,6 +175,23 @@ export default {
     console.log(this.brandId)
   },
   methods: {
+    deleteBrand (e) {
+      this.loading = true
+      request({
+        url: `/brand/${this.brandId}`,
+        method: 'delete'
+      })
+      .then(res => {
+        console.log(res)
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+      })
+      .catch(err => {
+        console.error(err)
+        this.$message.error(this.$t('error'))
+      })
+      .finally(() => (this.loading = false))
+    },
     getBrandAttrs () {
       request({
         url: `/brand/${this.brandId}`,

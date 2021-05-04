@@ -7,7 +7,7 @@
     </a-card>
 
     <a-card :bordered="false">
-      <div slot="extra">
+      <!-- <div slot="extra">
         <a-form layout="horizontal" :form="form" @submit="search">
           <a-row>
             <a-col :span="24" style="padding: 5px">
@@ -20,14 +20,14 @@
                 />
               </a-form-item>
             </a-col>
-            <!-- <a-col :span="12" style="padding: 5px">
+            <a-col :span="12" style="padding: 5px">
               <a-form-item style="margin: 0">
                 <a-button id="buttonSearch" type="default" html-type="submit" icon="search">{{ $t('search') }}</a-button>
               </a-form-item>
-            </a-col> -->
+            </a-col>
           </a-row>
         </a-form>
-      </div>
+      </div> -->
 
       <a-table
         :columns="columns"
@@ -37,6 +37,7 @@
         :loading="loading"
         @change="handleTableChange"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row">
           <div style="display: flex; justify-content: space-around;">
@@ -65,13 +66,13 @@ export default {
         {
           title: this.$t('name'),
           dataIndex: 'name'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       selectedAgent: null,
@@ -102,6 +103,16 @@ export default {
   },
   methods: {
     ...mapActions(['getCities', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            console.log('ID', record.id)
+            this.$router.push(`${this.$route.path}/region/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCities({ page: pagination, search: true, country_id: this.countryId })

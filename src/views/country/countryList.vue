@@ -37,6 +37,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-city"
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
@@ -64,13 +65,13 @@ export default {
         {
           title: this.$t('name'),
           dataIndex: 'name'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       selectedAgent: null,
@@ -101,6 +102,16 @@ export default {
   },
   methods: {
     ...mapActions(['getCountries', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            console.log('ID', record.id)
+            this.$router.push(`/country/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCountries({ page: pagination, search: true })

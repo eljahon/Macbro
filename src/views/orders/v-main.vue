@@ -122,6 +122,17 @@
                 </a-form-model-item>
               </a-col>
               <a-col :span="12" style="padding: 0 15px 0 0">
+                <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
+                  <a-input
+                    size="large"
+                    v-model="order.note"
+                    test-attr="note-order"
+                  />
+                </a-form-model-item>
+              </a-col>
+              </a-row>
+              <a-row>
+              <a-col :span="12" style="padding: 0 15px 0 0">
                 <a-form-model-item ref="map" :label="$t('map')" prop="map">
                   <yandex-map
                     :coords="coords"
@@ -279,17 +290,6 @@
                     disabled
                     v-model="order.phone"
                     test-attr="phone-order"
-                  />
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
-                  <a-input
-                    size="large"
-                    v-model="order.note"
-                    test-attr="note-order"
                   />
                 </a-form-model-item>
               </a-col>

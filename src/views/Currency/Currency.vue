@@ -9,7 +9,24 @@
         </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :title="currencyType ? $t('update') : $t('fillIn')" :bordered="false" style="flex: 1">
+    <a-card :bordered="false" :title="currencyType ? $t('update') : $t('fillIn')">
+      <a-popconfirm
+        v-if="currencyType"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteCategory"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
+
+    <a-card :bordered="false" style="flex: 1">
         <a-form-model
         @submit="onSubmit"
         ref="ruleForm"
@@ -92,6 +109,24 @@ export default {
     if (this.currencyType) this.getCurrency(this.currencyType)
   },
   methods: {
+    deleteCategory (e) {
+        this.loading = true
+      request({
+          url: `/rate/${this.currencyId}`,
+        method: 'delete'
+      })
+      .then(res => {
+          console.log(res)
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+        // this.getCurrencyList({ page: this.paginationCurrency })
+      })
+      .catch(err => {
+          this.$message.error('error')
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     getCurrency (currencyType) {
       request({
         url: `/rate/${currencyType}`,

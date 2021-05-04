@@ -8,7 +8,22 @@
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
-    <a-card :title="$t(edit ? 'update' : 'fillIn')" :bordered="false"></a-card>
+    <a-card :title="$t(edit ? 'update' : 'fillIn')" :bordered="false">
+      <!-- <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteRole"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm> -->
+    </a-card>
     <div v-if="edit" style="flex: 1; display: flex">
       <a-card style="flex: 1" :bordered="false">
         <!-- <a-row>
@@ -48,6 +63,7 @@
 </template>
 <script>
 import vMain from './v-main'
+import request from '@/utils/request'
 import { langMapper, flagMapper } from '@/utils/mappers'
 export default {
   data () {
@@ -68,6 +84,22 @@ export default {
   methods: {
     langMapper,
     flagMapper,
+    deleteRole (e) {
+      this.loading = true
+      request({
+        url: `/role/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     clickParent (e) {
       this.btnLoading = e
     },

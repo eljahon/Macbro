@@ -125,21 +125,21 @@ export const asyncRouterMap = [
                 path: '/warehouse/income/list',
                 name: 'warehouseIncomeListMain',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseList'),
+                component: () => import('@/views/warehouse/WarehouseList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/warehouse/income/list/create',
                 name: 'warehouseIncomeCreate',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                component: () => import('@/views/warehouse/WarehouseEdit'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/warehouse/income/list/update/:id',
                 name: 'warehouseIncomeUpdate',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                component: () => import('@/views/warehouse/WarehouseEdit'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               }
             ]
@@ -156,21 +156,21 @@ export const asyncRouterMap = [
                 path: '/warehouse/moving/list',
                 name: 'warehouseMovingListMain',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseList'),
+                component: () => import('@/views/warehouse/WarehouseList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/warehouse/moving/list/create',
                 name: 'warehouseMovingCreate',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                component: () => import('@/views/warehouse/WarehouseEdit'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
                 path: '/warehouse/moving/list/update/:id',
                 name: 'warehouseMovingUpdate',
                 props: true,
-                component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                component: () => import('@/views/warehouse/WarehouseEdit'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               }
             ]
@@ -193,21 +193,21 @@ export const asyncRouterMap = [
                     path: '/warehouse/remainder/abay/list',
                     name: 'warehouseRemainderListMain',
                     props: true,
-                    component: () => import('@/views/companies/warehouse/WarehouseList'),
+                    component: () => import('@/views/warehouse/WarehouseList'),
                     meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/warehouse/remainder/abay/list/create',
                     name: 'warehouseRemainderCreate',
                     props: true,
-                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    component: () => import('@/views/warehouse/WarehouseEdit'),
                     meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
                   },
                   {
                     path: '/warehouse/remainder/abay/list/update/:id',
                     name: 'warehouseRemainderUpdate',
                     props: true,
-                    component: () => import('@/views/companies/warehouse/WarehouseEdit'),
+                    component: () => import('@/views/warehouse/WarehouseEdit'),
                     meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
                   }
                 ]

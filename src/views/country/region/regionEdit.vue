@@ -11,9 +11,27 @@
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
+    <a-card :title="edit ? $t('information') : $t('fillIn')" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteCity"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
 
-    <v-main @clickParent="clickParent" v-if="edit" :ref="`EditForm`"></v-main>
-    <v-main @clickParent="clickParent" ref="createForm" v-else></v-main>
+    <a-card :bordered="false" style="flex: 1">
+      <v-main @clickParent="clickParent" v-if="edit" :ref="`EditForm`" style="flex: 1"></v-main>
+      <v-main @clickParent="clickParent" ref="createForm" v-else style="flex: 1"></v-main>
+    </a-card>
     <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
@@ -32,6 +50,7 @@
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
 import { mapActions, mapGetters } from 'vuex'
+import request from '@/utils/request'
 export default {
   data () {
     return {
@@ -58,6 +77,22 @@ export default {
   },
   methods: {
     ...mapActions(['setLastTab']),
+    deleteCity (e) {
+      this.loading = true
+      request({
+        url: `/city/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     langMapper,
     flagMapper,
     onTabChange (value) {

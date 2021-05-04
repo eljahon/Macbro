@@ -9,8 +9,24 @@
         </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card :bordered="false" v-if="edit" class="no-space-tab" style="flex: 1">
-      <a-tabs :activeKey="currentTab" @change="onTabChange">
+    <a-card :title="edit ? $t('information') : $t('fillIn')" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteCity"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
+    <a-card :bordered="false" v-if="edit" style="flex: 1">
+      <a-tabs type="card" :activeKey="currentTab" @change="onTabChange">
         <a-tab-pane :tab="$t('information')" :key="1">
           <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
         </a-tab-pane>
@@ -19,7 +35,9 @@
         </a-tab-pane>
       </a-tabs>
     </a-card>
-    <v-main @clickParent="clickParent" ref="createForm" v-else style="flex: 1"></v-main>
+    <a-card :bordered="false" v-else>
+      <v-main @clickParent="clickParent" ref="createForm" style="flex: 1"></v-main>
+    </a-card>
     <a-row class="edit-btns" v-if="currentTab === 1">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
@@ -38,6 +56,7 @@
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
 import Regions from './region/regionList'
+import request from '@/utils/request'
 export default {
   data () {
     return {
@@ -57,6 +76,22 @@ export default {
   methods: {
     langMapper,
     flagMapper,
+    deleteCity (e) {
+      this.loading = true
+      request({
+        url: `/country/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     onTabChange (value) {
       this.currentTab = value
     },
