@@ -26,7 +26,7 @@
 
     <a-card :bordered="false" style="flex: 1">
 
-      <div v-for="item in categories" :key="item.id">
+      <div v-for="item in sortCategoryByOrder" :key="item.id">
         <a-form-model-item>
           <span slot="label" @click="onIconClick(item)" style="cursor: pointer">
             <b>
@@ -116,6 +116,23 @@ export default {
     },
     getSearchQuery () {
       return this.searchQuery
+    },
+    sortCategoryByOrder () {
+      const arr = [...this.categories]
+      arr.forEach(element => {
+        if (element.children && element.children.length) {
+          element.children.sort((a, b) => {
+            if (+a.order > +b.order) return 1
+            if (+a.order < +b.order) return -1
+            return 0
+          })
+        }
+      })
+      return arr.sort((a, b) => {
+        if (+a.order > +b.order) return 1
+        if (+a.order < +b.order) return -1
+        return 0
+      })
     }
   },
   mounted () {

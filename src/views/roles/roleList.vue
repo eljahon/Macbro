@@ -35,6 +35,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-roles"
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
@@ -66,13 +67,13 @@ export default {
         {
           title: this.$t('key'),
           dataIndex: 'key'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       selectedAgent: null,
@@ -103,6 +104,15 @@ export default {
   },
   methods: {
     ...mapActions(['getRoles', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getRoles({ page: pagination, search: true })

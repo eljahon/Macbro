@@ -35,6 +35,7 @@
         @change="handleTableChange"
         test-attr="list-physical-agent"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
@@ -98,13 +99,13 @@ export default {
         {
           title: this.$t('address'),
           dataIndex: 'address'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -136,6 +137,15 @@ export default {
   },
   methods: {
     ...mapActions(['getPhysicalAgents', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`/agents/physical/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getPhysicalAgents({ page: pagination, search: true })

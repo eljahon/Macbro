@@ -9,9 +9,25 @@
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
+    <a-card :title="edit ? $t('information') : $t('fillIn')" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteCompany"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
 
-    <a-card :bordered="false" v-if="edit" class="no-space-tab" style="flex: 1">
-      <a-tabs :activeKey="currentTab" @change="onTabChange">
+    <a-card :bordered="false" v-if="edit" style="flex: 1">
+      <a-tabs type="card" :activeKey="currentTab" @change="onTabChange">
         <a-tab-pane :tab="$t('information')" :key="1">
           <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main>
         </a-tab-pane>
@@ -30,7 +46,9 @@
       </a-tabs>
       <!-- <v-main @clickParent="clickParent" :ref="`EditForm`"></v-main> -->
     </a-card>
-    <v-main @clickParent="clickParent" ref="createForm" v-else style="flex: 1"></v-main>
+    <a-card :bordered="false" v-else style="flex: 1">
+      <v-main @clickParent="clickParent" ref="createForm" style="flex: 1"></v-main>
+    </a-card>
     <a-row v-if="currentTab === 1" class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
@@ -53,6 +71,7 @@ import corporates from './corporate/CorporateList'
 import warehouse from './warehouse/WarehouseList'
 import { langMapper, flagMapper } from '@/utils/mappers'
 import { mapActions, mapGetters } from 'vuex'
+import request from '@/utils/request'
 export default {
   data () {
     return {
@@ -82,6 +101,22 @@ export default {
   },
   methods: {
     ...mapActions(['setLastTab']),
+    deleteCompany (e) {
+      this.loading = true
+      request({
+        url: `/company/${this.$route.params.id}`,
+        method: 'delete'
+      })
+      .then(res => {
+        this.$message.success(this.$t('successfullyDeleted'))
+        this.$router.go(-1)
+      })
+      .catch(err => {
+        this.$message.error(err)
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
+    },
     langMapper,
     flagMapper,
     onTabChange (value) {

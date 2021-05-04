@@ -78,8 +78,9 @@ const agents = {
                 return err
             })
     },
-    getPhysicalAgents ({ commit, state }, page) {
+    getPhysicalAgents ({ commit, state }, { page }) {
       const { searchQuery } = state
+      console.log('Pagination', page)
       if (!page) {
         page = { current: 1, pageSize: 10, total: null }
       }

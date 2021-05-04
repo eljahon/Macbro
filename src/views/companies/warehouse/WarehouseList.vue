@@ -1,25 +1,8 @@
 <template>
   <div>
-    <breadcrumb-row :hasBack="false">
-      <a-breadcrumb style="margin: 10px 5px" slot="links">
-        <a-breadcrumb-item>{{ $t('warehouse') }}</a-breadcrumb-item>
-      </a-breadcrumb>
-      <div slot="extra">
-        <a-input
-          style="float: right; width: 200px"
-          test-attr="search-order"
-          id="inputSearch"
-          :placeholder="$t('search') + '...'"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
-          v-debounce="debouncedSearch"
-        >
-          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
-        </a-input>
-      </div>
-    </breadcrumb-row>
 
     <a-card :title="$t('warehouse')" class="breadcrumb-row" :bordered="false">
-      <router-link :to="`${ $route.path }/create`" slot="extra">
+      <router-link :to="`${ $route.path }/warehouse/create`" slot="extra">
         <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-warehouse">{{ $t('add') }}</a-button>
       </router-link>
     </a-card>
@@ -74,13 +57,13 @@ export default {
         {
           title: this.$t('address'),
           dataIndex: 'address'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -116,7 +99,7 @@ export default {
       return {
         on: {
           click: (event) => {
-            this.$router.push(`${this.$route.path}/update/${record.id}`)
+            this.$router.push(`${this.$route.path}/warehouse/update/${record.id}`)
           }
         }
       }

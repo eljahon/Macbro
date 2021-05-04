@@ -8,7 +8,22 @@
         <a-breadcrumb-item>{{ this.edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
-    <a-card :title="$t(edit ? 'update' : 'fillIn')" class="breadcrumb-row" :bordered="false"/>
+    <a-card :title="$t(edit ? 'update' : 'fillIn')" class="breadcrumb-row" :bordered="false">
+      <a-popconfirm
+        v-if="edit"
+        placement="topRight"
+        slot="extra"
+        :title="$t('deleteMsg')"
+        @click.native.stop=""
+        @confirm="deleteAttr"
+        :okText="$t('yes')"
+        :cancelText="$t('no')"
+      >
+        <a-button type="danger" html-type="submit" test-attr="save-customer">
+          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
+        </a-button>
+      </a-popconfirm>
+    </a-card>
     <div v-if="edit" style="flex: 1; display: flex">
       <a-card :bordered="false" style="flex: 1">
         <a-row>
@@ -60,6 +75,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
 export default {
@@ -78,8 +94,21 @@ export default {
   //   console.warn('$refs', this.$refs)
   // },
   methods: {
+    ...mapActions(['deleteAttrs']),
     langMapper,
     flagMapper,
+    deleteAttr () {
+      this.deleteAttrs(this.$route.params.id)
+        .then(res => {
+          this.$message.success('successfullyDeleted')
+          this.$router.go(-1)
+        })
+        .catch(err => {
+          this.$message.error(err.message)
+          this.loading = false
+        })
+      // console.log(item)
+    },
     clickParent (e) {
       this.btnLoading = e
     },

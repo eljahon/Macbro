@@ -33,6 +33,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-staff"
+        :customRow="customRowClick"
       >
         <template slot="fullname" slot-scope="row">
             {{ row.name }} {{ row.last_name }}
@@ -67,13 +68,13 @@ export default {
         {
           title: this.$t('phone'),
           dataIndex: 'phone_number'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       selectedAgent: null,
@@ -104,6 +105,15 @@ export default {
   },
   methods: {
     ...mapActions(['getStaff', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getStaff({ page: pagination, search: true })

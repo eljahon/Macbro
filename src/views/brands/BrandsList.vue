@@ -41,6 +41,7 @@
         @change="handleTableChange"
         test-attr="list-brand"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="description" slot-scope="desc">
           <div v-html="desc"></div>
@@ -48,7 +49,7 @@
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
           <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-brand${index}`"/> -->
-            <router-link :to="'./update/'+row.id">
+            <router-link :to="'./update/'+row.id" @click.native.stop="">
               <edit-btn :test-attr="`edit-brand${index}`"/>
             </router-link>
             <delete-btn @confirm="deleteBrand($event, row.id)" :test-attr="`delete-brand${index}`"/>
@@ -97,13 +98,13 @@ export default {
         {
           title: this.$t('brand_name'),
           dataIndex: 'name'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -134,6 +135,16 @@ export default {
   },
   methods: {
     ...mapActions(['getBrands', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            console.log('ID', record.id)
+            this.$router.push(`/catalog/brands/update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       console.log('pagination', pagination)
       this.loading = true
