@@ -65,6 +65,7 @@
         @change="handleTableChange"
         test-attr="list-permissions"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
@@ -98,13 +99,13 @@ export default {
         {
           title: this.$t('key'),
           dataIndex: 'key'
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       filterParams: {}
@@ -140,6 +141,15 @@ export default {
   },
   methods: {
     ...mapActions(['getPermissionsNew']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       console.log('pagination', pagination)
       this.loading = true

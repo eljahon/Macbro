@@ -35,6 +35,7 @@
         @change="handleTableChange"
         test-attr="list-pages"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="image" slot-scope="page">
           <img :src="page.preview_image" alt="preview image">
@@ -104,13 +105,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'active',
           scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -145,6 +146,15 @@ export default {
   },
   methods: {
     ...mapActions(['getPages', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.slug}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getPages({ page: pagination, search: true })

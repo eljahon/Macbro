@@ -36,6 +36,7 @@
         @change="handleTableChange"
         test-attr="list-news"
         bordered
+        :customRow="customRowClick"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -111,13 +112,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'active',
           scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '120px',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
@@ -151,6 +152,15 @@ export default {
   },
   methods: {
     ...mapActions(['getNews', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.slug}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       this.loading = true
       this.getNews({ page: pagination, search: true })
