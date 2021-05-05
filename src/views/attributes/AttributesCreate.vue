@@ -78,6 +78,7 @@
 import { mapActions } from 'vuex'
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
+// import { lang } from 'node_modules/moment/ts3.1-typings/moment'
 export default {
   data () {
     return {
@@ -115,10 +116,53 @@ export default {
     submit () {
       console.log('submit')
       if (this.edit) {
+        const forms = Object.values(this.$refs)
+        console.log('Forms count', forms.length)
+        const allLangs = ['uz', 'ru', 'en']
+        const langs = []
+        let edited = false
+        // let formCount = 0
+        let optionsMaxCount = null
         Object.values(this.$refs).forEach(form => {
-          console.log('form', form)
-          if (form) form[0].save()
+          if (form[0]._data.initialOptionsCount < form[0]._data.productProperty.options.length) {
+            optionsMaxCount = form[0]._data.productProperty.options.length
+            edited = true
+          }
+          console.log('form', optionsMaxCount, form[0])
+          // formCount++
         })
+        console.log('value', edited)
+        Object.values(this.$refs).forEach(form => {
+          if (edited) {
+            if (form[0]._data && optionsMaxCount === form[0]._data.productProperty.options.length) {
+              langs.push(form[0].lang)
+              allLangs.splice(allLangs.indexOf(form[0].lang), 1)
+              console.log('Correct lang', form[0].lang, optionsMaxCount === form[0]._data.productProperty.options.length)
+            } else {
+              // langs.push(form[0].lang)
+            }
+          } else {
+            langs.push(form[0].lang)
+            console.log('Correct lang', form[0].lang)
+          }
+          console.log('form 1')
+        })
+        console.log('LENGTH', langs.length, forms.length)
+        if (langs.length === forms.length && !edited) {
+          Object.values(this.$refs).forEach(form => {
+            if (form) {
+                form[0].save()
+            }
+          })
+        } else if (langs.length === 3 && edited) {
+          Object.values(this.$refs).forEach(form => {
+            if (form) {
+                form[0].save()
+            }
+          })
+        } else {
+          this.$message.error(`Вы не добавляли изменений на ${allLangs.join(', ')} языках`)
+        }
       } else {
         this.$refs.createForm.save()
       }
