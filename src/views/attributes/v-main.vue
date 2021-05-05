@@ -185,6 +185,7 @@ export default {
     return {
       loading: false,
       productPropertySlug: this.$route.params.id,
+      initialOptionsCount: null,
       productProperty: {
         name: '',
         active: true,
@@ -250,6 +251,7 @@ export default {
         this.productProperty.active = active
         this.productProperty.name = name
         this.productProperty.options = options
+        this.initialOptionsCount = options.length
         this.productProperty.order = order
         this.productProperty.description = description
         this.productProperty.type = type
