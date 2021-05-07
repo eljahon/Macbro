@@ -165,7 +165,7 @@ export default {
           console.log('login form new', values)
           const loginParams = { ...values }
           delete loginParams.login
-          loginParams.login = values.login
+          loginParams.username = values.login
           loginParams.password = values.password
           console.log('loginParams', loginParams)
           Login(loginParams)

@@ -630,34 +630,34 @@ export const asyncRouterMap = [
                 redirect: '/adminstrator',
                 meta: { title: 'adminstrators', keepAlive: true, permission: ['directory'] },
                 children: [
-                  // {
-                  //   path: '/admins',
-                  //   name: 'admins',
-                  //   component: RouteView,
-                  //   hideChildrenInMenu: true,
-                  //   redirect: '/admins/list',
-                  //   meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
-                  //   children: [
-                  //     {
-                  //       path: '/admins/list',
-                  //       name: 'AdminsList',
-                  //       component: () => import('@/views/admins/AdminsList'),
-                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  //     },
-                  //     {
-                  //       path: '/admins/create',
-                  //       name: 'AdminsCreate',
-                  //       component: () => import('@/views/admins/AdminsCreate'),
-                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  //     },
-                  //     {
-                  //       path: '/admins/update/:id',
-                  //       name: 'AdminsUpdate',
-                  //       component: () => import('@/views/admins/AdminsCreate'),
-                  //       meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
-                  //     }
-                  //   ]
-                  // },
+                  {
+                    path: '/admins',
+                    name: 'admins',
+                    component: RouteView,
+                    hideChildrenInMenu: true,
+                    redirect: '/admins/list',
+                    meta: { title: 'admins', keepAlive: true, permission: ['directory'] },
+                    children: [
+                      {
+                        path: '/admins/list',
+                        name: 'AdminsList',
+                        component: () => import('@/views/admins/AdminsList'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/admins/create',
+                        name: 'AdminsCreate',
+                        component: () => import('@/views/admins/AdminsCreate'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      },
+                      {
+                        path: '/admins/update/:id',
+                        name: 'AdminsUpdate',
+                        component: () => import('@/views/admins/AdminsCreate'),
+                        meta: { title: 'admins', keepAlive: true, permission: ['directory'] }
+                      }
+                    ]
+                  },
                   // {
                   //   path: '/permissions',
                   //   name: 'permissions',

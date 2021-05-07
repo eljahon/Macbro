@@ -49,8 +49,9 @@ export default {
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
         onOk: () => {
-          this.Logout()
-          this.$router.push('/user/login')
+          this.Logout().then(() => {
+            // this.$router.push('/user/login')
+          })
         },
         onCancel () {}
       })

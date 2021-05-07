@@ -3,7 +3,7 @@ import store from '@/store'
 import storage from 'store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/store/mutation-types'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -13,7 +13,8 @@ const request = axios.create({
 const errorHandler = (error) => {
   if (error.response) {
     const data = error.response.data
-    const token = storage.get(ACCESS_TOKEN)
+    // const token = storage.get(ACCESS_TOKEN)
+    const rtoken = storage.get(REFRESH_TOKEN)
     if (error.response.status === 403) {
       notification.error({
         message: 'Forbidden',
@@ -25,11 +26,15 @@ const errorHandler = (error) => {
         message: 'Unauthorized',
         description: 'Authorization verification failed'
       })
-      if (token) {
-        store.dispatch('Logout').then(() => {
-          setTimeout(() => {
+      if (rtoken) {
+        store.dispatch('Refresh', rtoken).catch(() => {
+          store.dispatch('Logout').then(() => {
             window.location.reload()
-          }, 1500)
+          })
+        })
+      } else {
+        store.dispatch('Logout').then(() => {
+          window.location.reload()
         })
       }
     }
@@ -38,13 +43,14 @@ const errorHandler = (error) => {
 }
 
 // request interceptor
-// request.interceptors.request.use(config => {
-//   const token = storage.get(ACCESS_TOKEN)
-//   if (token) {
-//     config.headers['Access-Token'] = token
-//   }
-//   return config
-// }, errorHandler)
+request.interceptors.request.use(config => {
+  const token = storage.get(ACCESS_TOKEN)
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+  config.headers['platform-id'] = '7d4a4c38-dd84-4902-b744-0488b80a4c01'
+  return config
+}, errorHandler)
 
 request.interceptors.response.use((response) => {
   return response.data
