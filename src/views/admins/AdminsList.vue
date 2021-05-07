@@ -1,43 +1,39 @@
 <template>
   <div>
+    <breadcrumb-row :hasBack="false">
+      <a-breadcrumb style="margin: 10px 5px" slot="links">
+        <a-breadcrumb-item>{{ $t('admins') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div slot="extra">
+        <a-input
+          style="float: right; width: 200px"
+          test-attr="search-order"
+          id="inputSearch"
+          :placeholder="$t('search') + '...'"
+          :value="getSearchQuery"
+          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-debounce="debouncedSearch"
+        >
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+        </a-input>
+      </div>
+    </breadcrumb-row>
     <a-row>
-      <a-col :span="12">
-        <a-breadcrumb style="margin: 10px 5px">
-          <a-breadcrumb-item>{{ $t('admins') }}</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-col>
 
       <a-col :span="12">
-        <router-link to="././create">
-          <a-button
-            style="float: right"
-            shape="round"
-            type="primary link"
-            icon="plus"
-            test-attr="addBtn-admins"
-          >{{ $t('add') }}</a-button>
-        </router-link>
       </a-col>
     </a-row>
 
-    <a-card :title="$t('list')">
-      <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row>
-            <a-col :span="24" style="padding: 5px">
-              <a-form-item style="margin: 0">
-                <a-input
-                  id="inputSearch"
-                  :placeholder="$t('search') + '...'"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                  test-attr="searchList-admins"
-                />
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
+    <a-card :title="$t('admins')" :bordered="false">
+      <router-link to="././create" slot="extra">
+        <a-button
+          style="float: right"
+          shape="round"
+          type="primary link"
+          icon="plus"
+          test-attr="addBtn-admins"
+        >{{ $t('add') }}</a-button>
+      </router-link>
 
       <a-table
         :columns="columns"
@@ -47,6 +43,8 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-admins"
+        bordered
+        :customRow="customRowClick"
       >
         <template slot="status" slot-scope="is_active">
           <status-tag
@@ -55,10 +53,12 @@
           />
         </template>
         <template slot="action" slot-scope="text, row">
-          <router-link :to="'./update/'+row.id">
-            <edit-btn/>
-          </router-link>
-          <delete-btn @confirm="deleteAdmin($event, row.id)"/>
+          <div style="display: flex; justify-content: space-around;">
+            <router-link :to="'./update/'+row.id">
+              <edit-btn/>
+            </router-link>
+            <delete-btn @confirm="deleteAdmin($event, row.id)"/>
+          </div>
         </template>
       </a-table>
     </a-card>
@@ -90,13 +90,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'active',
           scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: this.$t('action'),
-          key: 'action',
-          width: '20%',
-          scopedSlots: { customRender: 'action' }
         }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '120px',
+        //   scopedSlots: { customRender: 'action' }
+        // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       filterParams: {}
@@ -123,6 +123,15 @@ export default {
   },
   methods: {
     ...mapActions(['getAdmins', 'setSearchQuery']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push(`./update/${record.id}`)
+          }
+        }
+      }
+    },
     handleTableChange (pagination) {
       console.log('pagination', pagination)
       this.loading = true
