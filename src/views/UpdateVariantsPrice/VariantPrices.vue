@@ -136,6 +136,7 @@ export default {
       items: [],
       cacheData: [],
       updatePricesForm: {
+        product_id: `${this.$route.params.product_id}`,
         item_new_prices: []
       },
       editingKey: '',
@@ -193,6 +194,7 @@ export default {
     }
   },
   mounted () {
+    // console.log(this.$route.params.product_id)
     // this.setSearchQuery()
     // this.getProductVariants({ page: this.productVariantsPagination, category: this.$route.params.id })
     //   .then(() => {
