@@ -3,7 +3,7 @@ import store from '@/store'
 import storage from 'store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_ROLE } from '@/store/mutation-types'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -28,14 +28,22 @@ const errorHandler = (error) => {
       })
       if (rtoken) {
         store.dispatch('Refresh', rtoken).catch(() => {
-          store.dispatch('Logout').then(() => {
-            window.location.reload()
-          })
+          store.commit('SET_TOKEN', '')
+          store.commit('SET_ROLES', [])
+          // console.log('Logout routers', asyncRouterMap)
+          storage.remove(USER_ROLE)
+          storage.remove(ACCESS_TOKEN)
+          storage.remove(REFRESH_TOKEN)
+          location.reload(true)
         })
       } else {
-        store.dispatch('Logout').then(() => {
-          window.location.reload()
-        })
+        store.commit('SET_TOKEN', '')
+        store.commit('SET_ROLES', [])
+        // console.log('Logout routers', asyncRouterMap)
+        storage.remove(USER_ROLE)
+        storage.remove(ACCESS_TOKEN)
+        storage.remove(REFRESH_TOKEN)
+        location.reload(true)
       }
     }
   }
