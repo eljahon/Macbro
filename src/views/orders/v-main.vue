@@ -164,13 +164,13 @@
         <a-tab-pane key="2" :tab="$t('products')">
           <a-row>
             <a-col :span="24">
-<!--              <a-button-->
-<!--                style="margin-bottom: 20px"-->
-<!--                type="primary"-->
-<!--                :disabled="editingKey !== ''"-->
-<!--                @click.prevent="addProduct">-->
-<!--                {{ $t('add') }}-->
-<!--              </a-button>-->
+              <!--              <a-button-->
+              <!--                style="margin-bottom: 20px"-->
+              <!--                type="primary"-->
+              <!--                :disabled="editingKey !== ''"-->
+              <!--                @click.prevent="addProduct">-->
+              <!--                {{ $t('add') }}-->
+              <!--              </a-button>-->
               <a-form-model
                 ref="productRuleForm"
                 :model="editingKey !== '' ? items[editingKey] : {}"
@@ -185,6 +185,7 @@
                   :data-source="items"
                   bordered
                   test-attr="products-list-order"
+                  class="pointer"
                 >
                   <!-- <template slot="price" slot-scope="text, row">
                       {{ numberToPrice(row.price) }}
@@ -248,7 +249,7 @@
                           <template slot="title">{{ $t('update') }}</template>
                           <a-button
                             @click="() => edit(index)"
-                            :disabled="items"
+                            :disabled="true"
                             id="buttonOrderDetails"
                             type="primary"
                             icon="edit"></a-button>
@@ -688,6 +689,9 @@ export default {
 </script>
 
 <style>
+.pointer:hover{
+cursor: pointer;
+}
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;

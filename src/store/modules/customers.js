@@ -101,6 +101,20 @@ const customers = {
             reject(rej)
           })
         })
+      },
+      getUserListItemRemove ({ commit }, id) {
+        console.log(id)
+        return new Promise((resolve, reject) => {
+          request({
+            url: `/user/${id}`,
+            method: 'delete'
+          }).then(result => {
+            console.log(result)
+            resolve(result)
+          }).catch(rej => {
+            reject(rej)
+          })
+        })
       }
 
     }

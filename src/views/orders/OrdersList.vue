@@ -4,7 +4,7 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style='display: flex; margin-left: 50px'>
+      <div slot="extra" style='display: flex; margin-left: 180px'>
         <a-date-picker @change="onChange" placeholder='DD/MM/YYYY' />
         <a-input
           style=" width: 200px; margin-left: 10px"
@@ -102,6 +102,34 @@
             </template>
           </a-table>
         </a-tab-pane>
+        <a-tab-pane key='2'>
+          <div slot="tab">
+            <span>
+             {{$t('orederstab2')}} <span class="custom-badge" style="margin-left: 10px;">2</span>
+            </span>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key='3'>
+          <div slot="tab">
+            <span>
+              {{$t('orederstab3')}} <span class="custom-badge" style="margin-left: 10px;">3</span>
+            </span>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key='4'>
+          <div slot="tab">
+            <span>
+             {{$t('orederstab4')}}<span class="custom-badge" style="margin-left: 10px;">4</span>
+            </span>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key = '5' >
+          <div slot="tab">
+            <span>
+              {{ $t('orederstab5') }} <span class="custom-badge" style="margin-left: 10px;">5</span>
+            </span>
+          </div>
+        </a-tab-pane>
       </a-tabs>
 
       <!-- <a-pagination show-quick-jumper :default-current="getPagination.current" :total="getPagination.total" @change="handleTableChange" /> -->
@@ -142,38 +170,87 @@ export default {
         {
           title: this.$t('order_number'),
           key: 'tag',
+          width: '10%',
           dataIndex: 'number',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             customRender: 'tag',
             filterIcon: 'filterIcon'
           },
-          width: '10%'
+          onFilter: (value, record) =>
+            record.number
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus()
+              }, 0)
+            }
+          }
         },
         {
           title: this.$t('customer_name'),
+          dataIndex: 'customer_name',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon'
           },
-          dataIndex: 'customer_name'
+          onFilter: (value, record) =>
+            record.customer_name
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+              onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus()
+              }, 0)
+            }
+          }
+
         },
         {
           title: this.$t('phone'),
+          dataIndex: 'phone',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon'
           },
-          dataIndex: 'phone'
+          onFilter: (value, record) =>
+            record.phone
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus()
+              }, 0)
+            }
+          }
         },
         {
           title: this.$t('date'),
           dataIndex: 'created_at',
+          width: '20%',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon'
           },
-          width: '20%'
+          onFilter: (value, record) =>
+            record.customer_name
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus()
+              }, 0)
+            }
+          }
         },
         {
           title: this.$t('total'),
@@ -354,6 +431,15 @@ export default {
     },
     statusTranslator (status) {
       return this.orderStatus[status]
+    },
+    handleSearch (selectedKeys, confirm, dataIndex) {
+      confirm()
+      this.searchText = selectedKeys[0]
+      this.searchedColumn = dataIndex
+    },
+    handleReset (clearFilters) {
+      clearFilters()
+      this.searchText = ''
     }
   }
 }

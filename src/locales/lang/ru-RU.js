@@ -234,6 +234,7 @@ const locale = {
   inn: 'ИНН',
   mfo: 'МФО код',
   //
+
   branchName: 'Название филиала',
   destinationAddress: 'Адрес назначения',
   place: 'Место',
@@ -392,7 +393,17 @@ const locale = {
   currentPrice: 'Текущая цена',
   back: 'Назад',
   Currency: 'Валюта',
-  dollarCurrency: 'Курс доллара'
+  dollarCurrency: 'Курс доллара',
+  // oreders
+  'orederstab2': 'Новый',
+  'orederstab3': 'Обработан',
+  'orederstab4': 'В пути',
+  'orederstab5': 'Завершён',
+  // customers
+  'customerstab2': 'Контрагенты',
+  'customerstab3': 'Поставщики',
+  'customerstab4': 'История адресов'
+
 }
 
 export default {

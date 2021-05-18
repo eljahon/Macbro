@@ -61,7 +61,40 @@
             test-attr="list-customer"
             bordered
             :customRow="customRowClick"
+            class="pointer"
           >
+            <div
+              slot="filterDropdown"
+              slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+              style="padding: 8px"
+            >
+              <a-input
+                v-ant-ref="c => (searchInput = c)"
+                :placeholder="`Search ${column.dataIndex}`"
+                :value="selectedKeys[0]"
+                style="width: 188px; margin-bottom: 8px; display: block;"
+                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+              />
+              <a-button
+                type="primary"
+                icon="search"
+                size="small"
+                style="width: 90px; margin-right: 8px"
+                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+              >
+                Search
+              </a-button>
+              <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                Reset
+              </a-button>
+            </div>
+            <a-icon
+              slot="filterIcon"
+              slot-scope="filtered"
+              type="search"
+              :style="{ color: filtered ? '#108ee9' : undefined }"
+            />
             <template slot="action" slot-scope="text, row, index">
               <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
               <!-- <a-tooltip>
@@ -94,6 +127,20 @@
               </a-popconfirm> -->
             </template>
           </a-table>
+        </a-tab-pane>
+        <a-tab-pane key="2">
+          <div slot="tab">
+            <span>
+             {{$t('customerstab2')}}<span class="custom-badge" style="margin-left: 10px;">1</span>
+            </span>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key="3">
+          <div slot="tab">
+            <span>
+             {{$t('customerstab3')}}<span class="custom-badge" style="margin-left: 10px;">1</span>
+            </span>
+          </div>
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -272,3 +319,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.pointer:hover{
+cursor: pointer;
+}
+</style>

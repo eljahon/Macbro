@@ -14,8 +14,7 @@
         placement="topRight"
         slot="extra"
         :title="$t('deleteMsg')"
-        @click.native.stop=""
-        @confirm="deleteCustomer"
+        @confirm="userCustomeItem"
         :okText="$t('yes')"
         :cancelText="$t('no')"
       >
@@ -27,13 +26,13 @@
 
     <a-card :bordered="false" style="flex: 1">
       <a-form-model
-      @submit="onSubmit"
-      ref="ruleForm"
-      :model="customer"
-      :rules="rules"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+        @submit="onSubmit"
+        ref="ruleForm"
+        :model="customer"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+      >
         <a-tabs type="card" v-model="activeTabKey">
           <a-tab-pane key="1" :tab="$t('basicSettings')">
             <a-row>
@@ -90,6 +89,7 @@
                     size="large"
                     disabled
                     test-attr="balance-customer"
+                    v-model="customer.balance"
                   />
                 </a-form-model-item>
               </a-col>
@@ -125,8 +125,16 @@
               </template>
             </a-table>
           </a-tab-pane>
+          <a-tab-pane key="3">
+            <div slot="tab">
+              <span>
+                {{ $t('customerstab4') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
+              </span>
+            </div>
+          </a-tab-pane>
+
         </a-tabs>
-    </a-form-model>
+      </a-form-model>
     </a-card>
     <a-row class="edit-btns" style="margin-top: 10px">
       <a-col :span="24">
@@ -147,6 +155,7 @@ import request from '@/utils/request'
 import { mapActions, mapGetters } from 'vuex'
 import calcTotalPrice from '@/utils/calcTotalPrice'
 import numberToPrice from '@/utils/numberToPrice'
+import notification from 'ant-design-vue/lib/notification'
 export default {
   data () {
     return {
@@ -159,8 +168,8 @@ export default {
       customer: {
         name: '',
         'last_name': '',
-        'phone_number': ''
-        // address: ''
+        'phone_number': '',
+        balance: ''
       },
       columns: [
         {
@@ -215,12 +224,25 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.params.id) {
+this.getUserListItem(this.$route.params.id).then(res => {
+  // eslint-disable-next-line camelcase,no-unused-vars,standard/object-curly-even-spacing
+  const { first_name, last_name, phone_number } = res
+  // eslint-disable-next-line camelcase
+  this.customer.name = res.first_name
+  this.customer.phone_number = res.phone_number
+  this.customer.last_name = res.last_name
+  this.customer.balance = res.balance ? res.balance : '0'
+}).catch(err => {
+  console.log(err)
+}).finally(() => (this.loading = false))
+    }
       console.log('this.customerOrders', this.customerOrders)
-      this.getCustomerAttrs()
-      this.getCustomerOrders({ page: null, customerId: this.customerId })
-        .then((res) => console.log('this.customerOrders', this.customerOrders))
-        .catch(err => console.error(err))
-        .finally(() => (this.loading = false))
+      // this.getCustomerAttrs()
+      // this.getCustomerOrders({ page: null, customerId: this.customerId })
+      //   .then((res) => console.log('this.customerOrders', this.customerOrders))
+      //   .catch(err => console.error(err))
+      //   .finally(() => (this.loading = false))
   },
   computed: {
     ...mapGetters(['customerOrders', 'customerOrdersPagination']),
@@ -232,7 +254,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getCustomerOrders']),
+    ...mapActions(['getCustomerOrders', 'getUserListItem']),
+    userCustomeItem () {
+      console.log('hello =======> delete')
+      this.$store.dispatch('getUserListItemRemove', this.$route.params.id).then(res => {
+        if (res) {
+          this.$router.push({ name: 'CustomersList' })
+          notification.success({
+            message: 'Forbidden',
+            description: 'success'
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+        notification.error({
+          message: 'Forbidden',
+          description: 'error'
+        })
+      })
+    },
     deleteCustomer (e) {
       this.loading = true
       request({
@@ -274,7 +314,8 @@ export default {
       e.preventDefault()
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-            var url = `/client/${this.customerId}`
+          delete this.customer.balance
+            var url = `/user/${this.customerId}`
             var method = 'put'
             const headers = {
                 'Content-Type': 'application/json'
