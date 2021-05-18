@@ -49,11 +49,11 @@ export default {
   components: { 'v-main': vMain },
   methods: {
     submit () {
-      console.log('submit')
-        this.$refs.orderDetailsEdit.onSubmit()
+      console.log('submit=======>')
+        this.$refs.newordercreate.onSubmit()
     },
     resetForm () {
-        this.$refs.orderDetailsEdit.resetForm()
+        this.$refs.newordercreate.resetForm()
     },
     update () {
       this.$refs.newordercreate.addProduct()

@@ -88,7 +88,21 @@ const customers = {
             reject(rej)
           })
         })
+      },
+      getUserListItem ({ commit }, id) {
+        return new Promise((resolve, reject) => {
+          request({
+            url: `/user/${id}`,
+            method: 'get'
+          }).then(result => {
+            console.log(result)
+            resolve(result)
+          }).catch(rej => {
+            reject(rej)
+          })
+        })
       }
-  }
+
+    }
 }
   export default customers
