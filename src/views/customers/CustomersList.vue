@@ -54,7 +54,7 @@
           <a-table
             :columns="columns"
             :rowKey="record => record.id"
-            :dataSource="getAllCustomers"
+            :dataSource="user_List"
             :pagination="getPagination"
             :loading="loading"
             @change="handleTableChange"
@@ -135,7 +135,7 @@ export default {
        columns: [
         {
           title: this.$t('firstName'),
-          dataIndex: 'name'
+          dataIndex: 'first_name'
         },
         {
           title: this.$t('lastName'),
@@ -159,7 +159,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['customersData', 'customersPagination', 'searchQuery']),
+    ...mapGetters(['customersData', 'customersPagination', 'searchQuery', 'user_List']),
     getPagination () {
       return this.customersPagination
     },
@@ -171,13 +171,15 @@ export default {
     }
   },
   mounted () {
-    this.getCustomers({ page: this.customersPagination })
-      .then((res) => console.log('customers', this.customersData))
-      .catch((err) => console.error(err))
-      .finally(() => (this.loading = false))
+    this.getUserList().then(res => console.log(res))
+    .finally(() => (this.loading = false))
+    // this.getCustomers({ page: this.customersPagination })
+    //   .then((res) => console.log('customers', this.customersData))
+    //   .catch((err) => console.error(err))
+    //   .finally(() => (this.loading = false))
   },
   methods: {
-    ...mapActions(['getCustomers', 'setSearchQuery']),
+    ...mapActions(['getCustomers', 'setSearchQuery', 'getUserList']),
     customRowClick (record) {
       return {
         on: {
@@ -187,6 +189,15 @@ export default {
         }
       }
     },
+    // getUsrList () {
+    //   // eslint-disable-next-line no-unused-vars
+    //   const page = {
+    //     page: 10,
+    //     user_type: 'client',
+    //     search: ''
+    //   }
+    //   this.$store.dispatch('getUserListAll' page)
+    // },
     handleTableChange (pagination) {
       this.loading = true
       this.getCustomers({ page: pagination })

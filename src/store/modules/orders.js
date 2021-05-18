@@ -12,12 +12,12 @@ const orders = {
       userActivitiesPagination: {},
       customerOrders: [],
       customerOrdersPagination: {},
-      searchQuery: ''
+      searchquery: ''
     },
     getters: {
       ordersData: state => state.orders,
       ordersPagination: state => state.ordersPagination,
-      searchQuery: state => state.searchQuery,
+      searchQuery: state => state.searchquery,
       userActivities: state => state.userActivities,
       userActivitiesPagination: state => state.userActivitiesPagination,
       customerOrders: state => state.customerOrders,
@@ -31,7 +31,7 @@ const orders = {
           state.ordersPagination = ordersPagination
       },
       SET_SEARCH_QUERY: (state, query) => {
-        state.searchQuery = query
+        state.searchquery = query
       },
       GET_USER_ACTIVITIES: (state, userActivities) => {
         state.userActivities = userActivities
@@ -47,12 +47,12 @@ const orders = {
       }
     },
     actions: {
-    setSearchQuery ({ commit }, searchQuery) {
-      commit('SET_SEARCH_QUERY', searchQuery)
+    setSearchQuery ({ commit }, payload) {
+      commit('SET_SEARCH_QUERY', payload)
     },
     getOrders ({ commit, state }, payload = { page: null }) {
         let { page } = payload
-        const { searchQuery } = state
+        // const { searchQuery } = state
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
@@ -66,7 +66,7 @@ const orders = {
             params: {
               page: page.current,
               limit: page.pageSize,
-              search: searchQuery
+              search: payload
             }
         })
           .then(result => {

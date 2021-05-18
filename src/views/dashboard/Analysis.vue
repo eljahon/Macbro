@@ -273,10 +273,11 @@ export default {
       .catch(err => console.error(err))
       .finally(() => (this.ordersLoading = false))
     request({
-      url: '/customer?limit=1000',
-      method: 'get'
+      url: '/user',
+      method: 'get',
+      parmas: { user_type: 'client' }
     }).then(res => {
-        this.clients = res.customers
+        this.clients = res.users
         this.clientsCount = res.count
         const weeklyFiltered = filterLastWeekOrders(this.clients)
         this.clientsData = getClientChartData(weeklyFiltered)

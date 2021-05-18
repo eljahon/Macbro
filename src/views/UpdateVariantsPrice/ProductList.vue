@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb-row :hasBack="false">
+    <breadcrumb-row :hasBack="true">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/price-list/category" test-attr="prev-link-brand">{{ $t('categories') }}</router-link>

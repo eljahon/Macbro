@@ -9,14 +9,14 @@ const products = {
       products: [],
       productsPagination: {},
       productsMenu: [],
-      searchQueryProduct: '',
+      searchqueryProduct: '',
       loading: false
     },
     getters: {
       productsData: state => state.products,
       productsMenu: state => state.productsMenu,
       productsPagination: state => state.productsPagination,
-      searchQueryProduct: state => state.searchQueryProduct,
+      searchQueryProduct: state => state.searchqueryProduct,
       loading: state => state.loading
     },
     mutations: {
@@ -30,7 +30,7 @@ const products = {
         state.productsMenu = products
       },
       SET_SEARCH_QUERY_PRODUCT: (state, query) => {
-        state.searchQueryProduct = query
+        state.searchqueryProduct = query
       },
       SET_LOADING: (state, loadingStatus) => {
         state.loading = loadingStatus

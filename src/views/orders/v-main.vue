@@ -33,15 +33,15 @@
         </a-col>
       </a-row>
       <a-row> -->
-        <!-- tabs -->
-        <a-tabs type="card" @change="activeTabHandler" v-model="activeTabKey" style="padding: 0 15px">
-          <a-tab-pane key="1" :tab="$t('order_data')">
-            <a-row>
-              <a-col
-                style="padding: 0 15px 0 0; margin-bottom: 30px"
-                :lg="12"
-                :md="24"
-              >
+      <!-- tabs -->
+      <a-tabs type="card" @change="activeTabHandler" v-model="activeTabKey" style="padding: 0 15px">
+        <a-tab-pane key="1" :tab="$t('order_data')">
+          <a-row>
+            <a-col
+              style="padding: 0 15px 0 0; margin-bottom: 30px"
+              :lg="12"
+              :md="24"
+            >
               <a-table
                 bordered
                 :columns="[{ title: 'Общие сведение', dataIndex: 'text' }, { title: '', dataIndex: 'orderNumber' }]"
@@ -49,211 +49,236 @@
                 :pagination="false"
               >
               </a-table>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="status" :label="$t('status')" prop="status">
-                  <a-select v-model="order.status" size="large" @change="handleStatus" test-attr="status-order">
-                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
-                    <a-select-option value="in-process">
-                      В обработке
-                    </a-select-option>
-                    <a-select-option value="cancelled">
-                      Отменен
-                    </a-select-option>
-                    <a-select-option value="finished">
-                      Завершено
-                    </a-select-option>
-                    <a-select-option value="order_accepted">
-                      Заказ принят
-                    </a-select-option>
-                  </a-select>
-                </a-form-model-item>
-              </a-col>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="deliveryMethod" :label="$t('delivery_method')" prop="deliveryMethod">
-                  <a-select v-model="order.delivery_method" size="large" @change="handleDeliveryMethod" test-attr="delivery-order">
-                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
-                    <a-select-option value="self">
-                      Самовывоз
-                    </a-select-option>
-                    <a-select-option value="dayDelivery">
-                      Доставка в течении дня
-                    </a-select-option>
-                    <a-select-option value="expressDelivery">
-                      Экспресс-доставка
-                    </a-select-option>
-                  </a-select>
-                </a-form-model-item>
-              </a-col>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="paymentMethod" :label="$t('payment_method')" prop="paymentMethod">
-                  <a-select v-model="order.payment_method" size="large" @change="handlePaymentMethod" test-attr="payment-order">
-                    <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
-                    <a-select-option value="cash" :disabled="this.isUnired">
-                      Наличные
-                    </a-select-option>
-                    <a-select-option value="terminal" :disabled="this.isUnired">
-                      Терминал
-                    </a-select-option>
-                    <a-select-option value="card" :disabled="this.isUnired">
-                      Карта
-                    </a-select-option>
-                    <a-select-option value="click" :disabled="this.isUnired">
-                      Click
-                    </a-select-option>
-                    <a-select-option value="payme" :disabled="this.isUnired">
-                      PayMe
-                    </a-select-option>
-                    <a-select-option value="unired" :disabled="!this.isUnired">
-                      Unired
-                    </a-select-option>
-                  </a-select>
-                </a-form-model-item>
-              </a-col>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="address" :label="$t('address')" prop="address">
-                  <a-input
-                    v-model="order.address"
-                    size="large"
-                    test-attr="address-order"
-                  />
-                </a-form-model-item>
-              </a-col>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
-                  <a-input
-                    size="large"
-                    v-model="order.note"
-                    test-attr="note-order"
-                  />
-                </a-form-model-item>
-              </a-col>
-              </a-row>
-              <a-row>
-              <a-col :span="12" style="padding: 0 15px 0 0">
-                <a-form-model-item ref="map" :label="$t('map')" prop="map">
-                  <yandex-map
-                    :coords="coords"
-                    v-model="coords"
-                    :zoom="18"
-                    @click="onLocationChange"
-                    searchControlProvider="yandex#search"
-                    style="width: 100%; max-width: 1000px; height: 40vh;"
-                    test-attr="coords-order"
-                  >
-                    <ymap-marker
-                      :coords="coords"
-                      marker-id="123"
-                      hint-content="point"
-                    />
-                  </yandex-map>
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-          </a-tab-pane>
-          <a-tab-pane key="2" :tab="$t('products')">
-            <a-row>
-              <a-col :span="24">
-                <a-button v-if="order.status === 'in-process'" style="margin-bottom: 20px" type="primary" :disabled="editingKey !== ''" @click.prevent="addProduct">
-                  {{ $t('add') }}
-                </a-button>
-                <a-form-model
-                  ref="productRuleForm"
-                  :model="editingKey !== '' ? items[editingKey] : {}"
-                  :rules="productRules"
-                  :label-col="labelCol"
-                  :wrapper-col="wrapperCol"
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="status" :label="$t('status')" prop="status">
+                <a-select v-model="order.status" size="large" @change="handleStatus" test-attr="status-order">
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                  <a-select-option value="in-process">
+                    В обработке
+                  </a-select-option>
+                  <a-select-option value="cancelled">
+                    Отменен
+                  </a-select-option>
+                  <a-select-option value="finished">
+                    Завершено
+                  </a-select-option>
+                  <a-select-option value="order_accepted">
+                    Заказ принят
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="deliveryMethod" :label="$t('delivery_method')" prop="deliveryMethod">
+                <a-select
+                  v-model="order.delivery_method"
+                  size="large"
+                  @change="handleDeliveryMethod"
+                  test-attr="delivery-order">
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                  <a-select-option value="self">
+                    Самовывоз
+                  </a-select-option>
+                  <a-select-option value="dayDelivery">
+                    Доставка в течении дня
+                  </a-select-option>
+                  <a-select-option value="expressDelivery">
+                    Экспресс-доставка
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="paymentMethod" :label="$t('payment_method')" prop="paymentMethod">
+                <a-select
+                  v-model="order.payment_method"
+                  size="large"
+                  @change="handlePaymentMethod"
+                  test-attr="payment-order">
+                  <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                  <a-select-option value="cash" :disabled="this.isUnired">
+                    Наличные
+                  </a-select-option>
+                  <a-select-option value="terminal" :disabled="this.isUnired">
+                    Терминал
+                  </a-select-option>
+                  <a-select-option value="card" :disabled="this.isUnired">
+                    Карта
+                  </a-select-option>
+                  <a-select-option value="click" :disabled="this.isUnired">
+                    Click
+                  </a-select-option>
+                  <a-select-option value="payme" :disabled="this.isUnired">
+                    PayMe
+                  </a-select-option>
+                  <a-select-option value="unired" :disabled="!this.isUnired">
+                    Unired
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="address" :label="$t('address')" prop="address">
+                <a-input
+                  v-model="order.address"
+                  size="large"
+                  test-attr="address-order"
+                />
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="customerNote" :label="$t('note')" prop="customerNote">
+                <a-input
+                  size="large"
+                  v-model="order.note"
+                  test-attr="note-order"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="12" style="padding: 0 15px 0 0">
+              <a-form-model-item ref="map" :label="$t('map')" prop="map">
+                <yandex-map
+                  :coords="coords"
+                  v-model="coords"
+                  :zoom="18"
+                  @click="onLocationChange"
+                  searchControlProvider="yandex#search"
+                  style="width: 100%; max-width: 1000px; height: 40vh;"
+                  test-attr="coords-order"
                 >
-                  <a-table
-                    @change="handleTableChange"
-                    :rowKey="record => record.product_id"
-                    :columns="columns"
-                    :data-source="items"
-                    bordered
-                    test-attr="products-list-order"
-                  >
-                    <!-- <template slot="price" slot-scope="text, row">
+                  <ymap-marker
+                    :coords="coords"
+                    marker-id="123"
+                    hint-content="point"
+                  />
+                </yandex-map>
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+        </a-tab-pane>
+        <a-tab-pane key="2" :tab="$t('products')">
+          <a-row>
+            <a-col :span="24">
+<!--              <a-button-->
+<!--                style="margin-bottom: 20px"-->
+<!--                type="primary"-->
+<!--                :disabled="editingKey !== ''"-->
+<!--                @click.prevent="addProduct">-->
+<!--                {{ $t('add') }}-->
+<!--              </a-button>-->
+              <a-form-model
+                ref="productRuleForm"
+                :model="editingKey !== '' ? items[editingKey] : {}"
+                :rules="productRules"
+                :label-col="labelCol"
+                :wrapper-col="wrapperCol"
+              >
+                <a-table
+                  @change="handleTableChange"
+                  :rowKey="record => record.product_id"
+                  :columns="columns"
+                  :data-source="items"
+                  bordered
+                  test-attr="products-list-order"
+                >
+                  <!-- <template slot="price" slot-scope="text, row">
                       {{ numberToPrice(row.price) }}
                     </template> -->
-                    <template
-                      v-for="col in ['product_name', 'price', 'quantity']"
-                      :slot="col"
-                      slot-scope="text, record, index"
-                    >
-                      <div :key="col">
-                        <template v-if="record.editable">
-                          <a-form-model-item :ref="col" :prop="col">
-                            <a-select
-                              v-if="col === 'product_name'"
-                              show-search
-                              :auto-clear-search-value="false"
-                              @search="onProductSearch"
-                              :value="record.product_name"
-                              :filter-option="false"
-                              @popupScroll="onScrollBottom"
-                              placeholder="product"
-                              @change="e => handleChange(e, index, col)"
-                            >
-                              <a-select-option v-for="product in productList" :title="product.name" :key="product.id" :value="product.id">
-                                {{ product.name }}
-                              </a-select-option>
-                              <a-select-option key="fetching" v-if="productParams.total > productList.length || fetching">
-                                <a-spin slot="notFoundContent" size="small" />
-                              </a-select-option>
-                            </a-select>
-                            <a-input-number
-                              v-else
-                              style="margin: -5px 0"
-                              :min="col === 'price' ? 0 : 1"
-                              :disabled="col === 'price'"
-                              :value="col === 'price' ? record.price : record.quantity"
-                              @change="e => handleChange(e, index, col)"
-                            />
-                          </a-form-model-item>
-                        </template>
-                        <template v-else>
-                          {{ col === 'price' ? numberToPrice(record.price) : text }}
-                        </template>
-                      </div>
-                    </template>
-                    <template slot="operation" slot-scope="text, record, index">
-                      <div class="editable-row-operations">
-                        <span v-if="record.editable">
-                          <a @click="() => save(index)">{{ $t('save') }}</a>
-                          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(index)">
-                            <a>{{ $t('cancel') }}</a>
-                          </a-popconfirm>
-                        </span>
-                        <span v-else>
-                          <!-- <a :disabled="editingKey !== '' || order.status !== 'in-process'" @click="() => edit(index)">{{ $t('update') }}</a> -->
-                          <a-tooltip>
-                            <template slot="title">{{ $t('update') }}</template>
-                            <a-button @click="() => edit(index)" :disabled="editingKey !== '' || order.status !== 'in-process'" id="buttonOrderDetails" type="primary" icon="edit"></a-button>
-                          </a-tooltip>
-                          <a-popconfirm
-                            placement="topRight"
-                            slot="extra"
-                            :title="$t('deleteMsg')"
-                            :disabled="editingKey !== '' || order.status !== 'in-process'"
-                            @confirm="deleteProduct(index)"
-                            :okText="$t('yes')"
-                            :cancelText="$t('no')"
+                  <template
+                    v-for="col in ['product_name', 'price', 'quantity']"
+                    :slot="col"
+                    slot-scope="text, record, index"
+                  >
+                    <div :key="col">
+                      <template v-if="record.editable">
+                        <a-form-model-item :ref="col" :prop="col">
+                          <a-select
+                            v-if="col === 'product_name'"
+                            show-search
+                            :auto-clear-search-value="false"
+                            @search="onProductSearch"
+                            :value="record.product_name"
+                            :filter-option="false"
+                            @popupScroll="onScrollBottom"
+                            placeholder="product"
+                            @change="e => handleChange(e, index, col)"
                           >
-                            <a-tooltip>
-                              <template slot="title">{{ $t('delete') }}</template>
-                              <a-button id="buttonDelete" type="danger" icon="delete" :disabled="editingKey !== '' || order.status !== 'in-process'"></a-button>
-                            </a-tooltip>
-                          </a-popconfirm>
-                        </span>
-                      </div>
-                    </template>
-                  </a-table>
-                </a-form-model>
-              </a-col>
-            </a-row>
-            <!-- <a-row>
+                            <a-select-option
+                              v-for="product in productList"
+                              :title="product.name"
+                              :key="product.id"
+                              :value="product.id">
+                              {{ product.name }}
+                            </a-select-option>
+                            <a-select-option key="fetching" v-if="productParams.total > productList.length || fetching">
+                              <a-spin slot="notFoundContent" size="small" />
+                            </a-select-option>
+                          </a-select>
+                          <a-input-number
+                            v-else
+                            style="margin: -5px 0"
+                            :min="col === 'price' ? 0 : 1"
+                            :disabled="col === 'price'"
+                            :value="col === 'price' ? record.price : record.quantity"
+                            @change="e => handleChange(e, index, col)"
+                          />
+                        </a-form-model-item>
+                      </template>
+                      <template v-else>
+                        {{ col === 'price' ? numberToPrice(record.price) : text }}
+                      </template>
+                    </div>
+                  </template>
+                  <template slot="operation" slot-scope="text, record, index">
+                    <div class="editable-row-operations">
+                      <span v-if="record.editable">
+                        <a @click="() => save(index)">{{ $t('save') }}</a>
+                        <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(index)">
+                          <a>{{ $t('cancel') }}</a>
+                        </a-popconfirm>
+                      </span>
+                      <span v-else>
+                        <!-- <a :disabled="editingKey !== '' || order.status !== 'in-process'" @click="() => edit(index)">{{ $t('update') }}</a> -->
+                        <a-tooltip>
+                          <template slot="title">{{ $t('update') }}</template>
+                          <a-button
+                            @click="() => edit(index)"
+                            :disabled="items"
+                            id="buttonOrderDetails"
+                            type="primary"
+                            icon="edit"></a-button>
+                        </a-tooltip>
+                        <a-popconfirm
+                          placement="topRight"
+                          slot="extra"
+                          :title="$t('deleteMsg')"
+                          :disabled="editingKey !== '' || order.status !== 'in-process'"
+                          @confirm="deleteProduct(index)"
+                          :okText="$t('yes')"
+                          :cancelText="$t('no')"
+                        >
+                          <a-tooltip>
+                            <template slot="title">{{ $t('delete') }}</template>
+                            <a-button
+                              id="buttonDelete"
+                              type="danger"
+                              icon="delete"
+                              :disabled="editingKey !== '' || order.status !== 'in-process'"></a-button>
+                          </a-tooltip>
+                        </a-popconfirm>
+                      </span>
+                    </div>
+                  </template>
+                </a-table>
+              </a-form-model>
+            </a-col>
+          </a-row>
+          <!-- <a-row>
               <a-col :span="24">
                 <a-table
                   @change="handleTableChange"
@@ -269,37 +294,36 @@
                 </a-table>
               </a-col>
             </a-row> -->
-          </a-tab-pane>
-          <a-tab-pane key="3" :tab="$t('customer')">
-            <a-row>
-              <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="customerName" :label="$t('firstName')" prop="customerName">
-                  <a-input
-                    size="large"
-                    v-model="order.customer_name"
-                    test-attr="customer_name-order"
-                  />
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-            <a-row>
-              <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
-                  <a-input
-                    size="large"
-                    disabled
-                    v-model="order.phone"
-                    test-attr="phone-order"
-                  />
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-          </a-tab-pane>
-          <a-tab-pane key="4" :tab="$t('activities')">
-            <user-activities/>
-          </a-tab-pane>
-        </a-tabs>
-      </a-row>
+        </a-tab-pane>
+        <a-tab-pane key="3" :tab="$t('customer')">
+          <a-row>
+            <a-col :span="12" style="padding: 0 15px">
+              <a-form-model-item ref="customerName" :label="$t('firstName')" prop="customerName">
+                <a-input
+                  size="large"
+                  v-model="order.customer_name"
+                  test-attr="customer_name-order"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="12" style="padding: 0 15px">
+              <a-form-model-item ref="phone" :label="$t('phone')" prop="phone">
+                <a-input
+                  size="large"
+                  disabled
+                  v-model="order.phone"
+                  test-attr="phone-order"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+        </a-tab-pane>
+        <a-tab-pane key="4" :tab="$t('activities')">
+          <user-activities />
+        </a-tab-pane>
+      </a-tabs>
     </a-form-model>
   </div>
 </template>
@@ -312,6 +336,7 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import userActivities from './UserActivities'
 import { pointSearch } from '@/utils/yandexMap'
 import debounce from 'lodash/debounce'
+
 export default {
   components: {
     'user-activities': userActivities
@@ -396,16 +421,16 @@ export default {
     // })
   },
   computed: {
-      ...mapGetters(['admin']),
-      ...mapState({
-        userId: state => state.user.userId
-      }),
-      getProducts () {
-          return this.items
-      },
-      isUnired () {
-        return this.order.payment_method === 'unired'
-      }
+    ...mapGetters(['admin']),
+    ...mapState({
+      userId: state => state.user.userId
+    }),
+    getProducts () {
+      return this.items
+    },
+    isUnired () {
+      return this.order.payment_method === 'unired'
+    }
   },
   methods: {
     ...mapActions(['getAdmin']),
@@ -450,6 +475,7 @@ export default {
         quantity: null,
         editable: true
       })
+      this.$emit('addProduct')
       this.editingKey = this.items.length - 1
     },
     onScrollBottom (event) {
@@ -470,14 +496,14 @@ export default {
         method: 'get',
         params: this.productParams
       })
-      .then(response => {
-        this.fetching = false
-        this.productList.push(...response.product_variants)
-        this.productParams.total = response.count
-      })
-      .catch(() => {
-        this.fetching = false
-      })
+        .then(response => {
+          this.fetching = false
+          this.productList.push(...response.product_variants)
+          this.productParams.total = response.count
+        })
+        .catch(() => {
+          this.fetching = false
+        })
     },
     onProductSearch (value) {
       // console.log(value, 'value')
@@ -564,17 +590,17 @@ export default {
       }).then((response) => {
         console.log('response', response)
         const {
-            items,
-            customer_name: customerName,
-            address,
-            phone,
-            note,
-            status,
-            longlat,
-            delivery_method: deliveryMethod,
-            payment_method: paymentMethod
+          items,
+          customer_name: customerName,
+          address,
+          phone,
+          note,
+          status,
+          longlat,
+          delivery_method: deliveryMethod,
+          payment_method: paymentMethod
         } = response
-          console.log('this.cooords', this.coords)
+        console.log('this.cooords', this.coords)
         this.items = items && items.length ? items : []
         this.cacheData = JSON.parse(JSON.stringify(items)) || []
         this.order.customer_name = customerName
@@ -595,13 +621,19 @@ export default {
       return calcTotalPrice(arrOfItems)
     },
     activeTabHandler (_activeTabKey) {
-        this.activeTabKey = _activeTabKey
+      this.activeTabKey = _activeTabKey
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          tab: _activeTabKey
+        }
+      })
     },
     handleTableChange (pagination) {
-       console.log('pagination', pagination)
+      console.log('pagination', pagination)
     },
     getPagination (pagination) {
-        return pagination
+      return pagination
     },
     handlePaymentMethod (payMethod) {
       this.order.payment_method = payMethod
@@ -624,15 +656,15 @@ export default {
             'Content-Type': 'application/json'
           }
           request({
-              url: url,
-              method: method,
-              data: {
-                ...this.order,
-                longlat: `${this.coords[0]},${this.coords[1]}`,
-                user_id: this.userId,
-                items: this.cacheData
-              },
-              headers: headers
+            url: url,
+            method: method,
+            data: {
+              ...this.order,
+              longlat: `${this.coords[0]},${this.coords[1]}`,
+              user_id: this.userId,
+              items: this.cacheData
+            },
+            headers: headers
           }).then(res => {
             this.$router.replace('/orders/list')
             console.log('response after submit', res)
@@ -656,14 +688,14 @@ export default {
 </script>
 
 <style>
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 /* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>

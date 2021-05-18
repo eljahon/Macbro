@@ -7,13 +7,13 @@ const admins = {
       admins: [],
       admin: null,
       pagination: {},
-      searchQuery: ''
+      searchquery: ''
     },
     getters: {
       admin: state => state.admin,
       adminsPagination: state => state.pagination,
       admins: state => state.admins,
-      searchQuery: state => state.searchQuery
+      searchQuery: state => state.searchquery
     },
     mutations: {
       GET_ADMIN: (state, admin) => {
@@ -26,12 +26,12 @@ const admins = {
         state.pagination = pagination
       },
       SET_SEARCH_QUERY: (state, query) => {
-        state.searchQuery = query
+        state.searchquery = query
       }
     },
     actions: {
-      setSearchQuery ({ commit }, searchQuery) {
-        commit('SET_SEARCH_QUERY', searchQuery)
+      setSearchQuery ({ commit }, payload) {
+        commit('SET_SEARCH_QUERY', payload)
       },
       getAdmin ({ commit }, payload) {
         return new Promise((resolve, reject) => {

@@ -6,14 +6,17 @@ const headers = {
 
 const customers = {
     state: {
+      pageSiz: null,
       customers: [],
       customersPagination: {},
-      searchQuery: ''
+      searchquery: '',
+      userList: []
     },
     getters: {
+      user_List: state => state.userList,
       customersData: state => state.customers,
       customersPagination: state => state.customersPagination,
-      searchQuery: state => state.searchQuery
+      searchQuery: state => state.searchquery
     },
     mutations: {
       GET_CUSTOMERS: (state, customers) => {
@@ -23,8 +26,11 @@ const customers = {
           state.customersPagination = customersPagination
       },
       SET_SEARCH_QUERY: (state, query) => {
-        state.searchQuery = query
-      }
+        state.searchquery = query
+      },
+      SET_USER_LIST: (state, payload) => {
+        state.userList = payload
+}
     },
     actions: {
       setSearchQuery ({ commit }, searchQuery) {
@@ -32,7 +38,7 @@ const customers = {
       },
       getCustomers ({ commit, state }, payload = { page: null }) {
         let { page } = payload
-        const { searchQuery } = state
+        const { searchquery } = state
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
@@ -44,7 +50,7 @@ const customers = {
             headers: headers,
             params: {
               page: page.current,
-              phone_number: searchQuery
+              phone_number: searchquery
             }
         })
           .then(result => {
@@ -54,13 +60,35 @@ const customers = {
           console.log('pagination')
           commit('GET_CUSTOMERS_PAGINATION', pagination)
           commit('GET_CUSTOMERS', result.clients)
+            console.log('clients', result.clients)
           resolve()
         })
         .catch(error => {
           reject(error)
         })
       })
-    }
+    },
+      getUserList ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+          request({
+            url: `/user`,
+            method: 'get',
+            params: {
+              page: 10,
+              // eslint-disable-next-line no-undef
+              user_type: 'client'
+            }
+          }).then(result => {
+            // eslint-disable-next-line no-undef
+            console.log(result)
+            commit('SET_USER_LIST', result.users)
+            // eslint-disable-next-line no-undef
+            resolve()
+          }).catch(rej => {
+            reject(rej)
+          })
+        })
+      }
   }
 }
   export default customers

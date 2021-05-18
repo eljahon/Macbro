@@ -4,9 +4,10 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style="float: right">
+      <div slot="extra" style='display: flex; margin-left: 50px'>
+        <a-date-picker @change="onChange" placeholder='DD/MM/YYYY' />
         <a-input
-          style="float: right; width: 200px"
+          style=" width: 200px; margin-left: 10px"
           test-attr="search-order"
           id="inputSearch"
           :placeholder="$t('search') + '...'"
@@ -40,6 +41,7 @@
             test-attr="list-order"
             bordered
             :customRow="customRowClick"
+            class="pointer"
           >
             <div
               slot="filterDropdown"
@@ -79,7 +81,7 @@
             <!-- <template slot="tag" slot-scope="tag">
               <a-tag color="red">{{ tag }}</a-tag>
             </template> -->
-            <template slot="status" slot-scope="text, row">
+            <template slot="status" slot-scope="text, row" style='cursor: pointer'>
               <status-tag
                 :color="statusColor[row.status]"
                 :text="statusTranslator(row.status)"
@@ -125,6 +127,7 @@ import { mapActions, mapGetters } from 'vuex'
 import request from '@/utils/request'
 import calcTotalPrice from '@/utils/calcTotalPrice'
 import numberToPrice from '@/utils/numberToPrice'
+// import debounce from 'vue-debounce'
 export default {
   data () {
     return {
@@ -253,6 +256,19 @@ export default {
         }
       }
     },
+    debouncedSearchDate (searchQuery) {
+      this.setSearchQuery(searchQuery)
+      this.loading = true
+      this.getOrders()
+        .then((res) => console.log(res))
+        .catch(err => this.requestFailed(err))
+        .finally(() => (this.loading = false))
+      console.log('debounce')
+    },
+    onChange (date, dateString) {
+      console.log(dateString)
+      this.debouncedSearch(dateString)
+    },
     handleTableChange (pagination) {
       console.log('Pagination', pagination)
       this.loading = true
@@ -349,5 +365,8 @@ img.order-preview-image {
     max-width: 600px !important;
     width: auto !important;
     height: auto !important;
+}
+.pointer:hover {
+cursor: pointer;
 }
 </style>
