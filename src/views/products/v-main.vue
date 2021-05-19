@@ -622,7 +622,7 @@ export default {
         ],
         desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
         parent_id: [
-      { required: true, message: this.$t('required'), trigger: 'change' }
+      { required: false, message: this.$t('required'), trigger: 'change' }
     ]
       },
       // table
