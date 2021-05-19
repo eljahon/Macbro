@@ -132,24 +132,24 @@
                 />
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
-                <a-input
-                  size="large"
-                  v-model="productVariant.external_id"
-                  test-attr="external-id-product-vars"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
-                <a-input
-                  size="large"
-                  v-model="productVariant.code"
-                  test-attr="code-product-vars"
-                />
-              </a-form-model-item>
-            </a-col>
+<!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+<!--&lt;!&ndash;              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a-input&ndash;&gt;-->
+<!--&lt;!&ndash;                  size="large"&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-model="productVariant.external_id"&ndash;&gt;-->
+<!--&lt;!&ndash;                  test-attr="external-id-product-vars"&ndash;&gt;-->
+<!--&lt;!&ndash;                />&ndash;&gt;-->
+<!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
+<!--            </a-col>-->
+<!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+<!--&lt;!&ndash;              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <a-input&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                  size="large"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                  v-model="productVariant.code"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                  test-attr="code-product-vars"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                />&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
+<!--            </a-col>-->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('categories')">
                 <treeselect
@@ -538,8 +538,8 @@ export default {
           tags: '',
           description: ''
         },
-        external_id: null,
-        code: '',
+        // external_id: null,
+        // code: '',
         state: '',
         bar_code: ''
       },
@@ -566,10 +566,10 @@ export default {
         ],
         external_id: [
           { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        parent_id: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
         ]
+        // parent_id: [
+        //   { required: true, message: this.$t('required'), trigger: 'change' }
+        // ]
       },
       columns: [
         {
@@ -911,8 +911,8 @@ export default {
         this.productVariant.order = productVariant.order
         this.productVariant.category_id = productVariant.category.id
         this.productVariant.brand_id = productVariant.brand.id
-        this.productVariant.external_id = productVariant.external_id
-        this.productVariant.code = productVariant.code
+        // this.productVariant.external_id = productVariant.external_id
+        // this.productVariant.code = productVariant.code
         this.productVariant.order = productVariant.order || 1
         this.imageUrl = productVariant.image
         this.productVariant.image = productVariant.image.split('/')[4]
