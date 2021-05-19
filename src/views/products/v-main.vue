@@ -101,7 +101,7 @@
                 </treeselect>
               </a-form-model-item>
             </a-col>
-            <a-col :md="24"  :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
+            <a-col :md="24" :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
               <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
                 <a-input
                   size="large"
@@ -390,7 +390,7 @@
                       @search="onAttributeVariantSeach"
                       :filter-option="false"
                       placeholder="brand">
-                       <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                      <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                       <a-select-option v-for="variant in generatedVariants" :title="variant" :key="variant" :value="variant">
                         {{ variant }}
                       </a-select-option>
@@ -408,7 +408,7 @@
                       @popupScroll="onScrollBottom"
                       @change="onVariantProductSelect($event, index)"
                       placeholder="brand">
-                        <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
+                      <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
                       <a-select-option v-for="variant in variantList" :title="variant.name" :key="variant.id" :value="variant.id" :selected="item.value === variant.id">
                         {{ variant.name }}
                       </a-select-option>
@@ -620,7 +620,10 @@ export default {
         external_id: [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
-        desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }]
+        desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
+        parent_id: [
+      { required: true, message: this.$t('required'), trigger: 'change' }
+    ]
       },
       // table
       selectedRowKeys: [],

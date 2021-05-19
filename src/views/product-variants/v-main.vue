@@ -566,6 +566,9 @@ export default {
         ],
         external_id: [
           { required: true, message: this.$t('required'), trigger: 'change' }
+        ],
+        parent_id: [
+          { required: true, message: this.$t('required'), trigger: 'change' }
         ]
       },
       columns: [

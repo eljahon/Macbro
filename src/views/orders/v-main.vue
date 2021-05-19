@@ -636,9 +636,9 @@ export default {
         const paylod = {
           element: 'order',
           element_id: this.$route.params.id,
-          user_id: this.$route.query.id,
-          limit: 1,
-          page: 10,
+          // element_id: this.$route.query.id,
+          limit: 10,
+          page: 1,
           total: null
         }
         this.getCustomerOrdersitem(paylod).then(res => {
