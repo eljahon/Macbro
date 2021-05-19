@@ -33,7 +33,7 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
       >
-        <a-tabs type="card" v-model="activeTabKey">
+        <a-tabs type="card" v-model="activeTabKey" @change="callback">
           <a-tab-pane key="1" :tab="$t('basicSettings')">
             <a-row>
               <a-col :span="12" style="padding: 0 15px">
@@ -159,6 +159,7 @@ import notification from 'ant-design-vue/lib/notification'
 export default {
   data () {
     return {
+      page: { limit: 1, pageSize: 10, total: null },
       customerId: this.$route.params.id,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
@@ -255,6 +256,22 @@ this.getUserListItem(this.$route.params.id).then(res => {
   },
   methods: {
     ...mapActions(['getCustomerOrders', 'getUserListItem']),
+    callback (e) {
+      // const paylod = {
+      //   element: 'order',
+      //   element_id: this.$route.params.id,
+      //   user_id:
+      //   limit: 1,
+      //   page: 10,
+      //   total: null
+      // }
+      console.log(e)
+      // if (e === '2') {
+      //   this.getCustomerOrders(paylod).then(res => {
+      //     console.log('order===========>', res)
+      //   })
+      // }
+    },
     userCustomeItem () {
       console.log('hello =======> delete')
       this.$store.dispatch('getUserListItemRemove', this.$route.params.id).then(res => {

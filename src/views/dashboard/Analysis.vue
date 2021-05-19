@@ -1,220 +1,54 @@
 <template>
   <div>
-    <a-row :gutter="24">
-      <a-col :sm="24" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="ordersLoading" :title="$t('sum_stat')" :total="numToPrice(sum)">
-          <a-tooltip :title="$t('sum_stat')" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <template slot="footer">{{ $t('sum_average') }} <span>{{ this.numToPrice((this.sum / this.ordersInterval ).toFixed(0)) }}</span></template>
-        </chart-card>
-        <a-card>
-          <line-chart :title="$t('sum_stat')" v-if="!ordersLoading" :data="sumData" :labels="ordersLabels"></line-chart>
-        </a-card>
-      </a-col>
-      <a-col :sm="24" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="ordersLoading" :title="$t('orders_stat')" :total="ordersCount">
-          <a-tooltip :title="$t('orders_stat')" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <template slot="footer">{{ $t('orders_average') }} <span>{{ (this.ordersCount / this.ordersInterval ).toFixed(2) }}</span></template>
-        </chart-card>
-        <a-card>
-          <line-chart :title="$t('orders_stat')" v-if="!ordersLoading" :data="ordersData" :labels="ordersLabels"></line-chart>
-        </a-card>
-      </a-col>
-      <a-col :sm="24" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="clientsLoading" :title="$t('clients_stat')" :total="clientsCount">
-          <a-tooltip :title="$t('clients_stat')" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <div>
-          </div>
-          <template slot="footer">{{ $t('orders_average') }} <span> {{ (this.clientsCount / this.clientsInterval).toFixed(2) }}</span></template>
-        </chart-card>
-        <a-card>
-          <line-chart :title="$t('clients_stat')" v-if="!clientsLoading" :data="clientsData" :labels="clientsLabels"></line-chart>
-        </a-card>
-      </a-col>
-      <!-- <a-col :sm="24" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="orders" :total="this.ordersCount | NumberFormat">
-          <a-tooltip title="orders" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <div>
-          </div>
-          <template slot="footer">daily orders <span>60</span></template>
-        </chart-card>
-        <a-card>
-          <line-chart line-chart v-if="!loading" :data="lineChartData" :labels="labels"></line-chart>
-        </a-card>
-      </a-col> -->
-      <!-- <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="运营活动效果" total="78%">
-          <a-tooltip title="指标说明" slot="action">
-            <a-icon type="info-circle-o" />
-          </a-tooltip>
-          <div>
-            <mini-progress color="rgb(19, 194, 194)" :target="80" :percentage="78" height="8px" />
-          </div>
-          <template slot="footer">
-            <trend flag="down" style="margin-right: 16px;">
-              <span slot="term">同周比</span>
-              12%
-            </trend>
-            <trend flag="up">
-              <span slot="term">日环比</span>
-              80%
-            </trend>
-          </template>
-        </chart-card>
-      </a-col> -->
-    </a-row>
-    <!-- <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
-      <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-          <div class="extra-wrapper" slot="tabBarExtraContent">
-            <div class="extra-item">
-              <a>Today</a>
-              <a>This week</a>
-              <a>This month月</a>
-              <a>This year</a>
-            </div>
-            <a-range-picker :style="{width: '256px'}" />
-          </div>
-          <a-tab-pane loading="true" tab="Sales" key="1">
-            <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData" title="Sales ranking" />
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList"/>
-              </a-col>
-            </a-row>
-          </a-tab-pane>
-          <a-tab-pane tab="Clients" key="2">
-            <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar :data="barData2" title="Clients" />
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList"/>
-              </a-col>
-            </a-row>
-          </a-tab-pane>
-        </a-tabs>
-      </div>
-    </a-card> -->
+<!--    <a-card>-->
 
-    <!-- <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="!isMobile && 'desktop'">
-      <a-row :gutter="24" type="flex" :style="{ marginTop: '24px' }">
-        <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card :loading="loading" :bordered="false" title="线上热门搜索" :style="{ height: '100%' }">
-            <a-dropdown :trigger="['click']" placement="bottomLeft" slot="extra">
-              <a class="ant-dropdown-link" href="#">
-                <a-icon type="ellipsis" />
-              </a>
-              <a-menu slot="overlay">
-                <a-menu-item>
-                  <a href="javascript:;">操作一</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;">操作二</a>
-                </a-menu-item>
-              </a-menu>
-            </a-dropdown>
-            <a-row :gutter="68">
-              <a-col :xs="24" :sm="12" :style="{ marginBottom: ' 24px'}">
-                <number-info :total="12321" :sub-total="17.1">
-                  <span slot="subtitle">
-                    <span>搜索用户数</span>
-                    <a-tooltip title="指标说明" slot="action">
-                      <a-icon type="info-circle-o" :style="{ marginLeft: '8px' }" />
-                    </a-tooltip>
-                  </span>
-                </number-info>
-                miniChart
-                <div>
-                  <mini-smooth-area :style="{ height: '45px' }" :dataSource="searchUserData" :scale="searchUserScale" />
-                </div>
-              </a-col>
-              <a-col :xs="24" :sm="12" :style="{ marginBottom: ' 24px'}">
-                <number-info :total="2.7" :sub-total="26.2" status="down">
-                  <span slot="subtitle">
-                    <span>人均搜索次数</span>
-                    <a-tooltip title="指标说明" slot="action">
-                      <a-icon type="info-circle-o" :style="{ marginLeft: '8px' }" />
-                    </a-tooltip>
-                  </span>
-                </number-info>
-                miniChart
-                <div>
-                  <mini-smooth-area :style="{ height: '45px' }" :dataSource="searchUserData" :scale="searchUserScale" />
-                </div>
-              </a-col>
-            </a-row>
-            <div class="ant-table-wrapper">
-              <a-table
-                row-key="index"
-                size="small"
-                :columns="searchTableColumns"
-                :dataSource="searchData"
-                :pagination="{ pageSize: 5 }"
-              >
-                <span slot="range" slot-scope="text, record">
-                  <trend :flag="record.status === 0 ? 'up' : 'down'">
-                    {{ text }}%
-                  </trend>
-                </span>
-              </a-table>
-            </div>
-          </a-card>
-        </a-col>
-        <a-col :xl="12" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card class="antd-pro-pages-dashboard-analysis-salesCard" :loading="loading" :bordered="false" title="销售额类别占比" :style="{ height: '100%' }">
-            <div slot="extra" style="height: inherit;">
-              style="bottom: 12px;display: inline-block;"
-              <span class="dashboard-analysis-iconGroup">
-                <a-dropdown :trigger="['click']" placement="bottomLeft">
-                  <a-icon type="ellipsis" class="ant-dropdown-link" />
-                  <a-menu slot="overlay">
-                    <a-menu-item>
-                      <a href="javascript:;">操作一</a>
-                    </a-menu-item>
-                    <a-menu-item>
-                      <a href="javascript:;">操作二</a>
-                    </a-menu-item>
-                  </a-menu>
-                </a-dropdown>
-              </span>
-              <div class="analysis-salesTypeRadio">
-                <a-radio-group defaultValue="a">
-                  <a-radio-button value="a">全部渠道</a-radio-button>
-                  <a-radio-button value="b">线上</a-radio-button>
-                  <a-radio-button value="c">门店</a-radio-button>
-                </a-radio-group>
-              </div>
-
-            </div>
-            <h4>销售额</h4>
-            <div>
-              style="width: calc(100% - 240px);"
+<!--      <div slot="title">-->
+<!--        <span>Сумма Продаж</span>-->
+<!--      </div>-->
+<!--      <div slot="extra">-->
+<!--        <a-date-picker @change="onChange" placeholder='DD/MM/YYYY'>-->
+<!--          <a-icon slot="calendar" type="smile" />-->
+<!--        </a-date-picker>-->
+<!--      </div>-->
+<!--    </a-card>-->
+<!--  </div>-->
+        <a-row :gutter="24">
+          <a-col :sm="24" :style="{ marginBottom: '24px' }">
+            <chart-card :loading="ordersLoading" :title="$t('sum_stat')" :total="numToPrice(sum)">
+              <a-tooltip :title="$t('sum_stat')" slot="action">
+                <a-icon type="info-circle-o" />
+              </a-tooltip>
+              <template slot="footer">{{ $t('sum_average') }} <span>{{ this.numToPrice((this.sum / this.ordersInterval ).toFixed(0)) }}</span></template>
+            </chart-card>
+            <a-card>
+              <line-chart :title="$t('sum_stat')" v-if="!ordersLoading" :data="sumData" :labels="ordersLabels"></line-chart>
+            </a-card>
+          </a-col>
+          <a-col :sm="24" :style="{ marginBottom: '24px' }">
+            <chart-card :loading="ordersLoading" :title="$t('orders_stat')" :total="ordersCount">
+              <a-tooltip :title="$t('orders_stat')" slot="action">
+                <a-icon type="info-circle-o" />
+              </a-tooltip>
+              <template slot="footer">{{ $t('orders_average') }} <span>{{ (this.ordersCount / this.ordersInterval ).toFixed(2) }}</span></template>
+            </chart-card>
+            <a-card>
+              <line-chart :title="$t('orders_stat')" v-if="!ordersLoading" :data="ordersData" :labels="ordersLabels"></line-chart>
+            </a-card>
+          </a-col>
+          <a-col :sm="24" :style="{ marginBottom: '24px' }">
+            <chart-card :loading="clientsLoading" :title="$t('clients_stat')" :total="clientsCount">
+              <a-tooltip :title="$t('clients_stat')" slot="action">
+                <a-icon type="info-circle-o" />
+              </a-tooltip>
               <div>
-                <v-chart :force-fit="true" :height="405" :data="pieData" :scale="pieScale">
-                  <v-tooltip :showTitle="false" dataKey="item*percent" />
-                  <v-axis />
-                  position="right" :offsetX="-140"
-                  <v-legend dataKey="item"/>
-                  <v-pie position="percent" color="item" :vStyle="pieStyle" />
-                  <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
-                </v-chart>
               </div>
-
-            </div>
-          </a-card>
-        </a-col>
-      </a-row>
-    </div> -->
+              <template slot="footer">{{ $t('orders_average') }} <span> {{ (this.clientsCount / this.clientsInterval).toFixed(2) }}</span></template>
+            </chart-card>
+            <a-card>
+              <line-chart :title="$t('clients_stat')" v-if="!clientsLoading" :data="clientsData" :labels="clientsLabels"></line-chart>
+            </a-card>
+          </a-col>
+        </a-row>
   </div>
 </template>
 
@@ -290,6 +124,9 @@ export default {
   methods: {
     numToPrice (num) {
       return numberToPrice(num)
+    },
+    onChange (date, dateString) {
+      console.log(date, dateString)
     }
   }
 }

@@ -115,21 +115,16 @@ const orders = {
         })
       })
     },
-    getCustomerOrders ({ commit }, payload = { page: null, customerId: '' }) {
-        let { page } = payload
-        const { customerId } = payload
-        if (!page) {
-          page = { current: 1, pageSize: 10, total: null }
-        }
-        page.showQuickJumper = true
+    getCustomerOrders ({ commit }, payload) {
         return new Promise((resolve, reject) => {
-          console.log(page)
+          // eslint-disable-next-line no-unused-vars
+         const { pase, limit, total } = payload
+          const page = { pase, limit, total }
+          delete payload.total
         request({
-            url: `/customer/orders/${customerId}`,
+            url: `/user-activities`,
             headers: headers,
-            params: {
-              page: page.current
-            }
+            params: payload
         })
         .then(result => {
           console.log('result', result)
@@ -145,7 +140,33 @@ const orders = {
           reject(error)
         })
       })
-    }
+    },
+      getCustomerOrdersitem ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+          // eslint-disable-next-line no-unused-vars
+          const { pase, limit, total } = payload
+          const page = { pase, limit, total }
+          delete payload.total
+          request({
+            url: `/user-activities`,
+            headers: headers,
+            params: payload
+          })
+            .then(result => {
+              console.log('result', result)
+              const pagination = { ...page }
+              pagination.total = parseInt(result.count)
+              console.log(pagination)
+              console.log('pagination')
+              commit('GET_CUSTOMER_ORDERS_PAGINATION', pagination)
+              commit('GET_CUSTOMER_ORDERS', result.orders)
+              resolve()
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+      }
   }
 }
   export default orders

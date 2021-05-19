@@ -352,6 +352,7 @@ export default {
         page: 1,
         total: null
       },
+      id: null,
       fetching: false,
       cacheData: [],
       editingKey: '',
@@ -434,7 +435,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAdmin']),
+    ...mapActions(['getAdmin', 'getCustomerOrdersitem']),
     onLocationChange (e) {
       // var eMap = e.get('target')
       this.coords = e.get('coords')
@@ -590,6 +591,7 @@ export default {
         method: 'get'
       }).then((response) => {
         console.log('response', response)
+        this.id = response.id
         const {
           items,
           customer_name: customerName,
@@ -626,9 +628,26 @@ export default {
       this.$router.push({
         name: this.$route.name,
         query: {
-          tab: _activeTabKey
+          tab: _activeTabKey,
+          id: this.id
         }
       })
+      if (_activeTabKey === '4') {
+        const paylod = {
+          element: 'order',
+          element_id: this.$route.params.id,
+          user_id: this.$route.query.id,
+          limit: 1,
+          page: 10,
+          total: null
+        }
+        this.getCustomerOrdersitem(paylod).then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
     },
     handleTableChange (pagination) {
       console.log('pagination', pagination)

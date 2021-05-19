@@ -22,7 +22,7 @@
     <a-card :title="$t('orders')" class="breadcrumb-row" :bordered="false">
     </a-card>
 
-    <a-card :bordered="false" style="flex: 1">
+    <a-card :bordered="false" style="flex: 1" >
       <a-tabs default-active-key="1" type="card">
         <a-tab-pane key="1">
           <div slot="tab">
