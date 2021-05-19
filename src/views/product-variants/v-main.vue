@@ -89,7 +89,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('brand')" prop="parent_id">
+              <a-form-model-item :label="$t('brand')" prop="brand_id">
                 <a-select
                   size="large"
                   show-search
@@ -564,12 +564,12 @@ export default {
         order: [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
-        external_id: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ]
-        // parent_id: [
+        // external_id: [
         //   { required: true, message: this.$t('required'), trigger: 'change' }
         // ]
+        brand_id: [
+          { required: true, message: this.$t('required'), trigger: 'change' }
+        ]
       },
       columns: [
         {
