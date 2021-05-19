@@ -590,7 +590,7 @@ export default {
         url: `/order/${this.orderNumber}`,
         method: 'get'
       }).then((response) => {
-        console.log('response', response)
+        console.log('response customer data===========>', response)
         this.id = response.id
         const {
           items,
@@ -681,7 +681,7 @@ export default {
             data: {
               ...this.order,
               longlat: `${this.coords[0]},${this.coords[1]}`,
-              user_id: this.userId,
+              user_id: this.id,
               items: this.cacheData
             },
             headers: headers
