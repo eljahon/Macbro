@@ -568,7 +568,7 @@ export default {
         //   { required: true, message: this.$t('required'), trigger: 'change' }
         // ]
         brand_id: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
+          { required: true, message: this.$t('required') }
         ]
       },
       columns: [
