@@ -262,16 +262,16 @@
           <a-row>
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
-                <a-input
-                  size="large"
+                <a-input-number
+                  style="width: 100%"
                   v-model="price.price"
                 />
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="12" style="padding: 0 15px">
               <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
-                <a-input
-                  size="large"
+                <a-input-number
+                  style="width: 100%"
                   v-model="price.old_price"
                 />
               </a-form-model-item>
@@ -494,7 +494,6 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
 // import { ISO_8601 } from 'moment'
-
 function getCategoriesTree (categories) {
   if (categories) {
     // console.log(categories, 'categories')
@@ -542,6 +541,14 @@ export default {
     this.onVariatSearch = debounce(this.onVariatSearch, 400)
     this.getProductVariants = debounce(this.getProductVariants, 100)
     this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
+    // const validateNumber = (rule, value, callback) => {
+    //   console.log('number=====>', value)
+    //   if (Number.isInteger(value) && value > 0) {
+    //     callback()
+    //   } else {
+    //     callback(new Error(this.$t('Number')))
+    //   }
+    // }
     return {
       attributeLoading: false,
       variantParams: {
@@ -627,6 +634,8 @@ export default {
         brand_id: [
           { required: true, message: this.$t('required'), trigger: 'blur' }
         ]
+        // month_price: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validateNumber, trigger: 'change' }]
+
         // category_id: [
         //   { required: true, message: this.$t('required'), trigger: 'blur' }
         // ]

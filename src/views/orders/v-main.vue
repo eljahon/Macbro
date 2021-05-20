@@ -671,6 +671,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           var url = `/order/${this.orderNumber}`
+          console.log('user_id===>', localStorage.getItem('user_id'))
           var method = 'put'
           const headers = {
             'Content-Type': 'application/json'
@@ -681,7 +682,7 @@ export default {
             data: {
               ...this.order,
               longlat: `${this.coords[0]},${this.coords[1]}`,
-              user_id: this.id,
+              user_id: JSON.parse(localStorage.getItem('user_id')),
               items: this.cacheData
             },
             headers: headers
