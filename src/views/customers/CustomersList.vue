@@ -131,14 +131,14 @@
         <a-tab-pane key="2">
           <div slot="tab">
             <span>
-             {{$t('customerstab2')}}<span class="custom-badge" style="margin-left: 10px;">1</span>
+              {{ $t('customerstab2') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
             </span>
           </div>
         </a-tab-pane>
         <a-tab-pane key="3">
           <div slot="tab">
             <span>
-             {{$t('customerstab3')}}<span class="custom-badge" style="margin-left: 10px;">1</span>
+              {{ $t('customerstab3') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
             </span>
           </div>
         </a-tab-pane>

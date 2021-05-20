@@ -56,7 +56,7 @@
         <template slot="action" slot-scope="text, row, index">
           <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-shops${index}`"/>
           <router-link :to="`./update/${row.slug}`" >
-              <edit-btn :test-attr="`edit-shops${index}`"/>
+            <edit-btn :test-attr="`edit-shops${index}`"/>
           </router-link>
           <delete-btn @confirm="deleteShops($event, row.slug)" :test-attr="`delete-shops${index}`"/>
         </template>

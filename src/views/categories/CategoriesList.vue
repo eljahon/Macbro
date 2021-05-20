@@ -45,7 +45,7 @@
         </template>
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
-          <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-category${index}`"/> -->
+            <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-category${index}`"/> -->
             <router-link :to="'./update/'+row.slug" >
               <edit-btn :test-attr="`edit-category${index}`"/>
             </router-link>

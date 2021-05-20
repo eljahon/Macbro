@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>{{ $t('physicalAgents') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('physicalAgents') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input
@@ -39,9 +39,9 @@
       >
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-physical${index}`"/> -->
+            <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-physical${index}`"/> -->
             <router-link :to="`./update/${row.id}`" >
-                <edit-btn :test-attr="`edit-physical${index}`"/>
+              <edit-btn :test-attr="`edit-physical${index}`"/>
             </router-link>
             <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-physical${index}`"/>
           </div>

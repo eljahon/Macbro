@@ -1,54 +1,54 @@
 <template>
   <div>
-<!--    <a-card>-->
+    <!--    <a-card>-->
 
-<!--      <div slot="title">-->
-<!--        <span>Сумма Продаж</span>-->
-<!--      </div>-->
-<!--      <div slot="extra">-->
-<!--        <a-date-picker @change="onChange" placeholder='DD/MM/YYYY'>-->
-<!--          <a-icon slot="calendar" type="smile" />-->
-<!--        </a-date-picker>-->
-<!--      </div>-->
-<!--    </a-card>-->
-<!--  </div>-->
-        <a-row :gutter="24">
-          <a-col :sm="24" :style="{ marginBottom: '24px' }">
-            <chart-card :loading="ordersLoading" :title="$t('sum_stat')" :total="numToPrice(sum)">
-              <a-tooltip :title="$t('sum_stat')" slot="action">
-                <a-icon type="info-circle-o" />
-              </a-tooltip>
-              <template slot="footer">{{ $t('sum_average') }} <span>{{ this.numToPrice((this.sum / this.ordersInterval ).toFixed(0)) }}</span></template>
-            </chart-card>
-            <a-card>
-              <line-chart :title="$t('sum_stat')" v-if="!ordersLoading" :data="sumData" :labels="ordersLabels"></line-chart>
-            </a-card>
-          </a-col>
-          <a-col :sm="24" :style="{ marginBottom: '24px' }">
-            <chart-card :loading="ordersLoading" :title="$t('orders_stat')" :total="ordersCount">
-              <a-tooltip :title="$t('orders_stat')" slot="action">
-                <a-icon type="info-circle-o" />
-              </a-tooltip>
-              <template slot="footer">{{ $t('orders_average') }} <span>{{ (this.ordersCount / this.ordersInterval ).toFixed(2) }}</span></template>
-            </chart-card>
-            <a-card>
-              <line-chart :title="$t('orders_stat')" v-if="!ordersLoading" :data="ordersData" :labels="ordersLabels"></line-chart>
-            </a-card>
-          </a-col>
-          <a-col :sm="24" :style="{ marginBottom: '24px' }">
-            <chart-card :loading="clientsLoading" :title="$t('clients_stat')" :total="clientsCount">
-              <a-tooltip :title="$t('clients_stat')" slot="action">
-                <a-icon type="info-circle-o" />
-              </a-tooltip>
-              <div>
-              </div>
-              <template slot="footer">{{ $t('orders_average') }} <span> {{ (this.clientsCount / this.clientsInterval).toFixed(2) }}</span></template>
-            </chart-card>
-            <a-card>
-              <line-chart :title="$t('clients_stat')" v-if="!clientsLoading" :data="clientsData" :labels="clientsLabels"></line-chart>
-            </a-card>
-          </a-col>
-        </a-row>
+    <!--      <div slot="title">-->
+    <!--        <span>Сумма Продаж</span>-->
+    <!--      </div>-->
+    <!--      <div slot="extra">-->
+    <!--        <a-date-picker @change="onChange" placeholder='DD/MM/YYYY'>-->
+    <!--          <a-icon slot="calendar" type="smile" />-->
+    <!--        </a-date-picker>-->
+    <!--      </div>-->
+    <!--    </a-card>-->
+    <!--  </div>-->
+    <a-row :gutter="24">
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="ordersLoading" :title="$t('sum_stat')" :total="numToPrice(sum)">
+          <a-tooltip :title="$t('sum_stat')" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <template slot="footer">{{ $t('sum_average') }} <span>{{ this.numToPrice((this.sum / this.ordersInterval ).toFixed(0)) }}</span></template>
+        </chart-card>
+        <a-card>
+          <line-chart :title="$t('sum_stat')" v-if="!ordersLoading" :data="sumData" :labels="ordersLabels"></line-chart>
+        </a-card>
+      </a-col>
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="ordersLoading" :title="$t('orders_stat')" :total="ordersCount">
+          <a-tooltip :title="$t('orders_stat')" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <template slot="footer">{{ $t('orders_average') }} <span>{{ (this.ordersCount / this.ordersInterval ).toFixed(2) }}</span></template>
+        </chart-card>
+        <a-card>
+          <line-chart :title="$t('orders_stat')" v-if="!ordersLoading" :data="ordersData" :labels="ordersLabels"></line-chart>
+        </a-card>
+      </a-col>
+      <a-col :sm="24" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="clientsLoading" :title="$t('clients_stat')" :total="clientsCount">
+          <a-tooltip :title="$t('clients_stat')" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <div>
+          </div>
+          <template slot="footer">{{ $t('orders_average') }} <span> {{ (this.clientsCount / this.clientsInterval).toFixed(2) }}</span></template>
+        </chart-card>
+        <a-card>
+          <line-chart :title="$t('clients_stat')" v-if="!clientsLoading" :data="clientsData" :labels="clientsLabels"></line-chart>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 

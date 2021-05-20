@@ -12,46 +12,46 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="product_name" :label="$t('product_name')" prop="product_name">
             <a-select
-                show-search
-                :auto-clear-search-value="false"
-                @search="onSearch($event, 'product')"
-                :value="form.product_name"
-                :filter-option="false"
-                @popupScroll="onScrollBottom($event, 'product')"
-                placeholder="brand"
-                @change="handleChange($event, 'product')"
-                :disbled="loading"
-                test-attr="product_name-inventory"
+              show-search
+              :auto-clear-search-value="false"
+              @search="onSearch($event, 'product')"
+              :value="form.product_name"
+              :filter-option="false"
+              @popupScroll="onScrollBottom($event, 'product')"
+              placeholder="brand"
+              @change="handleChange($event, 'product')"
+              :disbled="loading"
+              test-attr="product_name-inventory"
             >
-                <a-select-option v-for="product in productList" :title="product.name" :key="product.id" :value="product.slug">
-                    {{ product.name }}
-                </a-select-option>
-                <a-select-option key="productFetching" v-if="productParams.total > productList.length || productFetching">
-                    <a-spin slot="notFoundContent" size="small" />
-                </a-select-option>
+              <a-select-option v-for="product in productList" :title="product.name" :key="product.id" :value="product.slug">
+                {{ product.name }}
+              </a-select-option>
+              <a-select-option key="productFetching" v-if="productParams.total > productList.length || productFetching">
+                <a-spin slot="notFoundContent" size="small" />
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="branch_name" :label="$t('branchName')" prop="branch_name">
             <a-select
-                show-search
-                :auto-clear-search-value="false"
-                @search="onSearch($event, 'branch')"
-                :value="form.branch_name"
-                :filter-option="false"
-                @popupScroll="onScrollBottom($event, 'branch')"
-                placeholder="branch"
-                @change="handleChange($event, 'branch')"
-                :disbled="loading"
-                test-attr="branch_name-inventory"
+              show-search
+              :auto-clear-search-value="false"
+              @search="onSearch($event, 'branch')"
+              :value="form.branch_name"
+              :filter-option="false"
+              @popupScroll="onScrollBottom($event, 'branch')"
+              placeholder="branch"
+              @change="handleChange($event, 'branch')"
+              :disbled="loading"
+              test-attr="branch_name-inventory"
             >
-                <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
-                    {{ branch.name }}
-                </a-select-option>
-                <a-select-option key="branchFetching" v-if="branchParams.total > branchList.length || branchFetching">
-                    <a-spin slot="notFoundContent" size="small" />
-                </a-select-option>
+              <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
+                {{ branch.name }}
+              </a-select-option>
+              <a-select-option key="branchFetching" v-if="branchParams.total > branchList.length || branchFetching">
+                <a-spin slot="notFoundContent" size="small" />
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </a-col>
@@ -67,22 +67,22 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="buy_price" :label="$t('buy_price')" prop="buy_price">
             <a-input-number
-                style="width: 100%"
-                :min="1"
-                v-model="form.buy_price"
-                :disbled="loading"
-                test-attr="buy-price-inventory"
+              style="width: 100%"
+              :min="1"
+              v-model="form.buy_price"
+              :disbled="loading"
+              test-attr="buy-price-inventory"
             />
           </a-form-model-item>
         </a-col>
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="sell_price" :label="$t('sell_price')" prop="sell_price">
             <a-input-number
-                style="width: 100%"
-                :min="1"
-                v-model="form.sell_price"
-                :disbled="loading"
-                test-attr="sell-price-inventory"
+              style="width: 100%"
+              :min="1"
+              v-model="form.sell_price"
+              :disbled="loading"
+              test-attr="sell-price-inventory"
             />
           </a-form-model-item>
         </a-col>

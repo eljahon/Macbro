@@ -4,8 +4,8 @@
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('orders') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div slot="extra" style='display: flex; margin-left: 180px'>
-        <a-date-picker @change="onChange" placeholder='DD/MM/YYYY' />
+      <div slot="extra" style="display: flex; margin-left: 180px">
+        <a-date-picker @change="onChange" placeholder="DD/MM/YYYY" />
         <a-input
           style=" width: 200px; margin-left: 10px"
           test-attr="search-order"
@@ -81,7 +81,7 @@
             <!-- <template slot="tag" slot-scope="tag">
               <a-tag color="red">{{ tag }}</a-tag>
             </template> -->
-            <template slot="status" slot-scope="text, row" style='cursor: pointer'>
+            <template slot="status" slot-scope="text, row" style="cursor: pointer">
               <status-tag
                 :color="statusColor[row.status]"
                 :text="statusTranslator(row.status)"
@@ -102,28 +102,28 @@
             </template>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane key='2'>
+        <a-tab-pane key="2">
           <div slot="tab">
             <span>
-             {{$t('orederstab2')}} <span class="custom-badge" style="margin-left: 10px;">2</span>
+              {{ $t('orederstab2') }} <span class="custom-badge" style="margin-left: 10px;">2</span>
             </span>
           </div>
         </a-tab-pane>
-        <a-tab-pane key='3'>
+        <a-tab-pane key="3">
           <div slot="tab">
             <span>
-              {{$t('orederstab3')}} <span class="custom-badge" style="margin-left: 10px;">3</span>
+              {{ $t('orederstab3') }} <span class="custom-badge" style="margin-left: 10px;">3</span>
             </span>
           </div>
         </a-tab-pane>
-        <a-tab-pane key='4'>
+        <a-tab-pane key="4">
           <div slot="tab">
             <span>
-             {{$t('orederstab4')}}<span class="custom-badge" style="margin-left: 10px;">4</span>
+              {{ $t('orederstab4') }}<span class="custom-badge" style="margin-left: 10px;">4</span>
             </span>
           </div>
         </a-tab-pane>
-        <a-tab-pane key = '5' >
+        <a-tab-pane key="5" >
           <div slot="tab">
             <span>
               {{ $t('orederstab5') }} <span class="custom-badge" style="margin-left: 10px;">5</span>

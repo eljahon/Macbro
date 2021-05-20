@@ -40,7 +40,7 @@
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`./update/${row.id}`" >
-                <edit-btn :test-attr="`edit-roles${index}`"/>
+              <edit-btn :test-attr="`edit-roles${index}`"/>
             </router-link>
           </div>
           <!-- <delete-btn @confirm="deleteRole($event, row.id)"/> -->

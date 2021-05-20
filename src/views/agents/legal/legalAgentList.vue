@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>{{ $t('legalAgents') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('legalAgents') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input

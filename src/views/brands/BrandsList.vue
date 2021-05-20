@@ -2,8 +2,8 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>{{ $t('brands') }}</a-breadcrumb-item>
-        </a-breadcrumb>
+        <a-breadcrumb-item>{{ $t('brands') }}</a-breadcrumb-item>
+      </a-breadcrumb>
       <div slot="extra">
         <a-input
           style="float: right; width: 200px"
@@ -48,7 +48,7 @@
         </template>
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-brand${index}`"/> -->
+            <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-brand${index}`"/> -->
             <router-link :to="'./update/'+row.id" @click.native.stop="">
               <edit-btn :test-attr="`edit-brand${index}`"/>
             </router-link>

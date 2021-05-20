@@ -53,11 +53,11 @@
             {{ $t('save') }}
           </a-button>
           <a-popconfirm
-              placement="topRight"
-              :title="$t('deleteMsg')"
-              @confirm.prevent="resetForm"
-              :okText="$t('yes')"
-              :cancelText="$t('no')"
+            placement="topRight"
+            :title="$t('deleteMsg')"
+            @confirm.prevent="resetForm"
+            :okText="$t('yes')"
+            :cancelText="$t('no')"
           >
             <a-tooltip>
               <template slot="title">{{ $t('delete') }}</template>

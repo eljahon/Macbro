@@ -1,11 +1,11 @@
 <template>
   <div>
     <a-card :title="$t('staff')" :bordered="false">
-        <div slot="extra">
-            <!-- <router-link to="././create" slot="extra">
+      <div slot="extra">
+        <!-- <router-link to="././create" slot="extra">
                 <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
             </router-link> -->
-        </div>
+      </div>
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
@@ -24,7 +24,7 @@
             </a-tooltip>
           </router-link> -->
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn :test-attr="`edit-branch${index}`"/>
+            <edit-btn :test-attr="`edit-branch${index}`"/>
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
         </template>

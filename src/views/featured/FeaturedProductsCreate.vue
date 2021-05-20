@@ -1,29 +1,29 @@
 <template>
   <div>
-<!--    <breadcrumb-row>-->
-<!--      <a-breadcrumb style="margin: 10px 5px" slot="links">-->
-<!--        <a-breadcrumb-item>-->
-<!--          <router-link to="/catalog/featured-products/list">{{ $t('featuredProducts') }}</router-link>-->
-<!--        </a-breadcrumb-item>-->
-<!--        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>-->
-<!--      </a-breadcrumb>-->
-<!--    </breadcrumb-row>-->
-<!--    <a-card :title="edit ? $t('update') : $t('fillIn')" :bordered="false">-->
-<!--      <a-popconfirm-->
-<!--        v-if="edit"-->
-<!--        placement="topRight"-->
-<!--        slot="extra"-->
-<!--        :title="$t('deleteMsg')"-->
-<!--        @click.native.stop=""-->
-<!--        @confirm="deleteFeaturedProduct"-->
-<!--        :okText="$t('yes')"-->
-<!--        :cancelText="$t('no')"-->
-<!--      >-->
-<!--        <a-button type="danger" html-type="submit" test-attr="save-customer">-->
-<!--          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}-->
-<!--        </a-button>-->
-<!--      </a-popconfirm>-->
-<!--    </a-card>-->
+    <!--    <breadcrumb-row>-->
+    <!--      <a-breadcrumb style="margin: 10px 5px" slot="links">-->
+    <!--        <a-breadcrumb-item>-->
+    <!--          <router-link to="/catalog/featured-products/list">{{ $t('featuredProducts') }}</router-link>-->
+    <!--        </a-breadcrumb-item>-->
+    <!--        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>-->
+    <!--      </a-breadcrumb>-->
+    <!--    </breadcrumb-row>-->
+    <!--    <a-card :title="edit ? $t('update') : $t('fillIn')" :bordered="false">-->
+    <!--      <a-popconfirm-->
+    <!--        v-if="edit"-->
+    <!--        placement="topRight"-->
+    <!--        slot="extra"-->
+    <!--        :title="$t('deleteMsg')"-->
+    <!--        @click.native.stop=""-->
+    <!--        @confirm="deleteFeaturedProduct"-->
+    <!--        :okText="$t('yes')"-->
+    <!--        :cancelText="$t('no')"-->
+    <!--      >-->
+    <!--        <a-button type="danger" html-type="submit" test-attr="save-customer">-->
+    <!--          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}-->
+    <!--        </a-button>-->
+    <!--      </a-popconfirm>-->
+    <!--    </a-card>-->
     <div v-if="edit" style="flex: 1; display: flex">
       <a-card :bordered="false" style="flex: 1;">
         <a-row>

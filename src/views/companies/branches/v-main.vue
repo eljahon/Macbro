@@ -97,22 +97,22 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')" prop="corporate_id">
             <a-select
-                show-search
-                :auto-clear-search-value="false"
-                @search="onSearch"
-                v-model="branch.corporate_id"
-                :filter-option="false"
-                @popupScroll="onScrollBottom"
-                placeholder="brand"
-                :disbled="loading"
-                test-attr="branch_name-inventory"
+              show-search
+              :auto-clear-search-value="false"
+              @search="onSearch"
+              v-model="branch.corporate_id"
+              :filter-option="false"
+              @popupScroll="onScrollBottom"
+              placeholder="brand"
+              :disbled="loading"
+              test-attr="branch_name-inventory"
             >
-                <a-select-option v-for="corporate in corporateList" :title="corporate.name" :key="corporate.id" :value="corporate.id">
-                    {{ corporate.bank_name }}
-                </a-select-option>
-                <a-select-option key="corporateFetching" v-if="corporateParams.total > corporateList.length || corporateFetching">
-                    <a-spin slot="notFoundContent" size="small" />
-                </a-select-option>
+              <a-select-option v-for="corporate in corporateList" :title="corporate.name" :key="corporate.id" :value="corporate.id">
+                {{ corporate.bank_name }}
+              </a-select-option>
+              <a-select-option key="corporateFetching" v-if="corporateParams.total > corporateList.length || corporateFetching">
+                <a-spin slot="notFoundContent" size="small" />
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </a-col>

@@ -2,9 +2,9 @@
   <div>
     <breadcrumb-row >
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>
-            <router-link to="/admins/list">{{ $t('admins') }}</router-link>
-          </a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <router-link to="/admins/list">{{ $t('admins') }}</router-link>
+        </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>

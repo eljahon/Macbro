@@ -45,35 +45,35 @@
               :disbled="loading"
               test-attr="branch_name-inventory"
             >
-                <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
-                    {{ branch.name }}
-                </a-select-option>
-                <a-select-option key="productFetching" v-if="branchParams.total > branchList.length || branchFetching">
-                    <a-spin slot="notFoundContent" size="small" />
-                </a-select-option>
+              <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
+                {{ branch.name }}
+              </a-select-option>
+              <a-select-option key="productFetching" v-if="branchParams.total > branchList.length || branchFetching">
+                <a-spin slot="notFoundContent" size="small" />
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </a-col>
       </a-row>
       <a-row>
         <a-col :span="12" style="padding: 0 15px">
-            <a-form-model-item ref="map" :label="$t('map')" prop="map">
-                <yandex-map
-                    :coords="coords"
-                    v-model="coords"
-                    :zoom="18"
-                    @click="onLocationChange"
-                    searchControlProvider="yandex#search"
-                    style="width: 100%; max-width: 1000px; height: 50vh;"
-                    test-attr="coords-order"
-                >
-                    <ymap-marker
-                        :coords="coords"
-                        marker-id="123"
-                        hint-content="point"
-                    />
-                </yandex-map>
-            </a-form-model-item>
+          <a-form-model-item ref="map" :label="$t('map')" prop="map">
+            <yandex-map
+              :coords="coords"
+              v-model="coords"
+              :zoom="18"
+              @click="onLocationChange"
+              searchControlProvider="yandex#search"
+              style="width: 100%; max-width: 1000px; height: 50vh;"
+              test-attr="coords-order"
+            >
+              <ymap-marker
+                :coords="coords"
+                marker-id="123"
+                hint-content="point"
+              />
+            </yandex-map>
+          </a-form-model-item>
         </a-col>
       </a-row>
     </a-form-model>

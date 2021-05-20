@@ -2,7 +2,7 @@
   <div>
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>{{ $t('staff') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('staff') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div slot="extra">
         <a-input
@@ -20,9 +20,9 @@
     </breadcrumb-row>
 
     <a-card :title="$t('list')" :bordered="false" style="flex: 1">
-        <router-link to="././create" slot="extra">
-          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-staff">{{ $t('add') }}</a-button>
-        </router-link>
+      <router-link to="././create" slot="extra">
+        <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="add-staff">{{ $t('add') }}</a-button>
+      </router-link>
 
       <a-table
         bordered
@@ -36,12 +36,12 @@
         :customRow="customRowClick"
       >
         <template slot="fullname" slot-scope="row">
-            {{ row.name }} {{ row.last_name }}
+          {{ row.name }} {{ row.last_name }}
         </template>
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`./update/${row.id}`" >
-                <edit-btn :test-attr="`edit-staff${index}`"/>
+              <edit-btn :test-attr="`edit-staff${index}`"/>
             </router-link>
             <delete-btn @confirm="deleteStaff($event, row.id)" :test-attr="`delete-staff${index}`"/>
           </div>

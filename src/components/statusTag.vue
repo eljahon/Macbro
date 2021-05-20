@@ -1,7 +1,7 @@
 <template>
-    <a-tag :color="colour" :class="{'ant-tag-custom': defaultVal}">
-        {{ title }}
-    </a-tag>
+  <a-tag :color="colour" :class="{'ant-tag-custom': defaultVal}">
+    {{ title }}
+  </a-tag>
 </template>
 
 <script>

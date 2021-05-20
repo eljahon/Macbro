@@ -50,7 +50,7 @@
           <!-- <preview-btn @click="showPreviewModal(row.slug)" :test-attr="`preview-promos${index}`"/> -->
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`./update/${row.slug}`" >
-                <edit-btn :test-attr="`edit-promos${index}`"/>
+              <edit-btn :test-attr="`edit-promos${index}`"/>
             </router-link>
             <delete-btn @confirm="deletePromos($event, row.slug)" :test-attr="`delete-promos${index}`"/>
           </div>

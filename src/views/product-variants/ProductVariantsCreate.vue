@@ -5,7 +5,7 @@
         <a-breadcrumb-item>
           <router-link to="/catalog/product-variants/list" test-attr="prev-link-product-vars">{{ $t('product_variants') }}</router-link>
         </a-breadcrumb-item>
-        <a-breadcrumb-item>{{  edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </breadcrumb-row>
     <a-card :title="$t(edit ? 'update' : 'fillIn')" :bordered="false">

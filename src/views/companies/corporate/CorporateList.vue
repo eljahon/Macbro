@@ -50,7 +50,7 @@
           </router-link> -->
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`/corporate/update/${row.id}`" >
-                <edit-btn :test-attr="`edit-corporate${index}`"/>
+              <edit-btn :test-attr="`edit-corporate${index}`"/>
             </router-link>
             <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-corporate${index}`"/>
           </div>

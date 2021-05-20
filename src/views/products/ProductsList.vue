@@ -48,9 +48,9 @@
         </template>
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-products${index}`"/> -->
+            <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-products${index}`"/> -->
             <router-link :to="{path: `./update/${row.slug}`, pagination: getPagination}" >
-                <edit-btn :test-attr="`edit-products${index}`"/>
+              <edit-btn :test-attr="`edit-products${index}`"/>
             </router-link>
             <delete-btn @confirm="deleteProduct($event, row.slug)" :test-attr="`delete-products${index}`"/>
           </div>

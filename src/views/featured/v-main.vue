@@ -107,7 +107,7 @@
                 :cancelText="$t('no')"
               >
                 <a-tooltip
-                  ><template slot="title">{{ $t('delete') }}</template>
+                ><template slot="title">{{ $t('delete') }}</template>
                   <a-button type="danger" icon="delete"></a-button>
                 </a-tooltip>
               </a-popconfirm>

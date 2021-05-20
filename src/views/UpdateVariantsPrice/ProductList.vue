@@ -22,7 +22,7 @@
       </div>
     </breadcrumb-row>
 
-    <a-card :title="$t('products')" class="breadcrumb-row" :bordered="false"  style="flex: 1">
+    <a-card :title="$t('products')" class="breadcrumb-row" :bordered="false" style="flex: 1">
 
       <div slot="extra">
         {{ $t('dollarCurrency') }}: <b>{{ usd }}</b>
@@ -43,7 +43,7 @@
           @change="handleTableChange"
           test-attr="list-product-vars"
           bordered
-            :customRow="customRowClick"
+          :customRow="customRowClick"
         >
         </a-table>
       </a-form-model>

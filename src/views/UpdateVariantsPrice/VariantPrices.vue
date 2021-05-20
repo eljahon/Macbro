@@ -25,7 +25,7 @@
       </div> -->
     </breadcrumb-row>
 
-    <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false"  style="flex: 1">
+    <a-card :title="$t('product_variants_list')" class="breadcrumb-row" :bordered="false" style="flex: 1">
 
       <div slot="extra">
         {{ $t('dollarCurrency') }}: <b>{{ usd }}</b>

@@ -2,11 +2,11 @@
   <div>
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>
-            <router-link to="/currency/list" test-attr="prev-link-permissions">{{ $t('Currency') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ currencyType ? $t('update') : $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
+        <a-breadcrumb-item>
+          <router-link to="/currency/list" test-attr="prev-link-permissions">{{ $t('Currency') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ currencyType ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
     </breadcrumb-row>
 
     <a-card :bordered="false" :title="currencyType ? $t('update') : $t('fillIn')">
@@ -27,50 +27,50 @@
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
-        <a-form-model
+      <a-form-model
         @submit="onSubmit"
         ref="ruleForm"
         :model="form"
         :rules="rules"
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
-        >
+      >
         <a-row>
-            <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="currency" :label="$t('name')" prop="currency">
-                    <a-input
-                        style="width: 100%"
-                        size="large"
-                        v-model="form.currency"
-                        test-attr="name-permissions"
-                    />
-                </a-form-model-item>
-            </a-col>
-            <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="currency" :label="$t('dollarCurrency')" prop="currency">
-                    <a-input-number
-                        style="width: 100%"
-                        :min="0"
-                        size="large"
-                        v-model="form.amount"
-                        test-attr="name-permissions"
-                    />
-                </a-form-model-item>
-            </a-col>
+          <a-col :span="12" style="padding: 0 15px">
+            <a-form-model-item ref="currency" :label="$t('name')" prop="currency">
+              <a-input
+                style="width: 100%"
+                size="large"
+                v-model="form.currency"
+                test-attr="name-permissions"
+              />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12" style="padding: 0 15px">
+            <a-form-model-item ref="currency" :label="$t('dollarCurrency')" prop="currency">
+              <a-input-number
+                style="width: 100%"
+                :min="0"
+                size="large"
+                v-model="form.amount"
+                test-attr="name-permissions"
+              />
+            </a-form-model-item>
+          </a-col>
         </a-row>
-        </a-form-model>
+      </a-form-model>
     </a-card>
     <a-row class="edit-btns" style="margin-top: 20px">
-        <a-col :span="24">
-            <a-form-model-item>
-                <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-permissions">
-                {{ $t('save') }}
-                </a-button>
-                <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-permissions">
-                {{ $t('reset') }}
-                </a-button>
-            </a-form-model-item>
-        </a-col>
+      <a-col :span="24">
+        <a-form-model-item>
+          <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-permissions">
+            {{ $t('save') }}
+          </a-button>
+          <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-permissions">
+            {{ $t('reset') }}
+          </a-button>
+        </a-form-model-item>
+      </a-col>
     </a-row>
   </div>
 </template>

@@ -2,11 +2,11 @@
   <div>
     <breadcrumb-row>
       <a-breadcrumb style="margin: 10px 5px" slot="links">
-          <a-breadcrumb-item>
-            <router-link to="/country/list" test-attr="prev-link-city">{{ $t('countries') }}</router-link>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
-        </a-breadcrumb>
+        <a-breadcrumb-item>
+          <router-link to="/country/list" test-attr="prev-link-city">{{ $t('countries') }}</router-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
+      </a-breadcrumb>
     </breadcrumb-row>
 
     <a-card :title="edit ? $t('information') : $t('fillIn')" :bordered="false">

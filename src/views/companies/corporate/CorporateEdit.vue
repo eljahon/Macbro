@@ -13,7 +13,7 @@
     </breadcrumb-row>
 
     <div v-if="edit">
-      <a-card :title="$t('information')"  :bordered="false">
+      <a-card :title="$t('information')" :bordered="false">
         <!-- <a-row>
           <a-tabs type="card" v-model="activeTabKey">
             <a-tab-pane v-for="(lang, idx) in langs" :key="idx + 1">

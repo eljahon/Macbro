@@ -51,7 +51,7 @@
       >
         <template slot="action" slot-scope="text, row, index">
           <router-link :to="`./update/${row.id}`" >
-              <edit-btn :test-attr="`edit-city${index}`"/>
+            <edit-btn :test-attr="`edit-city${index}`"/>
           </router-link>
           <!-- <delete-btn @confirm="deleteCity($event, row.id)"/> -->
         </template>

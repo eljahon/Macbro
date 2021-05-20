@@ -1,17 +1,17 @@
 <template>
-    <a-card class="breadcrumb-row" :bordered="false">
-        <a-row type="flex" align="middle">
-            <a-button v-if="hasBack" type="link" @click="$router.go(-1)" style="padding: 0 25px 0 0">
-                <a-icon :component="$myIcons.leftArrow"/>
-            </a-button>
-            <a-col :span="12">
-                <slot name="links"/>
-            </a-col>
-            <a-col :span="12">
-                <slot name="extra"/>
-            </a-col>
-        </a-row>
-    </a-card>
+  <a-card class="breadcrumb-row" :bordered="false">
+    <a-row type="flex" align="middle">
+      <a-button v-if="hasBack" type="link" @click="$router.go(-1)" style="padding: 0 25px 0 0">
+        <a-icon :component="$myIcons.leftArrow"/>
+      </a-button>
+      <a-col :span="12">
+        <slot name="links"/>
+      </a-col>
+      <a-col :span="12">
+        <slot name="extra"/>
+      </a-col>
+    </a-row>
+  </a-card>
 </template>
 
 <script>

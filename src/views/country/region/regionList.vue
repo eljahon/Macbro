@@ -42,7 +42,7 @@
         <template slot="action" slot-scope="text, row">
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`${$route.path}/region/update/${row.id}`" >
-                <edit-btn/>
+              <edit-btn/>
             </router-link>
             <delete-btn @confirm="deleteCity($event, row.id)"/>
           </div>

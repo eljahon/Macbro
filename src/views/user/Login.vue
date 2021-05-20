@@ -13,37 +13,37 @@
         @change="handleTabClick"
       >
         <a-tab-pane key="tab1" tab="Shaxsiy kabinetga kirish"> -->
-          <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" message="Parol yoki login xato!" />
-          <a-form-item :label="$t('username')">
-            <a-input
-              size="large"
-              type="text"
-              placeholder="admin"
-              v-decorator="[
-                'login',
-                {rules: [{ required: true, message: 'Iltimos, foydalanuvchini kiriting' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
-              ]"
-            >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
+      <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" message="Parol yoki login xato!" />
+      <a-form-item :label="$t('username')">
+        <a-input
+          size="large"
+          type="text"
+          placeholder="admin"
+          v-decorator="[
+            'login',
+            {rules: [{ required: true, message: 'Iltimos, foydalanuvchini kiriting' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+          ]"
+        >
+          <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+        </a-input>
+      </a-form-item>
 
-          <a-form-item :label="$t('password')">
-            <a-input
-              size="large"
-              type="password"
-              autocomplete="false"
-              placeholder="admin"
-              v-decorator="[
-                'password',
-                {rules: [{ required: true, message: 'Iltimos, parolingizni kiriting' }], validateTrigger: 'blur'}
-              ]"
-            >
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-        <!-- </a-tab-pane> -->
-        <!-- <a-tab-pane key="tab2" tab="phone number login">
+      <a-form-item :label="$t('password')">
+        <a-input
+          size="large"
+          type="password"
+          autocomplete="false"
+          placeholder="admin"
+          v-decorator="[
+            'password',
+            {rules: [{ required: true, message: 'Iltimos, parolingizni kiriting' }], validateTrigger: 'blur'}
+          ]"
+        >
+          <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+        </a-input>
+      </a-form-item>
+      <!-- </a-tab-pane> -->
+      <!-- <a-tab-pane key="tab2" tab="phone number login">
           <a-form-item>
             <a-input size="large" type="text" placeholder="phone number" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
               <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>

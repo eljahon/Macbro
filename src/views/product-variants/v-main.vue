@@ -26,7 +26,7 @@
       <a-col :lg="12" :md="24" style="margin: 0 0 15px">
         <a-form-model-item :label="$t('importDataFromVariant')">
           <a-select
-                  size="large"
+            size="large"
             show-search
             :auto-clear-search-value="false"
             @search="onVarantSearch"
@@ -42,7 +42,7 @@
               {{ brand.name }}
             </a-select-option>
             <a-select-option key="productVariantListLoading" v-if="productVariantListParams.total > getProductVariantsList.length || productVariantListLoading">
-                <a-spin slot="notFoundContent" size="small" />
+              <a-spin slot="notFoundContent" size="small" />
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -132,24 +132,24 @@
                 />
               </a-form-model-item>
             </a-col>
-<!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--&lt;!&ndash;              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">&ndash;&gt;-->
-<!--&lt;!&ndash;                <a-input&ndash;&gt;-->
-<!--&lt;!&ndash;                  size="large"&ndash;&gt;-->
-<!--&lt;!&ndash;                  v-model="productVariant.external_id"&ndash;&gt;-->
-<!--&lt;!&ndash;                  test-attr="external-id-product-vars"&ndash;&gt;-->
-<!--&lt;!&ndash;                />&ndash;&gt;-->
-<!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-<!--            </a-col>-->
-<!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--&lt;!&ndash;              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                <a-input&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  size="large"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  v-model="productVariant.code"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  test-attr="code-product-vars"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                />&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-<!--            </a-col>-->
+            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+            <!--&lt;!&ndash;              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">&ndash;&gt;-->
+            <!--&lt;!&ndash;                <a-input&ndash;&gt;-->
+            <!--&lt;!&ndash;                  size="large"&ndash;&gt;-->
+            <!--&lt;!&ndash;                  v-model="productVariant.external_id"&ndash;&gt;-->
+            <!--&lt;!&ndash;                  test-attr="external-id-product-vars"&ndash;&gt;-->
+            <!--&lt;!&ndash;                />&ndash;&gt;-->
+            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
+            <!--            </a-col>-->
+            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+            <!--&lt;!&ndash;              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;                <a-input&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;                  size="large"&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;                  v-model="productVariant.code"&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;                  test-attr="code-product-vars"&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;                />&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
+            <!--            </a-col>-->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('categories')">
                 <treeselect

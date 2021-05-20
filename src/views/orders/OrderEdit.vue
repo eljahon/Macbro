@@ -9,19 +9,19 @@
       </a-breadcrumb>
     </breadcrumb-row>
 
-    <a-card  class="breadcrumb-row" :bordered="false" >
-      <div slot='title'>
-        <p>{{this.$route.params.id ? $t('update') : $t('fillIn')}}</p>
+    <a-card class="breadcrumb-row" :bordered="false" >
+      <div slot="title">
+        <p>{{ this.$route.params.id ? $t('update') : $t('fillIn') }}</p>
       </div>
-      <div slot='extra'>
-        <a-button type='primary' v-if="$route.query.tab === '2'" @click='update'><a-icon type='plus'></a-icon>{{$t('add')}} </a-button>
-        <a-button type='primary' v-if="$route.query.tab === '3'"><a-icon type='download'></a-icon></a-button>
+      <div slot="extra">
+        <a-button type="primary" v-if="$route.query.tab === '2'" @click="update"><a-icon type="plus"></a-icon>{{ $t('add') }} </a-button>
+        <a-button type="primary" v-if="$route.query.tab === '3'"><a-icon type="download"></a-icon></a-button>
       </div>
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
       <a-row>
-        <v-main ref='newordercreate'></v-main>
+        <v-main ref="newordercreate"></v-main>
       </a-row>
     </a-card>
     <a-row class="edit-btns">

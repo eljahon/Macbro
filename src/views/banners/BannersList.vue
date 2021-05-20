@@ -21,14 +21,14 @@
 
     <a-card :title="$t('banners')" class="breadcrumb-row" :bordered="false">
       <router-link to="././create" slot="extra">
-          <a-button
-            style="float: right"
-            shape="round"
-            type="primary link"
-            icon="plus"
-            test-attr="add-banner"
-          >{{ $t('add') }}</a-button>
-        </router-link>
+        <a-button
+          style="float: right"
+          shape="round"
+          type="primary link"
+          icon="plus"
+          test-attr="add-banner"
+        >{{ $t('add') }}</a-button>
+      </router-link>
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">

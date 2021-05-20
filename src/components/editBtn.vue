@@ -1,9 +1,9 @@
 <template>
-    <a-tooltip><template slot="title">{{ $t('update') }}</template>
-        <a-button class="ant-btn-icon-only" id="buttonOrderDetails" type="primary" @click="$emit('click')">
-            <a-icon :component="myIcons.penSvg" />
-        </a-button>
-    </a-tooltip>
+  <a-tooltip><template slot="title">{{ $t('update') }}</template>
+    <a-button class="ant-btn-icon-only" id="buttonOrderDetails" type="primary" @click="$emit('click')">
+      <a-icon :component="myIcons.penSvg" />
+    </a-button>
+  </a-tooltip>
 </template>
 
 <script>

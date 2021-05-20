@@ -49,7 +49,7 @@
         </template>
         <template slot="action" slot-scope="text, row, index">
           <div style="display: flex; justify-content: space-around;">
-          <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-product-vars${index}`"/> -->
+            <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-product-vars${index}`"/> -->
             <router-link :to="{path: `./update/${row.slug}`, pagination: getPagination}" >
               <edit-btn :test-attr="`edit-product-vars${index}`"/>
             </router-link>
