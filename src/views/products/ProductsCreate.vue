@@ -24,6 +24,7 @@
         </a-button>
       </a-popconfirm>
     </a-card>
+    <!--    update-->
     <div v-if="edit" style="flex: 1; display: flex">
       <a-card :bordered="false" style="flex: 1">
         <a-row>

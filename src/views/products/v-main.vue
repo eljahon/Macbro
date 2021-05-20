@@ -49,14 +49,12 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('categories')">
+              <a-form-model-item :label="$t('categories')" >
                 <treeselect
                   size="large"
-                  id="selectCategory"
                   v-model="product.category_id"
                   :multiple="false"
                   :normalizer="normalizer"
-                  :set-fields-value="product.category_id"
                   :options="getAllCategories"
                   :placeholder="$t('selectCategory')"
                   test-attr="category-products"
@@ -101,24 +99,24 @@
                 </treeselect>
               </a-form-model-item>
             </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px" v-if="type === 'edit'">
-              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">
-                <a-input
-                  size="large"
-                  v-model="product.external_id"
-                  test-attr="external-id-products"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">
-                <a-input
-                  size="large"
-                  v-model="product.code"
-                  test-attr="code-products"
-                />
-              </a-form-model-item>
-            </a-col>
+            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px" v-if="type === 'edit'">-->
+            <!--              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">-->
+            <!--                <a-input-->
+            <!--                  size="large"-->
+            <!--                  v-model="product.external_id"-->
+            <!--                  test-attr="external-id-products"-->
+            <!--                />-->
+            <!--              </a-form-model-item>-->
+            <!--            </a-col>-->
+            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+            <!--              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">-->
+            <!--                <a-input-->
+            <!--                  size="large"-->
+            <!--                  v-model="product.code"-->
+            <!--                  test-attr="code-products"-->
+            <!--                />-->
+            <!--              </a-form-model-item>-->
+            <!--            </a-col>-->
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="preview" :label="$t('product_preview_text')" prop="preview">
                 <tinymce v-model="product.preview_text" test-attr="prev-text-products"></tinymce>
@@ -535,6 +533,11 @@ export default {
     'tinymce': tinymce,
     Treeselect
   },
+  watch: {
+    'product.category_id': function (val) {
+      console.log('category_id=======>', val)
+    }
+  },
   data () {
     this.onVariatSearch = debounce(this.onVariatSearch, 400)
     this.getProductVariants = debounce(this.getProductVariants, 100)
@@ -592,9 +595,9 @@ export default {
           title: '',
           tags: '',
           description: ''
-        },
-        external_id: null,
-        code: ''
+        }
+        // external_id: null,
+        // code: ''
       },
       previewVisible: false,
       previewImage: '',
@@ -617,13 +620,16 @@ export default {
         order: [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
-        external_id: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
+        // external_id: [
+        //   { required: true, message: this.$t('required'), trigger: 'change' }
+        // ],
         desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
         brand_id: [
-      { required: true, message: this.$t('required') }
-    ]
+          { required: true, message: this.$t('required'), trigger: 'blur' }
+        ]
+        // category_id: [
+        //   { required: true, message: this.$t('required'), trigger: 'blur' }
+        // ]
       },
       // table
       selectedRowKeys: [],
@@ -944,8 +950,8 @@ export default {
         this.product.order = product.order
         this.product.category_id = product.category.id
         this.product.brand_id = product.brand.id
-        this.product.external_id = product.external_id
-        this.product.code = product.code
+        // this.product.external_id = product.external_id
+        // this.product.code = product.code
         this.product.order = product.order || 1
         this.product.variants = product.variants && product.variants.map(item => {
           return { name: item.name, value: item.value.id, valueName: item.value.name }
