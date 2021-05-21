@@ -40,8 +40,8 @@
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('position')" prop="order">
-                <a-input
-                  size="large"
+                <a-input-number
+                  style="width: 100%"
                   type="number"
                   v-model="product.order"
                   test-attr="order-products"
@@ -85,8 +85,6 @@
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('additional_categories')">
                 <treeselect
-                  size="large"
-                  id="selectCategory"
                   v-model="product.additional_categories"
                   :multiple="true"
                   :normalizer="normalizer"
@@ -373,7 +371,7 @@
             </div>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane v-if="priceUpdatable" key="7" :tab="$t('variants')">
+        <a-tab-pane v-if="! priceUpdatable" key="7" :tab="$t('variants')">
           <div class="product-variants">
             <div class="product-variants__item" v-for="(item, index) in product.variants" :key="index">
               <a-row type="flex" align="middle">
@@ -627,7 +625,7 @@ export default {
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
         order: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
+          { required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }
         ],
         // external_id: [
         //   { required: true, message: this.$t('required'), trigger: 'change' }

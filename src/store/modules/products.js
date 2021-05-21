@@ -67,6 +67,7 @@ const products = {
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
           console.log(pagination)
+            console.log(result)
           console.log('pagination')
           commit('GET_PRODUCTS_PAGINATION', pagination)
           commit('GET_PRODUCTS', result.products)
@@ -90,7 +91,27 @@ const products = {
       .catch(error => {
         console.log(error)
       })
-  }
+  },
+      getProductSearch ({ commit }, payload) {
+         return new Promise((resolve, reject) => {
+           request({
+             url: `/product`,
+             method: 'get',
+             headers: headers,
+             params: {
+               page: payload.current,
+               search: payload.value,
+               limit: payload.pageSize
+             }
+           })
+             .then(res => {
+               console.log('search==>>>>>', res)
+             }).catch(err => {
+             console.log('search==>>>', err)
+           })
+         })
+      }
+
   }
 }
   export default products

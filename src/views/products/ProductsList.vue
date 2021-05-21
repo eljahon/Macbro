@@ -201,6 +201,11 @@ export default {
         }
       }
     },
+    searchItem (value) {
+    const page = { current: 1, pageSize: 10, total: null, value: value }
+      this.$store.dispatch('getProductSearch', page)
+    },
+
     handleTableChange (pagination) {
       console.log(pagination)
       this.loading = true
@@ -225,6 +230,8 @@ export default {
       this.selectedProduct = null
     },
     debouncedSearch (searchQuery) {
+      console.log('search=>>>', searchQuery)
+      this.searchItem(searchQuery)
       this.setSearchQueryProduct(searchQuery)
       this.loading = true
       this.getProducts()

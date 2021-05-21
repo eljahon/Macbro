@@ -8,10 +8,8 @@
         <a-date-picker @change="onChange" placeholder="DD/MM/YYYY" />
         <a-input
           style=" width: 200px; margin-left: 10px"
-          test-attr="search-order"
-          id="inputSearch"
           :placeholder="$t('search') + '...'"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-model="params.search"
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
@@ -166,7 +164,7 @@ export default {
       excelFile: null,
       data: [],
       loading: true,
-       columns: [
+      columns: [
         {
           title: this.$t('order_number'),
           key: 'tag',
@@ -295,6 +293,14 @@ export default {
           'cancelled': 'red',
           'payment': 'orange',
           'order_accepted': 'purple'
+      },
+      params: {
+        page: {
+          current: 1,
+          pageSize: 10,
+          total: null
+        },
+        search: ''
       }
     }
   },
@@ -314,7 +320,7 @@ export default {
     // this.exportExcel()
     this.setSearchQuery('')
     console.log('this.ordersPagination', this.ordersPagination)
-    this.getOrders({ page: this.ordersPagination })
+    this.getOrders(this.params)
       .then((res) => console.log('res', res))
       .catch((err) => console.error(err))
       .finally(() => (this.loading = false))
@@ -336,7 +342,7 @@ export default {
     debouncedSearchDate (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getOrders()
+      this.getOrders(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -347,9 +353,10 @@ export default {
       this.debouncedSearch(dateString)
     },
     handleTableChange (pagination) {
-      console.log('Pagination', pagination)
+      // console.log('Pagination', pagination)
+      this.params.page = pagination
       this.loading = true
-      this.getOrders({ page: pagination, search: true })
+      this.getOrders(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -392,9 +399,9 @@ export default {
       this.selectedOrder = null
     },
     debouncedSearch (searchQuery) {
-      this.setSearchQuery(searchQuery)
+      // this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getOrders()
+      this.getOrders(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -408,7 +415,7 @@ export default {
       })
       .then(res => {
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getOrders({ page: this.ordersPagination })
+        this.getOrders(this.params)
       })
       .catch(err => {
         console.error(err)
@@ -422,7 +429,7 @@ export default {
         this.loading = true
         if (!err) {
           this.filterParams = values
-          this.getOrders()
+          this.getOrders(this.params)
             .then(res => console.log('res', res))
             .catch(err => console.error('err', err))
             .finally(() => (this.loading = false))

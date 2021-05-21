@@ -12,7 +12,8 @@ const orders = {
       userActivitiesPagination: {},
       customerOrders: [],
       customerOrdersPagination: {},
-      searchquery: ''
+      searchquery: '',
+      saveButton: null
     },
     getters: {
       ordersData: state => state.orders,
@@ -21,7 +22,8 @@ const orders = {
       userActivities: state => state.userActivities,
       userActivitiesPagination: state => state.userActivitiesPagination,
       customerOrders: state => state.customerOrders,
-      customerOrdersPagination: state => state.customerOrdersPagination
+      customerOrdersPagination: state => state.customerOrdersPagination,
+      saveButton: state => state.saveButton
     },
     mutations: {
       GET_ORDERS: (state, orders) => {
@@ -44,29 +46,26 @@ const orders = {
       },
       GET_CUSTOMER_ORDERS_PAGINATION: (state, customerOrdersPagination) => {
         state.customerOrdersPagination = customerOrdersPagination
+      },
+      GET_SAVE_BUTTON: (state, payload) => {
+        state.saveButton = payload
       }
     },
     actions: {
     setSearchQuery ({ commit }, payload) {
       commit('SET_SEARCH_QUERY', payload)
     },
-    getOrders ({ commit, state }, payload = { page: null }) {
-        let { page } = payload
-        // const { searchQuery } = state
-        if (!page) {
-          page = { current: 1, pageSize: 10, total: null }
-        }
-        page.showQuickJumper = true
+    getOrders ({ commit, state }, payload) {
+        const { page } = payload
         // page.showSizeChanger = true
         return new Promise((resolve, reject) => {
-          console.log(page)
         request({
             url: `/order`,
             headers: headers,
             params: {
               page: page.current,
               limit: page.pageSize,
-              search: payload
+              search: payload.search
             }
         })
           .then(result => {
@@ -166,6 +165,9 @@ const orders = {
               reject(error)
             })
         })
+      },
+      saveButton ({ commit }, paylod) {
+      commit('GET_SAVE_BUTTON', paylod)
       }
   }
 }

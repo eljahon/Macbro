@@ -14,7 +14,7 @@
         <p>{{ this.$route.params.id ? $t('update') : $t('fillIn') }}</p>
       </div>
       <div slot="extra">
-        <a-button type="primary" v-if="$route.query.tab === '2'" @click="update"><a-icon type="plus"></a-icon>{{ $t('add') }} </a-button>
+        <a-button type="primary" v-if="!saveButton === 'in-process'&& !$route.query.tab === '1'||$route.query.tab === '2'&& saveButton === 'in-process'" @click="update"><a-icon type="plus"></a-icon>{{ $t('add') }} </a-button>
         <a-button type="primary" v-if="$route.query.tab === '3'"><a-icon type="download"></a-icon></a-button>
       </div>
     </a-card>
@@ -40,6 +40,7 @@
 </template>
 <script>
 import vMain from './v-main'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -58,6 +59,9 @@ export default {
     update () {
       this.$refs.newordercreate.addProduct()
     }
+  },
+  computed: {
+    ...mapGetters(['saveButton'])
   }
 }
 </script>

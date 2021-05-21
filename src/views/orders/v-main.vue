@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- <a-switch
-      slot="extra"
-      v-model="brand.active"
-      :checked-children="$t('active')"
-      :un-checked-children="$t('inactive')"
-      default-checked
-      style="margin: 15px 0"
-    /> -->
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -16,24 +8,6 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <!-- <a-row>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="orderNumber" :label="$t('order_number')" prop="orderNumber">
-            <a-input
-              disabled
-              type="number"
-              v-model="orderNumber"
-              test-attr="number-order"
-            />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12" style="padding: 0 15px">
-          СУММА ЗАКАЗА:
-          <div>{{ this.items ? numberToPrice(calcTotalPrice(this.items)) : null }}</div>
-        </a-col>
-      </a-row>
-      <a-row> -->
-      <!-- tabs -->
       <a-tabs type="card" @change="activeTabHandler" v-model="activeTabKey" style="padding: 0 15px">
         <a-tab-pane key="1" :tab="$t('order_data')">
           <a-row>
@@ -249,7 +223,7 @@
                           <template slot="title">{{ $t('update') }}</template>
                           <a-button
                             @click="() => edit(index)"
-                            :disabled="true"
+                            :disabled="editingKey !== '' || order.status !== 'in-process'"
                             id="buttonOrderDetails"
                             type="primary"
                             icon="edit"></a-button>
@@ -353,6 +327,7 @@ export default {
         total: null
       },
       id: null,
+      status: null,
       fetching: false,
       cacheData: [],
       editingKey: '',
@@ -592,6 +567,7 @@ export default {
       }).then((response) => {
         console.log('response customer data===========>', response)
         this.id = response.id
+        this.status = response.status
         const {
           items,
           customer_name: customerName,
@@ -615,6 +591,7 @@ export default {
         this.order.payment_method = paymentMethod
         this.coords = longlat && longlat.length > 2 ? [Number(longlat.split(',')[0]), Number(longlat.split(',')[1])] : this.coords
         console.log('this.coords', this.coords)
+        this.handleStatus(status)
       })
     },
     numberToPrice (number) {
@@ -665,6 +642,7 @@ export default {
     },
     handleStatus (status) {
       this.order.status = status
+      this.$store.dispatch('saveButton', status)
       console.log('this.order', this.order)
     },
     onSubmit () {
