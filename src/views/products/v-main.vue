@@ -541,8 +541,7 @@ export default {
     this.getProductVariants = debounce(this.getProductVariants, 100)
     this.onAttributeVariantSeach = debounce(this.onAttributeVariantSeach, 400)
     const validateNumber = (rule, value, callback) => {
-      console.log('number=====>', value)
-      if (Number.isInteger(value) && value > 0) {
+      if (!isNaN(value) && value > 0) {
         callback()
       } else {
         callback(new Error(this.$t('Введите номер')))
@@ -961,6 +960,7 @@ export default {
         this.product.description = product.description
         this.product.preview_text = product.preview_text
         this.product.order = product.order
+        console.log('product.order==', typeof product.order)
         this.product.category_id = product.category.id
         this.product.brand_id = product.brand.id
         // this.product.external_id = product.external_id

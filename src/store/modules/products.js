@@ -70,7 +70,7 @@ const products = {
           console.log(pagination)
             console.log(result)
           console.log('pagination')
-          commit('GET_PRODUCTS_PAGINATION', pagination)
+          commit('SET_SEARCH_QUERY_PRODUCT', payload.search)
           commit('GET_PRODUCTS', result.products)
           resolve()
         })

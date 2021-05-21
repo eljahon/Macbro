@@ -235,7 +235,7 @@ export default {
     debouncedSearch () {
       console.log('search=>>>', this.params)
       // this.searchItem(searchQuery)
-      // this.setSearchQueryProduct(this.params)
+      // this.setSearchQueryProduct(this.params.search)
       this.loading = true
       this.getProducts(this.params)
         .then((res) => console.log(res))
