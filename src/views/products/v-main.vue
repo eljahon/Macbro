@@ -260,7 +260,7 @@
           <a-row>
             <a-form-model :rules="rules" ref="ruleForm" :model="price">
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
+                <a-form-model-item ref="price" :label="$t('product_price')">
                   <a-input-number
                     style="width: 100%;"
                     v-model="price.price"
@@ -268,7 +268,7 @@
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
+                <a-form-model-item ref="old_price" :label="$t('product_old_price')" >
                   <a-input-number
                     style="width: 100%"
                     v-model="price.old_price" />
@@ -632,9 +632,9 @@ export default {
         desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
         brand_id: [
           { required: true, message: this.$t('required'), trigger: 'blur' }
-        ],
-        price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
-        old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
+        ]
+        // price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
+        // old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
         // category_id: [
         //   { required: true, message: this.$t('required'), trigger: 'blur' }
         // ]

@@ -57,6 +57,7 @@ export default {
         this.$refs.newordercreate.resetForm()
     },
     update () {
+      console.log('============>')
       this.$refs.newordercreate.addProduct()
     }
   },

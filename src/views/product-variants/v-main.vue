@@ -279,24 +279,26 @@
         </a-tab-pane>
         <a-tab-pane v-if="priceUpdatable" key="4" :tab="$t('price')">
           <a-row>
-            <a-col :md="24" :lg="12" style="padding: 0 15px">
-              <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
-                <a-input
-                  size="large"
-                  v-model="price.price"
-                  test-attr="price-price-product-vars"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :md="24" :lg="12" style="padding: 0 15px">
-              <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
-                <a-input
-                  size="large"
-                  v-model="price.old_price"
-                  test-attr="price-old-product-vars"
-                />
-              </a-form-model-item>
-            </a-col>
+            <a-form-model :model="price" :rules="rules" ref="ruleForm" >
+              <a-col :md="24" :lg="12" style="padding: 0 15px">
+                <a-form-model-item ref="price" :label="$t('product_price')" prop="price">
+                  <a-input
+                    size="large"
+                    v-model="price.price"
+                    test-attr="price-price-product-vars"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :md="24" :lg="12" style="padding: 0 15px">
+                <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
+                  <a-input
+                    size="large"
+                    v-model="price.old_price"
+                    test-attr="price-old-product-vars"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-form-model>
           </a-row>
         </a-tab-pane>
         <a-tab-pane key="5" v-if="productVariantSlug" :tab="$t('reviews')">
@@ -487,6 +489,13 @@ export default {
   data () {
     this.onVarantSearch = debounce(this.onVarantSearch, 400)
     this.variantsGetAll = debounce(this.variantsGetAll, 100)
+    const validateNumber = (rule, value, callback) => {
+      if (!isNaN(value) && value > 0) {
+        callback()
+      } else {
+        callback(new Error(this.$t('Введите номер')))
+      }
+    }
     return {
       productVariantList: [],
       productVariantListLoading: false,
@@ -569,7 +578,11 @@ export default {
         // ]
         brand_id: [
           { required: true, message: this.$t('required') }
-        ]
+        ],
+        price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
+
+        old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
+
       },
       columns: [
         {

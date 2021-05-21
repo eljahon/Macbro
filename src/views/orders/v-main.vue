@@ -444,7 +444,7 @@ export default {
       }
     },
     addProduct () {
-      this.items.push({
+      this.items.unshift({
         image: '',
         price: null,
         product_id: '',
@@ -496,10 +496,11 @@ export default {
       if (target) {
         if (column === 'product_name') {
           const product = this.productList.find(item => item.id === value)
+          console.log('======>', product)
           target[column] = product.name
           target.product_id = product.id
           target.image = product.image
-          target.price = target.quantity ? (+product.price.price * target.quantity) : +product.price.price
+          target.price = product.price.uzs_price
           this.items = newData
         } else {
           target[column] = value
@@ -579,7 +580,9 @@ export default {
           delivery_method: deliveryMethod,
           payment_method: paymentMethod
         } = response
-        console.log('this.cooords', this.coords)
+        console.log('this.cooords==>', this.coords)
+        // eslint-disable-next-line no-undef
+        console.log('item===>', response.item)
         this.items = items && items.length ? items : []
         this.cacheData = JSON.parse(JSON.stringify(items)) || []
         this.order.customer_name = customerName
