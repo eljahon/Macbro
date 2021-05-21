@@ -43,15 +43,16 @@ const products = {
       setSearchQueryProduct ({ commit }, searchQueryProduct) {
         commit('SET_SEARCH_QUERY_PRODUCT', searchQueryProduct)
       },
-      getProducts ({ commit, state }, payload = { page: null, search: true }) {
-        let { page } = payload
+      getProducts ({ commit, state }, payload) {
+        const { page } = payload
         // if search === false all products will be requested
         console.log('Payload', payload)
-        const { search } = payload
-        const { searchQueryProduct } = state
-        if (!page) {
-          page = { current: 1, pageSize: 10, total: null }
-        }
+        // const { search } = payload
+        // const { searchQueryProduct } = state
+        // if (!page) {
+        //   page = { current: 1, pageSize: 10, total: null }
+        // }
+        // console.log('=====>', search)
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
@@ -59,8 +60,8 @@ const products = {
             headers: headers,
             params: {
               page: page.current,
-              search: search ? (searchQueryProduct !== '' ? searchQueryProduct : '') : '',
-              category: payload.category
+              limit: page.pageSize,
+              search: payload.search ? payload.search : ''
             }
         })
           .then(result => {

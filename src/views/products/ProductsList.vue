@@ -8,10 +8,9 @@
         <a-input
           style="float: right; width: 200px"
           test-attr="search-order"
-          id="inputSearch"
           :placeholder="$t('search') + '...'"
           :value="getSearchQuery"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-model='params.search'
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
@@ -166,8 +165,12 @@ export default {
       selectedProductCategory: '',
       updateVisible: false,
       filterParams: {},
-      page: { current: 1, pageSize: 10, total: 45 },
-      Interval: null
+      // page: { current: 1, pageSize: 10, total: 45 },
+      Interval: null,
+      // eslint-disable-next-line standard/object-curly-even-spacing
+      params: { page: { current: 1, pageSize: 10, total: null },
+        search: ''
+      }
     }
   },
   computed: {
@@ -181,7 +184,7 @@ export default {
   },
   mounted () {
     this.getCategories()
-    this.getProducts({ page: this.productsPagination, search: true })
+    this.getProducts(this.params)
       .then(() => console.log('this.productsData', this.productsData))
       .catch(err => {
         this.$message.error(this.$t('error'))
@@ -201,10 +204,10 @@ export default {
         }
       }
     },
-    searchItem (value) {
-    const page = { current: 1, pageSize: 10, total: null, value: value }
-      this.$store.dispatch('getProductSearch', page)
-    },
+    // searchItem (value) {
+    // const page = { current: 1, pageSize: 10, total: null, value: value }
+    //   this.$store.dispatch('getProductSearch', page)
+    // },
 
     handleTableChange (pagination) {
       console.log(pagination)
@@ -229,12 +232,12 @@ export default {
     handleCloseModal () {
       this.selectedProduct = null
     },
-    debouncedSearch (searchQuery) {
-      console.log('search=>>>', searchQuery)
-      this.searchItem(searchQuery)
-      this.setSearchQueryProduct(searchQuery)
+    debouncedSearch () {
+      console.log('search=>>>', this.params)
+      // this.searchItem(searchQuery)
+      // this.setSearchQueryProduct(this.params)
       this.loading = true
-      this.getProducts()
+      this.getProducts(this.params)
         .then((res) => console.log(res))
         .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))

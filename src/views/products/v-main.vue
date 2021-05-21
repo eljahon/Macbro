@@ -371,7 +371,7 @@
             </div>
           </a-row>
         </a-tab-pane>
-        <a-tab-pane v-if="! priceUpdatable" key="7" :tab="$t('variants')">
+        <a-tab-pane v-if="$route.params.id" key="7" :tab="$t('variants')">
           <div class="product-variants">
             <div class="product-variants__item" v-for="(item, index) in product.variants" :key="index">
               <a-row type="flex" align="middle">
