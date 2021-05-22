@@ -17,7 +17,7 @@ const products = {
       productsMenu: state => state.productsMenu,
       productsPagination: state => state.productsPagination,
       searchQueryProduct: state => state.searchqueryProduct,
-      loading: state => state.loading
+      loadingProducts: state => state.loading
     },
     mutations: {
       GET_PRODUCTS: (state, products) => {
@@ -45,38 +45,33 @@ const products = {
       },
       getProducts ({ commit, state }, payload) {
         const { page } = payload
-        // if search === false all products will be requested
-        console.log('Payload', payload)
-        // const { search } = payload
-        // const { searchQueryProduct } = state
-        // if (!page) {
-        //   page = { current: 1, pageSize: 10, total: null }
-        // }
-        // console.log('=====>', search)
+        commit('SET_LOADING', true)
         return new Promise((resolve, reject) => {
           console.log(page)
-        request({
-            url: `/product`,
-            headers: headers,
-            params: {
-              page: page.current,
-              limit: page.pageSize,
-              search: payload.search ? payload.search : ''
-            }
-        })
-          .then(result => {
-          const pagination = { ...page }
-          pagination.total = parseInt(result.count)
-          console.log(pagination)
+          request({
+              url: `/product`,
+              headers: headers,
+              params: {
+                page: page.current,
+                limit: page.pageSize,
+                search: payload.search ? payload.search : ''
+              }
+          })
+            .then(result => {
+            const pagination = { ...page }
+            pagination.total = parseInt(result.count)
+            console.log(pagination)
             console.log(result)
-          console.log('pagination')
-          commit('GET_PRODUCTS_PAGINATION', pagination)
-          commit('GET_PRODUCTS', result.products)
-          resolve()
-        })
-        .catch(error => {
-          reject(error)
-        })
+            console.log('pagination')
+            commit('GET_PRODUCTS_PAGINATION', pagination)
+            commit('GET_PRODUCTS', result.products)
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          }).finally(() => {
+            commit('SET_LOADING', false)
+          })
       })
     },
     getProductsMenu ({ commit }) {

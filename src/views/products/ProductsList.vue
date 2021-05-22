@@ -13,7 +13,7 @@
           v-model='params.search'
           v-debounce="debouncedSearch"
         >
-          <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
+          <a-icon slot="addonAfter" type="search" @click="debouncedSearch" />
         </a-input>
       </div>
     </breadcrumb-row>
@@ -30,7 +30,7 @@
         :rowKey="record => record.id"
         :dataSource="productsData"
         :pagination="getPagination"
-        :loading="loading"
+        :loading="loadingProducts"
         @change="handleTableChange"
         test-attr="list-products"
         bordered
@@ -174,7 +174,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['productsData', 'productsPagination', 'categories', 'categoriesWithChildren', 'searchQueryProduct']),
+    ...mapGetters(['productsData', 'productsPagination', 'categories', 'loadingProducts', 'categoriesWithChildren', 'searchQueryProduct']),
     getPagination () {
       return this.productsPagination
     },
@@ -184,6 +184,11 @@ export default {
   },
   mounted () {
     this.getCategories()
+    if (this.$route.query.page && this.$route.query.limit) {
+      this.params.page.current = parseInt(this.$route.query.page)
+      this.params.page.pageSize = parseInt(this.$route.query.limit)
+      this.params.search = this.$route.query.search
+    }
     this.getProducts(this.params)
       .then(() => console.log('this.productsData', this.productsData))
       .catch(err => {
@@ -204,19 +209,17 @@ export default {
         }
       }
     },
-    // searchItem (value) {
-    // const page = { current: 1, pageSize: 10, total: null, value: value }
-    //   this.$store.dispatch('getProductSearch', page)
-    // },
-
     handleTableChange (pagination) {
-      console.log(pagination)
-      this.loading = true
-      this.getProducts({ page: pagination, search: true })
-        .then((res) => console.log(res))
-        .catch(err => this.$message.error(err))
-        .finally(() => (this.loading = false))
-        },
+      this.params.page = pagination
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          page: pagination.current,
+          limit: pagination.pageSize
+        }
+      })
+      this.getProducts(this.params)
+    },
     getSelectedProduct (selectedProduct) {
       this.selectedProduct = getSelected(this.productsData, selectedProduct)
       this.selectedProductCategory = getCategoryName(this.categoriesWithChildren, this.selectedProduct.category_id)
@@ -233,15 +236,19 @@ export default {
       this.selectedProduct = null
     },
     debouncedSearch () {
-      console.log('search=>>>', this.params)
-      // this.searchItem(searchQuery)
-      // this.setSearchQueryProduct(this.params.search)
-      this.loading = true
+      this.params.page = { current: 1, pageSize: 10, total: null }
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          page: 1,
+          limit: 10,
+          search: this.params.search
+        }
+      })
       this.getProducts(this.params)
         .then((res) => console.log(res))
         .catch(err => this.$message.error(err))
         .finally(() => (this.loading = false))
-      console.log('debounce')
     },
     deleteProduct (e, slug) {
       console.log('slug', slug)

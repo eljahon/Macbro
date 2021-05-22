@@ -1312,9 +1312,10 @@ export default {
             })
             .then(res => {
               console.log('res', res)
-              if (this.$route.path !== '/catalog/products') {
-                this.$router.replace('/catalog/products')
-              }
+              this.$router.go(-1)
+              // if (this.$route.path !== '/catalog/products') {
+              //   this.$router.replace('/catalog/products')
+              // }
             })
             .catch(error => console.error('error', error))
             .finally(() => {
@@ -1347,9 +1348,10 @@ export default {
             })
             .then(res => {
               console.log('res', res)
-              if (this.$route.path !== '/catalog/products') {
-                this.$router.replace('/catalog/products')
-              }
+              this.$router.go(-1)
+              // if (this.$route.path !== '/catalog/products') {
+              //   this.$router.replace('/catalog/products')
+              // }
             })
             .catch(error => console.error('error', error))
             .finally(() => {
