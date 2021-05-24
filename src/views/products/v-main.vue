@@ -153,7 +153,6 @@
             <a-form-item :label="$t('uploadProductGallery')">
               <a-upload
                 :custom-request="uploadGalleryImage"
-                
                 list-type="picture-card"
                 :file-list="gallery"
                 @preview="handlePreview"
@@ -1149,7 +1148,7 @@ export default {
     beforeUpload (file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === "image/webp"
       if (!isJpgOrPng) {
-        this.$message.error('You can only upload JPG, PNG file!')
+        this.$message.error('You can only upload JPG, PNG, WEBP file!')
       }
       return isJpgOrPng
     },
