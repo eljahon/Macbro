@@ -90,7 +90,7 @@
               </a-list>
             </a-col>
             <router-link to="/admins/list">
-              <a-button type="primary" style="margin-top: 15px; test-attr="back-admins"">
+              <a-button type="primary" style="margin-top: 15px;" test-attr="back-admins">
                 {{ $t('backToList') }}
               </a-button>
             </router-link>
