@@ -151,7 +151,7 @@ export default {
       console.log(pagination)
       this.editingKey = ''
       this.loading = true
-      this.getProducts({ page: pagination, search: true, category: this.$route.params.id })
+      this.getProducts({ page: pagination, search: '', category: this.$route.params.id })
         .then(res => {
           console.log(res)
         })
