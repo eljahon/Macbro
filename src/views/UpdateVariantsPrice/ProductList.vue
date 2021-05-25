@@ -111,6 +111,7 @@ export default {
     }
   },
   mounted () {
+    // console.log('ID:', this.$route.params.id)
     this.setSearchQuery()
     this.getProducts({ page: this.productsPagination, category: this.$route.params.id })
       .then(() => {

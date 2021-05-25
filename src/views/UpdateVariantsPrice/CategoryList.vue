@@ -169,6 +169,7 @@ export default {
     },
     onIconClick (record) {
       this.$router.push(`${this.$route.path}/${record.id}`)
+      console.log(record.id)
     },
     handleTableChange (pagination) {
       this.loading = true

@@ -54,6 +54,7 @@ const products = {
               params: {
                 page: page.current,
                 limit: page.pageSize,
+                category: payload.category ?? '',
                 search: payload.search ? payload.search : ''
               }
           })
