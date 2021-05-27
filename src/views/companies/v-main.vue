@@ -33,6 +33,7 @@
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="email" :label="$t('email')" prop="email">
             <a-input
+              :autocomplete="false"
               size="large"
               :disabled="requesting"
               v-model="company.email"
@@ -111,6 +112,28 @@ export default {
     lang: String
   },
   data () {
+    const validatePhone = (rule, value, callback) => {
+      if (/^[+][9][9][8]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error(this.$t('incorrectPhone')))
+      }
+    }
+    // const validateEmail = (rule, value, callback) => {
+    //   // eslint-disable-next-line no-useless-escape
+    //     if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+    //       callback()
+    //     } else {
+    //       callback(new Error(this.$t('errorEmail')))
+    //     }
+    // }
+    const validateNumber = (rule, value, callback) => {
+      if (!isNaN(value) && value > 0) {
+        callback()
+      } else {
+        callback(new Error(this.$t('Введите номер')))
+      }
+    }
     return {
       requesting: false,
       activeTabKey: '1',
@@ -134,11 +157,12 @@ export default {
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        // eslint-disable-next-line standard/object-curly-even-spacing
+        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
+        account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validateNumber, trigger: 'change' }],
         email: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        inn: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validateNumber, trigger: 'change' }],
+        mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validateNumber, trigger: 'change' }]
       }
     }
   },

@@ -80,6 +80,33 @@ const companies = {
     setSearchQuery ({ commit }, searchQuery) {
       commit('SET_SEARCH_QUERY', searchQuery)
     },
+    // getCompaniesListAll ({ commit, state }, page) {
+    //   const { searchQuery } = state
+    //   console.log(page)
+    //   if (!page) {
+    //     page = { current: 1, pageSize: 10, total: null }
+    //   }
+    //   console.log('salom')
+    //   return new Promise((resolve, reject) => {
+    //     request({
+    //       url: '/company',
+    //       headers: headers,
+    //       method: 'get',
+    //       params: { page: page.current, limit: page.pageSize, name: searchQuery }
+    //     })
+    //       .then(result => {
+    //         const pagination = { ...page }
+    //         pagination.total = parseInt(result.count)
+    //         // commit('SET_COMPANIES_PAGINATION', pagination)
+    //         // commit('SET_COMPANIES', result.companies)
+    //         console.log(result)
+    //         resolve()
+    //       })
+    //       .catch(error => {
+    //         reject(error)
+    //       })
+    //   })
+    // },
     getCompanies ({ commit, state }, page) {
       const { searchQuery } = state
       if (!page) {
@@ -89,6 +116,7 @@ const companies = {
         request({
           url: '/company',
           headers: headers,
+          method: 'get',
           params: { page: page.current, limit: page.pageSize, name: searchQuery }
         })
           .then(result => {

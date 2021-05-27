@@ -67,21 +67,21 @@
           </a-form-model-item>
         </a-col>
         <!-- address 2 -->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">
-            <a-input-number
-              style="width: 100%"
-              :disabled="requesting"
-              v-model="branch.number_of_employees"
-              test-attr="number_of_employees-branch"
-            />
-          </a-form-model-item>
-        </a-col>
+<!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+<!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
+<!--            <a-input-number-->
+<!--              style="width: 100%"-->
+<!--              :disabled="requesting"-->
+<!--              v-model="branch.number_of_employees"-->
+<!--              test-attr="number_of_employees-branch"-->
+<!--            />-->
+<!--          </a-form-model-item>-->
+<!--        </a-col>-->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
             <a-select
               style="width: 100%"
-              v-model="branch.branch_type"
+              v-model="branch.type"
               :placeholder="$t('branchType')"
               test-attr="branch_type-branch"
             >
@@ -95,7 +95,7 @@
           </a-form-model-item>
         </a-col>
         <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')" prop="corporate_id">
+          <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')">
             <a-select
               show-search
               :auto-clear-search-value="false"
@@ -160,18 +160,16 @@ export default {
         description: '',
         phone_number: '',
         address: '',
-        city_id: '',
+        city_id: '1b509bcb-0337-4bac-9497-aa0447e0934e"',
         company_id: this.$route.params.company_id || '',
-        number_of_employees: null,
-        branch_type: '',
+        type: '',
         corporate_id: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        number_of_employees: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        branch_type: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        type: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         corporate_id: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       },
       corporateFetching: false,

@@ -122,7 +122,11 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       previewVisible: false,
       selectedCompany: null,
-      filterParams: {}
+      filterParams: {},
+      params: {
+        page: { current: 1, pageSize: 10, total: null },
+        search: ''
+      }
     }
   },
   computed: {
@@ -138,6 +142,7 @@ export default {
     }
   },
   mounted () {
+    // this.getCompaniesListAll(this.params.page).finally(() => (this.loading = false))
     this.setSearchQuery()
     this.getCompanies({ page: this.companiesPagination })
       .then(() => (console.log('companies')))
