@@ -1050,12 +1050,14 @@ export default {
       }).then(res => {
         // console.log('res', res)
         // console.log('res.category.product_properties', res.category.product_properties)
-        const categoryProperties = res.category.product_properties || []
+        const categoryProperties =
+          []
         this.productDefaultProperties && this.productDefaultProperties.forEach((prop) => {
-          const a = categoryProperties.filter((cprop, i) => {
-            return cprop.id === prop.property.id
-          })
-          if (!a.length) {
+          // const a = categoryProperties.filter((cprop, i) => {
+          //   return cprop.id === prop.property.id
+          // })
+          // console.log('Foreach prop', a, categoryProperties, prop)
+          // if (!a.length) {
             const currentProp = { ...prop.property }
             currentProp.options = currentProp.options.map(item => {
               return {
@@ -1064,7 +1066,7 @@ export default {
               }
             })
             categoryProperties.push(currentProp)
-          }
+          // }
         })
         this.productProperties = categoryProperties
         // console.log('this.productProperties', this.productProperties)
@@ -1511,9 +1513,11 @@ export default {
     },
     setDefaultProperty (prop) {
       var result = []
+      console.log('====>', prop)
       if (prop && prop.options && prop.options.length) {
         for (const item of prop.options) {
           if (item.checked) {
+            console.log('sdfgh')
             result.push(item.value)
           }
         }
