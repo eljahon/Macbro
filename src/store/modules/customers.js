@@ -36,7 +36,7 @@ const customers = {
       setSearchQuery ({ commit }, searchQuery) {
         commit('SET_SEARCH_QUERY', searchQuery)
       },
-      getCustomers ({ commit, state }, payload = { page: null }) {
+      getCustomers ({ commit, state }, payload) {
         let { page } = payload
         const { searchquery } = state
         if (!page) {
@@ -46,11 +46,14 @@ const customers = {
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
-            url: `/client`,
+            url: `/user`,
             headers: headers,
             params: {
               page: page.current,
-              phone_number: searchquery
+              limit: page.pageSize,
+              search: searchquery,
+              offset: 0,
+              user_type: 'client'
             }
         })
           .then(result => {
@@ -69,14 +72,18 @@ const customers = {
       })
     },
       getUserList ({ commit }, payload) {
+        // eslint-disable-next-line no-undef,no-unused-vars
+        // const { searchquery } = state
         return new Promise((resolve, reject) => {
           request({
             url: `/user`,
             method: 'get',
             params: {
-              page: 10,
+              limit: payload.pageSiz,
               // eslint-disable-next-line no-undef
-              user_type: 'client'
+              offset: 0,
+              user_type: 'client',
+              search: payload.search
             }
           }).then(result => {
             // eslint-disable-next-line no-undef

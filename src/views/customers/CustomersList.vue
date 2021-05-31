@@ -10,7 +10,7 @@
           test-attr="search-order"
           id="inputSearch"
           :placeholder="$t('search') + '...'"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
+        v-model="params.search"
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
@@ -178,6 +178,10 @@ export default {
     return {
       value: '',
       data: [],
+      params: {
+        page: { current: 1, pageSize: 10, total: null },
+        search: ''
+      },
       loading: true,
        columns: [
         {
@@ -218,7 +222,7 @@ export default {
     }
   },
   mounted () {
-    this.getUserList().then(res => console.log(res))
+    this.getUserList(this.params).then(res => console.log(res))
     .finally(() => (this.loading = false))
     // this.getCustomers({ page: this.customersPagination })
     //   .then((res) => console.log('customers', this.customersData))
@@ -280,7 +284,7 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getCustomers()
+      this.getUserList(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
