@@ -17,9 +17,24 @@ const companies = {
     inventoryItems: [],
     inventoryItemsPagination: {},
     searchQuery: '',
-    lastTab: 1
+    lastTab: 1,
+    array: [
+      { ru: 'админ', en: 'admin', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c01', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde01' },
+      { ru: 'директор', en: 'director', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c02', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde02' },
+      { ru: 'менеджер', en: 'manager', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c03', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde03' },
+      { ru: 'консультант', en: 'consultant', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c04', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde04' },
+      { ru: 'кассир', en: 'cashier', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c05', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde05' },
+      { ru: 'курьер', en: 'courier', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c06', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde06' },
+      { ru: 'клиент', en: 'client', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07' },
+      { ru: 'перехватчик', en: 'webhook', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c08', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde08' },
+      { ru: 'администратор филиала', en: 'branch-admin', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c09', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde09' },
+      { ru: 'super-admin', en: 'супер-админ', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c10', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde10' }
+    ],
+    usertype: null,
+    companid: null
   },
   getters: {
+    UserTypeSelect: state => state.array,
     companiesList: state => state.companies,
     companiesPagination: state => state.companiesPagination,
     companyBranchesList: state => state.companyBranches,
@@ -30,11 +45,17 @@ const companies = {
     companyWarehousePagination: state => state.companyWarehousePagination,
     inventoryItemsList: state => state.inventoryItems,
     inventoryItemsPagination: state => state.inventoryItemsPagination,
-
     searchQuery: state => state.searchQuery,
-    lastTab: state => state.lastTab
+    lastTab: state => state.lastTab,
+    CompanId: state => state.companid
   },
   mutations: {
+    COMPANYID (state, paylod) {
+      state.companid = paylod
+    },
+    SET_USER_TYPEAUTH (state, payload) {
+      state.usertype = payload
+    },
     SET_COMPANIES: (state, companies) => {
       state.companies = companies
     },
@@ -125,6 +146,55 @@ const companies = {
             commit('SET_COMPANIES_PAGINATION', pagination)
             commit('SET_COMPANIES', result.companies)
             resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getUsers ({ commit, state }, page) {
+      if (!page) {
+        page = { current: 1, pageSize: 10, total: null }
+      }
+      console.log(page)
+      return new Promise((resolve, reject) => {
+        request({
+          url: '/user',
+          headers: headers,
+          method: 'get',
+          params: {
+            page: page.page.current,
+            limit: page.page.pageSize,
+            company_id: page.company_id,
+            offset: page.offset,
+            user: page.user,
+            user_type: page.user_type,
+            search: page.search
+          }
+        })
+          .then(result => {
+            console.log('=======>', result)
+            const pagination = { ...page }
+            pagination.total = parseInt(result.count)
+            commit('SET_COMPANIES_PAGINATION', pagination)
+            commit('SET_COMPANIES', result.companies)
+            resolve(result)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getCompanyUserItem ({ commit, state }, page) {
+      console.log(page)
+      return new Promise((resolve, reject) => {
+        request({
+          url: `/user/${page}`,
+          headers: headers,
+          method: 'get'
+        })
+          .then(result => {
+            resolve(result)
           })
           .catch(error => {
             reject(error)
@@ -224,6 +294,69 @@ const companies = {
             reject(error)
           })
       })
+    },
+    companyUserTypeCreate ({ commit, dispatch, state }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+       const { usertype } = state
+        console.log(usertype)
+        const headers = {
+          'Content-Type': 'application/json'
+        }
+        request({
+          url: 'https://api.auth.macbro.uz/v1/auth/user/register',
+          method: 'post',
+          data: {
+            client_type_id: usertype.client_type_id,
+            password: '',
+            login: '',
+            phone: payload.phone_number,
+            role_id: usertype.role_id
+          },
+          headers: headers
+        })
+          .then(res => {
+            resolve(res)
+            console.log(res)
+            payload.id = res.data
+          dispatch('ApiUserCreateType', payload)
+            // this.requesting = false
+            // eslint-disable-next-line standard/object-curly-even-spacing
+            // this.$router.push({ name: 'CompaniesEdit', params: { id: this.$route.query.companyId } })
+          })
+          .catch(err => {
+            // this.requesting = false
+            reject(err)
+            console.error(err)
+          })
+          .finally(() => {
+          })
+      })
+    },
+    ApiUserCreateType ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: '/user',
+          method: 'post',
+          data: payload,
+          headers: headers
+        }).then(res => {
+          console.log(res)
+          resolve(res)
+        })
+          .catch(err => {
+            reject(err)
+            console.log(err)
+          })
+      })
+    },
+      userType ({ commit }, payload) {
+        console.log(payload)
+       commit('SET_USER_TYPEAUTH', payload)
+},
+    CompamyId ({ commit }, payload) {
+      console.log(payload)
+      commit('COMPANYID', payload)
     }
   }
 }

@@ -159,6 +159,8 @@ export default {
         on: {
           click: (event) => {
             console.log('ID', record.id)
+            this.$store.dispatch('CompamyId', record.id)
+            localStorage.setItem('company_id', record.id)
             this.$router.push(`./update/${record.id}`)
           }
         }

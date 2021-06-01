@@ -20,9 +20,9 @@
         :okText="$t('yes')"
         :cancelText="$t('no')"
       >
-        <a-button type="danger" html-type="submit" test-attr="save-customer">
-          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}
-        </a-button>
+        <!--        <a-button type="danger" html-type="submit" test-attr="save-customer">-->
+        <!--          <a-icon :component="$myIcons.binSvg" /> {{ $t('delete') }}-->
+        <!--        </a-button>-->
       </a-popconfirm>
     </a-card>
 
@@ -75,10 +75,23 @@ import request from '@/utils/request'
 export default {
   data () {
     return {
+      data: null,
       btnLoading: false,
       activeTabKey: 1,
       edit: !!this.$route.params.id,
-      langs: ['ru', 'uz', 'en']
+      langs: ['ru', 'uz', 'en'],
+      params: {
+        page: {
+          pageSize: 10,
+          current: 1,
+          total: null
+        },
+        search: '',
+        company_id: this.$route.params.id,
+        user_type: '',
+        user: '',
+        offset: 0
+      }
     }
   },
   components: {
@@ -100,7 +113,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setLastTab']),
+    ...mapActions(['setLastTab', 'getUsers']),
     deleteCompany (e) {
       this.loading = true
       request({
@@ -120,6 +133,13 @@ export default {
     langMapper,
     flagMapper,
     onTabChange (value) {
+      console.log(value)
+      this.getUsers(this.params).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      }).finally(() => {
+      })
       this.setLastTab(value)
     },
     clickParent (e) {

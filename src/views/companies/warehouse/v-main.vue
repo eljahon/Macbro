@@ -30,30 +30,30 @@
             />
           </a-form-model-item>
         </a-col>
-        <a-col :span="12" style="padding: 0 15px">
-          <a-form-model-item ref="branch_name" :label="$t('branchName')" prop="branch_name">
-            <a-select
-              size="large"
-              show-search
-              :auto-clear-search-value="false"
-              @search="onSearch($event, 'branch')"
-              :value="warehouse.branch_id"
-              :filter-option="false"
-              @popupScroll="onScrollBottom($event, 'branch')"
-              placeholder="branch"
-              @change="handleChange($event, 'branch')"
-              :disbled="loading"
-              test-attr="branch_name-inventory"
-            >
-              <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">
-                {{ branch.name }}
-              </a-select-option>
-              <a-select-option key="productFetching" v-if="branchParams.total > branchList.length || branchFetching">
-                <a-spin slot="notFoundContent" size="small" />
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
+        <!--        <a-col :span="12" style="padding: 0 15px">-->
+        <!--          <a-form-model-item ref="branch_name" :label="$t('branchName')" prop="branch_name">-->
+        <!--            <a-select-->
+        <!--              size="large"-->
+        <!--              show-search-->
+        <!--              :auto-clear-search-value="false"-->
+        <!--              @search="onSearch($event, 'branch')"-->
+        <!--              :value="warehouse.branch_id"-->
+        <!--              :filter-option="false"-->
+        <!--              @popupScroll="onScrollBottom($event, 'branch')"-->
+        <!--              placeholder="branch"-->
+        <!--              @change="handleChange($event, 'branch')"-->
+        <!--              :disbled="loading"-->
+        <!--              test-attr="branch_name-inventory"-->
+        <!--            >-->
+        <!--              <a-select-option v-for="branch in branchList" :title="branch.name" :key="branch.id" :value="branch.id">-->
+        <!--                {{ branch.name }}-->
+        <!--              </a-select-option>-->
+        <!--              <a-select-option key="productFetching" v-if="branchParams.total > branchList.length || branchFetching">-->
+        <!--                <a-spin slot="notFoundContent" size="small" />-->
+        <!--              </a-select-option>-->
+        <!--            </a-select>-->
+        <!--          </a-form-model-item>-->
+        <!--        </a-col>-->
       </a-row>
       <a-row>
         <a-col :span="12" style="padding: 0 15px">
@@ -115,9 +115,9 @@ export default {
       warehouse: {
         name: '',
         address: '',
-        company_id: this.$route.params.company_id || '',
-        branch_id: '',
-        branch_name: ''
+        company_id: this.$route.params.company_id || ''
+        // branch_id: '',
+        // branch_name: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],

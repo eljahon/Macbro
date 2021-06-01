@@ -1,5 +1,7 @@
 <template>
   <div>
+    <a-tabs type="card" @change="callback">
+      <a-tab-pane key="1" :tab="$t('staff')">
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -46,6 +48,20 @@
             </a-select>
           </a-form-model-item>
         </a-col>
+        <a-col :md="24" :lg="8" style="padding: 0 15px">
+          <a-form-model-item ref="city_id" :label="$t('warehouse')" prop="city_id">
+            <a-select
+              style="width: 100%"
+              v-model="branch.warehouse_id"
+              :placeholder="$t('city')"
+              test-attr="city-branch"
+            >
+              <a-select-option v-for="warehouse in companyWarehouseList" :key="warehouse.value" :value="warehouse.id">{{
+                  warehouse.name
+              }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </a-col>
         <!-- number -->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
@@ -67,16 +83,16 @@
           </a-form-model-item>
         </a-col>
         <!-- address 2 -->
-<!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
-<!--            <a-input-number-->
-<!--              style="width: 100%"-->
-<!--              :disabled="requesting"-->
-<!--              v-model="branch.number_of_employees"-->
-<!--              test-attr="number_of_employees-branch"-->
-<!--            />-->
-<!--          </a-form-model-item>-->
-<!--        </a-col>-->
+        <!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+        <!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
+        <!--            <a-input-number-->
+        <!--              style="width: 100%"-->
+        <!--              :disabled="requesting"-->
+        <!--              v-model="branch.number_of_employees"-->
+        <!--              test-attr="number_of_employees-branch"-->
+        <!--            />-->
+        <!--          </a-form-model-item>-->
+        <!--        </a-col>-->
         <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
             <a-select
@@ -122,11 +138,38 @@
           </a-form-model-item>
         </a-col>
       </a-row>
-    </a-form-model>
+    </a-form-model></a-tab-pane>
+      <a-tab-pane key="2" :tab="$t('staff')">
+       <companyStaff />
+<!--        <a-table-->
+<!--          bordered-->
+<!--          @change="getPagination1"-->
+<!--          :pagination="pagination"-->
+<!--          :rowKey="record => record.id"-->
+<!--          :row-selection="rowSelection"-->
+<!--          :columns="columnsModal"-->
+<!--          :data-source="insctock"-->
+<!--          :loading="loadTable"-->
+<!--        >-->
+<!--          <template slot="status" slot-scope="is_active">-->
+<!--            <status-tag-->
+<!--              :active="is_active"-->
+<!--              default-val-->
+<!--            />-->
+<!--          </template>-->
+<!--          <template slot="brand" slot-scope="brand">-->
+<!--            <a-tag color="green">-->
+<!--              {{ brand }}-->
+<!--            </a-tag>-->
+<!--          </template>-->
+<!--        </a-table>-->
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 
 <script>
+import companyStaff from '../../../views/companies/CompanyStaff'
 import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
@@ -135,7 +178,8 @@ import debounce from 'lodash/debounce'
 export default {
   components: {
     'a-auto-complete': AutoComplete,
-    'tinymce': tinymce
+    'tinymce': tinymce,
+    companyStaff
   },
   props: {
   // eslint-disable-next-line
@@ -157,13 +201,15 @@ export default {
       loadingTable: false,
       branch: {
         name: '',
+        staff: [],
         description: '',
         phone_number: '',
         address: '',
-        city_id: '1b509bcb-0337-4bac-9497-aa0447e0934e"',
+        city_id: '',
         company_id: this.$route.params.company_id || '',
         type: '',
-        corporate_id: ''
+        corporate_id: '',
+        warehouse_id: ''
       },
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
@@ -193,10 +239,13 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList'])
+    ...mapGetters(['companiesList', 'companyWarehouseList'])
   },
   methods: {
     ...mapActions(['getCompanies']),
+    callback (value) {
+      console.log(value)
+    },
     onSearch (value) {
       this.corporateFetching = true
       this.corporateList = []

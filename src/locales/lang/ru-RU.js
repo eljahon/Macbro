@@ -96,7 +96,7 @@ const locale = {
   uploadPreviewImage: 'Загрузить preview',
   url: 'URL',
   title: 'Название',
-  phone_number: 'Номер',
+  phone_number: 'Телефонный номер',
   date: 'Дата',
   customers: 'Клиенты',
   customer: 'Клиент',
@@ -230,6 +230,8 @@ const locale = {
   Source: 'Источник',
   // companies
   company_name: 'Название компании',
+  fistname: 'имя',
+  lastname: 'Фамилия',
   email: 'Адрес электронной почты',
   inn: 'ИНН',
   mfo: 'МФО код',
@@ -316,9 +318,15 @@ const locale = {
 
   // companies
   company: 'Компания',
+  middelname: 'Второе имя',
+  user_type: 'Тип пользователя',
+  data_of_birth: 'Дата рождения',
   companies: 'Компании',
+  usertypenewadd: 'Тип пользователя новое добавление',
   account_number: 'Номер счета',
   number_of_employees: 'Количество работников',
+  auth_api_url_useraAdd: 'компания тип пользователя новое добавить',
+  user_type_new_add: 'тип пользователя новое добавление',
   // cities
   cities: 'Города',
   city: 'Город',

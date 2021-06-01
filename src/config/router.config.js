@@ -503,6 +503,18 @@ export const asyncRouterMap = [
                     meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
                   },
                   {
+                    path: '/company/user/create',
+                    name: 'CompaniesUserCreate',
+                    component: () => import('@/views/companies/companyUsers/companyUserCreate'),
+                    meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
+                  },
+                  {
+                    path: '/company/user/update/:userid',
+                    name: 'CompaniesUserupdate',
+                    component: () => import('@/views/companies/companyUsers/companyUserUpdate'),
+                    meta: { title: 'add', keepAlive: true, show: true, permission: ['company'] }
+                  },
+                  {
                     path: '/company/update/:id',
                     name: 'CompaniesEdit',
                     component: () => import('@/views/companies/CompaniesEdit'),

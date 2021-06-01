@@ -2,9 +2,9 @@
   <div>
     <a-card :title="$t('staff')" :bordered="false">
       <div slot="extra">
-        <!-- <router-link to="././create" slot="extra">
-                <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
-            </router-link> -->
+        <router-link :to="{name: 'CompaniesUserCreate',query: {companyId: $route.params.id}}" slot="extra">
+          <a-button style="float: right" shape="round" type="primary link" icon="plus" test-attr="search-branch">{{ $t('add') }}</a-button>
+        </router-link>
       </div>
       <a-table
         :columns="columns"
@@ -23,7 +23,7 @@
               <a-button id="buttonPreview" type="default" icon="branches"></a-button>
             </a-tooltip>
           </router-link> -->
-          <router-link :to="`./update/${row.id}`" >
+          <router-link :to="`/company/user/update/${row.id}`">
             <edit-btn :test-attr="`edit-branch${index}`"/>
           </router-link>
           <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
@@ -43,18 +43,34 @@ export default {
       data: [],
       companyId: this.$route.params.company_id,
       loading: true,
+      params: {
+        page: {
+          pageSize: 10,
+          current: 1,
+          total: null
+        },
+        search: '',
+        company_id: this.$route.params.id,
+        user_type: '',
+        user: '',
+        offset: 0
+      },
       columns: [
         {
-          title: this.$t('company_name'),
-          dataIndex: 'name'
+          title: this.$t('fistname'),
+          dataIndex: 'first_name'
+        },
+        {
+          title: this.$t('lastname'),
+          dataIndex: 'last_name'
         },
         {
           title: this.$t('phone_number'),
           dataIndex: 'phone_number'
         },
         {
-          title: this.$t('address'),
-          dataIndex: 'address'
+          title: this.$t('inn'),
+          dataIndex: 'inn'
         },
         {
           title: this.$t('action'),
@@ -75,7 +91,7 @@ export default {
       return {}
     },
     getCompanyBranchesList () {
-      return []
+      return this.data
     },
     getSearchQuery () {
       return this.searchQuery
@@ -83,6 +99,15 @@ export default {
   },
   mounted () {
       this.setSearchQuery()
+    this.getUsers(this.params).then(res => {
+      console.log(res)
+      this.data = res.users
+    }).catch(err => {
+      console.log(err)
+    })
+    .finally(() => {
+      this.loading = false
+    })
     this.getCompanyBranches({ page: this.companyBranchesPagination })
       .then(() => (console.log('companybranches')))
       .catch(error => {
@@ -92,7 +117,10 @@ export default {
       .finally(() => (this.loading = false))
   },
   methods: {
-    ...mapActions(['getCompanyBranches', 'setSearchQuery']),
+    companyid (value) {
+      console.log(value)
+    },
+    ...mapActions(['getCompanyBranches', 'setSearchQuery', 'getUsers']),
     handleTableChange (pagination) {
       this.loading = true
       this.getCompanyBranches({ page: pagination, search: true })
@@ -111,14 +139,18 @@ export default {
       // console.log('this.shopsData', this.shopsData)
     },
     deleteCompany (e, slug) {
+      console.log(slug)
       this.loading = true
       request({
-        url: `/branch/${slug}`,
+        url: `/user/${slug}`,
         method: 'delete'
       })
       .then(res => {
+        console.log(res)
         this.$message.success(this.$t('successfullyDeleted'))
-        this.getCompanyBranches({ page: this.companyBranchesPagination })
+        this.getUsers(this.params).then(res => {
+          this.data = res.users
+        })
       })
       .catch(err => {
         this.$message.error(err)
