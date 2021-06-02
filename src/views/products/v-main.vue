@@ -138,7 +138,7 @@
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
                 >
-                  <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                  <img style="width: 400px;height: auto;margin: auto" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
                     <div class="ant-upload-text">
