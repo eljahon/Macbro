@@ -144,8 +144,7 @@
         <a-table
           style="margin-top: 30px"
           :columns="column"
-          :dataSource="dataBranchSelectList"
-          :rowKey="record => record.id"
+          :dataSource="staffSelectsAdd"
           :loading="loading"
           @change="handleTableChange"
           test-attr="list-branch"
@@ -169,7 +168,6 @@
           <a-table
             style="margin-top: 30px"
             :columns="columns"
-            :rowKey="record => record.id"
             :dataSource="branchesList"
             :loading="loading"
             :row-selection="rowSelection"
@@ -191,6 +189,13 @@ import request from '@/utils/request'
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
 export default {
+  watch: {
+    // 'staffSelectsAdd': (value) => {
+    //   // eslint-disable-next-line no-unused-expressions
+    //   this.staffAddBranch.includes(value) ? true : this.staffAddBranch.push(value)
+    //   console.log(value)
+    // }
+  },
   components: {
     'a-auto-complete': AutoComplete,
     'tinymce': tinymce,
@@ -206,12 +211,13 @@ export default {
     return {
       rowSelection: {
         onChange: (selectedRowKeys, selectedRows) => {
+          selectedRows = this.staffAddBranch
           console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
         },
         onSelect: (record, selected, selectedRows) => {
           this.form.staff.includes(record.id) ? this.form.staff.pop(record.id) : this.form.staff.push(record.id)
           console.log(this.form.staff)
-          console.log(record, selected, selectedRows.id)
+          console.log(record, selected, selectedRows)
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
           console.log(selected, selectedRows, changeRows)
@@ -273,7 +279,7 @@ export default {
         // }
       ],
       addidModal: [],
-      dataBranchSelectList: [],
+      staffAddBranch: [],
       requesting: false,
       activeTabKey: '1',
       branchId: this.$route.params.id,
@@ -313,7 +319,6 @@ export default {
     }
   },
   mounted () {
-    this.dataBranchSelectList = []
     this.getUsers(this.corporateParams).then(res => {
       console.log('vlue2', res)
     }).catch(err => {
@@ -322,6 +327,7 @@ export default {
       .finally(() => {
         this.loading = false
       })
+    this.getSelectBranchAll(this.$route.params.id)
     this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
     if (this.$route.params.company_id) {
       this.getCompanyWarehouse(this.corporateParams)
@@ -345,26 +351,30 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'companyWarehouseList', 'branchesList', 'branchesIdList'])
+    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList'])
   },
   methods: {
     ...mapActions(['getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
     callback (value) {
       // 1
       this.$router.push({ name: this.$route.name, query: { tabid: value } })
-      this.fiflterByIdRetunList(this.branchesIdList, this.branchesList)
          },
-    fiflterByIdRetunList (value1, value2) {
-      // eslint-disable-next-line no-unused-expressions
-      this.dataBranchSelectList.length > 0 ? this.dataBranchSelectList = false : this.dataBranchSelectList
-      this.dataBranchSelectList = value2.map(e => value1.includes(e.id) ? e : '')
-    },
     openModal () {
       this.modalVisible = true
     },
     handleAddFeaturedProducts () {
       console.log('modal====>')
+      this.loading = true
       this.$store.dispatch('getSelectBranch', this.form)
+      .then(res => {
+        console.log(res)
+        this.getSelectBranchAll(this.$route.params.id)
+      })
+      .catch(err => {
+        console.log(err)
+      }).finally(() => {
+        this.loading = false
+      })
       this.modalVisible = false
     },
     getPagination () {
@@ -500,6 +510,7 @@ export default {
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
     }
+    // eslint-disable-next-line vue/no-dupe-keys
   }
 }
 </script>

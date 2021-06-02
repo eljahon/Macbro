@@ -19,21 +19,71 @@ const companies = {
     searchQuery: '',
     lastTab: 1,
     array: [
-      { ru: 'админ', en: 'admin', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c01', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde01' },
-      { ru: 'директор', en: 'director', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c02', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde02' },
-      { ru: 'менеджер', en: 'manager', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c03', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde03' },
-      { ru: 'консультант', en: 'consultant', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c04', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde04' },
-      { ru: 'кассир', en: 'cashier', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c05', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde05' },
-      { ru: 'курьер', en: 'courier', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c06', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde06' },
-      { ru: 'клиент', en: 'client', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07' },
-      { ru: 'перехватчик', en: 'webhook', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c08', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde08' },
-      { ru: 'администратор филиала', en: 'branch-admin', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c09', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde09' },
-      { ru: 'super-admin', en: 'супер-админ', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c10', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde10' }
+      {
+        ru: 'админ',
+        en: 'admin',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c01',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde01'
+      },
+      {
+        ru: 'директор',
+        en: 'director',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c02',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde02'
+      },
+      {
+        ru: 'менеджер',
+        en: 'manager',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c03',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde03'
+      },
+      {
+        ru: 'консультант',
+        en: 'consultant',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c04',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde04'
+      },
+      {
+        ru: 'кассир',
+        en: 'cashier',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c05',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde05'
+      },
+      {
+        ru: 'курьер',
+        en: 'courier',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c06',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde06'
+      },
+      {
+        ru: 'клиент',
+        en: 'client',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07'
+      },
+      {
+        ru: 'перехватчик',
+        en: 'webhook',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c08',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde08'
+      },
+      {
+        ru: 'администратор филиала',
+        en: 'branch-admin',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c09',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde09'
+      },
+      {
+        ru: 'super-admin',
+        en: 'супер-админ',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c10',
+        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde10'
+      }
     ],
     branchesList: [],
     branchesIdList: [],
     usertype: null,
-    companid: null
+    staffselectsadd: null
   },
   getters: {
     branchesIdList: state => state.branchesIdList,
@@ -51,11 +101,11 @@ const companies = {
     inventoryItemsPagination: state => state.inventoryItemsPagination,
     searchQuery: state => state.searchQuery,
     lastTab: state => state.lastTab,
-    CompanId: state => state.companid
+    staffSelectsAdd: state => state.staffselectsadd
   },
   mutations: {
-    COMPANYID (state, paylod) {
-      state.companid = paylod
+    STAFF_ADD_SELECT (state, paylod) {
+      state.staffselectsadd = paylod
     },
     SET_USER_TYPEAUTH (state, payload) {
       state.usertype = payload
@@ -186,8 +236,8 @@ const companies = {
             console.log('=======>', result)
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
-            commit('SET_COMPANIES_PAGINATION', pagination)
-            commit('SET_COMPANIES', result.companies)
+            // commit('SET_COMPANIES_PAGINATION', pagination)
+            // commit('SET_COMPANIES', result.companies)
             commit('GET_BRANCECH_LIST', result.users)
             resolve(result)
           })
@@ -309,7 +359,7 @@ const companies = {
     companyUserTypeCreate ({ commit, dispatch, state }, payload) {
       return new Promise((resolve, reject) => {
         console.log(payload)
-       const { usertype } = state
+        const { usertype } = state
         console.log(usertype)
         const headers = {
           'Content-Type': 'application/json'
@@ -330,7 +380,7 @@ const companies = {
             resolve(res)
             console.log(res)
             payload.id = res.data
-          dispatch('ApiUserCreateType', payload)
+            dispatch('ApiUserCreateType', payload)
             // this.requesting = false
             // eslint-disable-next-line standard/object-curly-even-spacing
             // this.$router.push({ name: 'CompaniesEdit', params: { id: this.$route.query.companyId } })
@@ -361,15 +411,20 @@ const companies = {
           })
       })
     },
-      userType ({ commit }, payload) {
-        console.log(payload)
-       commit('SET_USER_TYPEAUTH', payload)
-},
-    CompamyId ({ commit }, payload) {
+    userType ({ commit }, payload) {
       console.log(payload)
-      commit('COMPANYID', payload)
+      commit('SET_USER_TYPEAUTH', payload)
     },
-    getSelectBranchAll ({ commit }, payload) {
+    staffAddSelects ({ commit, state }, staffid) {
+      // eslint-disable-next-line no-undef
+      const { branchesList } = state
+      console.log(branchesList)
+
+      // eslint-disable-next-line no-unused-expressions
+      const staffAddBranch = branchesList.filter(e => staffid.includes(e.id))
+      commit('STAFF_ADD_SELECT', staffAddBranch)
+    },
+    getSelectBranchAll ({ commit, dispatch }, payload) {
       // eslint-disable-next-line no-unused-vars
       // const { id, staff } = payload
       return new Promise((resolve, reject) => {
@@ -381,6 +436,8 @@ const companies = {
           .then(res => {
             resolve(res)
             commit('GET_BRANCHES_ID_LIST', res.staff)
+            dispatch('staffAddSelects', res.staff)
+            // staffAddSelects(res.staff)
             console.log(res)
           })
           .catch(err => {

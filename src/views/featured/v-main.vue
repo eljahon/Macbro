@@ -240,7 +240,8 @@ export default {
             key: 'all-data',
             text: 'Select All Data',
             onSelect: () => {
-              // this.selectedRowKeys = this.productsData
+              // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+              this.selectedRowKeys = this.productsData
               console.log('onSelect')
             }
           }

@@ -108,13 +108,13 @@ export default {
     .finally(() => {
       this.loading = false
     })
-    this.getCompanyBranches({ page: this.companyBranchesPagination })
-      .then(() => (console.log('companybranches')))
-      .catch(error => {
-        this.requestFailed(error)
-        console.error(error)
-      })
-      .finally(() => (this.loading = false))
+  //   this.getCompanyBranches({ page: this.companyBranchesPagination })
+  //     .then(() => (console.log('companybranches')))
+  //     .catch(error => {
+  //       this.requestFailed(error)
+  //       console.error(error)
+  //     })
+  //     .finally(() => (this.loading = false))
   },
   methods: {
     companyid (value) {

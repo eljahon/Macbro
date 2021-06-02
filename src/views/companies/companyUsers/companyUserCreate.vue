@@ -9,7 +9,9 @@
       </a-breadcrumb>
     </breadcrumb-row>
     <a-card>
+      <h1 v-if="loading">loading......</h1>
       <a-form-model
+        v-else
         ref="ruleForm"
         :model="form"
         :rules="rules"
@@ -126,7 +128,7 @@
               <a-button type="primary" @click.prevent="onSubmit" test-attr="save-company">
                 {{ $t('save') }}
               </a-button>
-              <a-button style="margin-left: 10px;" @click.prevent="onSubmit" test-attr="reset-company">
+              <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-company">
                 {{ $t('reset') }}
               </a-button>
             </a-form-model-item>
@@ -198,6 +200,7 @@ export default {
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
       other: '',
+      key: 'updatable',
       loading: false,
       loadingTable: false,
       form: {
@@ -262,7 +265,6 @@ export default {
       this.value = value
     },
     getCompanyAttrs () {
-      this.loading = true
       return new Promise((resolve) => {
         request({
           url: `/company/${this.companySlug}?lang=${this.lang}`,
@@ -288,13 +290,8 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.requesting = true
-          // const req = {
-          //   url: `/user`,
-          //   method: 'post',
-          //   data: {
-          //     value
-          //   }
-          // }
+          // eslint-disable-next-line standard/object-curly-even-spacing,no-undef
+          // this.$message.loading({ content: 'Loading...', key })
           this.$emit('clickParent', true)
           this.$store.dispatch('companyUserTypeCreate', this.form)
             .then(res => {
@@ -304,6 +301,7 @@ export default {
             })
             .finally(() => {
             this.$emit('clickParent', false)
+              this.loading = false
           })
           console.log('valid')
         } else {

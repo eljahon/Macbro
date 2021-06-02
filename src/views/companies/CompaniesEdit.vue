@@ -40,7 +40,7 @@
         <a-tab-pane :tab="$t('legalAgents')" :key="4">
           <corporates></corporates>
         </a-tab-pane>
-        <a-tab-pane :tab="$t('branches')" :key="5">
+          <a-tab-pane :tab="$t('branches')" :key="5">
           <branches></branches>
         </a-tab-pane>
       </a-tabs>
@@ -134,12 +134,14 @@ export default {
     flagMapper,
     onTabChange (value) {
       console.log(value)
+    if (value === '2') {
       this.getUsers(this.params).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
       }).finally(() => {
       })
+    }
       this.setLastTab(value)
     },
     clickParent (e) {

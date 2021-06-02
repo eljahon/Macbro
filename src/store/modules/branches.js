@@ -79,9 +79,11 @@ const branches = {
             data: { staff }
           })
             .then(res => {
+              resolve(res)
               console.log(res)
             })
             .catch(err => {
+              reject(err)
               console.log(err)
             })
             .finally(() => {
