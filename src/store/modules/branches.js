@@ -7,6 +7,7 @@ const headers = {
 const branches = {
     state: {
       branches: [],
+      branchesList: [],
       pagination: {},
       selectedBranch: {}
     },
@@ -64,6 +65,28 @@ const branches = {
           .catch(error => {
             reject(error)
           })
+        })
+    },
+    getSelectBranch ({ commit }, payload) {
+      // eslint-disable-next-line no-unused-vars
+        const { id, staff } = payload
+        return new Promise((resolve, reject) => {
+          request({
+            url: '/branch/staff',
+            method: 'put',
+            headers: headers,
+            params: { id: id },
+            data: { staff }
+          })
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+            .finally(() => {
+              console.log('hello i am sraff array add api')
+            })
         })
     }
   }

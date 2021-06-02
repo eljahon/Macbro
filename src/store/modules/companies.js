@@ -30,10 +30,14 @@ const companies = {
       { ru: 'администратор филиала', en: 'branch-admin', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c09', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde09' },
       { ru: 'super-admin', en: 'супер-админ', client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c10', role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde10' }
     ],
+    branchesList: [],
+    branchesIdList: [],
     usertype: null,
     companid: null
   },
   getters: {
+    branchesIdList: state => state.branchesIdList,
+    branchesList: state => state.branchesList,
     UserTypeSelect: state => state.array,
     companiesList: state => state.companies,
     companiesPagination: state => state.companiesPagination,
@@ -92,6 +96,12 @@ const companies = {
     },
     SET_LAST_TAB: (state, lastTab) => {
       state.lastTab = lastTab
+    },
+    GET_BRANCECH_LIST: (state, payload) => {
+      state.branchesList = payload
+    },
+    GET_BRANCHES_ID_LIST: (state, payload) => {
+      state.branchesIdList = payload
     }
   },
   actions: {
@@ -178,6 +188,7 @@ const companies = {
             pagination.total = parseInt(result.count)
             commit('SET_COMPANIES_PAGINATION', pagination)
             commit('SET_COMPANIES', result.companies)
+            commit('GET_BRANCECH_LIST', result.users)
             resolve(result)
           })
           .catch(error => {
@@ -357,6 +368,29 @@ const companies = {
     CompamyId ({ commit }, payload) {
       console.log(payload)
       commit('COMPANYID', payload)
+    },
+    getSelectBranchAll ({ commit }, payload) {
+      // eslint-disable-next-line no-unused-vars
+      // const { id, staff } = payload
+      return new Promise((resolve, reject) => {
+        request({
+          url: `/branch/${payload}`,
+          method: 'get',
+          headers: headers
+        })
+          .then(res => {
+            resolve(res)
+            commit('GET_BRANCHES_ID_LIST', res.staff)
+            console.log(res)
+          })
+          .catch(err => {
+            reject(err)
+            console.log(err)
+          })
+          .finally(() => {
+            console.log('hello i am sraff array add api')
+          })
+      })
     }
   }
 }

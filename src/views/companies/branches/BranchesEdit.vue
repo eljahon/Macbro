@@ -35,7 +35,7 @@
         </a-row>
       </a-card>
     </div>
-    <a-row class="edit-btns">
+    <a-row class="edit-btns" v-if="this.$route.query.tabid === '1'">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-branch">
@@ -52,6 +52,7 @@
 <script>
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -61,14 +62,20 @@ export default {
       langs: ['ru', 'uz', 'en']
     }
   },
+  computed: {
+    ...mapGetters(['citiesList'])
+  },
   mounted () {
     // console.log('$refs', this.$refs)
+    this.$router.push({ name: this.$route.name, query: { tabid: '1' } })
+    this.getCities()
     console.log('ROUTES', this.$route)
   },
   // updated() {
   //   console.warn('$refs', this.$refs)
   // },
   methods: {
+    ...mapActions(['getCities']),
     langMapper,
     flagMapper,
     clickParent (e) {

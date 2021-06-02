@@ -1,26 +1,26 @@
 <template>
   <div>
     <a-tabs type="card" @change="callback">
-      <a-tab-pane key="1" :tab="$t('staff')">
-    <a-form-model
-      @submit="onSubmit"
-      ref="ruleForm"
-      :model="branch"
-      :rules="rules"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
-      <a-row>
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="name" :label="$t('name')" prop="name">
-            <a-input
-              :disabled="requesting"
-              v-model="branch.name"
-              test-attr="name-branch"
-            />
-          </a-form-model-item>
-        </a-col>
-        <!-- <a-col :md="24" :lg="8" style="padding: 0 15px">
+      <a-tab-pane key="1" :tab="$t('update')">
+        <a-form-model
+          @submit="onSubmit"
+          ref="ruleForm"
+          :model="branch"
+          :rules="rules"
+          :label-col="labelCol"
+          :wrapper-col="wrapperCol"
+        >
+          <a-row>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="name" :label="$t('name')" prop="name">
+                <a-input
+                  :disabled="requesting"
+                  v-model="branch.name"
+                  test-attr="name-branch"
+                />
+              </a-form-model-item>
+            </a-col>
+            <!-- <a-col :md="24" :lg="8" style="padding: 0 15px">
           <a-form-model-item ref="company_id" :label="$t('company')" prop="company_id">
             <a-select
               style="width: 100%"
@@ -34,140 +34,155 @@
             </a-select>
           </a-form-model-item>
         </a-col> -->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
-            <a-select
-              style="width: 100%"
-              v-model="branch.city_id"
-              :placeholder="$t('city')"
-              test-attr="city-branch"
-            >
-              <a-select-option v-for="city in cityList" :key="city.value" :value="city.id">{{
-                city.name
-              }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="city_id" :label="$t('warehouse')" prop="city_id">
-            <a-select
-              style="width: 100%"
-              v-model="branch.warehouse_id"
-              :placeholder="$t('city')"
-              test-attr="city-branch"
-            >
-              <a-select-option v-for="warehouse in companyWarehouseList" :key="warehouse.value" :value="warehouse.id">{{
-                  warehouse.name
-              }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-        <!-- number -->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
-            <a-input
-              :disabled="requesting"
-              v-model="branch.phone_number"
-              test-attr="phone_number-branch"
-            />
-          </a-form-model-item>
-        </a-col>
-        <!-- address 1 -->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="address" :label="$t('address')" prop="address">
-            <a-input
-              :disabled="requesting"
-              v-model="branch.address"
-              test-attr="address-branch"
-            />
-          </a-form-model-item>
-        </a-col>
-        <!-- address 2 -->
-        <!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-        <!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
-        <!--            <a-input-number-->
-        <!--              style="width: 100%"-->
-        <!--              :disabled="requesting"-->
-        <!--              v-model="branch.number_of_employees"-->
-        <!--              test-attr="number_of_employees-branch"-->
-        <!--            />-->
-        <!--          </a-form-model-item>-->
-        <!--        </a-col>-->
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
-            <a-select
-              style="width: 100%"
-              v-model="branch.type"
-              :placeholder="$t('branchType')"
-              test-attr="branch_type-branch"
-            >
-              <a-select-option value="franchise">
-                {{ $t('franchise') }}
-              </a-select-option>
-              <a-select-option value="own">
-                {{ $t('own') }}
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-        <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')">
-            <a-select
-              show-search
-              :auto-clear-search-value="false"
-              @search="onSearch"
-              v-model="branch.corporate_id"
-              :filter-option="false"
-              @popupScroll="onScrollBottom"
-              placeholder="brand"
-              :disbled="loading"
-              test-attr="branch_name-inventory"
-            >
-              <a-select-option v-for="corporate in corporateList" :title="corporate.name" :key="corporate.id" :value="corporate.id">
-                {{ corporate.bank_name }}
-              </a-select-option>
-              <a-select-option key="corporateFetching" v-if="corporateParams.total > corporateList.length || corporateFetching">
-                <a-spin slot="notFoundContent" size="small" />
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="24" style="padding: 0 15px">
-          <a-form-model-item ref="description" :label="$t('description')" prop="description">
-            <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
-          </a-form-model-item>
-        </a-col>
-      </a-row>
-    </a-form-model></a-tab-pane>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
+                <a-select
+                  style="width: 100%"
+                  v-model="branch.city_id"
+                  :placeholder="$t('city')"
+                  test-attr="city-branch"
+                >
+                  <a-select-option v-for="city in cityList" :key="city.value" :value="city.id">{{
+                    city.name
+                  }}</a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="city_id" :label="$t('warehouse')" prop="city_id">
+                <a-select
+                  style="width: 100%"
+                  v-model="branch.warehouse_id"
+                  :placeholder="$t('city')"
+                  test-attr="city-branch"
+                >
+                  <a-select-option v-for="warehouse in companyWarehouseList" :key="warehouse.value" :value="warehouse.id">{{
+                    warehouse.name
+                  }}</a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <!-- number -->
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="phone_number" :label="$t('phone_number')" prop="phone_number">
+                <a-input
+                  :disabled="requesting"
+                  v-model="branch.phone_number"
+                  test-attr="phone_number-branch"
+                />
+              </a-form-model-item>
+            </a-col>
+            <!-- address 1 -->
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="address" :label="$t('address')" prop="address">
+                <a-input
+                  :disabled="requesting"
+                  v-model="branch.address"
+                  test-attr="address-branch"
+                />
+              </a-form-model-item>
+            </a-col>
+            <!-- address 2 -->
+            <!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+            <!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
+            <!--            <a-input-number-->
+            <!--              style="width: 100%"-->
+            <!--              :disabled="requesting"-->
+            <!--              v-model="branch.number_of_employees"-->
+            <!--              test-attr="number_of_employees-branch"-->
+            <!--            />-->
+            <!--          </a-form-model-item>-->
+            <!--        </a-col>-->
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
+                <a-select
+                  style="width: 100%"
+                  v-model="branch.type"
+                  :placeholder="$t('branchType')"
+                  test-attr="branch_type-branch"
+                >
+                  <a-select-option value="franchise">
+                    {{ $t('franchise') }}
+                  </a-select-option>
+                  <a-select-option value="own">
+                    {{ $t('own') }}
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :md="24" :lg="8" style="padding: 0 15px">
+              <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')">
+                <a-select
+                  show-search
+                  :auto-clear-search-value="false"
+                  @search="onSearch"
+                  v-model="branch.corporate_id"
+                  :filter-option="false"
+                  @popupScroll="onScrollBottom"
+                  placeholder="brand"
+                  :disbled="loading"
+                  test-attr="branch_name-inventory"
+                >
+                  <a-select-option v-for="corporate in corporateList" :title="corporate.name" :key="corporate.id" :value="corporate.id">
+                    {{ corporate.bank_name }}
+                  </a-select-option>
+                  <a-select-option key="corporateFetching" v-if="corporateParams.total > corporateList.length || corporateFetching">
+                    <a-spin slot="notFoundContent" size="small" />
+                  </a-select-option>
+                </a-select>
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="24" style="padding: 0 15px">
+              <a-form-model-item ref="description" :label="$t('description')" prop="description">
+                <tinymce v-model="branch.description" test-attr="description-branch"></tinymce>
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+        </a-form-model></a-tab-pane>
       <a-tab-pane key="2" :tab="$t('staff')">
-       <companyStaff />
-<!--        <a-table-->
-<!--          bordered-->
-<!--          @change="getPagination1"-->
-<!--          :pagination="pagination"-->
-<!--          :rowKey="record => record.id"-->
-<!--          :row-selection="rowSelection"-->
-<!--          :columns="columnsModal"-->
-<!--          :data-source="insctock"-->
-<!--          :loading="loadTable"-->
-<!--        >-->
-<!--          <template slot="status" slot-scope="is_active">-->
-<!--            <status-tag-->
-<!--              :active="is_active"-->
-<!--              default-val-->
-<!--            />-->
+        <div style=""><a-button icon="plus" type="primary" @click="openModal">{{ $t('add') }}</a-button></div>
+        <a-table
+          style="margin-top: 30px"
+          :columns="column"
+          :dataSource="dataBranchSelectList"
+          :rowKey="record => record.id"
+          :loading="loading"
+          @change="handleTableChange"
+          test-attr="list-branch"
+          bordered
+        >
+<!--          <template slot="action" slot-scope="text, row, index">-->
+<!--            <router-link :to="`/company/user/update/${row.id}`">-->
+<!--              <edit-btn :test-attr="`edit-branch${index}`"/>-->
+<!--            </router-link>-->
+<!--            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>-->
 <!--          </template>-->
-<!--          <template slot="brand" slot-scope="brand">-->
-<!--            <a-tag color="green">-->
-<!--              {{ brand }}-->
-<!--            </a-tag>-->
-<!--          </template>-->
-<!--        </a-table>-->
+        </a-table>
+        <a-modal
+          width="80%"
+          v-model="modalVisible"
+          :title="$t('add')"
+          centered
+          @ok="handleAddFeaturedProducts"
+          @cancel="() => (modalVisible = false)"
+        >
+          <a-table
+            style="margin-top: 30px"
+            :columns="columns"
+            :rowKey="record => record.id"
+            :dataSource="branchesList"
+            :loading="loading"
+            :row-selection="rowSelection"
+            :expanded-row-keys.sync="expandedRowKeys"
+            @change="handleTableChange"
+            test-attr="list-branch"
+            bordered
+          >
+          </a-table></a-modal>
       </a-tab-pane>
     </a-tabs>
   </div>
 </template>
-
 <script>
 import companyStaff from '../../../views/companies/CompanyStaff'
 import { AutoComplete } from 'ant-design-vue'
@@ -189,7 +204,76 @@ export default {
     this.onSearch = debounce(this.onSearch, 400)
     this.corporateGetAll = debounce(this.corporateGetAll, 100)
     return {
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        },
+        onSelect: (record, selected, selectedRows) => {
+          this.form.staff.includes(record.id) ? this.form.staff.pop(record.id) : this.form.staff.push(record.id)
+          console.log(this.form.staff)
+          console.log(record, selected, selectedRows.id)
+        },
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          console.log(selected, selectedRows, changeRows)
+        }
+      },
+      form: {
+        id: this.$route.params.id,
+        staff: []
+      },
+      expandedRowKeys: [],
+      modalVisible: false,
       cityList: [],
+      columns: [
+        {
+          title: this.$t('fistname'),
+          dataIndex: 'first_name'
+        },
+        {
+          title: this.$t('lastname'),
+          dataIndex: 'last_name'
+        },
+        {
+          title: this.$t('phone_number'),
+          dataIndex: 'phone_number'
+        },
+        {
+          title: this.$t('inn'),
+          dataIndex: 'inn'
+        }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '20%',
+        //   scopedSlots: { customRender: 'action' }
+        // }
+      ],
+      column: [
+        {
+          title: this.$t('fistname'),
+          dataIndex: 'first_name'
+        },
+        {
+          title: this.$t('lastname'),
+          dataIndex: 'last_name'
+        },
+        {
+          title: this.$t('phone_number'),
+          dataIndex: 'phone_number'
+        },
+        {
+          title: this.$t('inn'),
+          dataIndex: 'inn'
+        }
+        // {
+        //   title: this.$t('action'),
+        //   key: 'action',
+        //   width: '20%',
+        //   scopedSlots: { customRender: 'action' }
+        // }
+      ],
+      addidModal: [],
+      dataBranchSelectList: [],
       requesting: false,
       activeTabKey: '1',
       branchId: this.$route.params.id,
@@ -229,6 +313,28 @@ export default {
     }
   },
   mounted () {
+    this.dataBranchSelectList = []
+    this.getUsers(this.corporateParams).then(res => {
+      console.log('vlue2', res)
+    }).catch(err => {
+      console.log(err)
+    })
+      .finally(() => {
+        this.loading = false
+      })
+    this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
+    if (this.$route.params.company_id) {
+      this.getCompanyWarehouse(this.corporateParams)
+      .then(res => {
+        console.log(res)
+         })
+        .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        console.log('finally')
+      })
+    }
     if (this.branchId) {
       this.getBranchAttrs(this.branchId).then(res => {
         this.loadingTable = true
@@ -239,12 +345,37 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'companyWarehouseList'])
+    ...mapGetters(['companiesList', 'companyWarehouseList', 'branchesList', 'branchesIdList'])
   },
   methods: {
-    ...mapActions(['getCompanies']),
+    ...mapActions(['getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
     callback (value) {
-      console.log(value)
+      // 1
+      this.$router.push({ name: this.$route.name, query: { tabid: value } })
+      this.fiflterByIdRetunList(this.branchesIdList, this.branchesList)
+         },
+    fiflterByIdRetunList (value1, value2) {
+      // eslint-disable-next-line no-unused-expressions
+      this.dataBranchSelectList.length > 0 ? this.dataBranchSelectList = false : this.dataBranchSelectList
+      this.dataBranchSelectList = value2.map(e => value1.includes(e.id) ? e : '')
+    },
+    openModal () {
+      this.modalVisible = true
+    },
+    handleAddFeaturedProducts () {
+      console.log('modal====>')
+      this.$store.dispatch('getSelectBranch', this.form)
+      this.modalVisible = false
+    },
+    getPagination () {
+      return {}
+    },
+    handleTableChange (pagination) {
+      this.loading = true
+      this.getCompanyBranches({ page: pagination, search: true })
+        .then((res) => console.log(res))
+        .catch(err => this.requestFailed(err))
+        .finally(() => (this.loading = false))
     },
     onSearch (value) {
       this.corporateFetching = true
