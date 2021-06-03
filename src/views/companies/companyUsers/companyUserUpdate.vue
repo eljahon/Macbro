@@ -126,7 +126,7 @@
               <a-button type="primary" @click.prevent="onSubmit" test-attr="save-company">
                 {{ $t('save') }}
               </a-button>
-              <a-button style="margin-left: 10px;" @click.prevent="onSubmit" test-attr="reset-company">
+              <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-company">
                 {{ $t('reset') }}
               </a-button>
             </a-form-model-item>
@@ -309,7 +309,7 @@ export default {
           })
             .then(res => {
               this.$message.success(this.$t('usertypenewadd'))
-              this.$router.push({ name: 'CompaniesEdit', params: { id: this.CompanId } })
+              this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
             })
             .catch(err => {
               this.requesting = false

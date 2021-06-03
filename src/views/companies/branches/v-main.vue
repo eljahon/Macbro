@@ -145,17 +145,18 @@
           style="margin-top: 30px"
           :columns="column"
           :dataSource="staffSelectsAdd"
+          :rowKey="record => record.id"
           :loading="loading"
           @change="handleTableChange"
           test-attr="list-branch"
           bordered
         >
-<!--          <template slot="action" slot-scope="text, row, index">-->
-<!--            <router-link :to="`/company/user/update/${row.id}`">-->
-<!--              <edit-btn :test-attr="`edit-branch${index}`"/>-->
-<!--            </router-link>-->
-<!--            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>-->
-<!--          </template>-->
+          <!--          <template slot="action" slot-scope="text, row, index">-->
+          <!--            <router-link :to="`/company/user/update/${row.id}`">-->
+          <!--              <edit-btn :test-attr="`edit-branch${index}`"/>-->
+          <!--            </router-link>-->
+          <!--            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>-->
+          <!--          </template>-->
         </a-table>
         <a-modal
           width="80%"
@@ -168,10 +169,13 @@
           <a-table
             style="margin-top: 30px"
             :columns="columns"
-            :dataSource="branchesList"
+            :dataSource="userList"
+            :rowKey="record => record.id"
             :loading="loading"
-            :row-selection="rowSelection"
-            :expanded-row-keys.sync="expandedRowKeys"
+            :rowSelection="{
+              selectedRowKeys: selectedRowKeys,
+              onChange: onSelectedChange,
+            }"
             @change="handleTableChange"
             test-attr="list-branch"
             bordered
@@ -209,19 +213,9 @@ export default {
     this.onSearch = debounce(this.onSearch, 400)
     this.corporateGetAll = debounce(this.corporateGetAll, 100)
     return {
+      selectedRowKeys: [],
+      // selectedRows: console.log(this.staffSelectsAdd),
       rowSelection: {
-        onChange: (selectedRowKeys, selectedRows) => {
-          selectedRows = this.staffAddBranch
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-        },
-        onSelect: (record, selected, selectedRows) => {
-          this.form.staff.includes(record.id) ? this.form.staff.pop(record.id) : this.form.staff.push(record.id)
-          console.log(this.form.staff)
-          console.log(record, selected, selectedRows)
-        },
-        onSelectAll: (selected, selectedRows, changeRows) => {
-          console.log(selected, selectedRows, changeRows)
-        }
       },
       form: {
         id: this.$route.params.id,
@@ -319,27 +313,18 @@ export default {
     }
   },
   mounted () {
-    this.getUsers(this.corporateParams).then(res => {
-      console.log('vlue2', res)
-    }).catch(err => {
-      console.log(err)
-    })
-      .finally(() => {
-        this.loading = false
-      })
+    this.selectedRowKeys = this.branchesIdList
+    this.getUsers(this.corporateParams)
     this.getSelectBranchAll(this.$route.params.id)
+    .then(res => {
+      this.selectedRowKeys = res.staff
+    })
     this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
+    .then(res => {
+      this.selectedRowKeys = res.staff
+    })
     if (this.$route.params.company_id) {
       this.getCompanyWarehouse(this.corporateParams)
-      .then(res => {
-        console.log(res)
-         })
-        .catch(err => {
-        console.log(err)
-      })
-      .finally(() => {
-        console.log('finally')
-      })
     }
     if (this.branchId) {
       this.getBranchAttrs(this.branchId).then(res => {
@@ -351,10 +336,19 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList'])
+    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
+    userList () {
+      return this.branchesList
+    }
   },
   methods: {
     ...mapActions(['getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
+    onSelectedChange (selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+      console.log(selectedRowKeys)
+      // this.form.staff.includes(selectedRowKeys) ? this.form.staff.pop(selectedRowKeys) : this.form.staff.push(selectedRowKeys)
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+    },
     callback (value) {
       // 1
       this.$router.push({ name: this.$route.name, query: { tabid: value } })
@@ -363,9 +357,10 @@ export default {
       this.modalVisible = true
     },
     handleAddFeaturedProducts () {
-      console.log('modal====>')
       this.loading = true
-      this.$store.dispatch('getSelectBranch', this.form)
+      const form = { id: this.$route.params.id,
+        staff: this.selectedRowKeys }
+      this.$store.dispatch('getSelectBranch', form)
       .then(res => {
         console.log(res)
         this.getSelectBranchAll(this.$route.params.id)
@@ -391,7 +386,6 @@ export default {
       this.corporateFetching = true
       this.corporateList = []
       this.corporateParams = { search: value, lang: this.lang, limit: 10, page: 1, company_id: this.$route.params.company_id }
-      console.log('Corporate params', this.corporateParams, this.$route.params.company_id)
       this.corporateGetAll()
     },
     onScrollBottom (event) {
@@ -445,7 +439,6 @@ export default {
         }).then((response) => {
           this.loading = false
           resolve()
-          console.log('response', response)
           Object.keys(this.branch).forEach(key => {
             if (response[key] !== null) {
               this.branch[key] = response[key]

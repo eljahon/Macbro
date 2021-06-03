@@ -55,30 +55,10 @@ const companies = {
         client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c06',
         role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde06'
       },
-      {
-        ru: 'клиент',
-        en: 'client',
-        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07',
-        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07'
-      },
-      {
-        ru: 'перехватчик',
-        en: 'webhook',
-        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c08',
-        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde08'
-      },
-      {
-        ru: 'администратор филиала',
-        en: 'branch-admin',
-        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c09',
-        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde09'
-      },
-      {
-        ru: 'super-admin',
-        en: 'супер-админ',
-        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c10',
-        role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde10'
-      }
+      { ru: 'контрагент',
+        en: 'counteragent',
+        client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c11',
+       role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde11' }
     ],
     branchesList: [],
     branchesIdList: [],
@@ -216,7 +196,6 @@ const companies = {
       if (!page) {
         page = { current: 1, pageSize: 10, total: null }
       }
-      console.log(page)
       return new Promise((resolve, reject) => {
         request({
           url: '/user',
@@ -233,7 +212,6 @@ const companies = {
           }
         })
           .then(result => {
-            console.log('=======>', result)
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
             // commit('SET_COMPANIES_PAGINATION', pagination)
@@ -344,7 +322,6 @@ const companies = {
           params: { page: page.current, limit: page.pageSize, name: searchQuery, warehouse_id: page.warehouse_id }
         })
           .then(result => {
-            console.log(result.warehouses)
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
             commit('SET_INVENTORY_ITEMS_PAGINATION', pagination)
@@ -358,9 +335,7 @@ const companies = {
     },
     companyUserTypeCreate ({ commit, dispatch, state }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         const { usertype } = state
-        console.log(usertype)
         const headers = {
           'Content-Type': 'application/json'
         }
@@ -378,7 +353,6 @@ const companies = {
         })
           .then(res => {
             resolve(res)
-            console.log(res)
             payload.id = res.data
             dispatch('ApiUserCreateType', payload)
             // this.requesting = false
@@ -388,7 +362,6 @@ const companies = {
           .catch(err => {
             // this.requesting = false
             reject(err)
-            console.error(err)
           })
           .finally(() => {
           })
@@ -412,13 +385,11 @@ const companies = {
       })
     },
     userType ({ commit }, payload) {
-      console.log(payload)
       commit('SET_USER_TYPEAUTH', payload)
     },
     staffAddSelects ({ commit, state }, staffid) {
       // eslint-disable-next-line no-undef
       const { branchesList } = state
-      console.log(branchesList)
 
       // eslint-disable-next-line no-unused-expressions
       const staffAddBranch = branchesList.filter(e => staffid.includes(e.id))
@@ -437,15 +408,11 @@ const companies = {
             resolve(res)
             commit('GET_BRANCHES_ID_LIST', res.staff)
             dispatch('staffAddSelects', res.staff)
-            // staffAddSelects(res.staff)
-            console.log(res)
           })
           .catch(err => {
             reject(err)
-            console.log(err)
           })
           .finally(() => {
-            console.log('hello i am sraff array add api')
           })
       })
     }
