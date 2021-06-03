@@ -45,6 +45,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="account_number" :label="$t('account_number')" prop="account_number">
             <a-input-number
+              style="width: 100%"
               :disabled="requesting"
               size="large"
               v-model="legalAgent.account_number"
@@ -55,6 +56,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="inn" :label="$t('inn')" prop="inn">
             <a-input-number
+              style="width: 100%"
               :disabled="requesting"
               size="large"
               v-model="legalAgent.inn"
@@ -65,6 +67,7 @@
         <a-col :span="12" style="padding: 0 15px">
           <a-form-model-item ref="mfo" :label="$t('mfo')" prop="mfo">
             <a-input-number
+              style="width: 100%"
               :disabled="requesting"
               size="large"
               v-model="legalAgent.mfo"
@@ -104,6 +107,13 @@ export default {
     lang: String
   },
   data () {
+    const validatePhone = (rule, value, callback) => {
+      if (/^[+][9][9][8]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error(this.$t('incorrectPhone')))
+      }
+    }
     return {
       cityList: [],
       requesting: false,
@@ -127,7 +137,8 @@ export default {
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        // eslint-disable-next-line no-undef
+        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
         inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }]

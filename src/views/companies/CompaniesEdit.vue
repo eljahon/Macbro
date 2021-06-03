@@ -112,6 +112,9 @@ export default {
       return this.lastTab
     }
   },
+  mounted () {
+    this.setLastTab(1)
+  },
   methods: {
     ...mapActions(['setLastTab', 'getUsers']),
     deleteCompany (e) {

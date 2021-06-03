@@ -20,20 +20,6 @@
                 />
               </a-form-model-item>
             </a-col>
-            <!-- <a-col :md="24" :lg="8" style="padding: 0 15px">
-          <a-form-model-item ref="company_id" :label="$t('company')" prop="company_id">
-            <a-select
-              style="width: 100%"
-              v-model="branch.company_id"
-              :placeholder="$t('company')"
-              test-attr="company-branch"
-            >
-              <a-select-option v-for="company in companiesList" :key="company.value" :value="company.id">{{
-                company.name
-              }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col> -->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item ref="city_id" :label="$t('city')" prop="city_id">
                 <a-select
@@ -49,7 +35,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="city_id" :label="$t('warehouse')" prop="city_id">
+              <a-form-model-item ref="warehouse_id" :label="$t('warehouse')" prop="warehouse_id">
                 <a-select
                   style="width: 100%"
                   v-model="branch.warehouse_id"
@@ -82,19 +68,8 @@
                 />
               </a-form-model-item>
             </a-col>
-            <!-- address 2 -->
-            <!--        <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--          <a-form-model-item ref="number_of_employees" :label="$t('number_of_employees')" prop="number_of_employees">-->
-            <!--            <a-input-number-->
-            <!--              style="width: 100%"-->
-            <!--              :disabled="requesting"-->
-            <!--              v-model="branch.number_of_employees"-->
-            <!--              test-attr="number_of_employees-branch"-->
-            <!--            />-->
-            <!--          </a-form-model-item>-->
-            <!--        </a-col>-->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="branch_type" :label="$t('branchType')" prop="branch_type">
+              <a-form-model-item ref="type" :label="$t('branchType')" prop="type">
                 <a-select
                   style="width: 100%"
                   v-model="branch.type"
@@ -111,7 +86,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')">
+              <a-form-model-item ref="corporate_id" :label="$t('juristicEntity')" prop="corporate_id">
                 <a-select
                   show-search
                   :auto-clear-search-value="false"
@@ -151,12 +126,6 @@
           test-attr="list-branch"
           bordered
         >
-          <!--          <template slot="action" slot-scope="text, row, index">-->
-          <!--            <router-link :to="`/company/user/update/${row.id}`">-->
-          <!--              <edit-btn :test-attr="`edit-branch${index}`"/>-->
-          <!--            </router-link>-->
-          <!--            <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>-->
-          <!--          </template>-->
         </a-table>
         <a-modal
           width="80%"
@@ -210,6 +179,13 @@ export default {
     lang: String
   },
   data () {
+    const validatePhone = (rule, value, callback) => {
+      if (/^[+][9][9][8]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error(this.$t('incorrectPhone')))
+      }
+    }
     this.onSearch = debounce(this.onSearch, 400)
     this.corporateGetAll = debounce(this.corporateGetAll, 100)
     return {
@@ -298,9 +274,11 @@ export default {
       rules: {
         name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
         type: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        corporate_id: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        corporate_id: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        city_id: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        warehouse_id: [{ required: true, message: this.$t('required'), trigger: 'change' }]
       },
       corporateFetching: false,
       corporateList: [],
