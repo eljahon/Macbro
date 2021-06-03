@@ -383,7 +383,8 @@ const locale = {
   sellPrice: 'Цена продажи',
   buyPrice: 'Цена покупки',
   productState: 'Состояние',
-
+  // werhouses
+  coming: 'Приход',
   // company
   corporates: 'Корпорации',
   corporate: 'Корпорация',

@@ -119,7 +119,7 @@ export const asyncRouterMap = [
             name: 'warehouseList',
             component: RouteView,
             redirect: '/warehouse/income/list',
-            meta: { title: 'Приход', permission: ['directory'] },
+            meta: { title: 'coming', permission: ['directory'] },
             children: [
               {
                 path: '/warehouse/income/list',
@@ -539,7 +539,7 @@ export const asyncRouterMap = [
                     meta: { title: 'add', keepAlive: true, permission: ['company'] }
                   },
                   {
-                    path: '/corporate/update/:id/:tabid',
+                    path: '/corporate/update/:id/',
                     name: 'corporateEdit',
                     component: () => import('@/views/companies/corporate/CorporateEdit'),
                     meta: { title: 'update', keepAlive: true, permission: ['company'] }

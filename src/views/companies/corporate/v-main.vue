@@ -107,7 +107,7 @@ export default {
         inn: null,
         mfo: null,
         account_number: null,
-        company_id: this.$route.params.company_id
+        company_id: localStorage.getItem('company_id')
       },
       rules: {
         bank_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
@@ -125,6 +125,9 @@ export default {
         this.loadingTable = true
       })
     }
+  },
+  created () {
+    console.log(this.$route.params.id)
   },
   methods: {
     ...mapActions(['getCompanies']),
