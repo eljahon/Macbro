@@ -40,6 +40,7 @@ import permissionsNew from './modules/permissionsNew'
 import inventory from './modules/inventory'
 import currency from './modules/currency'
 import socket from './socket'
+import werhouses from '@/store/modules/werhouses'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -51,6 +52,7 @@ export default new Vuex.Store({
   modules: {
     app,
     products,
+    werhouses,
     productVariants,
     couriers,
     clients,

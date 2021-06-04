@@ -67,7 +67,6 @@ const locale = {
   female: 'Женский',
   park: 'Парковке',
   prices: 'Цены',
-  price: 'Цена',
   old_price: 'Старая цена',
   selectPark: 'Выберите парковке',
   description: 'Описание',
@@ -385,6 +384,19 @@ const locale = {
   productState: 'Состояние',
   // werhouses
   coming: 'Приход',
+  Bartchnumber: 'Номер партии',
+  Branch: 'Филиал',
+  Provider: 'Поставщик',
+  Cashier: 'Поставщик',
+  total_amount: 'Общая количество',
+  amount: 'Сумма',
+  Scanned: 'Сканировано',
+  data: 'Дата',
+  imei: 'ИМЕИ',
+  product_state: 'Состояние',
+  typeofinterparas: 'Тип взаимарас',
+  price: 'Цена',
+
   // company
   corporates: 'Корпорации',
   corporate: 'Корпорация',

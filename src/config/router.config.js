@@ -136,7 +136,7 @@ export const asyncRouterMap = [
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
-                path: '/warehouse/income/list/update/:id',
+                path: '/warehouse/income/list/update/:id/:number',
                 name: 'warehouseIncomeUpdate',
                 props: true,
                 component: () => import('@/views/warehouse/WarehouseEdit'),
@@ -539,7 +539,7 @@ export const asyncRouterMap = [
                     meta: { title: 'add', keepAlive: true, permission: ['company'] }
                   },
                   {
-                    path: '/corporate/update/:id/',
+                    path: '/corporate/update/:id',
                     name: 'corporateEdit',
                     component: () => import('@/views/companies/corporate/CorporateEdit'),
                     meta: { title: 'update', keepAlive: true, permission: ['company'] }

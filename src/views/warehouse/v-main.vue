@@ -144,6 +144,11 @@ export default {
     this.branchGetAll()
   },
   methods: {
+    warehousePraductListId (page) {
+      this.$store.dispatch('getWerhousListId', page).then(res => {
+        console.log(res)
+      })
+    },
     onLocationChange (e) {
       // var eMap = e.get('target')
       this.coords = e.get('coords')
@@ -277,6 +282,9 @@ export default {
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
     }
+  },
+  created () {
+    this.warehousePraductListId(this.$route.params.id)
   }
 }
 </script>

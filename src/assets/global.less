@@ -40,9 +40,14 @@ body::-webkit-scrollbar-thumb {
   flex-direction: column;
   min-height: 684px;
 }
+.mainIconChange {
+  .anticon svg{
+    color: blue;
+  }
+}
 
 .ant-pro-sider-menu-sider {
-  
+
   &.light {
     // box-shadow: none;
     .ant-pro-sider-menu-logo {
@@ -50,7 +55,7 @@ body::-webkit-scrollbar-thumb {
       padding: 0;
       text-align: center;
       box-shadow: none;
-  
+
       h1 {
         font-size: 31px;
         color: #ffffff;
@@ -58,7 +63,7 @@ body::-webkit-scrollbar-thumb {
       }
     }
 
-  }  
+  }
 }
 
 .ant-menu {
@@ -76,7 +81,7 @@ body::-webkit-scrollbar-thumb {
     }
   }
 
-  .ant-menu-item .anticon, .ant-menu-submenu-title .anticon 
+  .ant-menu-item .anticon, .ant-menu-submenu-title .anticon
 
   .ant-menu-submenu-open .ant-menu-submenu-title {
     // background-color: rgba(0, 0, 0, 5%);
@@ -86,10 +91,10 @@ body::-webkit-scrollbar-thumb {
   &.ant-menu-inline .ant-menu-item-selected, .ant-menu-submenu > .ant-menu {
     background-color: rgba(0, 0, 0, 5%);
   }
-  .ant-menu-item-selected > a, .ant-menu-item-selected > a:hover, 
-  .ant-menu-item > a:hover, .ant-menu-item:hover, 
-  .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) 
-  .ant-menu-submenu-open, .ant-menu-submenu-active, 
+  .ant-menu-item-selected > a, .ant-menu-item-selected > a:hover,
+  .ant-menu-item > a:hover, .ant-menu-item:hover,
+  .ant-menu-item-active, .ant-menu:not(.ant-menu-inline)
+  .ant-menu-submenu-open, .ant-menu-submenu-active,
   .ant-menu-submenu-title:hover, .ant-menu-submenu-selected,
   .ant-menu-item > a, .ant-menu-submenu-title{
     color: black;
@@ -160,7 +165,7 @@ body::-webkit-scrollbar-thumb {
       fill: #B5B5B5;
     }
   }
-  
+
   &.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
     border-color: #007AFF;
     color: #007AFF;
@@ -845,7 +850,7 @@ body::-webkit-scrollbar-thumb {
   text-align: center;
   padding: 4px 16px;
   border-radius: 4px;
-  
+
   &-blue {
     background-color: rgba(24, 144, 255, 0.15);
   }
@@ -890,4 +895,5 @@ button.ant-switch {
     width: 28px;
     height: 28px;
   }
-} 
+
+}
