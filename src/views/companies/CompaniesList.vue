@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainIconChange">
     <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>{{ $t('companies') }}</a-breadcrumb-item>
@@ -28,6 +28,7 @@
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        class="pointer"
         bordered
         :columns="columns"
         :rowKey="record => record.id"
@@ -111,6 +112,15 @@ export default {
         {
           title: this.$t('address'),
           dataIndex: 'address'
+        },
+        {
+          title: this.$t('emails'),
+          dataIndex: 'email'
+        },
+        {
+          title: this.$t('account_number'),
+          width: '120px',
+          dataIndex: 'account_number'
         }
         // {
         //   title: this.$t('action'),
@@ -159,6 +169,7 @@ export default {
         on: {
           click: (event) => {
             console.log('ID', record.id)
+            this.$store.dispatch('setLastTab', 1)
             localStorage.setItem('company_id', record.id)
             this.$router.push(`./update/${record.id}`)
           }
@@ -240,5 +251,8 @@ img.shops-image {
     max-width: 600px !important;
     width: auto !important;
     height: auto !important;
+}
+.pointer{
+  cursor: pointer;
 }
 </style>

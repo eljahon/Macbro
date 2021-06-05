@@ -309,6 +309,7 @@ export default {
           })
             .then(res => {
               this.$message.success(this.$t('usertypenewadd'))
+              this.$store.dispatch('setLastTab', 2)
               this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
             })
             .catch(err => {

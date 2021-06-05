@@ -89,6 +89,13 @@ export default {
     lang: String
   },
   data () {
+    const validatePhone = (rule, value, callback) => {
+        if (/^[+][9][9][8]\d{9}$/.test(value)) {
+          callback()
+        } else {
+          callback(new Error(this.$t('incorrectPhone')))
+        }
+    }
     return {
       cityList: [],
       requesting: false,
@@ -112,7 +119,7 @@ export default {
       rules: {
         bank_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         address: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
         inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         mfo: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         account_number: [{ required: true, message: this.$t('required'), trigger: 'change' }]
@@ -179,6 +186,8 @@ export default {
             console.log('response after submit', res)
             if (this.$route.path !== '/company/list') {
               this.$router.go(-1)
+              // this.$store.dispatch('setLastTab', 2)
+              // this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
             }
           })
           .catch(err => {

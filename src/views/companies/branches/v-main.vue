@@ -342,6 +342,8 @@ export default {
       .then(res => {
         console.log(res)
         this.getSelectBranchAll(this.$route.params.id)
+        // this.$store.dispatch('setLastTab', 5)
+        // this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
       })
       .catch(err => {
         console.log(err)
@@ -451,9 +453,8 @@ export default {
           .then(res => {
             this.requesting = false
             console.log('response after submit', res)
-            if (this.$route.path !== '/company/list') {
-              this.$router.go(-1)
-            }
+            this.$store.dispatch('setLastTab', 5)
+            this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
           })
           .catch(err => {
             this.requesting = false

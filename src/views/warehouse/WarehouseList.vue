@@ -22,21 +22,30 @@
         <a-dropdown style="background-color: #00A0E9">
           <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item key="1">
-            PDF
+              PDF
             </a-menu-item>
             <a-menu-item key="2">
               Excel
             </a-menu-item>
           </a-menu>
-          <a-button> <a-icon type="download" /> </a-button>
+          <a-button>
+            <a-icon type="download" />
+          </a-button>
         </a-dropdown>
       </div>
 
-              <!--      </router-link>-->
+      <!--      </router-link>-->
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
-      <a-table :data-source="dataWerhoustList" :columns="columns" bordered class="cursorpointer" :loading="loading">
+      <a-table
+        :data-source="dataWerhoustList"
+        :columns="columns"
+        bordered
+        :customRow="customRowClick"
+        class="cursorpointer"
+        :rowKey="record => record.id"
+        :loading="loading">
         <div
           slot="filterDropdown"
           slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -72,7 +81,7 @@
         <template slot="counter_agent" slot-scope="text"> {{ text.firstname }} {{ text.lastname }}</template>
         <template slot="bar_code_count" slot-scope="text, record">
           <a-tag :color="record.bar_code_count+record.imei_code_count === record.items_count ? '#E7F4FF' : '#FFEBE5' ">
-            {{ record.bar_code_count+record.imei_code_count}}/{{ record.items_count }}
+            {{ record.bar_code_count + record.imei_code_count }}/{{ record.items_count }}
           </a-tag>
         </template>
         <template slot="number" slot-scope="text"><span style="color: #1890FF">{{ text }}</span></template>
@@ -93,11 +102,12 @@
             </template>
           </span>
           <template v-else>
-            <router-link
-              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"
-              style="color: black">
-              {{ text }}
-            </router-link>
+            {{ text }}
+<!--            <router-link-->
+<!--              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"-->
+<!--              style="color: black">-->
+<!--              -->
+<!--            </router-link>-->
 
           </template>
         </template>
@@ -336,27 +346,30 @@ export default {
   },
   methods: {
     ...mapActions(['getCompanyWarehouse', 'setSearchQuery', 'getWerhousList']),
+    customRowClick (record) {
+      return {
+        on: {
+          click: (event) => {
+            // eslint-disable-next-line standard/object-curly-even-spacing
+            this.$router.push({ name: 'warehouseIncomeUpdate', params: { id: record.id, number: record.number } })
+          }
+        }
+      }
+    },
     werhousesListGetAll (page) {
-         this.loading = true
-         this.$store.dispatch('getWerhousList', page)
+      this.loading = true
+      this.$store.dispatch('getWerhousList', page)
         .then(res => {
-        this.dataWerhoustList = res.parties
-      })
-        .finally(() => { this.loading = false })
+          this.dataWerhoustList = res.parties
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     handleMenuClick (e) {
       console.log('click', e)
     },
     moment,
-    customRowClick (record) {
-      return {
-        on: {
-          click: (event) => {
-            this.$router.push(`${this.$route.path}/warehouse/income/list/update${record.id}`)
-          }
-        }
-      }
-    },
     handleTableChange (pagination) {
       this.loading = true
       this.getCompanyWarehouse({ page: pagination, search: true, company_id: this.$route.params.id })

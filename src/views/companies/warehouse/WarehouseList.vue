@@ -10,6 +10,7 @@
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        class="pointer"
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="getCompanyBranchesList"
@@ -179,5 +180,8 @@ img.shops-image {
     max-width: 600px !important;
     width: auto !important;
     height: auto !important;
+}
+.pointer{
+  cursor: pointer;
 }
 </style>

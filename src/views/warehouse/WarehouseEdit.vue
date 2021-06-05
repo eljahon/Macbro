@@ -14,7 +14,7 @@
     <a-card :bordered="false" :title=" $t('coming')">
     </a-card>
     <a-card :bordered="false" class="no-space-tab">
-      <a-tabs type="card" @change="callback">
+      <a-tabs v-model="actiontab" type="card" @change="callback">
         <a-tab-pane key="1" tab="Основные сведения">
           <a-card :bordered="false">
             <a-row>
@@ -70,7 +70,7 @@
               >
             </a-row>
           </a-card>
-          <a-table :columns="columns" :data-source="ItemTabledata" bordered style="margin-top: 20px">
+          <a-table  :columns="columns" :data-source="ItemTabledata" bordered style="margin: 20px">
             <template slot="imei_status" slot-scope="text">
               <a-tag :color="text === 'not_registered' ? '#E7F4FF' :'#FFF0D9' ">{{ text }}</a-tag>
             </template>
@@ -85,9 +85,9 @@
             </span>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane :key="2" :tab="$t('prixod')">
-          <inventory-item />
-        </a-tab-pane>
+<!--        <a-tab-pane :key="2" :tab="$t('prixod')">-->
+<!--          <inventory-item />-->
+<!--        </a-tab-pane>-->
       </a-tabs>
     </a-card>
   </div>
@@ -166,6 +166,7 @@ export default {
         }
       ],
       btnLoading: false,
+      actiontab: '1',
       item_amount: null,
       cardlist: {},
       activeTabKey: 1,

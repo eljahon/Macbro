@@ -113,7 +113,6 @@ export default {
     }
   },
   mounted () {
-    this.setLastTab(1)
   },
   methods: {
     ...mapActions(['setLastTab', 'getUsers']),
