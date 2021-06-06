@@ -1,21 +1,24 @@
 CURRENT_DIR=$(shell pwd)
 
-# APP=$(shell basename ${CURRENT_DIR})
-APP=mb_admin
+APP=$(shell basename ${CURRENT_DIR})
 
 APP_CMD_DIR=${CURRENT_DIR}/cmd
 
-REGISTRY=gitlab.udevs.io:5050
+REGISTRY=${REGISTRY}
 TAG=latest
 ENV_TAG=latest
-PROJECT_NAME=macbro
+PROJECT_NAME=${PROJECT_NAME}
 
 
 build:
 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
 
 proto-gen:
-	./scripts/gen-proto.sh	${CURRENT_DIR}
+	./scripts/gen-proto.sh  ${CURRENT_DIR}
+	rm -rf vendor/genproto
+	sudo rm -rf ${GOROOT}/src/genproto
+	sudo cp -R genproto ${GOROOT}/src
+	mv genproto vendor
 
 pull-proto-module:
 	git submodule update --init --recursive
