@@ -9,7 +9,7 @@ RUN yarn install
 
 
 COPY . ./
-RUN yarn build
+RUN rm -rf .env && mv .env.development .env && yarn build
 
 FROM nginx:1.18
 RUN mkdir /app

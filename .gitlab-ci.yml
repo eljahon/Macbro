@@ -14,10 +14,12 @@ before_script:
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   ##  cloning
-  - cd $BUILD_DIR
-  - rm -rf $CLONE_DIR && mkdir -p $CLONE_DIR
-  - git clone --recurse-submodules git@gitlab.udevs.io:${CI_PROJECT_PATH}.git $CLONE_DIR
-  - cd $CLONE_DIR
+  - mkdir -p ~/builds/$CI_RUNNER_SHORT_TOKEN/0
+  - pwd
+  - cd ~/builds/$CI_RUNNER_SHORT_TOKEN/0
+  - rm -rf ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH && mkdir -p ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
+  - git clone --recurse-submodules git@gitlab.udevs.io:${CI_PROJECT_PATH}.git ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
+  - cd ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
   - git checkout $CI_COMMIT_BRANCH
   ## docker login
   - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
@@ -29,16 +31,16 @@ stages:
 build_image_prod:
   stage: build
   script:
-    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE
-    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE
+    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY
+    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY
   only:
     - master
 
 build_image_test:
   stage: build
   script:
-    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE ENV_TAG=test
-    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE ENV_TAG=test
+    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=test
+    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE REGISTRY=$CI_REGISTRY ENV_TAG=test
   only:
     - staging
 
