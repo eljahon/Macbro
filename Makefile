@@ -45,8 +45,12 @@ mark-as-production-image:
 	docker push ${REGISTRY}/${APP}:production
 
 build-image:
-	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} .
-	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+        docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} -f ./Dockerfile-prod .
+        docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+
+build-image-test:
+        docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} -f ./Dockerfile-test .
+        docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
 
 push-image:
 	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
