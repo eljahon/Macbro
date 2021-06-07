@@ -397,6 +397,8 @@ const locale = {
   product_state: 'Состояние',
   typeofinterparas: 'Тип взаимарас',
   price: 'Цена',
+  moving: 'Перемещение',
+  remainder: 'Остаток',
 
   // company
   corporates: 'Корпорации',

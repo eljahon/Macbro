@@ -14,87 +14,94 @@
     <a-card :bordered="false" :title=" $t('coming')">
     </a-card>
     <a-card :bordered="false" class="no-space-tab">
-      <a-tabs v-model="actiontab" type="card" @change="callback">
+      <a-tabs style="margin-left: 10px" v-model="actiontab" type="card" @change="callback">
         <a-tab-pane key="1" tab="Основные сведения">
           <a-card :bordered="false">
             <a-row>
-              <a-col :span="8">
-                <div class="cardlist" style="overflow: hidden">
-                  <div>
-                    <p>
-                      <a-icon type="dollar"></a-icon>
-                      <span>{{ $t('Bartchnumber') }}</span></p>
-                    <p>
-                      <a-icon type="shop" class="globalColor"></a-icon>
-                      <span>Филиал</span></p>
-                    <p>
-                      <a-icon type="user"></a-icon>
-                      <span>Клиент</span></p>
-                    <p>
-                      <a-icon type="user"></a-icon>
-                      <span>Кассир</span></p>
+              <div class="span">
+                <a-col :span="8">
+                  <div class="cardlist" style="overflow: hidden">
+                    <div>
+                      <p>
+                        <img src="../../assets/Vector.svg" alt="">
+                        <span>{{ $t('Bartchnumber') }}</span></p>
+                      <p>
+                        <a-icon type="shop" class="globalColor"></a-icon>
+                        <span>Филиал</span></p>
+                      <p>
+                        <a-icon type="user"></a-icon>
+                        <span>Клиент</span></p>
+                      <p>
+                        <a-icon type="user"></a-icon>
+                        <span>Кассир</span></p>
+                    </div>
+                    <div style="margin-left: 80px">
+                      <p><strong>{{ cardlist.number }}</strong></p>
+                      <p><strong>Громов Даниил</strong></p>
+                      <p><strong>{{ cardlist.counter_agent.firstname }} {{ cardlist.counter_agent.lastname }}</strong>
+                      </p>
+                      <p><strong class="colorblue"> {{ cardlist.counter_agent.lastname }}</strong></p>
+                    </div>
                   </div>
-                  <div style="margin-left: 80px">
-                    <p><strong>{{ cardlist.number }}</strong></p>
-                    <p><strong>Громов Даниил</strong></p>
-                    <p><strong>{{ cardlist.counter_agent.firstname }} {{ cardlist.counter_agent.lastname }}</strong></p>
-                    <p><strong class="colorblue"> {{cardlist.counter_agent.lastname}}</strong></p>
+                </a-col
+                >
+                <a-col :span="8" :offset="1">
+                  <div class="cardlist" style="overflow: hidden">
+                    <div>
+                      <p>
+                        <a-icon type="calendar" class="globalColor"></a-icon>
+                        <span>{{ $t('data') }}</span></p>
+                      <p>
+                        <a-icon type="number"></a-icon>
+                        <span>{{ $t('total_amount') }}</span></p>
+                      <p>
+                        <a-icon type="dollar"></a-icon>
+                        <span>Сумма</span></p>
+                      <p>
+                        <a-icon type="flag"></a-icon>
+                        <span>{{ $t('Scanned') }}</span></p>
+                    </div>
+                    <div style="margin-left: 80px">
+                      <p><strong>{{ moment(cardlist.created_at).format('YYYY-MM-DD hh:mm') }}</strong></p>
+                      <p><strong>{{ cardlist.total_amount }}</strong></p>
+                      <p><strong>{{ cardlist.count }}</strong></p>
+                      <p><strong>{{ cardlist.bar_code_count + cardlist.imei_code_count }}/{{ item_amount }}</strong></p>
+                    </div>
                   </div>
-                </div>
-              </a-col
-              >
-              <a-col :span="8" :offset="1">
-                <div class="cardlist" style="overflow: hidden">
-                  <div>
-                    <p>
-                      <a-icon type="calendar" class="globalColor"></a-icon>
-                      <span>{{ $t('data') }}</span></p>
-                    <p>
-                      <a-icon type="number"></a-icon>
-                      <span>{{ $t('total_amount') }}</span></p>
-                    <p>
-                      <a-icon type="dollar"></a-icon>
-                      <span>Сумма</span></p>
-                    <p>
-                      <a-icon type="flag"></a-icon>
-                      <span>{{ $t('Scanned') }}</span></p>
-                  </div>
-                  <div style="margin-left: 80px">
-                    <p><strong>{{ moment(cardlist.created_at).format('YYYY-MM-DD hh:mm') }}</strong></p>
-                    <p><strong>{{ cardlist.total_amount }}</strong></p>
-                    <p><strong>{{ cardlist.count }}</strong></p>
-                    <p><strong>{{ cardlist.bar_code_count+cardlist.imei_code_count }}/{{item_amount}}</strong></p>
-                  </div>
-                </div>
-              </a-col
-              >
+                </a-col
+                >
+              </div>
             </a-row>
           </a-card>
-          <a-table  :columns="columns" :data-source="ItemTabledata" bordered style="margin: 20px">
+          <a-table
+            :columns="columns"
+            :data-source="ItemTabledata"
+            bordered
+            style="margin: 20px">
             <template slot="imei_status" slot-scope="text">
-              <a-tag :color="text === 'not_registered' ? '#E7F4FF' :'#FFF0D9' ">{{ text }}</a-tag>
+              <a-tag :color="text === 'not_registered' ? '#E7F4FF' :'#FFF0D9' ">{{ imeiStatus(text) }}</a-tag>
             </template>
             <template slot="product_state" slot-scope="text">
-              <a-tag :color="text === 'new' ? '#E7F4FF' :'#FFF0D9' ">{{ text }}</a-tag>
+              <a-tag :color="text === 'new' ? '#E7F4FF' :'#FFF0D9' ">{{ productState(text) }}</a-tag>
             </template>
             <template slot="tags" slot-scope="text">
-              <a-tag v-if="text" color="#E7F4FF">Cash</a-tag>
+              <a-tag v-if="text" color="#E7F4FF">{{ typeVzaimaras('cash') }}</a-tag>
             </template>
             <span slot="state" slot-scope="text, record">
               {{ record }}
             </span>
           </a-table>
         </a-tab-pane>
-<!--        <a-tab-pane :key="2" :tab="$t('prixod')">-->
-<!--          <inventory-item />-->
-<!--        </a-tab-pane>-->
+        <!--        <a-tab-pane :key="2" :tab="$t('prixod')">-->
+        <!--          <inventory-item />-->
+        <!--        </a-tab-pane>-->
       </a-tabs>
     </a-card>
   </div>
 </template>
 <script>
 // import vMain from './v-main'
-import { langMapper, flagMapper } from '@/utils/mappers'
+// import { langMapper, flagMapper } from '@/utils/mappers'
 import moment from 'moment'
 
 export default {
@@ -184,8 +191,8 @@ export default {
   // },
   methods: {
     reduceItemAmount (newarray) {
-    this.item_amount = newarray.reduce((total, amount) => {
-            return total + amount.count
+      this.item_amount = newarray.reduce((total, amount) => {
+        return total + amount.count
       }, 0)
     },
     moment,
@@ -203,13 +210,14 @@ export default {
       this.$store.dispatch('getWerhousListId', page)
         .then(res => {
           this.cardlist = res
+          console.log(res.items)
           this.ItemTabledata = res.items
           this.reduceItemAmount(res.items)
           console.log(res)
         })
     },
-    langMapper,
-    flagMapper,
+    // langMapper,
+    // flagMapper,
     clickParent (e) {
       this.btnLoading = e
     },
@@ -234,6 +242,29 @@ export default {
       } else {
         this.$refs.createForm.resetForm()
       }
+    },
+    typeVzaimaras (payment) {
+      switch (payment) {
+        // , , click, p2p
+        case 'cash':return 'Наличные'
+        case 'payme':return 'Консегнация'
+        case 'click':return 'Реализация'
+      }
+    },
+    productState (payment) {
+      switch (payment) {
+        // new, used, restoration
+        case 'new': return 'Новый'
+        case 'used': return 'Консегнация'
+        case 'restoration': return 'Реставрация'
+      }
+    },
+    imeiStatus (imeiStatus) {
+      switch (imeiStatus) {
+        case 'not_registered': return 'Не регистрир'
+        case 'registered': return 'Регистр'
+        case 'will_be_registered' : return 'Будет регистр'
+      }
     }
   },
   created () {
@@ -249,4 +280,5 @@ export default {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
+
 </style>

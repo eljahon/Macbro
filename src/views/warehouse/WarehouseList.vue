@@ -80,8 +80,8 @@
         />
         <template slot="counter_agent" slot-scope="text"> {{ text.firstname }} {{ text.lastname }}</template>
         <template slot="bar_code_count" slot-scope="text, record">
-          <a-tag :color="record.bar_code_count+record.imei_code_count === record.items_count ? '#E7F4FF' : '#FFEBE5' ">
-            {{ record.bar_code_count + record.imei_code_count }}/{{ record.items_count }}
+          <a-tag :color="record.bar_code_count+record.imei_code_count === record.items_count ? '#E7F4FF' : '#FFEBE5' " >
+           <span :style="[record.bar_code_count+record.imei_code_count === record.items_count? {color: '#1890FF'} : {color: '#FF3D00'}]" > {{ record.bar_code_count + record.imei_code_count }}/{{ record.items_count }}</span>
           </a-tag>
         </template>
         <template slot="number" slot-scope="text"><span style="color: #1890FF">{{ text }}</span></template>
@@ -103,12 +103,6 @@
           </span>
           <template v-else>
             {{ text }}
-<!--            <router-link-->
-<!--              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"-->
-<!--              style="color: black">-->
-<!--              -->
-<!--            </router-link>-->
-
           </template>
         </template>
       </a-table>

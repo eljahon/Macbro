@@ -114,29 +114,29 @@ export const asyncRouterMap = [
         meta: { title: 'warehouse', icon: myIcons.warehouse, permission: ['directory'] },
         children: [
           {
-            path: '/warehouse/income',
+            path: '/warehouse/coming',
             hideChildrenInMenu: true,
             name: 'warehouseList',
             component: RouteView,
-            redirect: '/warehouse/income/list',
+            redirect: '/warehouse/coming/list',
             meta: { title: 'coming', permission: ['directory'] },
             children: [
               {
-                path: '/warehouse/income/list',
+                path: '/warehouse/coming/list',
                 name: 'warehouseIncomeListMain',
                 props: true,
                 component: () => import('@/views/warehouse/WarehouseList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
-                path: '/warehouse/income/list/create',
+                path: '/warehouse/coming/list/create',
                 name: 'warehouseIncomeCreate',
                 props: true,
                 component: () => import('@/views/warehouse/WarehouseEdit'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               },
               {
-                path: '/warehouse/income/list/update/:id/:number',
+                path: '/warehouse/coming/list/update/:id/:number',
                 name: 'warehouseIncomeUpdate',
                 props: true,
                 component: () => import('@/views/warehouse/WarehouseEdit'),
@@ -147,71 +147,63 @@ export const asyncRouterMap = [
           {
             path: '/warehouse/moving',
             hideChildrenInMenu: true,
-            name: 'warehouseList',
+            name: 'movingListMain',
             component: RouteView,
             redirect: '/warehouse/moving/list',
-            meta: { title: 'Перемещение', permission: ['directory'] },
+            meta: { title: 'moving', permission: ['directory'] },
             children: [
               {
                 path: '/warehouse/moving/list',
-                name: 'warehouseMovingListMain',
+                name: 'movingListMain',
                 props: true,
-                component: () => import('@/views/warehouse/WarehouseList'),
-                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/warehouse/moving/list/create',
-                name: 'warehouseMovingCreate',
-                props: true,
-                component: () => import('@/views/warehouse/WarehouseEdit'),
-                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-              },
-              {
-                path: '/warehouse/moving/list/update/:id',
-                name: 'warehouseMovingUpdate',
-                props: true,
-                component: () => import('@/views/warehouse/WarehouseEdit'),
+                component: () => import('@/views/warehouse/moving/movingList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               }
+              // {
+              //   path: '/warehouse/moving/list',
+              //   name: 'movingList',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // },
+              // {
+              //   path: '/warehouse/moving/list/update/:id',
+              //   name: 'warehouseMovingUpdate',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // }
             ]
           },
           {
             path: '/warehouse/remainder',
-            redirect: '/warehouse/remainder/abay',
+            hideChildrenInMenu: true,
+            name: 'remainderListMain',
             component: RouteView,
-            meta: { title: 'Остаток', permission: ['directory'] },
+            redirect: '/warehouse/remainder/list',
+            meta: { title: 'remainder', permission: ['directory'] },
             children: [
               {
-                path: '/warehouse/remainder/abay',
-                hideChildrenInMenu: true,
-                name: 'warehouseList',
-                component: RouteView,
-                redirect: '/warehouse/remainder/abay/list',
-                meta: { title: 'МакБро Абай', permission: ['directory'] },
-                children: [
-                  {
-                    path: '/warehouse/remainder/abay/list',
-                    name: 'warehouseRemainderListMain',
-                    props: true,
-                    component: () => import('@/views/warehouse/WarehouseList'),
-                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/warehouse/remainder/abay/list/create',
-                    name: 'warehouseRemainderCreate',
-                    props: true,
-                    component: () => import('@/views/warehouse/WarehouseEdit'),
-                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/warehouse/remainder/abay/list/update/:id',
-                    name: 'warehouseRemainderUpdate',
-                    props: true,
-                    component: () => import('@/views/warehouse/WarehouseEdit'),
-                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-                  }
-                ]
+                path: '/warehouse/remainder/list',
+                name: 'remainderListMain',
+                props: true,
+                component: () => import('@/views/warehouse/remainder/remainderList'),
+                meta: { title: 'remainder', keepAlive: true, permission: ['directory'] }
               }
+              // {
+              //   path: '/warehouse/moving/list',
+              //   name: 'movingList',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // },
+              // {
+              //   path: '/warehouse/moving/list/update/:id',
+              //   name: 'warehouseMovingUpdate',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // }
             ]
           }
         ]
