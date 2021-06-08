@@ -313,6 +313,11 @@ import { pointSearch } from '@/utils/yandexMap'
 import debounce from 'lodash/debounce'
 
 export default {
+  watch: {
+    items: (values) => {
+      console.log(values)
+    }
+  },
   components: {
     'user-activities': userActivities
   },
@@ -490,6 +495,7 @@ export default {
     },
     handleChange (value, index, column) {
       // console.log('CHANGE', index, value)
+      console.log('=>>>>', this.items)
       const newData = [...this.items]
       const target = newData[index]
       if (target) {
@@ -580,8 +586,10 @@ export default {
         } = response
         console.log('this.cooords==>', this.coords)
         // eslint-disable-next-line no-undef
-        console.log('item===>', response.item)
+        // response.items.map(e => this.items.push(e))
         this.items = items && items.length ? items : []
+        // console.log(items, 'itemss====>')
+        // this.items.push(items)
         this.cacheData = JSON.parse(JSON.stringify(items)) || []
         this.order.customer_name = customerName
         this.order.address = address
@@ -665,7 +673,7 @@ export default {
               ...this.order,
               longlat: `${this.coords[0]},${this.coords[1]}`,
               user_id: JSON.parse(localStorage.getItem('user_id')),
-              items: this.cacheData
+              items: this.items
             },
             headers: headers
           }).then(res => {
