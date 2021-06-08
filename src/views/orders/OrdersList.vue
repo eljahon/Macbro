@@ -334,7 +334,7 @@ export default {
       return {
         on: {
           click: (event) => {
-            this.$router.push(`/order/edit/${record.number}`)
+            this.$router.push({ name: 'OrderEdit', params: { id: record.number }, query: { tab: '1' } })
           }
         }
       }

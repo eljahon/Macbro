@@ -391,14 +391,13 @@ export default {
     }
   },
   mounted () {
-    this.getOrderAttrs()
     this.onProductSearch()
     // this.getAdmin().then(res => {
     //   console.log('this.admin', this.admin)
     // })
   },
   computed: {
-    ...mapGetters(['admin']),
+    ...mapGetters(['admin', 'tabId']),
     ...mapState({
       userId: state => state.user.userId
     }),
@@ -496,11 +495,10 @@ export default {
       if (target) {
         if (column === 'product_name') {
           const product = this.productList.find(item => item.id === value)
-          console.log('======>', product)
           target[column] = product.name
           target.product_id = product.id
           target.image = product.image
-          target.price = product.price.uzs_price
+          target.price = parseInt(product.price.uzs_price)
           this.items = newData
         } else {
           target[column] = value
@@ -607,9 +605,12 @@ export default {
       this.activeTabKey = _activeTabKey
       this.$router.push({
         name: this.$route.name,
+        params: {
+          id: this.$route.params.id
+        },
         query: {
-          tab: _activeTabKey,
-          id: this.id
+          id: this.id,
+          tab: _activeTabKey
         }
       })
       if (_activeTabKey === '4') {
@@ -685,6 +686,9 @@ export default {
     resetForm () {
       this.$refs.ruleForm.resetFields()
     }
+  },
+  created () {
+    this.getOrderAttrs()
   }
 }
 </script>
