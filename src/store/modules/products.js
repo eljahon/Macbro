@@ -44,7 +44,10 @@ const products = {
         commit('SET_SEARCH_QUERY_PRODUCT', searchQueryProduct)
       },
       getProducts ({ commit, state }, payload) {
-        const { page } = payload
+        let { page } = payload
+        if (!page) {
+          page = { current: 1, pageSize: 10, total: null }
+        }
         commit('SET_LOADING', true)
         return new Promise((resolve, reject) => {
           console.log(page)

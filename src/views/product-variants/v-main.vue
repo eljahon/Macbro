@@ -907,7 +907,7 @@ export default {
     },
     getProductVariantData () {
       request({
-        url: `/product-variant/${this.productVariantSlug}`,
+        url: `/product-variants/${this.productVariantSlug}`,
         method: 'get',
         params: {
           lang: this.lang,

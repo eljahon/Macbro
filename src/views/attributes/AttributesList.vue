@@ -138,7 +138,7 @@ export default {
     ...mapGetters(['allAttrs', 'loadAttrs', 'paginationAttrs'])
   },
   created () {
-    this.getAllAttrs()
+    this.getAllAttrs({ page: this.paginationAttrs })
   }
 }
 </script>

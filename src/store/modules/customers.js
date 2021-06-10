@@ -87,10 +87,13 @@ const customers = {
             }
           }).then(result => {
             // eslint-disable-next-line no-undef
+            const pagination = { ...payload.page }
+            pagination.total = parseInt(result.count)
             console.log(result)
             commit('SET_USER_LIST', result.users)
+            commit('GET_CUSTOMERS_PAGINATION', pagination)
             // eslint-disable-next-line no-undef
-            resolve()
+            resolve(result)
           }).catch(rej => {
             reject(rej)
           })

@@ -180,3 +180,8 @@ export default {
   }
 }
 </script>
+<style>
+.cursor {
+  cursor: pointer;
+}
+</style>

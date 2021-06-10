@@ -11,7 +11,7 @@
           id="inputSearch"
           :placeholder="$t('search') + '...'"
           :value="getSearchQuery"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-model="params.search"
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />

@@ -27,6 +27,7 @@
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        class="cursor"
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="currencyList"
@@ -83,7 +84,11 @@ export default {
         // }
       ],
       form: this.$form.createForm(this, { name: 'coordinated' }),
-      filterParams: {}
+      filterParams: {},
+      params: {
+        page: { current: 1, pageSize: 10, total: null },
+        search: ''
+      }
     }
   },
   computed: {
@@ -172,5 +177,8 @@ export default {
   max-width: 600px !important;
   width: auto !important;
   height: auto !important;
+}
+.cursor {
+  cursor: pointer;
 }
 </style>
