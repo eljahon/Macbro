@@ -132,24 +132,6 @@
                 />
               </a-form-model-item>
             </a-col>
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--&lt;!&ndash;              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">&ndash;&gt;-->
-            <!--&lt;!&ndash;                <a-input&ndash;&gt;-->
-            <!--&lt;!&ndash;                  size="large"&ndash;&gt;-->
-            <!--&lt;!&ndash;                  v-model="productVariant.external_id"&ndash;&gt;-->
-            <!--&lt;!&ndash;                  test-attr="external-id-product-vars"&ndash;&gt;-->
-            <!--&lt;!&ndash;                />&ndash;&gt;-->
-            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-            <!--            </a-col>-->
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--&lt;!&ndash;              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                <a-input&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  size="large"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  v-model="productVariant.code"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  test-attr="code-product-vars"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                />&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-            <!--            </a-col>-->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
               <a-form-model-item :label="$t('categories')">
                 <treeselect
@@ -721,7 +703,7 @@ export default {
   },
   mounted () {
       console.log('this.productVariantSlug', this.productVariantSlug)
-    this.getCategories({ page: null, lang: this.lang, search: false }).then(() => {
+    this.getCategories({ page: null, lang: this.lang, search: true }).then(() => {
       // console.log(getCategoriesTree(this.categories), 'getCate  ')
     })
     this.getBrands({ page: null, search: false }).then(() => {

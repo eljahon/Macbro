@@ -32,6 +32,7 @@ const categories = {
     },
     actions: {
       getCategories ({ commit, state }, payload) {
+        console.log('====>>>>>')
         let { page } = payload
         // if search === false all categories will be requested
         if (!page) {
@@ -45,7 +46,7 @@ const categories = {
               lang: payload.lang,
               page: page.current,
               limit: page.pageSize,
-              search: payload.search
+              search: payload.search ? '' : ''
             }
         })
           .then(result => {
