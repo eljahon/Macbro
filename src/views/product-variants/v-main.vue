@@ -272,7 +272,7 @@
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
+                <a-form-model-item  :label="$t('product_old_price')">
                   <a-input
                     size="large"
                     v-model="price.old_price"

@@ -138,13 +138,6 @@
         <a-tab-pane key="2" :tab="$t('products')">
           <a-row>
             <a-col :span="24">
-              <!--              <a-button-->
-              <!--                style="margin-bottom: 20px"-->
-              <!--                type="primary"-->
-              <!--                :disabled="editingKey !== ''"-->
-              <!--                @click.prevent="addProduct">-->
-              <!--                {{ $t('add') }}-->
-              <!--              </a-button>-->
               <a-form-model
                 ref="productRuleForm"
                 :model="editingKey !== '' ? items[editingKey] : {}"
@@ -161,9 +154,6 @@
                   test-attr="products-list-order"
                   class="pointer"
                 >
-                  <!-- <template slot="price" slot-scope="text, row">
-                      {{ numberToPrice(row.price) }}
-                    </template> -->
                   <template
                     v-for="col in ['product_name', 'price', 'quantity']"
                     :slot="col"
@@ -232,7 +222,7 @@
                           placement="topRight"
                           slot="extra"
                           :title="$t('deleteMsg')"
-                          :disabled="editingKey !== '' || order.status !== 'in-process'"
+                          :disabled="editingKey !== ''|| items.length === 1 || order.status !== 'in-process'|| items.length === 1"
                           @confirm="deleteProduct(index)"
                           :okText="$t('yes')"
                           :cancelText="$t('no')"

@@ -42,12 +42,12 @@ const categories = {
         request({
             url: `/category`,
             headers: headers,
-            params: {
-              lang: payload.lang,
-              page: page.current,
-              limit: page.pageSize,
-              search: payload.search ? '' : ''
-            }
+              params: {
+                lang: payload.lang,
+                page: page.current,
+                limit: page.pageSize,
+                search: payload.search ? '' : ''
+              }
         })
           .then(result => {
           const pagination = { ...page }

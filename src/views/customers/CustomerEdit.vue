@@ -37,10 +37,10 @@
           <a-tab-pane key="1" :tab="$t('basicSettings')">
             <a-row>
               <a-col :span="12" style="padding: 0 15px">
-                <a-form-model-item ref="name" :label="$t('name')" prop="name">
+                <a-form-model-item ref="first_name" :label="$t('name')" prop="first_name">
                   <a-input
                     size="large"
-                    v-model="customer.name"
+                    v-model="customer.first_name"
                     test-attr="name-customer"
                   />
                 </a-form-model-item>
@@ -167,10 +167,18 @@ export default {
       loading: false,
       activeTabKey: '1',
       customer: {
-        name: '',
-        'last_name': '',
-        'phone_number': '',
-        balance: ''
+        company_id: '',
+        date_of_birth: '',
+        email: '',
+        first_name: '',
+        id: '',
+        inn: '',
+        last_name: '',
+        middle_name: '',
+        passport_number: '',
+        phone_number: '',
+        profile_image: '',
+        user_type: ''
       },
       columns: [
         {
@@ -202,7 +210,7 @@ export default {
         }
       ],
       rules: {
-        name: [
+        first_name: [
           { required: true, message: this.$t('required'), trigger: 'change' }
         ],
         'last_name': [
@@ -227,13 +235,19 @@ export default {
   mounted () {
     if (this.$route.params.id) {
 this.getUserListItem(this.$route.params.id).then(res => {
-  // eslint-disable-next-line camelcase,no-unused-vars,standard/object-curly-even-spacing
-  const { first_name, last_name, phone_number } = res
-  // eslint-disable-next-line camelcase
-  this.customer.name = res.first_name
-  this.customer.phone_number = res.phone_number
+  this.customer.company_id = res.company_id
+  this.customer.data_of_birth = res.data_of_birth
+  this.customer.email = res.email
+  this.customer.first_name = res.first_name
+  this.customer.id = res.id
+  this.customer.inn = res.inn
   this.customer.last_name = res.last_name
-  this.customer.balance = res.balance ? res.balance : '0'
+  this.customer.middle_name = res.middle_name
+  this.customer.passport_number = res.passport_number
+  this.customer.phone_number = res.phone_number
+  // this.customer.balance = res.balance ? res.balance : '0'
+  this.customer.profile_image = res.profile_image
+  this.customer.user_type = res.user_type
 }).catch(err => {
   console.log(err)
 }).finally(() => (this.loading = false))
