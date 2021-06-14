@@ -1167,7 +1167,11 @@ export default {
             request({
               url: `/product-variant/${slug}/update-price`,
               method: 'put',
-              data: this.price,
+              data: {
+                old_price: this.price.old_price === '' ? 0 : this.price.old_price,
+                price: this.price.price === '' ? 0 : this.price.price,
+                price_type_id: this.price.price_type_id === '' ? '' : this.price.price_type_id
+              },
               headers: headers
             })
             .then(res => {
