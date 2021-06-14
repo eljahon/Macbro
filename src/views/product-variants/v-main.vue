@@ -1242,6 +1242,7 @@ export default {
           })
           console.log('valid')
         } else {
+          this.$message.error(this.$t('filledempy'))
           console.log('error submit, validation failed')
           return false
         }
