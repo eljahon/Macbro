@@ -108,7 +108,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('state')" prop="state">
+              <a-form-model-item ref="state" :label="$t('state')" prop="state">
                 <a-select
                   size="large"
                   show-search
@@ -133,7 +133,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('categories')">
+              <a-form-model-item ref="category_id" :label="$t('categories')" prop="category_id">
                 <treeselect
                   id="selectCategory"
                   v-model="productVariant.category_id"
@@ -464,7 +464,7 @@ function getBase64Gallery (file) {
   })
 }
 export default {
-  components: {
+   components: {
     'tinymce': tinymce,
     Treeselect
   },
@@ -549,20 +549,12 @@ export default {
         restoration: 'Реставрирован'
       },
       rules: {
-        name: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        order: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        // external_id: [
-        //   { required: true, message: this.$t('required'), trigger: 'change' }
-        // ]
-        brand_id: [
-          { required: true, message: this.$t('required') }
-        ],
+        category_id: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        name: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        state: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        order: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        brand_id: [ { required: true, message: this.$t('required') } ],
         price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
-
         old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
 
       },

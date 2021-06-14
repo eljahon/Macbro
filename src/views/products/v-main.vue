@@ -49,7 +49,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('categories')" >
+              <a-form-model-item ref="category_id" :label="$t('categories')" prop="category_id">
                 <treeselect
                   size="large"
                   v-model="product.category_id"
@@ -97,24 +97,6 @@
                 </treeselect>
               </a-form-model-item>
             </a-col>
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px" v-if="type === 'edit'">-->
-            <!--              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">-->
-            <!--                <a-input-->
-            <!--                  size="large"-->
-            <!--                  v-model="product.external_id"-->
-            <!--                  test-attr="external-id-products"-->
-            <!--                />-->
-            <!--              </a-form-model-item>-->
-            <!--            </a-col>-->
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">-->
-            <!--                <a-input-->
-            <!--                  size="large"-->
-            <!--                  v-model="product.code"-->
-            <!--                  test-attr="code-products"-->
-            <!--                />-->
-            <!--              </a-form-model-item>-->
-            <!--            </a-col>-->
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="preview" :label="$t('product_preview_text')" prop="preview">
                 <tinymce v-model="product.preview_text" test-attr="prev-text-products"></tinymce>
@@ -620,19 +602,14 @@ export default {
       selectedReview: null,
       customerComment: null,
       rules: {
-        name: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        order: [
-          { required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }
-        ],
+        category_id: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        name: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        order: [ { required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' } ],
         // external_id: [
         //   { required: true, message: this.$t('required'), trigger: 'change' }
         // ],
         desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
-        brand_id: [
-          { required: true, message: this.$t('required'), trigger: 'blur' }
-        ]
+        brand_id: [ { required: true, message: this.$t('required'), trigger: 'blur' } ]
         // price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
         // old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
         // category_id: [
@@ -1249,7 +1226,6 @@ export default {
     },
     // submit form
     onSubmit () {
-      // console.log('submit')
       const headers = {
         'Content-Type': 'application/json'
       }
