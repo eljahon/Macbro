@@ -189,6 +189,7 @@
                             style="margin: -5px 0"
                             :min="col === 'price' ? 0 : 1"
                             :disabled="col === 'price'"
+                            maxLength="1"
                             :value="col === 'price' ? record.price : record.quantity"
                             @change="e => handleChange(e, index, col)"
                           />
@@ -305,7 +306,7 @@ import debounce from 'lodash/debounce'
 export default {
   watch: {
     items: (values) => {
-      console.log(values)
+      console.log('===>>', values)
     }
   },
   components: {
@@ -443,7 +444,7 @@ export default {
         price: null,
         product_id: '',
         product_name: '',
-        quantity: null,
+        quantity: 1,
         editable: true
       })
       this.$emit('addProduct')
@@ -514,6 +515,8 @@ export default {
     save (index) {
       this.$refs.productRuleForm.validate(valid => {
         if (valid) {
+          // eslint-disable-next-line no-unused-expressions
+          // this.item[index].quantity === '' ? this.item[index].quantity = 1 : this.item[index].quantity
           const newData = [...this.items]
           const newCacheData = [...this.cacheData]
           const target = newData[index]
@@ -522,6 +525,7 @@ export default {
             // console.log('Kevoti 1chisi', targetCache, newCacheData)
             delete target.editable
             this.items = newData
+            console.log('=====>>item', newData)
             Object.assign(targetCache, target)
             this.cacheData = newCacheData
           } else {
