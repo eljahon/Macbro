@@ -200,26 +200,26 @@ export default {
         type: ''
       },
       types: [
-        {
-          name: 'Select',
-          value: 'select'
-        },
+        // {
+        //   name: 'Select',
+        //   value: 'select'
+        // },
         {
           name: 'Checkbox',
           value: 'checkbox'
-        },
-        {
-          name: 'Radio',
-          value: 'radio'
-        },
-        {
-          name: 'Number',
-          value: 'number'
-        },
-        {
-          name: 'Text',
-          value: 'text'
         }
+        // {
+        //   name: 'Radio',
+        //   value: 'radio'
+        // },
+        // {
+        //   name: 'Number',
+        //   value: 'number'
+        // },
+        // {
+        //   name: 'Text',
+        //   value: 'text'
+        // }
       ]
     }
   },

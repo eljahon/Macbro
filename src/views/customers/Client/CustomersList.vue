@@ -44,7 +44,7 @@
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
-      <a-tabs default-active-key="1" type="card">
+      <a-tabs default-active-key="1" type="card" @change="callback">
         <a-tab-pane key="1">
           <div slot="tab">
             <span>
@@ -54,7 +54,7 @@
           <a-table
             :columns="columns"
             :rowKey="record => record.id"
-            :dataSource="user_List"
+            :dataSource="getUserListTable"
             :pagination="getPagination"
             :loading="loading"
             @change="handleTableChange"
@@ -132,8 +132,10 @@
           <div slot="tab">
             <span>
               {{ $t('customerstab2') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
+
             </span>
           </div>
+          <contractors-list></contractors-list>
         </a-tab-pane>
         <a-tab-pane key="3">
           <div slot="tab">
@@ -141,6 +143,7 @@
               {{ $t('customerstab3') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
             </span>
           </div>
+          <postavshik-list/>
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -173,15 +176,24 @@ import { mapActions, mapGetters } from 'vuex'
 import request from '@/utils/request'
 import calcTotalPrice from '@/utils/calcTotalPrice'
 import numberToPrice from '@/utils/numberToPrice'
+import ContractorsList from '@/views/customers/Contractors/ContractorsList'
+import PostavshikList from '@/views/customers/Postavshik/PostavshikList'
 export default {
+  components: {
+    ContractorsList,
+    PostavshikList
+  },
   data () {
     return {
       value: '',
       data: [],
       params: {
         page: { current: 1, pageSize: 10, total: null },
-        search: ''
+        search: '',
+        offset: 0,
+        user_type: 'client'
       },
+
       loading: true,
        columns: [
         {
@@ -210,27 +222,27 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['customersData', 'customersPagination', 'searchQuery', 'user_List']),
+    ...mapGetters(['customersData', 'userPagination', 'searchQuery', 'userList']),
     getPagination () {
-      return this.customersPagination
+      return this.userPagination
     },
-    getAllCustomers () {
-      return this.customersData
-    },
-    getSearchQuery () {
-      return this.searchQuery
+    getUserListTable () {
+      return this.userList
     }
   },
   mounted () {
-    this.getUserList(this.params).then(res => console.log(res))
-    .finally(() => (this.loading = false))
-    // this.getCustomers({ page: this.customersPagination })
-    //   .then((res) => console.log('customers', this.customersData))
-    //   .catch((err) => console.error(err))
-    //   .finally(() => (this.loading = false))
+    this.params.page = { ...this.userPagination }
+    this.getUserListAll(this.params)
+    .then(res => {
+      console.log(res)
+    }).catch(error => {
+      console.log(error)
+    }).finally(() => {
+      this.loading = false
+    })
   },
   methods: {
-    ...mapActions(['getCustomers', 'setSearchQuery', 'getUserList']),
+    ...mapActions(['getCustomers', 'setSearchQuery', 'getUserListAll']),
     customRowClick (record) {
       return {
         on: {
@@ -240,18 +252,13 @@ export default {
         }
       }
     },
-    // getUsrList () {
-    //   // eslint-disable-next-line no-unused-vars
-    //   const page = {
-    //     page: 10,
-    //     user_type: 'client',
-    //     search: ''
-    //   }
-    //   this.$store.dispatch('getUserListAll' page)
-    // },
+    callback (value) {
+      console.log(value)
+    },
     handleTableChange (pagination) {
+      this.params.page = pagination
       this.loading = true
-      this.getCustomers({ page: pagination })
+      this.getUserListAll(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -282,9 +289,10 @@ export default {
       this.selectedCustomer = null
     },
     debouncedSearch (searchQuery) {
+      this.$router.push({ name: this.$route.name, query: { search: this.params.search } })
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getUserList(this.params)
+      this.getUserListAll(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -320,6 +328,8 @@ export default {
         }
       })
     }
+  },
+  created () {
   }
 }
 </script>

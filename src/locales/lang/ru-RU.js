@@ -424,7 +424,8 @@ const locale = {
   // customers
   'customerstab2': 'Контрагенты',
   'customerstab3': 'Поставщики',
-  'customerstab4': 'История адресов'
+  'customerstab4': 'История адресов',
+  counterpartyType: 'Тип контрагента'
 
 }
 

@@ -40,7 +40,7 @@
         <a-tab-pane :tab="$t('legalAgents')" :key="4">
           <corporates></corporates>
         </a-tab-pane>
-          <a-tab-pane :tab="$t('branches')" :key="5">
+        <a-tab-pane :tab="$t('branches')" :key="5">
           <branches></branches>
         </a-tab-pane>
       </a-tabs>

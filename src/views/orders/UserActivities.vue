@@ -28,6 +28,7 @@ export default {
                 {
                     title: this.$t('activities'),
                     key: 'action',
+                    dataIndex: 'to_value',
                     scopedSlots: { customRender: 'action' }
                 }
             ],
@@ -59,7 +60,8 @@ export default {
                 .finally(() => (this.loading = false))
         },
         sortUserActivities (activity) {
-            const { action, user: { name, last_name: lastName }, from_value: fromValue, to_value: toValue } = activity
+          activity.activity = false
+            const { action, user: { name, username: lastName }, from_value: fromValue, to_value: toValue } = activity
             switch (action) {
                 case 'change-status':
                     return `Пользователь ${name.bold()} ${lastName.bold()} изменил статус с ${this.textChanger(fromValue, action)} на ${this.textChanger(toValue, action)}`

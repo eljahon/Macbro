@@ -62,13 +62,13 @@ export const asyncRouterMap = [
           {
             path: '/customers/list',
             name: 'CustomersList',
-            component: () => import('@/views/customers/CustomersList'),
+            component: () => import('@/views/customers/Client/CustomersList'),
             meta: { title: 'customers', keepAlive: true, permission: ['clients'] }
           },
           {
             path: '/customers/update/:id',
             name: 'CustomerEdit',
-            component: () => import('@/views/customers/CustomerEdit'),
+            component: () => import('@/views/customers/Client/CustomerEdit'),
             meta: { title: 'update', keepAlive: true, show: true, permission: ['clients'] }
           },
           {

@@ -103,11 +103,11 @@
           </span>
           <template v-else>
             {{ text }}
-<!--            <router-link-->
-<!--              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"-->
-<!--              style="color: black">-->
-<!--              -->
-<!--            </router-link>-->
+            <!--            <router-link-->
+            <!--              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"-->
+            <!--              style="color: black">-->
+            <!--              -->
+            <!--            </router-link>-->
 
           </template>
         </template>

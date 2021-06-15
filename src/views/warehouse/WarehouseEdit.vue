@@ -38,7 +38,7 @@
                     <p><strong>{{ cardlist.number }}</strong></p>
                     <p><strong>Громов Даниил</strong></p>
                     <p><strong>{{ cardlist.counter_agent.firstname }} {{ cardlist.counter_agent.lastname }}</strong></p>
-                    <p><strong class="colorblue"> {{cardlist.counter_agent.lastname}}</strong></p>
+                    <p><strong class="colorblue"> {{ cardlist.counter_agent.lastname }}</strong></p>
                   </div>
                 </div>
               </a-col
@@ -63,14 +63,14 @@
                     <p><strong>{{ moment(cardlist.created_at).format('YYYY-MM-DD hh:mm') }}</strong></p>
                     <p><strong>{{ cardlist.total_amount }}</strong></p>
                     <p><strong>{{ cardlist.count }}</strong></p>
-                    <p><strong>{{ cardlist.bar_code_count+cardlist.imei_code_count }}/{{item_amount}}</strong></p>
+                    <p><strong>{{ cardlist.bar_code_count+cardlist.imei_code_count }}/{{ item_amount }}</strong></p>
                   </div>
                 </div>
               </a-col
               >
             </a-row>
           </a-card>
-          <a-table  :columns="columns" :data-source="ItemTabledata" bordered style="margin: 20px">
+          <a-table :columns="columns" :data-source="ItemTabledata" bordered style="margin: 20px">
             <template slot="imei_status" slot-scope="text">
               <a-tag :color="text === 'not_registered' ? '#E7F4FF' :'#FFF0D9' ">{{ text }}</a-tag>
             </template>
@@ -85,9 +85,9 @@
             </span>
           </a-table>
         </a-tab-pane>
-<!--        <a-tab-pane :key="2" :tab="$t('prixod')">-->
-<!--          <inventory-item />-->
-<!--        </a-tab-pane>-->
+        <!--        <a-tab-pane :key="2" :tab="$t('prixod')">-->
+        <!--          <inventory-item />-->
+        <!--        </a-tab-pane>-->
       </a-tabs>
     </a-card>
   </div>

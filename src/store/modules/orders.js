@@ -104,6 +104,7 @@ const orders = {
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
           console.log(pagination)
+          console.log('Activities: ', result)
           console.log('pagination')
           commit('GET_USER_ACTIVITIES_PAGINATION', pagination)
           commit('GET_USER_ACTIVITIES', result.user_activities)
