@@ -108,7 +108,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('state')" prop="state">
+              <a-form-model-item ref="state" :label="$t('state')" prop="state">
                 <a-select
                   size="large"
                   show-search
@@ -132,26 +132,8 @@
                 />
               </a-form-model-item>
             </a-col>
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--&lt;!&ndash;              <a-form-model-item ref="external_id" :label="$t('product_external_id')" prop="external_id">&ndash;&gt;-->
-            <!--&lt;!&ndash;                <a-input&ndash;&gt;-->
-            <!--&lt;!&ndash;                  size="large"&ndash;&gt;-->
-            <!--&lt;!&ndash;                  v-model="productVariant.external_id"&ndash;&gt;-->
-            <!--&lt;!&ndash;                  test-attr="external-id-product-vars"&ndash;&gt;-->
-            <!--&lt;!&ndash;                />&ndash;&gt;-->
-            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-            <!--            </a-col>-->
-            <!--            <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-            <!--&lt;!&ndash;              <a-form-model-item ref="code" :label="$t('product_code')" prop="code">&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                <a-input&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  size="large"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  v-model="productVariant.code"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                  test-attr="code-product-vars"&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;                />&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;              </a-form-model-item>&ndash;&gt;-->
-            <!--            </a-col>-->
             <a-col :md="24" :lg="8" style="padding: 0 15px">
-              <a-form-model-item :label="$t('categories')">
+              <a-form-model-item ref="category_id" :label="$t('categories')" prop="category_id">
                 <treeselect
                   id="selectCategory"
                   v-model="productVariant.category_id"
@@ -290,7 +272,7 @@
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item ref="old_price" :label="$t('product_old_price')" prop="old_price">
+                <a-form-model-item  :label="$t('product_old_price')">
                   <a-input
                     size="large"
                     v-model="price.old_price"
@@ -482,7 +464,7 @@ function getBase64Gallery (file) {
   })
 }
 export default {
-  components: {
+   components: {
     'tinymce': tinymce,
     Treeselect
   },
@@ -567,20 +549,12 @@ export default {
         restoration: 'Реставрирован'
       },
       rules: {
-        name: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        order: [
-          { required: true, message: this.$t('required'), trigger: 'change' }
-        ],
-        // external_id: [
-        //   { required: true, message: this.$t('required'), trigger: 'change' }
-        // ]
-        brand_id: [
-          { required: true, message: this.$t('required') }
-        ],
+        category_id: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        name: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        state: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        order: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
+        brand_id: [ { required: true, message: this.$t('required') } ],
         price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
-
         old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
 
       },
@@ -721,7 +695,7 @@ export default {
   },
   mounted () {
       console.log('this.productVariantSlug', this.productVariantSlug)
-    this.getCategories({ page: null, lang: this.lang, search: false }).then(() => {
+    this.getCategories({ page: null, lang: this.lang, search: true }).then(() => {
       // console.log(getCategoriesTree(this.categories), 'getCate  ')
     })
     this.getBrands({ page: null, search: false }).then(() => {
@@ -907,7 +881,7 @@ export default {
     },
     getProductVariantData () {
       request({
-        url: `/product-variant/${this.productVariantSlug}`,
+        url: `/product-variants/${this.productVariantSlug}`,
         method: 'get',
         params: {
           lang: this.lang,
@@ -1193,7 +1167,11 @@ export default {
             request({
               url: `/product-variant/${slug}/update-price`,
               method: 'put',
-              data: this.price,
+              data: {
+                old_price: this.price.old_price === '' ? 0 : this.price.old_price,
+                price: this.price.price === '' ? 0 : this.price.price,
+                price_type_id: this.price.price_type_id === '' ? '' : this.price.price_type_id
+              },
               headers: headers
             })
             .then(res => {
@@ -1217,7 +1195,11 @@ export default {
             request({
               url: `/product-variant/${slug}/update-price`,
               method: 'put',
-              data: this.price,
+              data: {
+                old_price: this.price.old_price === '' ? 0 : this.price.old_price,
+                price: this.price.price,
+                price_type_id: ''
+              },
               headers: headers
             })
             .then(res => {
@@ -1260,6 +1242,7 @@ export default {
           })
           console.log('valid')
         } else {
+          this.$message.error(this.$t('filledempy'))
           console.log('error submit, validation failed')
           return false
         }

@@ -178,7 +178,7 @@ const companies = {
           url: '/company',
           headers: headers,
           method: 'get',
-          params: { page: page.current, limit: page.pageSize, name: searchQuery }
+          params: { page: page.current, limit: page.pageSize, name: searchQuery, search: page.search }
         })
           .then(result => {
             const pagination = { ...page }

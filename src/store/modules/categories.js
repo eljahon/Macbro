@@ -31,11 +31,10 @@ const categories = {
       }
     },
     actions: {
-      getCategories ({ commit, state }, payload = { page: null, lang: 'ru', search: true }) {
+      getCategories ({ commit, state }, payload) {
+        console.log('====>>>>>')
         let { page } = payload
         // if search === false all categories will be requested
-        const { lang, search } = payload
-        const { searchQuery } = state
         if (!page) {
           page = { current: 1, pageSize: 10, total: null }
         }
@@ -43,12 +42,12 @@ const categories = {
         request({
             url: `/category`,
             headers: headers,
-            params: {
-              lang: lang,
-              page: page.current,
-              limit: page.pageSize,
-              search: search ? searchQuery : ''
-            }
+              params: {
+                lang: payload.lang,
+                page: page.current,
+                limit: page.pageSize,
+                search: payload.search ? '' : ''
+              }
         })
           .then(result => {
           const pagination = { ...page }

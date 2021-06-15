@@ -10,7 +10,7 @@
           test-attr="search-order"
           id="inputSearch"
           :placeholder="$t('search') + '...'"
-          v-decorator="['search', { initialValue: getSearchQuery }]"
+          v-model="params.search"
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
@@ -89,6 +89,11 @@ export default {
     return {
       value: '',
       data: [],
+    params: {
+      page: { current: 1, pageSize: 10, total: null },
+      search: '',
+        lang: 'ru'
+    },
       loading: true,
       columns: [
         {
@@ -136,9 +141,10 @@ export default {
     }
   },
   mounted () {
+    this.params.page = { ...this.paginationCategories }
     this.setSearchQuery('')
     console.log('this.categories', this.categories)
-    this.getCategories({ page: this.paginationCategories })
+    this.getCategories(this.params)
       .then((res) => console.log('res', res))
       .catch(err => console.error(err))
       .finally(() => (this.loading = false))

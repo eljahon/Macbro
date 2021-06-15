@@ -138,13 +138,6 @@
         <a-tab-pane key="2" :tab="$t('products')">
           <a-row>
             <a-col :span="24">
-              <!--              <a-button-->
-              <!--                style="margin-bottom: 20px"-->
-              <!--                type="primary"-->
-              <!--                :disabled="editingKey !== ''"-->
-              <!--                @click.prevent="addProduct">-->
-              <!--                {{ $t('add') }}-->
-              <!--              </a-button>-->
               <a-form-model
                 ref="productRuleForm"
                 :model="editingKey !== '' ? items[editingKey] : {}"
@@ -161,9 +154,6 @@
                   test-attr="products-list-order"
                   class="pointer"
                 >
-                  <!-- <template slot="price" slot-scope="text, row">
-                      {{ numberToPrice(row.price) }}
-                    </template> -->
                   <template
                     v-for="col in ['product_name', 'price', 'quantity']"
                     :slot="col"
@@ -199,6 +189,7 @@
                             style="margin: -5px 0"
                             :min="col === 'price' ? 0 : 1"
                             :disabled="col === 'price'"
+                            maxLength="1"
                             :value="col === 'price' ? record.price : record.quantity"
                             @change="e => handleChange(e, index, col)"
                           />
@@ -232,7 +223,7 @@
                           placement="topRight"
                           slot="extra"
                           :title="$t('deleteMsg')"
-                          :disabled="editingKey !== '' || order.status !== 'in-process'"
+                          :disabled="editingKey !== ''|| items.length === 1 || order.status !== 'in-process'|| items.length === 1"
                           @confirm="deleteProduct(index)"
                           :okText="$t('yes')"
                           :cancelText="$t('no')"
@@ -313,6 +304,11 @@ import { pointSearch } from '@/utils/yandexMap'
 import debounce from 'lodash/debounce'
 
 export default {
+  watch: {
+    items: (values) => {
+      console.log('===>>', values)
+    }
+  },
   components: {
     'user-activities': userActivities
   },
@@ -391,14 +387,13 @@ export default {
     }
   },
   mounted () {
-    this.getOrderAttrs()
     this.onProductSearch()
     // this.getAdmin().then(res => {
     //   console.log('this.admin', this.admin)
     // })
   },
   computed: {
-    ...mapGetters(['admin']),
+    ...mapGetters(['admin', 'tabId']),
     ...mapState({
       userId: state => state.user.userId
     }),
@@ -449,7 +444,7 @@ export default {
         price: null,
         product_id: '',
         product_name: '',
-        quantity: null,
+        quantity: 1,
         editable: true
       })
       this.$emit('addProduct')
@@ -491,16 +486,16 @@ export default {
     },
     handleChange (value, index, column) {
       // console.log('CHANGE', index, value)
+      console.log('=>>>>', this.items)
       const newData = [...this.items]
       const target = newData[index]
       if (target) {
         if (column === 'product_name') {
           const product = this.productList.find(item => item.id === value)
-          console.log('======>', product)
           target[column] = product.name
           target.product_id = product.id
           target.image = product.image
-          target.price = product.price.uzs_price
+          target.price = parseInt(product.price.uzs_price)
           this.items = newData
         } else {
           target[column] = value
@@ -520,6 +515,8 @@ export default {
     save (index) {
       this.$refs.productRuleForm.validate(valid => {
         if (valid) {
+          // eslint-disable-next-line no-unused-expressions
+          // this.item[index].quantity === '' ? this.item[index].quantity = 1 : this.item[index].quantity
           const newData = [...this.items]
           const newCacheData = [...this.cacheData]
           const target = newData[index]
@@ -528,6 +525,7 @@ export default {
             // console.log('Kevoti 1chisi', targetCache, newCacheData)
             delete target.editable
             this.items = newData
+            console.log('=====>>item', newData)
             Object.assign(targetCache, target)
             this.cacheData = newCacheData
           } else {
@@ -582,8 +580,10 @@ export default {
         } = response
         console.log('this.cooords==>', this.coords)
         // eslint-disable-next-line no-undef
-        console.log('item===>', response.item)
+        // response.items.map(e => this.items.push(e))
         this.items = items && items.length ? items : []
+        // console.log(items, 'itemss====>')
+        // this.items.push(items)
         this.cacheData = JSON.parse(JSON.stringify(items)) || []
         this.order.customer_name = customerName
         this.order.address = address
@@ -607,9 +607,12 @@ export default {
       this.activeTabKey = _activeTabKey
       this.$router.push({
         name: this.$route.name,
+        params: {
+          id: this.$route.params.id
+        },
         query: {
-          tab: _activeTabKey,
-          id: this.id
+          id: this.id,
+          tab: _activeTabKey
         }
       })
       if (_activeTabKey === '4') {
@@ -664,7 +667,7 @@ export default {
               ...this.order,
               longlat: `${this.coords[0]},${this.coords[1]}`,
               user_id: JSON.parse(localStorage.getItem('user_id')),
-              items: this.cacheData
+              items: this.items
             },
             headers: headers
           }).then(res => {
@@ -685,6 +688,9 @@ export default {
     resetForm () {
       this.$refs.ruleForm.resetFields()
     }
+  },
+  created () {
+    this.getOrderAttrs()
   }
 }
 </script>

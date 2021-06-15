@@ -291,6 +291,16 @@ export default {
     debouncedSearch (searchQuery) {
       this.$router.push({ name: this.$route.name, query: { search: this.params.search } })
       this.setSearchQuery(searchQuery)
+      this.params.page = { ...this.customersPagination }
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          page: 1,
+          limit: 10,
+          search: this.params.search
+        }
+      })
+      console.log(this.params.page)
       this.loading = true
       this.getUserListAll(this.params)
         .then((res) => console.log(res))
@@ -330,6 +340,14 @@ export default {
     }
   },
   created () {
+    this.params.page = { ...this.customersPagination }
+    if (this.$route.query.page && this.$route.query.limit) {
+      this.params.page.current = parseInt(this.$route.query.page)
+      this.params.page.pageSize = parseInt(this.$route.query.limit)
+      this.params.search = this.$route.query.search
+    }
+    this.getUserList(this.params).then(res => console.log(res))
+      .finally(() => (this.loading = false))
   }
 }
 </script>

@@ -277,6 +277,7 @@ const locale = {
 
   // product
   'featured-products': 'Коллекция продуктов',
+  filledempy: 'В основных настройках есть не заполненных полей',
   featuredProducts: 'Коллекция продуктов',
   add_product: 'Добавить продукт',
   products: 'Продукты',
@@ -397,6 +398,8 @@ const locale = {
   product_state: 'Состояние',
   typeofinterparas: 'Тип взаимарас',
   price: 'Цена',
+  moving: 'Перемещение',
+  remainder: 'Остаток',
 
   // company
   corporates: 'Корпорации',

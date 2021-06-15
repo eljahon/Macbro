@@ -42,6 +42,7 @@
         :data-source="dataWerhoustList"
         :columns="columns"
         bordered
+        :pagination="getPagination"
         :customRow="customRowClick"
         class="cursorpointer"
         :rowKey="record => record.id"
@@ -81,7 +82,9 @@
         <template slot="counter_agent" slot-scope="text"> {{ text.firstname }} {{ text.lastname }}</template>
         <template slot="bar_code_count" slot-scope="text, record">
           <a-tag :color="record.bar_code_count+record.imei_code_count === record.items_count ? '#E7F4FF' : '#FFEBE5' ">
-            {{ record.bar_code_count + record.imei_code_count }}/{{ record.items_count }}
+            <span
+              :style="[record.bar_code_count+record.imei_code_count === record.items_count? {color: '#1890FF'} : {color: '#FF3D00'}]"> {{ record.bar_code_count + record.imei_code_count
+              }}/{{ record.items_count }}</span>
           </a-tag>
         </template>
         <template slot="number" slot-scope="text"><span style="color: #1890FF">{{ text }}</span></template>
@@ -103,12 +106,6 @@
           </span>
           <template v-else>
             {{ text }}
-            <!--            <router-link-->
-            <!--              :to="{name: 'warehouseIncomeUpdate', params: {id: record.id, number: record.number}}"-->
-            <!--              style="color: black">-->
-            <!--              -->
-            <!--            </router-link>-->
-
           </template>
         </template>
       </a-table>
@@ -332,12 +329,15 @@ export default {
       previewVisible: false,
       selectedCompany: null,
       filterParams: {},
-      page: { limit: 1, pageSize: 10, total: null, search: '' },
-      loading: false
+      loading: false,
+        page: { limit: 1, pageSize: 10, total: null }
     }
   },
   computed: {
-    ...mapGetters(['companyWarehouseList', 'companyWarehousePagination', 'searchQuery'])
+    ...mapGetters(['companyWarehouseList', 'companyWarehousePagination', 'searchQuery', 'werhousPagination']),
+    getPagination () {
+      return this.werhousPagination
+    }
   },
   mounted () {
     // this.getWerhousList(this.page).then(res => {
@@ -399,7 +399,15 @@ export default {
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getWerhousList(this.page)
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          page: 1,
+          limit: 10,
+          search: this.params.search
+        }
+      })
+      this.getWerhousList(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -442,6 +450,13 @@ export default {
     }
   },
   created () {
+    this.page = { ...this.werhousPagination }
+    // if (this.$route.query.page && this.$route.query.limit) {
+    //   this.params.page.current = parseInt(this.$route.query.page)
+    //   this.params.page.pageSize = parseInt(this.$route.query.limit)
+    //   // this.params.search = this.$route.query.search
+    // }
+    console.log(this.page)
     this.werhousesListGetAll(this.page)
   }
 }

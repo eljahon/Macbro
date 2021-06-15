@@ -183,19 +183,14 @@ export default {
     }
   },
   mounted () {
+    console.log('salom')
     this.getCategories()
+    this.params.page = { ...this.productsPagination }
     if (this.$route.query.page && this.$route.query.limit) {
       this.params.page.current = parseInt(this.$route.query.page)
       this.params.page.pageSize = parseInt(this.$route.query.limit)
       this.params.search = this.$route.query.search
     }
-    this.getProducts(this.params)
-      .then(() => console.log('this.productsData', this.productsData))
-      .catch(err => {
-        this.$message.error(this.$t('error'))
-        console.error(err)
-      })
-      .finally(() => (this.loading = false))
   },
   methods: {
     ...mapActions(['getProducts', 'getCategories', 'setSearchQueryProduct']),
@@ -300,6 +295,15 @@ export default {
     numberToPrice (num) {
       return numberToPrice(num)
     }
+  },
+  created () {
+    this.getProducts(this.params)
+      .then(() => console.log('this.productsData', this.productsData))
+      .catch(err => {
+        this.$message.error(this.$t('error'))
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb-row :hasBack="true">
+    <breadcrumb-row :hasBack="false">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/price-list/category" test-attr="prev-link-brand">{{ $t('categories') }}</router-link>
@@ -35,6 +35,7 @@
         :wrapper-col="wrapperCol"
       >
         <a-table
+          class="cursor"
           :columns="columns"
           :rowKey="record => record.slug"
           :dataSource="productsData"
@@ -96,7 +97,10 @@ export default {
       selectedProductVariantCategory: '',
       updateVisible: false,
       filterParams: {},
-      page: { current: 1, pageSize: 10, total: 45 },
+    params: {
+        page: { current: 1, pageSize: 10, total: 45 },
+      lang: 'ru'
+    },
       Interval: null,
       usd: ''
     }
@@ -160,9 +164,12 @@ export default {
         .finally(() => (this.loading = false))
     },
     debouncedSearch (searchQuery) {
+      console.log(searchQuery)
       this.setSearchQuery(searchQuery)
       this.loading = true
-      this.getProducts({ category: this.$route.params.id })
+      this.params.category = this.$route.params.id
+      this.params.search = searchQuery
+      this.getProducts(this.params)
         .then(res => {
           console.log(res)
         })
@@ -195,3 +202,8 @@ export default {
   }
 }
 </script>
+<style>
+.cursor{
+  cursor: pointer;
+}
+</style>

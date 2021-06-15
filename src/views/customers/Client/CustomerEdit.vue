@@ -46,7 +46,7 @@
                 <img src="../../../assets/img.png" alt="" style="width: 170px">
                 <p style="margin-top: 15px; color: #00A0E9" >         <span>Загрузить изображение
                 </span></p>
-                <a-form-model-item ref="name" :label="$t('name')" prop="name">
+                <a-form-model-item ref="first_name" :label="$t('name')" prop="first_name">
                   <a-input
                     size="large"
                     v-model="customer.first_name"

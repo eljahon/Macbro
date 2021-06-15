@@ -18,59 +18,66 @@
         <a-tab-pane key="1" tab="Основные сведения">
           <a-card :bordered="false">
             <a-row>
-              <a-col :span="8">
-                <div class="cardlist" style="overflow: hidden">
-                  <div>
-                    <p>
-                      <a-icon type="dollar"></a-icon>
-                      <span>{{ $t('Bartchnumber') }}</span></p>
-                    <p>
-                      <a-icon type="shop" class="globalColor"></a-icon>
-                      <span>Филиал</span></p>
-                    <p>
-                      <a-icon type="user"></a-icon>
-                      <span>Клиент</span></p>
-                    <p>
-                      <a-icon type="user"></a-icon>
-                      <span>Кассир</span></p>
+              <div class="span">
+                <a-col :span="8">
+                  <div class="cardlist" style="overflow: hidden">
+                    <div>
+                      <p>
+                        <img src="../../assets/Vector.svg" alt="">
+                        <span>{{ $t('Bartchnumber') }}</span></p>
+                      <p>
+                        <a-icon type="shop" class="globalColor"></a-icon>
+                        <span>Филиал</span></p>
+                      <p>
+                        <a-icon type="user"></a-icon>
+                        <span>Клиент</span></p>
+                      <p>
+                        <a-icon type="user"></a-icon>
+                        <span>Кассир</span></p>
+                    </div>
+                    <div style="margin-left: 80px">
+                      <p><strong>{{ cardlist.number }}</strong></p>
+                      <p><strong>Громов Даниил</strong></p>
+                      <p><strong>{{ cardlist.counter_agent.firstname }} {{ cardlist.counter_agent.lastname }}</strong>
+                      </p>
+                      <p><strong class="colorblue"> {{ cardlist.counter_agent.lastname }}</strong></p>
+                    </div>
                   </div>
-                  <div style="margin-left: 80px">
-                    <p><strong>{{ cardlist.number }}</strong></p>
-                    <p><strong>Громов Даниил</strong></p>
-                    <p><strong>{{ cardlist.counter_agent.firstname }} {{ cardlist.counter_agent.lastname }}</strong></p>
-                    <p><strong class="colorblue"> {{ cardlist.counter_agent.lastname }}</strong></p>
+                </a-col
+                >
+                <a-col :span="8" :offset="1">
+                  <div class="cardlist" style="overflow: hidden">
+                    <div>
+                      <p>
+                        <a-icon type="calendar" class="globalColor"></a-icon>
+                        <span>{{ $t('data') }}</span></p>
+                      <p>
+                        <a-icon type="number"></a-icon>
+                        <span>{{ $t('total_amount') }}</span></p>
+                      <p>
+                        <a-icon type="dollar"></a-icon>
+                        <span>Сумма</span></p>
+                      <p>
+                        <a-icon type="flag"></a-icon>
+                        <span>{{ $t('Scanned') }}</span></p>
+                    </div>
+                    <div style="margin-left: 80px">
+                      <p><strong>{{ moment(cardlist.created_at).format('YYYY-MM-DD hh:mm') }}</strong></p>
+                      <p><strong>{{ cardlist.total_amount }}</strong></p>
+                      <p><strong>{{ cardlist.count }}</strong></p>
+                      <p><strong>{{ cardlist.bar_code_count + cardlist.imei_code_count }}/{{ item_amount }}</strong></p>
+                    </div>
                   </div>
-                </div>
-              </a-col
-              >
-              <a-col :span="8" :offset="1">
-                <div class="cardlist" style="overflow: hidden">
-                  <div>
-                    <p>
-                      <a-icon type="calendar" class="globalColor"></a-icon>
-                      <span>{{ $t('data') }}</span></p>
-                    <p>
-                      <a-icon type="number"></a-icon>
-                      <span>{{ $t('total_amount') }}</span></p>
-                    <p>
-                      <a-icon type="dollar"></a-icon>
-                      <span>Сумма</span></p>
-                    <p>
-                      <a-icon type="flag"></a-icon>
-                      <span>{{ $t('Scanned') }}</span></p>
-                  </div>
-                  <div style="margin-left: 80px">
-                    <p><strong>{{ moment(cardlist.created_at).format('YYYY-MM-DD hh:mm') }}</strong></p>
-                    <p><strong>{{ cardlist.total_amount }}</strong></p>
-                    <p><strong>{{ cardlist.count }}</strong></p>
-                    <p><strong>{{ cardlist.bar_code_count+cardlist.imei_code_count }}/{{ item_amount }}</strong></p>
-                  </div>
-                </div>
-              </a-col
-              >
+                </a-col
+                >
+              </div>
             </a-row>
           </a-card>
-          <a-table :columns="columns" :data-source="ItemTabledata" bordered style="margin: 20px">
+          <a-table
+            :columns="columns"
+            :data-source="ItemTabledata"
+            bordered
+            style="margin: 20px">
             <template slot="imei_status" slot-scope="text">
               <a-tag :color="text === 'not_registered' ? '#E7F4FF' :'#FFF0D9' ">{{ text }}</a-tag>
             </template>
@@ -249,4 +256,5 @@ export default {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
+
 </style>

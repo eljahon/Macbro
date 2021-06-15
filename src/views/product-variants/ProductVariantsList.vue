@@ -28,6 +28,7 @@
     <a-card :bordered="false" style="flex: 1">
 
       <a-table
+        class="cursor"
         :columns="columns"
         :rowKey="record => record.id"
         :dataSource="productVariantsData"
@@ -167,7 +168,11 @@ export default {
       selectedProductVariantCategory: '',
       updateVisible: false,
       filterParams: {},
-      page: { current: 1, pageSize: 10, total: 45 },
+      parmas: {
+        page: { current: 1, pageSize: 10, total: null },
+        lang: 'ru',
+        search: true
+      },
       Interval: null
     }
   },
@@ -181,7 +186,7 @@ export default {
     }
   },
   mounted () {
-    this.getCategories()
+    this.getCategories(this.parmas)
     this.getProductVariants({ page: this.productVariantsPagination, search: true })
       .then(() => console.log('this.productVariantsData', this.productVariantsData))
       .catch(err => {
@@ -287,3 +292,9 @@ export default {
   }
 }
 </script>
+<style>
+.cursor {
+  cursor: pointer;
+}
+
+</style>

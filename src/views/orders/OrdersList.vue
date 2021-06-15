@@ -100,34 +100,34 @@
             </template>
           </a-table>
         </a-tab-pane>
-        <!--        <a-tab-pane key="2">-->
+<!--        <a-tab-pane key="2">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab2') }} <span class="custom-badge" style="margin-left: 10px;">2</span>-->
         <!--            </span>-->
         <!--          </div>-->
-        <!--        </a-tab-pane>-->
-        <!--        <a-tab-pane key="3">-->
+<!--        </a-tab-pane>-->
+<!--        <a-tab-pane key="3">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab3') }} <span class="custom-badge" style="margin-left: 10px;">3</span>-->
         <!--            </span>-->
         <!--          </div>-->
-        <!--        </a-tab-pane>-->
-        <!--        <a-tab-pane key="4">-->
+<!--        </a-tab-pane>-->
+<!--        <a-tab-pane key="4">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab4') }}<span class="custom-badge" style="margin-left: 10px;">4</span>-->
         <!--            </span>-->
         <!--          </div>-->
-        <!--        </a-tab-pane>-->
-        <!--        <a-tab-pane key="5" >-->
+<!--        </a-tab-pane>-->
+<!--        <a-tab-pane key="5" >-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab5') }} <span class="custom-badge" style="margin-left: 10px;">5</span>-->
         <!--            </span>-->
         <!--          </div>-->
-        <!--        </a-tab-pane>-->
+<!--        </a-tab-pane>-->
       </a-tabs>
 
       <!-- <a-pagination show-quick-jumper :default-current="getPagination.current" :total="getPagination.total" @change="handleTableChange" /> -->
@@ -320,6 +320,7 @@ export default {
     // this.exportExcel()
     this.params.page = { ...this.ordersPagination }
     this.setSearchQuery('')
+    this.params.page = { ...this.ordersPagination }
     console.log('this.ordersPagination', this.ordersPagination)
     this.getOrders(this.params)
       .then((res) => console.log('res', res))
@@ -335,7 +336,7 @@ export default {
       return {
         on: {
           click: (event) => {
-            this.$router.push(`/order/edit/${record.number}`)
+            this.$router.push({ name: 'OrderEdit', params: { id: record.number }, query: { tab: '1' } })
           }
         }
       }
@@ -405,6 +406,7 @@ export default {
     debouncedSearch (searchQuery) {
       // this.setSearchQuery(searchQuery)
       this.loading = true
+      this.params.page = { ...this.ordersPagination }
       this.getOrders(this.params)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))

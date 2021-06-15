@@ -13,9 +13,11 @@ const orders = {
       customerOrders: [],
       customerOrdersPagination: {},
       searchquery: '',
-      saveButton: null
+      saveButton: null,
+      tabId: null
     },
     getters: {
+      tabId: state => state.tabId,
       ordersData: state => state.orders,
       ordersPagination: state => state.ordersPagination,
       searchQuery: state => state.searchquery,
@@ -26,6 +28,9 @@ const orders = {
       saveButton: state => state.saveButton
     },
     mutations: {
+      GER_TAB_ID (state, id) {
+        state.tabId = id
+      },
       GET_ORDERS: (state, orders) => {
           state.orders = orders
       },
@@ -169,6 +174,9 @@ const orders = {
       },
       saveButton ({ commit }, paylod) {
       commit('GET_SAVE_BUTTON', paylod)
+      },
+      setTabId ({ commit }, id) {
+      commit('GET_TAB_ID', id)
       }
   }
 }
