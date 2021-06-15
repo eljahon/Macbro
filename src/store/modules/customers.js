@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-// const headers = {
-//   'Content-Type': 'application/json'
-// }
+const headers = {
+  'Content-Type': 'application/json'
+}
 
 const customers = {
     state: {
@@ -95,15 +95,17 @@ const customers = {
     // },
       getUserListAll ({ commit }, payload) {
         const { page } = payload
+        console.log('page====>..', page)
         // eslint-disable-next-line no-undef,no-unused-vars
         // const { searchquery } = state
         return new Promise((resolve, reject) => {
           request({
             url: `/user`,
             method: 'get',
+            headers: headers,
             params: {
-              limit: payload.page.pageSiz,
-              // eslint-disable-next-line no-undef
+              page: page.current,
+              limit: page.pageSize,
               offset: payload.offset,
               user_type: payload.user_type,
               search: payload.search

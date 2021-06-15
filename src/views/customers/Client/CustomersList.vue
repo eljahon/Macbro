@@ -231,6 +231,7 @@ export default {
     }
   },
   mounted () {
+    this.loading = true
     this.params.page = { ...this.userPagination }
     this.getUserListAll(this.params)
     .then(res => {
@@ -256,6 +257,7 @@ export default {
       console.log(value)
     },
     handleTableChange (pagination) {
+      console.log(pagination)
       this.params.page = pagination
       this.loading = true
       this.getUserListAll(this.params)
@@ -338,17 +340,17 @@ export default {
         }
       })
     }
-  },
-  created () {
-    this.params.page = { ...this.customersPagination }
-    if (this.$route.query.page && this.$route.query.limit) {
-      this.params.page.current = parseInt(this.$route.query.page)
-      this.params.page.pageSize = parseInt(this.$route.query.limit)
-      this.params.search = this.$route.query.search
-    }
-    this.getUserList(this.params).then(res => console.log(res))
-      .finally(() => (this.loading = false))
   }
+  // created () {
+  //   this.params.page = { ...this.customersPagination }
+  //   if (this.$route.query.page && this.$route.query.limit) {
+  //     this.params.page.current = parseInt(this.$route.query.page)
+  //     this.params.page.pageSize = parseInt(this.$route.query.limit)
+  //     this.params.search = this.$route.query.search
+  //   }
+  //   this.getUserList(this.params).then(res => console.log(res))
+  //     .finally(() => (this.loading = false))
+  // }
 }
 </script>
 <style lang="less" scoped>
