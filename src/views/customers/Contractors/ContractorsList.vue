@@ -126,6 +126,7 @@ export default {
   },
   mounted () {
     this.params.page = { ...this.contractorsPagination }
+    this.loading = true
     this.getContractorsAllList(this.params)
       .then(res => {
         console.log(res)
