@@ -188,10 +188,12 @@
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
                   test-attr="image-product-vars"
+                  style="position: relative"
                 >
+                  <a-icon v-if="loading" :type="loading ? 'loading' : 'plus'" class="iconloading" />
                   <img v-if="imageUrl" :src="imageUrl" style="max-width: 100%;" alt="avatar" />
                   <div v-else>
-                    <a-icon :type="loading ? 'loading' : 'plus'" />
+                    <a-icon type="plus" />
                     <div class="ant-upload-text">
                       {{ $t('uploadCategoryImage') }}
                     </div>
@@ -212,7 +214,7 @@
                 test-attr="prev-image-product-vars"
               >
                 <div v-if="gallery.length < 8">
-                  <a-icon type="plus" />
+                  <a-icon :type="minImgloading ? 'loading' : 'plus'"/>
                   <div class="ant-upload-text">
                     Upload
                   </div>
@@ -272,7 +274,7 @@
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item  :label="$t('product_old_price')">
+                <a-form-model-item :label="$t('product_old_price')">
                   <a-input
                     size="large"
                     v-model="price.old_price"
@@ -472,13 +474,14 @@ export default {
     this.onVarantSearch = debounce(this.onVarantSearch, 400)
     this.variantsGetAll = debounce(this.variantsGetAll, 100)
     const validateNumber = (rule, value, callback) => {
-      if (!isNaN(value) && value > 0) {
+      if (!isNaN(value) && value > 0 && value < 99999) {
         callback()
       } else {
         callback(new Error(this.$t('Введите номер')))
       }
     }
     return {
+      minImgloading: false,
       productVariantList: [],
       productVariantListLoading: false,
       productVariantListParams: {
@@ -1037,6 +1040,7 @@ export default {
     },
     uploadImage (e) {
       this.loading = true
+      this.$store.dispatch('setButton', this.loading)
       var data = new FormData()
       data.append('file', e.file)
       request({
@@ -1047,11 +1051,17 @@ export default {
         getBase64(e.file, imageUrl => {
           this.imageUrl = imageUrl
         })
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+          this.$store.dispatch('setButton', this.loading)
+        }, 3000)
         this.productVariant.image = response.filename
       }).catch(error => {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+          this.$store.dispatch('setButton', this.loading)
+        }, 3000)
       })
     },
     beforeUpload (file) {
@@ -1262,6 +1272,12 @@ export default {
       this.previewVisible = true
     },
     handleChange (e) {
+      this.minImgloading = true
+      this.$store.dispatch('setButton', this.minImgloading)
+      setTimeout(() => {
+        this.minImgloading = false
+        this.$store.dispatch('setButton', this.minImgloading)
+      }, 3000)
       const { fileList } = e
       this.gallery = fileList.map(file => ({ ...file, status: 'done' }))
       if (e.file.status === 'removed') {
@@ -1286,5 +1302,12 @@ export default {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
+  }
+  .iconloading  {
+    color:#222222;
+    position: absolute;
+    top:40% ;
+    left:40%;
+    transform: translate(-50% -50%);
   }
 </style>
