@@ -49,10 +49,16 @@
     <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-product-vars">
+          <a-button
+            :disabled="buttonDisabled"
+            :loading="btnLoading"
+            type="primary"
+            html-type="submit"
+            @click.prevent="submit"
+            test-attr="save-product-vars">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-product-vars">
+          <a-button :disabled="buttonDisabled" style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-product-vars">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>
@@ -64,6 +70,7 @@
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
 import request from '@/utils/request'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -72,6 +79,9 @@ export default {
       edit: !!this.$route.params.id,
       langs: ['ru', 'uz', 'en']
     }
+  },
+  computed: {
+    ...mapGetters(['buttonDisabled'])
   },
   // mounted() {
   //   console.log('$refs', this.$refs)

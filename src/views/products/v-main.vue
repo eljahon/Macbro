@@ -123,7 +123,7 @@
                   <a-icon v-if="loading" :type="loading ? 'loading' : 'plus'" class="iconloading" />
                   <img style="width: 400px;height: auto;margin: auto" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
-                    <a-icon :type="loading ? 'loading' : 'plus'" />
+<!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
                     <div class="ant-upload-text">
                       {{ $t('uploadCategoryImage') }}
                     </div>
@@ -143,7 +143,7 @@
                 :before-upload="beforeUpload"
               >
                 <div v-if="gallery.length < 8">
-                  <a-icon type="plus" />
+                  <a-icon :type="minImgloading ? 'loading': 'plus'" />
                   <div class="ant-upload-text">
                     Upload
                   </div>
@@ -532,6 +532,7 @@ export default {
     }
     return {
       attributeLoading: false,
+      minImgloading: false,
       variantParams: {
         limit: 10,
         page: 1,
@@ -1397,6 +1398,12 @@ export default {
       this.previewVisible = true
     },
     handleChange (e) {
+      this.minImgloading = true
+      this.$store.dispatch('setButton', this.minImgloading)
+      setTimeout(() => {
+        this.minImgloading = false
+        this.$store.dispatch('setButton', this.minImgloading)
+      }, 3000)
       const { fileList } = e
       this.gallery = fileList.map(file => ({ ...file, status: 'done' }))
       if (e.file.status === 'removed') {
