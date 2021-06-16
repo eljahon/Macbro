@@ -84,7 +84,7 @@
           <a-tag :color="record.bar_code_count+record.imei_code_count === record.items_count ? '#E7F4FF' : '#FFEBE5' ">
             <span
               :style="[record.bar_code_count+record.imei_code_count === record.items_count? {color: '#1890FF'} : {color: '#FF3D00'}]"> {{ record.bar_code_count + record.imei_code_count
-              }}/{{ record.items_count }}</span>
+            }}/{{ record.items_count }}</span>
           </a-tag>
         </template>
         <template slot="number" slot-scope="text"><span style="color: #1890FF">{{ text }}</span></template>

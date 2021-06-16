@@ -189,7 +189,7 @@
                             style="margin: -5px 0"
                             :min="col === 'price' ? 0 : 1"
                             :disabled="col === 'price'"
-                            maxLength="1"
+                            max="1000"
                             :value="col === 'price' ? record.price : record.quantity"
                             @change="e => handleChange(e, index, col)"
                           />

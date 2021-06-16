@@ -111,15 +111,16 @@
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('images')">
           <a-row>
-            <a-col :span="4" :style="{ minHeight: '180px', padding: '0 15px' }">
+            <a-col :span="4" :style="{ minHeight: '200px', padding: '0 15px' }">
               <a-form-item :label="$t('uploadProductImage')">
                 <a-upload
+                  class="posiation"
                   :custom-request="uploadImage"
                   list-type="picture-card"
-                  class="avatar-uploader"
                   :show-upload-list="false"
                   :before-upload="beforeUpload"
                 >
+                  <a-icon v-if="loading" :type="loading ? 'loading' : 'plus'" class="iconloading" />
                   <img style="width: 400px;height: auto;margin: auto" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
                     <a-icon :type="loading ? 'loading' : 'plus'" />
@@ -1107,6 +1108,7 @@ export default {
     },
     uploadImage (e) {
       this.loading = true
+      this.$store.dispatch('setButton', this.loading)
       var data = new FormData()
       data.append('file', e.file)
       request({
@@ -1117,11 +1119,17 @@ export default {
         getBase64(e.file, imageUrl => {
           this.imageUrl = imageUrl
         })
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+          this.$store.dispatch('setButton', this.loading)
+        }, 3000)
         this.product.image = response.filename
       }).catch(error => {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+          this.$store.dispatch('setButton', this.loading)
+        }, 3000)
       })
     },
     beforeUpload (file) {
@@ -1505,6 +1513,20 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.posiation  {
+  position: relative;
+}
+.iconloading  {
+  color:#222222;
+  position: absolute;
+  top:40% ;
+  left:100%;
+  transform: translate(-50% -50%);
+}
+
+.avatar-uploader:hover {
+  cursor: pointer;
+}
 .ghost-loader {
     position: absolute;
     height: 100%;

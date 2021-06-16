@@ -272,7 +272,7 @@
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="12" style="padding: 0 15px">
-                <a-form-model-item  :label="$t('product_old_price')">
+                <a-form-model-item :label="$t('product_old_price')">
                   <a-input
                     size="large"
                     v-model="price.old_price"
@@ -472,7 +472,7 @@ export default {
     this.onVarantSearch = debounce(this.onVarantSearch, 400)
     this.variantsGetAll = debounce(this.variantsGetAll, 100)
     const validateNumber = (rule, value, callback) => {
-      if (!isNaN(value) && value > 0) {
+      if (!isNaN(value) && value > 0 && value < 99999) {
         callback()
       } else {
         callback(new Error(this.$t('Введите номер')))

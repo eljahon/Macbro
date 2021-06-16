@@ -10,9 +10,11 @@ const products = {
       productsPagination: {},
       productsMenu: [],
       searchqueryProduct: '',
-      loading: false
+      loading: false,
+      buttonDisabled: false
     },
     getters: {
+      buttonDisabled: state => state.buttonDisabled,
       productsData: state => state.products,
       productsMenu: state => state.productsMenu,
       productsPagination: state => state.productsPagination,
@@ -34,7 +36,10 @@ const products = {
       },
       SET_LOADING: (state, loadingStatus) => {
         state.loading = loadingStatus
-      }
+      },
+      GET_BUTTON_BOLL: (state, bool) => {
+        state.buttonDisabled = bool
+}
     },
     actions: {
       setLoading ({ commit }, status) {
@@ -110,6 +115,9 @@ const products = {
              console.log('search==>>>', err)
            })
          })
+      },
+      setButton ({ commit }, payload) {
+        commit('GET_BUTTON_BOLL', payload)
       }
 
   }

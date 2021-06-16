@@ -159,8 +159,8 @@ const customers = {
               params: {
                       search: payolad.search,
                      user_type: payolad.user_type,
-                     page: payolad.page.page,
-                     limit: payolad.page.pageSiz
+                     page: page.current,
+                     limit: page.pageSiz
               }
             }).then(result => {
               console.log(result)

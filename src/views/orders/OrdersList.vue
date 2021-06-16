@@ -100,34 +100,34 @@
             </template>
           </a-table>
         </a-tab-pane>
-<!--        <a-tab-pane key="2">-->
+        <!--        <a-tab-pane key="2">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab2') }} <span class="custom-badge" style="margin-left: 10px;">2</span>-->
         <!--            </span>-->
         <!--          </div>-->
-<!--        </a-tab-pane>-->
-<!--        <a-tab-pane key="3">-->
+        <!--        </a-tab-pane>-->
+        <!--        <a-tab-pane key="3">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab3') }} <span class="custom-badge" style="margin-left: 10px;">3</span>-->
         <!--            </span>-->
         <!--          </div>-->
-<!--        </a-tab-pane>-->
-<!--        <a-tab-pane key="4">-->
+        <!--        </a-tab-pane>-->
+        <!--        <a-tab-pane key="4">-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab4') }}<span class="custom-badge" style="margin-left: 10px;">4</span>-->
         <!--            </span>-->
         <!--          </div>-->
-<!--        </a-tab-pane>-->
-<!--        <a-tab-pane key="5" >-->
+        <!--        </a-tab-pane>-->
+        <!--        <a-tab-pane key="5" >-->
         <!--          <div slot="tab">-->
         <!--            <span>-->
         <!--              {{ $t('orederstab5') }} <span class="custom-badge" style="margin-left: 10px;">5</span>-->
         <!--            </span>-->
         <!--          </div>-->
-<!--        </a-tab-pane>-->
+        <!--        </a-tab-pane>-->
       </a-tabs>
 
       <!-- <a-pagination show-quick-jumper :default-current="getPagination.current" :total="getPagination.total" @change="handleTableChange" /> -->

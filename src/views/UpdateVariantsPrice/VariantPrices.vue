@@ -100,6 +100,7 @@
               <a-input-number
                 style="margin: -5px 0"
                 :min="0"
+                :max="100000"
                 :placeholder="'$'+`${text.price}`"
                 v-model="updatePricesForm.item_new_prices[index].price"
               />
