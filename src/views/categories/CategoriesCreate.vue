@@ -49,10 +49,16 @@
     <a-row class="edit-btns">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
-          <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-category">
+          <a-button
+            :disabled="buttonDisabled"
+            :loading="btnLoading"
+            type="primary"
+            html-type="submit"
+            @click.prevent="submit"
+            test-attr="save-category">
             {{ $t('save') }}
           </a-button>
-          <a-button style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-category">
+          <a-button :disabled="buttonDisabled" style="margin-left: 10px;" @click.prevent="resetForm" test-attr="reset-category">
             {{ $t('reset') }}
           </a-button>
         </a-form-model-item>
@@ -64,6 +70,7 @@
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
 import request from '@/utils/request'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -125,7 +132,10 @@ export default {
       }
     }
   },
-  components: { 'v-main': vMain }
+  components: { 'v-main': vMain },
+  computed: {
+    ...mapGetters(['buttonDisabled'])
+  }
 }
 </script>
 <style></style>

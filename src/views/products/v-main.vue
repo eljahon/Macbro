@@ -123,7 +123,7 @@
                   <a-icon v-if="loading" :type="loading ? 'loading' : 'plus'" class="iconloading" />
                   <img style="width: 400px;height: auto;margin: auto" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
-<!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
+                    <!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
                     <div class="ant-upload-text">
                       {{ $t('uploadCategoryImage') }}
                     </div>
@@ -323,6 +323,20 @@
                     {{ option.name }}
                   </a-checkbox>
                 </a-checkbox-group>
+                <a-popconfirm
+                  placement="topRight"
+                  slot="extra"
+                  :title="$t('deleteMsg')"
+                  @click.native.stop=""
+                  @confirm="debouncedRequestdelete([], property.id)"
+                  :okText="$t('yes')"
+                  :cancelText="$t('no')"
+                >
+                <a-button type="danger" style="margin-top: 20px" html-type="submit">
+                  <a-icon :type="loadings ? 'loading': 'delete'"></a-icon>
+                  {{ $t('delete') }}
+                </a-button>
+                </a-popconfirm>
               </div>
               <div v-if="property.type === 'radio'">
                 <div class="propertyLabel">{{ property.name }}</div>
@@ -464,6 +478,7 @@
         </a-tab-pane> -->
       </a-tabs>
     </a-form-model>
+    <loadingPraduct ref="loading"/>
   </div>
 </template>
 
@@ -475,6 +490,7 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
+import loadingPraduct from '@/views/products/loadingPraduct/loadingPraduct'
 // import { ISO_8601 } from 'moment'
 function getCategoriesTree (categories) {
   if (categories) {
@@ -512,7 +528,8 @@ function getBase64Gallery (file) {
 export default {
   components: {
     'tinymce': tinymce,
-    Treeselect
+    Treeselect,
+    loadingPraduct
   },
   watch: {
     'product.category_id': function (val) {
@@ -533,6 +550,7 @@ export default {
     return {
       attributeLoading: false,
       minImgloading: false,
+      loadings: false,
       variantParams: {
         limit: 10,
         page: 1,
@@ -1418,6 +1436,33 @@ export default {
     activeTabHandler (_activeTabKey) {
       this.activeTabKey = _activeTabKey
     },
+    debouncedRequestdelete (value, id) {
+      this.$store.dispatch('setButton', true)
+      this.loading = true
+      this.loadings = true
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      request({
+        url: `/product/${this.productId}/update-property`,
+        method: 'put',
+        data: {
+          property_id: id,
+          value
+        },
+        headers: headers
+      })
+        .then(res => {
+          this.getProductData()
+          console.log('res', res)
+        })
+        .catch(err => console.error(err))
+        .finally(() => {
+          this.loading = false
+          this.loadings = false
+          this.$store.dispatch('setButton', false)
+        })
+    },
     // product attributes
     debouncedRequest (value, id) {
       this.loading = true
@@ -1429,7 +1474,7 @@ export default {
               url: `/product/${this.productId}/update-property`,
               method: 'put',
               data: {
-                property_id: id,
+                property_id: id === '' ? '' : id,
                 value
               },
               headers: headers

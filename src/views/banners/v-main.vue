@@ -70,9 +70,9 @@
               :show-upload-list="false"
               test-attr="image-banner"
             >
+              <a-icon :type="loading ? 'loading' : ''" class="iconLoading" style="color: #00A0E9" />
               <img class="uploaded-image" v-if="imageUrl" :src="imageUrl" alt="avatar" />
               <div v-else>
-                <a-icon :type="loading ? 'loading' : 'plus'" />
                 <div class="ant-upload-text">
                   {{ $t('uploadImage') }}
                 </div>
@@ -232,6 +232,7 @@ export default {
     // upload image
     uploadImage (e) {
       this.loading = true
+      this.$store.dispatch('setButton', this.loading)
       console.log(e)
       var data = new FormData()
       data.append('file', e.file)
@@ -242,7 +243,10 @@ export default {
       }).then(response => {
         getBase64(e.file, imageUrl => {
           this.imageUrl = imageUrl
-          this.loading = false
+         setTimeout(() => {
+           this.loading = false
+           this.$store.dispatch('setButton', this.loading)
+         }, 2000)
         })
         this.banner.image = response.filename
       }).catch(error => console.error(error))
@@ -259,6 +263,16 @@ export default {
 </script>
 
 <style>
+.iconLoading{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+}
+.avatar-uploader {
+  position: relative;
+  cursor: pointer;
+}
   .ck-editor .ck-editor__main .ck-content {
     min-height: 300px;
   }

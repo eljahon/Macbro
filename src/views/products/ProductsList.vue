@@ -45,15 +45,15 @@
             default-val
           />
         </template>
-        <template slot="action" slot-scope="text, row, index">
-          <div style="display: flex; justify-content: space-around;">
-            <!-- <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-products${index}`"/> -->
-            <router-link :to="{path: `./update/${row.slug}`, pagination: getPagination}" >
-              <edit-btn :test-attr="`edit-products${index}`"/>
-            </router-link>
-            <delete-btn @confirm="deleteProduct($event, row.slug)" :test-attr="`delete-products${index}`"/>
-          </div>
-        </template>
+        <!--        <template slot="action" slot-scope="text, row, index">-->
+        <!--          <div style="display: flex; justify-content: space-around;">-->
+        <!--            &lt;!&ndash; <preview-btn @click="showPreviewModal(row.id)" :test-attr="`preview-products${index}`"/> &ndash;&gt;-->
+        <!--            <router-link :to="{path: `./update/${row.slug}`, pagination: getPagination}" >-->
+        <!--              <edit-btn :test-attr="`edit-products${index}`"/>-->
+        <!--            </router-link>-->
+        <!--            <delete-btn @confirm="deleteProduct($event, row.slug)" :test-attr="`delete-products${index}`"/>-->
+        <!--          </div>-->
+        <!--        </template>-->
       </a-table>
     </a-card>
     <a-modal
@@ -183,14 +183,22 @@ export default {
     }
   },
   mounted () {
-    console.log('salom')
-    this.getCategories()
+    this.searching()
+    // this.getCategories()
     this.params.page = { ...this.productsPagination }
     if (this.$route.query.page && this.$route.query.limit) {
       this.params.page.current = parseInt(this.$route.query.page)
       this.params.page.pageSize = parseInt(this.$route.query.limit)
       this.params.search = this.$route.query.search
+      console.log(' eslabqol === > ')
     }
+    this.getProducts(this.params)
+      .then(() => console.log('this.productsData', this.productsData))
+      .catch(err => {
+        this.$message.error(this.$t('error'))
+        console.error(err)
+      })
+      .finally(() => (this.loading = false))
   },
   methods: {
     ...mapActions(['getProducts', 'getCategories', 'setSearchQueryProduct']),
@@ -199,10 +207,14 @@ export default {
         on: {
           click: (event) => {
             console.log('ID', record.id)
-            this.$router.push(`/catalog/products/update/${record.slug}`)
+            this.$router.push({ name: 'ProductsUpdate', params: { id: record.slug } })
+            // this.$router.push(`/catalog/products/update/${record.slug}`)
           }
         }
       }
+    },
+    searching () {
+      console.log('salom==>.')
     },
     handleTableChange (pagination) {
       this.params.page = pagination
@@ -297,13 +309,6 @@ export default {
     }
   },
   created () {
-    this.getProducts(this.params)
-      .then(() => console.log('this.productsData', this.productsData))
-      .catch(err => {
-        this.$message.error(this.$t('error'))
-        console.error(err)
-      })
-      .finally(() => (this.loading = false))
   }
 }
 </script>
