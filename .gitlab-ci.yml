@@ -1,59 +1,33 @@
 services:
-  - docker:19.03.1-dind
-
+  - name: gitlab.udevs.io:5050/docker/docker:dind
+    alias: docker
+    
 variables:
-  GIT_STRATEGY: none
-  BUILD_DIR: "/home/gitlab-runner/builds/$CI_RUNNER_SHORT_TOKEN/0"
-  CLONE_DIR: "$BUILD_DIR/$CI_PROJECT_PATH"
   NAMESPACE: "microservices"
 
 before_script:
-  ## ssh
-  - eval $(ssh-agent -s)
-  - echo "$RUNNER_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  ##  cloning
-  - mkdir -p ~/builds/$CI_RUNNER_SHORT_TOKEN/0
-  - pwd
-  - cd ~/builds/$CI_RUNNER_SHORT_TOKEN/0
-  - rm -rf ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH && mkdir -p ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
-  - git clone --recurse-submodules git@gitlab.udevs.io:${CI_PROJECT_PATH}.git ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
-  - cd ~/builds/$CI_RUNNER_SHORT_TOKEN/0/$CI_PROJECT_PATH
-  - git checkout $CI_COMMIT_BRANCH
   ## docker login
   - docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  ## install dependencies
+  - apk update && apk --no-cache --update add build-base openssh curl
 
 stages:
   - build
   - deploy
 
-build_image_prod:
-  stage: build
-  script:
-    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE 
-    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE 
-  only:
-    - master
-
 build_image_test:
   stage: build
   script:
-    - make build-image-test TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE ENV_TAG=test
+    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE ENV_TAG=test
     - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE ENV_TAG=test
   only:
     - staging
 
-deploy_to_prod:
-  stage: deploy
+build_image_prod:
+  stage: build
   script:
-    - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-    - chmod +x ./kubectl && mkdir -p ~/.kube && mv ./kubectl ~/.kube && export PATH=$PATH:$HOME/.kube
-    - cp $MACBRO_KUBECONFIG ~/.kube/config
-    - source .build_info
-    - kubectl apply -f .kube/prod/
-    - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $DEPLOYMENT=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_IID
-    - rm -rf ~/.kube
+    - make build-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE
+    - make push-image TAG=$CI_PIPELINE_IID PROJECT_NAME=$CI_PROJECT_NAMESPACE
   only:
     - master
 
@@ -69,3 +43,16 @@ deploy_to_test:
     - rm -rf ~/.kube
   only:
     - staging
+
+deploy_to_prod:
+  stage: deploy
+  script:
+    - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x ./kubectl && mkdir -p ~/.kube && mv ./kubectl ~/.kube && export PATH=$PATH:$HOME/.kube
+    - cp $MACBRO_KUBECONFIG ~/.kube/config
+    - source .build_info
+    - kubectl apply -f .kube/prod/
+    - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $DEPLOYMENT=$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_IID
+    - rm -rf ~/.kube
+  only:
+    - master
