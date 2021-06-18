@@ -11,7 +11,7 @@
           :placeholder="$t('search') + '...'"
           :value="getSearchQuery"
           v-model="params.search"
-          v-debounce="debouncedSearch"
+          @keyup.enter="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch" />
         </a-input>
@@ -242,7 +242,8 @@ export default {
     handleCloseModal () {
       this.selectedProduct = null
     },
-    debouncedSearch () {
+    debouncedSearch (value) {
+      this.params.search = value.target.value
       this.params.page = { current: 1, pageSize: 10, total: null }
       this.$router.push({
         name: this.$route.name,

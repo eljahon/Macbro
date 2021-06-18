@@ -195,9 +195,9 @@
             {{ $t('delete') }} {{ relatedProductsRow.length }}
           </a-button>
           <a-modal
-            width="80%"
+            width="70%"
+            wrapClassName
             v-model="modalVisible"
-            :title="$t('add')"
             centered
             @ok="handleAddRelatedProducts"
             @cancel="() => (modalVisible = false)"
@@ -205,12 +205,20 @@
             <!--  -->
             <!--  -->
             <!--  -->
+            <div slot="title" style="width: 100%;">
+              <a-row>
+                <a-col span="12">
+                  <span>{{$t('add')}}</span></a-col>
+                <a-col :span="10">
+                  <a-input @keyup.enter="searchProd" :placeholder="$t('search')" />
+                </a-col>
+              </a-row>
+
+            </div>
             <a-row>
-              <a-col :span="8"></a-col>
-              <a-col :span="8"></a-col>
-              <a-col :span="8">
-                <a-input v-debounce="searchProd" :placeholder="$t('search')" />
-              </a-col>
+<!--              <a-col :span="8"></a-col>-->
+<!--              <a-col :span="8"></a-col>-->
+
             </a-row>
             <a-table
               @change="handleTableChange"
@@ -220,6 +228,7 @@
               :data-source="productsData"
               :pagination="getPagination"
               :loading="loadTable"
+              size="middle"
             />
           <!--  -->
           <!--  -->
@@ -931,11 +940,21 @@ export default {
       // console.log(this.product.related_products)
     },
     searchProd (val) {
+      console.log('search = > ', val.target.value)
+      console.log('this.productsPagination', this.productsPagination)
       this.loadTable = true
-      this.setSearchQuery(val)
+      this.setSearchQuery(val.target.value)
+      const params = {
+        page: {
+          pageSiz: 10,
+          limit: 1,
+          totle: null
+        },
+        search: val.target.value
+      }
       this.getProducts({
-        page: this.productsPagination,
-        search: val
+        page: params.page,
+        search: params.search
       }).then(res => {
         this.loadTable = false
       })
@@ -1165,7 +1184,7 @@ export default {
     },
     handleTableChange (pagination) {
       //  console.log('pagination', pagination)
-       this.getProducts({ page: pagination, search: true })
+       this.getProducts({ page: pagination })
         .then((res) => console.log(res))
         .catch(err => this.$message.error(err))
     },

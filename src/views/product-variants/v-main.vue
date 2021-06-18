@@ -17,7 +17,7 @@
           Показать цены:
         </span>
         <a-switch
-          v-model="productVariant.showPrice"
+          v-model="productVariant.show_price"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
           test-attr="show-price-product-vars"
@@ -386,6 +386,19 @@
                     {{ option.name }}
                   </a-checkbox>
                 </a-checkbox-group>
+                <a-popconfirm
+                  placement="topRight"
+                  slot="extra"
+                  :title="$t('deleteMsg')"
+                  @confirm="debouncedRequestdelete($event, property.type, property.id)"
+                  :okText="$t('yes')"
+                  :cancelText="$t('no')"
+                >
+                  <a-button type="danger" style="margin-top: 20px" html-type="submit">
+                    <a-icon :type="loading ? 'loading': 'delete'"></a-icon>
+                    {{ $t('delete') }}
+                  </a-button>
+                </a-popconfirm>
               </div>
               <div v-if="property.type === 'radio'">
                 <label class="propertyLabel">{{ property.name }}</label>
@@ -518,7 +531,7 @@ export default {
       productVariant: {
         name: '',
         active: true,
-        showPrice: true,
+        show_price: true,
         brand_id: '',
         category_id: null,
         order: 0,
@@ -720,6 +733,29 @@ export default {
         delete node.children
       }
     },
+    debouncedRequestdelete (event, array, value) {
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      request({
+        url: `/product-variant/${this.productVariantId}/update-property`,
+        method: 'put',
+        data: {
+          property_id: value,
+          value: []
+        },
+        headers: headers
+      })
+        .then(res => {
+          this.$router.push({ name: 'ProductVariantsList' })
+          console.log('res', res)
+        })
+
+        .catch(err => console.error(err))
+        .finally(() => (this.loading = false))
+      // this.handleProperty(event, array, value)
+      // console.log('value====>>', array, value)
+    },
     onScrollBottom (event) {
       var target = event.target
       if (!this.productVariantListLoading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
@@ -909,7 +945,7 @@ export default {
         this.price.price = productVariant.price.price || 0
         this.price.old_price = productVariant.price.old_price || 0
         this.productVariant.active = productVariant.active
-        this.productVariant.showPrice = productVariant.show_price
+        this.productVariant.show_price = productVariant.show_price
         this.productVariant.additional_categories = productVariant.additional_categories ? productVariant.additional_categories.map(ac => ac.id) : []
         this.productVariant.bar_code = productVariant.bar_code
         this.productVariant.state = productVariant.state
