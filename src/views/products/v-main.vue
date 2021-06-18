@@ -123,7 +123,7 @@
                   <a-icon v-if="loading" :type="loading ? 'loading' : 'plus'" class="iconloading" />
                   <img style="width: 400px;height: auto;margin: auto" v-if="imageUrl" :src="imageUrl" alt="avatar" />
                   <div v-else>
-<!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
+                    <!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
                     <div class="ant-upload-text">
                       {{ $t('uploadCategoryImage') }}
                     </div>
@@ -195,9 +195,9 @@
             {{ $t('delete') }} {{ relatedProductsRow.length }}
           </a-button>
           <a-modal
-            width="80%"
+            width="70%"
+            wrapClassName
             v-model="modalVisible"
-            :title="$t('add')"
             centered
             @ok="handleAddRelatedProducts"
             @cancel="() => (modalVisible = false)"
@@ -205,12 +205,20 @@
             <!--  -->
             <!--  -->
             <!--  -->
+            <div slot="title" style="width: 100%;">
+              <a-row>
+                <a-col span="12">
+                  <span>{{$t('add')}}</span></a-col>
+                <a-col :span="10">
+                  <a-input @keyup.enter="searchProd" :placeholder="$t('search')" />
+                </a-col>
+              </a-row>
+
+            </div>
             <a-row>
-              <a-col :span="8"></a-col>
-              <a-col :span="8"></a-col>
-              <a-col :span="8">
-                <a-input v-debounce="searchProd" :placeholder="$t('search')" />
-              </a-col>
+<!--              <a-col :span="8"></a-col>-->
+<!--              <a-col :span="8"></a-col>-->
+
             </a-row>
             <a-table
               @change="handleTableChange"
@@ -220,6 +228,7 @@
               :data-source="productsData"
               :pagination="getPagination"
               :loading="loadTable"
+              size="middle"
             />
           <!--  -->
           <!--  -->
@@ -323,6 +332,20 @@
                     {{ option.name }}
                   </a-checkbox>
                 </a-checkbox-group>
+                <a-popconfirm
+                  placement="topRight"
+                  slot="extra"
+                  :title="$t('deleteMsg')"
+                  @click.native.stop=""
+                  @confirm="debouncedRequestdelete([], property.id)"
+                  :okText="$t('yes')"
+                  :cancelText="$t('no')"
+                >
+                <a-button type="danger" style="margin-top: 20px" html-type="submit">
+                  <a-icon :type="loadings ? 'loading': 'delete'"></a-icon>
+                  {{ $t('delete') }}
+                </a-button>
+                </a-popconfirm>
               </div>
               <div v-if="property.type === 'radio'">
                 <div class="propertyLabel">{{ property.name }}</div>
@@ -464,6 +487,7 @@
         </a-tab-pane> -->
       </a-tabs>
     </a-form-model>
+    <loadingPraduct ref="loading"/>
   </div>
 </template>
 
@@ -475,6 +499,7 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
+import loadingPraduct from '@/views/products/loadingPraduct/loadingPraduct'
 // import { ISO_8601 } from 'moment'
 function getCategoriesTree (categories) {
   if (categories) {
@@ -512,7 +537,8 @@ function getBase64Gallery (file) {
 export default {
   components: {
     'tinymce': tinymce,
-    Treeselect
+    Treeselect,
+    loadingPraduct
   },
   watch: {
     'product.category_id': function (val) {
@@ -533,6 +559,7 @@ export default {
     return {
       attributeLoading: false,
       minImgloading: false,
+      loadings: false,
       variantParams: {
         limit: 10,
         page: 1,
@@ -913,11 +940,21 @@ export default {
       // console.log(this.product.related_products)
     },
     searchProd (val) {
+      console.log('search = > ', val.target.value)
+      console.log('this.productsPagination', this.productsPagination)
       this.loadTable = true
-      this.setSearchQuery(val)
+      this.setSearchQuery(val.target.value)
+      const params = {
+        page: {
+          pageSiz: 10,
+          limit: 1,
+          totle: null
+        },
+        search: val.target.value
+      }
       this.getProducts({
-        page: this.productsPagination,
-        search: val
+        page: params.page,
+        search: params.search
       }).then(res => {
         this.loadTable = false
       })
@@ -1147,9 +1184,13 @@ export default {
     },
     handleTableChange (pagination) {
       //  console.log('pagination', pagination)
-       this.getProducts({ page: pagination, search: true })
-        .then((res) => console.log(res))
-        .catch(err => this.$message.error(err))
+      this.loadTable = true
+       this.getProducts({ page: pagination })
+         .then((res) => console.log(res))
+         .catch(err => this.$message.error(err))
+         .finally(() => {
+        this.loadTable = false
+                 })
     },
     // reviews
     handleReviewTableChange (pagination) {
@@ -1418,6 +1459,33 @@ export default {
     activeTabHandler (_activeTabKey) {
       this.activeTabKey = _activeTabKey
     },
+    debouncedRequestdelete (value, id) {
+      this.$store.dispatch('setButton', true)
+      this.loading = true
+      this.loadings = true
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      request({
+        url: `/product/${this.productId}/update-property`,
+        method: 'put',
+        data: {
+          property_id: id,
+          value
+        },
+        headers: headers
+      })
+        .then(res => {
+          this.getProductData()
+          console.log('res', res)
+        })
+        .catch(err => console.error(err))
+        .finally(() => {
+          this.loading = false
+          this.loadings = false
+          this.$store.dispatch('setButton', false)
+        })
+    },
     // product attributes
     debouncedRequest (value, id) {
       this.loading = true
@@ -1429,7 +1497,7 @@ export default {
               url: `/product/${this.productId}/update-property`,
               method: 'put',
               data: {
-                property_id: id,
+                property_id: id === '' ? '' : id,
                 value
               },
               headers: headers

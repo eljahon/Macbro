@@ -12,7 +12,7 @@
           :placeholder="$t('search') + '...'"
           :value="getSearchQuery"
           v-decorator="['search', { initialValue: getSearchQuery }]"
-          v-debounce="debouncedSearch"
+          @keyup.enter="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />
         </a-input>
@@ -230,8 +230,9 @@ export default {
     handleCloseModal () {
       this.selectedProductVariant = null
     },
-    debouncedSearch (searchQuery) {
-      this.setSearchQueryProductVar(searchQuery)
+    debouncedSearch (value) {
+     const search = value.target.value
+      this.setSearchQueryProductVar(search)
       this.loading = true
       this.getProductVariants()
         .then((res) => console.log(res))

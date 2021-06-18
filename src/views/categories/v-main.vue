@@ -75,9 +75,10 @@
                   :before-upload="beforeUpload"
                   test-attr="image-category"
                 >
+                  <a-icon :type="loading ? 'loading' : ''" class=" iconLoading " style="color: #00A0E9"/>
                   <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-width: 100%" />
                   <div v-else>
-                    <a-icon :type="loading ? 'loading' : 'plus'" />
+                    <!--                    <a-icon :type="loading ? 'loading' : 'plus'" />-->
                     <div class="ant-upload-text">
                       {{ $t('uploadCategoryImage') }}
                     </div>
@@ -319,6 +320,7 @@ export default {
     },
     uploadImage (e) {
       this.loading = true
+      this.$store.dispatch('setButton', this.loading)
       console.log(e)
       var data = new FormData()
       data.append('file', e.file)
@@ -329,7 +331,10 @@ export default {
       }).then(response => {
         getBase64(e.file, imageUrl => {
           this.imageUrl = imageUrl
-          this.loading = false
+          setTimeout(() => {
+            this.loading = false
+            this.$store.dispatch('setButton', this.loading)
+          }, 3000)
         })
         this.category.image = response.filename
         console.log('response', response)
@@ -433,4 +438,14 @@ export default {
 </script>
 
 <style>
+.avatar-uploader {
+  position: relative;
+  cursor: pointer;
+}
+.iconLoading{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+}
 </style>
