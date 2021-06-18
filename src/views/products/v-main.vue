@@ -1184,9 +1184,13 @@ export default {
     },
     handleTableChange (pagination) {
       //  console.log('pagination', pagination)
+      this.loadTable = true
        this.getProducts({ page: pagination })
-        .then((res) => console.log(res))
-        .catch(err => this.$message.error(err))
+         .then((res) => console.log(res))
+         .catch(err => this.$message.error(err))
+         .finally(() => {
+        this.loadTable = false
+                 })
     },
     // reviews
     handleReviewTableChange (pagination) {
