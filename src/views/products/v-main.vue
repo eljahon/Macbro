@@ -1174,7 +1174,7 @@ export default {
       .finally(() => (this.loadTable = false))
     },
     onSelectedChange (selectedRowKeys, value) {
-      // value.map(e => this.productsData.includes(e) ? this.product.related_products.push(e) : value)
+      value.map(e => this.productsData.includes(e) ? this.product.related_products.push(e) : value)
       console.log(value)
       console.log('selectedRowKeys changed: ', selectedRowKeys)
 
@@ -1189,9 +1189,9 @@ export default {
     },
     handleAddRelatedProducts () {
       console.log('productsData', this.productsData)
-      this.product.related_products = this.productsData.filter(product => {
-        return this.selectedRowKeys.includes(product.id)
-      })
+      // this.product.related_products = this.productsData.filter(product => {
+      //   return this.selectedRowKeys.includes(product.id)
+      // })
       console.log('this.product.related_products', this.product.related_products)
       this.modalVisible = false
     },
