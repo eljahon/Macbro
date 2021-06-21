@@ -200,15 +200,13 @@
             v-model="modalVisible"
             centered
             @ok="handleAddRelatedProducts"
+            @change="handleAddRelatedProducts"
             @cancel="() => (modalVisible = false)"
           >
-            <!--  -->
-            <!--  -->
-            <!--  -->
             <div slot="title" style="width: 100%;">
               <a-row>
                 <a-col span="12">
-                  <span>{{$t('add')}}</span></a-col>
+                  <span>{{ $t('add') }}</span></a-col>
                 <a-col :span="10">
                   <a-input @keyup.enter="searchProd" :placeholder="$t('search')" />
                 </a-col>
@@ -216,23 +214,20 @@
 
             </div>
             <a-row>
-<!--              <a-col :span="8"></a-col>-->
-<!--              <a-col :span="8"></a-col>-->
-
             </a-row>
             <a-table
               @change="handleTableChange"
               :rowKey="record => record.id"
-              :row-selection="rowSelection"
+              :rowSelection="{
+                selectedRowKeys: selectedRowKeys,
+                onChange: onSelectedChange,
+              }"
               :columns="columnsModal"
               :data-source="productsData"
               :pagination="getPagination"
               :loading="loadTable"
               size="middle"
             />
-          <!--  -->
-          <!--  -->
-          <!--  -->
           </a-modal>
           <a-table
             :rowKey="record => record.id"
@@ -242,9 +237,6 @@
           >
             <template slot="action" slot-scope="text, item">
               <delete-btn @confirm="removeProd(item)"/>
-              <!-- <a-tooltip><template slot="title">{{ $t('delete') }}</template>
-                <a-button type="danger" @click="removeProd(item)" icon="delete"></a-button>
-              </a-tooltip> -->
             </template>
           </a-table>
         </a-tab-pane>
@@ -267,20 +259,6 @@
                 </a-form-model-item>
               </a-col>
             </a-form-model>
-            <!-- <a-col :md="24" :lg="12" style="padding: 0 15px">
-              <a-form-model-item ref="unired_price" :label="$t('unired_price')" prop="unired_price">
-                <a-input
-                  v-model="unired.price"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :md="24" :lg="12" style="padding: 0 15px">
-              <a-form-model-item ref="unired_old_price" :label="$t('unired_old_price')" prop="unired_old_price">
-                <a-input
-                  v-model="unired.old_price"
-                />
-              </a-form-model-item>
-            </a-col> -->
           </a-row>
         </a-tab-pane>
         <a-tab-pane v-if="priceUpdatable" key="6" :tab="$t('attributes')" style="position: relative">
@@ -341,10 +319,10 @@
                   :okText="$t('yes')"
                   :cancelText="$t('no')"
                 >
-                <a-button type="danger" style="margin-top: 20px" html-type="submit">
-                  <a-icon :type="loadings ? 'loading': 'delete'"></a-icon>
-                  {{ $t('delete') }}
-                </a-button>
+                  <a-button type="danger" style="margin-top: 20px" html-type="submit">
+                    <a-icon :type="loadings ? 'loading': 'delete'"></a-icon>
+                    {{ $t('delete') }}
+                  </a-button>
                 </a-popconfirm>
               </div>
               <div v-if="property.type === 'radio'">
@@ -436,55 +414,6 @@
             </a-button>
           </div>
         </a-tab-pane>
-        <!-- <a-tab-pane key="8" v-if="productSlug" :tab="$t('reviews')">
-          <a-modal
-            v-if="selectedReview"
-            v-model="reviewsModalStatus"
-            :title="$t('review_edit')"
-            @ok="handleReviewEdit"
-            @cancel="closeReviewsModal"
-          >
-            <a-row>
-              <p>{{ this.selectedReview.customer_name }}</p>
-              <a-switch
-                style="margin: 0 0 15px"
-                v-model="selectedReview.active"
-                :checked-children="$t('active')"
-                :un-checked-children="$t('inactive')"
-              />
-              <a-col :span="24">
-                <label style="margin-bottom: 5px" for="reviewEdit">{{ $t('comment') }}</label>
-                <a-textarea
-                  id="reviewEdit"
-                  v-model="selectedReview.comment"
-                  :auto-size="{ minRows: 2, maxRows: 6 }"
-                />
-              </a-col>
-            </a-row>
-          </a-modal>
-          <a-table
-            @change="handleReviewTableChange"
-            :rowKey="review => review.id"
-            :row-selection="rowSelection"
-            :columns="reviewColumns"
-            :data-source="reviewsData"
-            :pagination="getReviewsPagination"
-            :loading="loadTable"
-          >
-            <template slot="status" slot-scope="review">
-              <a-tag v-if="review.active" color="#108ee9">
-                {{ $t('active') }}
-              </a-tag>
-              <a-tag v-else color="#f50">
-                {{ $t('inactive') }}
-              </a-tag>
-            </template>
-            <template slot="action" slot-scope="review">
-              <edit-btn @click="openReviewsModal(review)"/>
-              <delete-btn @confirm="removeReview(review.id)"/>
-            </template>
-          </a-table>
-        </a-tab-pane> -->
       </a-tabs>
     </a-form-model>
     <loadingPraduct ref="loading"/>
@@ -500,6 +429,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
 import loadingPraduct from '@/views/products/loadingPraduct/loadingPraduct'
+// import { notification } from 'ant-design-vue'
 // import { ISO_8601 } from 'moment'
 function getCategoriesTree (categories) {
   if (categories) {
@@ -626,6 +556,7 @@ export default {
       allProductProperties: null,
       productProperties: [],
       productDefaultProperties: null,
+      selectIdRow: [],
       // reviews
       reviewsModalStatus: false,
       selectedReview: null,
@@ -634,18 +565,9 @@ export default {
         category_id: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
         name: [ { required: true, message: this.$t('required'), trigger: 'change' } ],
         order: [ { required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' } ],
-        // external_id: [
-        //   { required: true, message: this.$t('required'), trigger: 'change' }
-        // ],
         desc: [{ required: true, message: this.$t('required'), trigger: 'blur' }],
         brand_id: [ { required: true, message: this.$t('required'), trigger: 'blur' } ]
-        // price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }],
-        // old_price: [{ required: true, message: this.$t('required') }, { validator: validateNumber, trigger: 'change' }]
-        // category_id: [
-        //   { required: true, message: this.$t('required'), trigger: 'blur' }
-        // ]
       },
-      // table
       selectedRowKeys: [],
       columns: [
         {
@@ -767,8 +689,8 @@ export default {
           // {
           //   key: 'all-data',
           //   text: 'Select All Data',
-          //   onSelect: () => {getProductAttributes
-          //     // this.selectedRowKeys = this.productsData
+          //   onSelect: () => {
+          //     this.selectedRowKeys = this.productsData
           //     console.log('onSelect')
           //   }
           // }
@@ -778,7 +700,7 @@ export default {
     },
     // table
     rowSelection () {
-      const { selectedRowKeys } = this
+      let { selectedRowKeys } = this
       return {
         selectedRowKeys,
         onChange: this.onSelectChange,
@@ -788,8 +710,8 @@ export default {
             key: 'all-data',
             text: 'Select All Data',
             onSelect: () => {
-              // this.selectedRowKeys = this.productsData
-              // console.log('onSelect')
+              selectedRowKeys = this.productsData
+              console.log('onSelect')
             }
           }
           // {
@@ -817,7 +739,7 @@ export default {
           //       }
           //       return false
           //     })
-          //     this.selectedRowKeys = newSelectedRowKeys
+          //
           //   }
           // }
         ],
@@ -931,7 +853,7 @@ export default {
       this.getProductVariants()
     },
     removeProd (item) {
-      // console.log(item)
+      this.selectedRowKeys.map(e => item.id === e ? this.selectedRowKeys.splice(e, 1) : this.selectedRowKeys)
       for (var i = 0; i < this.product.related_products.length; i++) {
         if (this.product.related_products[i] === item) {
           this.product.related_products.splice(i, 1)
@@ -970,8 +892,9 @@ export default {
         }
       }).then((response) => {
         const { product } = response
-        console.log('response', response)
+        console.log('response===>>>>>......', response)
         this.productId = product.id
+        this.selectIdRow = product.related_products
         this.product.name = product.name
         this.product.description = product.description
         this.product.preview_text = product.preview_text
@@ -1008,7 +931,9 @@ export default {
         this.product.meta.title = product.meta.title
         this.product.meta.description = product.meta.description
         this.product.meta.tags = product.meta.tags
+        // this.selectedRowKeys.push(product.related_products.map(e => e.id))
         this.product.related_products = product.related_products
+        console.log('salom men produckt=>>>', product.related_products)
         this.product.additional_categories = product.additional_categories ? product.additional_categories.map(ac => ac.id) : []
         this.product.gallery = product.gallery ? product.gallery.map((img, idx) => {
           const filename = img.split('/')[4]
@@ -1023,7 +948,6 @@ export default {
           uid: idx,
           url: img
         })) : []
-        // console.log('Properties', product.properties)
         this.productDefaultProperties = product.properties && product.properties.map(prop => {
           if (prop.property.type === 'checkbox') {
             // console.log('prop.value', prop.value.map(item => item.value))
@@ -1038,13 +962,11 @@ export default {
             }
           }
         })
-
         this.productDefaultProperties && this.productDefaultProperties.forEach(item => {
           this.checkedAttList.push({
             values: item.value,
             id: item.property.id,
             properties: item.property && item.property.options.filter(option => {
-              // console.log('Options', (option.value in item.value), option.value)
               if (item.value.includes(option.value)) {
                 return option
               }
@@ -1251,8 +1173,14 @@ export default {
       })
       .finally(() => (this.loadTable = false))
     },
-    onSelectChange (selectedRowKeys) {
-      // console.log('selectedRowKeys changed: ', selectedRowKeys)
+    onSelectedChange (selectedRowKeys, value) {
+      // value.map(e => this.productsData.includes(e) ? this.product.related_products.push(e) : value)
+      console.log(value)
+      console.log('selectedRowKeys changed: ', selectedRowKeys)
+
+      selectedRowKeys.map(e => this.selectedRowKeys.includes(e) ? undefined : this.selectedRowKeys.push(e))
+      console.log('selectedRowKeys===>>>', this.selectedRowKeys)
+
       this.selectedRowKeys = selectedRowKeys
     },
     onRelatedProductsSelectChange (selectedRelatedProducts) {
@@ -1260,11 +1188,11 @@ export default {
       // console.log(this.relatedProductsRow)
     },
     handleAddRelatedProducts () {
-      // console.log('productsData', this.productsData)
+      console.log('productsData', this.productsData)
       this.product.related_products = this.productsData.filter(product => {
         return this.selectedRowKeys.includes(product.id)
       })
-      // console.log('this.product.related_products', this.product.related_products)
+      console.log('this.product.related_products', this.product.related_products)
       this.modalVisible = false
     },
     getRelatedProductIds (relatedProducts) {
@@ -1303,7 +1231,7 @@ export default {
                 ...this.product,
                 additional_categories: this.convertArrayToString(this.product.additional_categories),
                 gallery: this.product.gallery.map(item => item.filename).join(','),
-                related_products: this.getRelatedProductIds(this.product.related_products),
+                related_products: this.selectedRowKeys.join(','),
                 lang: this.lang || 'ru',
                 variants: variants
               },
@@ -1458,6 +1386,12 @@ export default {
     },
     activeTabHandler (_activeTabKey) {
       this.activeTabKey = _activeTabKey
+      console.log(_activeTabKey)
+      if (_activeTabKey === '4') {
+        for (let i = 0; i < this.selectIdRow.length; i++) {
+          this.selectedRowKeys.push(this.selectIdRow[i].id)
+        }
+      }
     },
     debouncedRequestdelete (value, id) {
       this.$store.dispatch('setButton', true)

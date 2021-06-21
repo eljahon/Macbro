@@ -115,7 +115,8 @@
           </a-row>
         </a-form-model></a-tab-pane>
       <a-tab-pane key="2" :tab="$t('staff')">
-        <div style=""><a-button icon="plus" type="primary" @click="openModal">{{ $t('add') }}</a-button></div>
+        <div style="">
+          <a-button icon="plus" type="primary" @click="openModal">{{ $t('add') }}</a-button></div>
         <a-table
           style="margin-top: 30px"
           :columns="column"
@@ -191,8 +192,7 @@ export default {
     return {
       selectedRowKeys: [],
       // selectedRows: console.log(this.staffSelectsAdd),
-      rowSelection: {
-      },
+      rowSelection: {},
       form: {
         id: this.$route.params.id,
         staff: []
@@ -293,10 +293,10 @@ export default {
   mounted () {
     this.selectedRowKeys = this.branchesIdList
     this.getUsers(this.corporateParams)
-    this.getSelectBranchAll(this.$route.params.id)
-    .then(res => {
-      this.selectedRowKeys = res.staff
-    })
+    // this.getSelectBranchAll(this.$route.params.id)
+    // .then(res => {
+    //   this.selectedRowKeys = res.staff
+    // })
     this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
     .then(res => {
       this.selectedRowKeys = res.staff
