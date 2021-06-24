@@ -91,6 +91,7 @@
                 <tinymce v-model="category.description" test-attr="description-category"></tinymce>
               </a-form-model-item>
             </a-col>
+
             <a-col :span="24" style="padding: 30px 0px 15px 15px;">
               <a-form-model-item ref="seo_description" :label="$t('seo_description')" prop="seo_description">
                 <tinymce v-model="category.seo_description" test-attr="seo_description-category"></tinymce>
