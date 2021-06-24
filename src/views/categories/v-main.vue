@@ -91,6 +91,11 @@
                 <tinymce v-model="category.description" test-attr="description-category"></tinymce>
               </a-form-model-item>
             </a-col>
+            <a-col :span="24" style="padding: 30px 0px 15px 15px;">
+              <a-form-model-item ref="seo_description" :label="$t('seo_description')" prop="seo_description">
+                <tinymce v-model="category.seo_description" test-attr="seo_description-category"></tinymce>
+              </a-form-model-item>
+            </a-col>
           </a-tab-pane>
           <a-tab-pane key="2" tab="SEO">
             <a-row>
@@ -239,6 +244,7 @@ export default {
           title: ''
         },
         description: '',
+        seo_description: '',
         image: '',
         active: true,
         product_property_groups: ''
@@ -305,6 +311,7 @@ export default {
         this.category.active = response.category.active
         this.category.name = response.category.name
         this.category.description = response.category.description
+        this.category.seo_description = response.category.seo_description
         this.category.order = response.category.order
         this.category.parent_id = response.category.parent.id || null
         this.category.image = response.category.image.split('/')[4]
