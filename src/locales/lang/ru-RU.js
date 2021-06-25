@@ -70,6 +70,7 @@ const locale = {
   old_price: 'Старая цена',
   selectPark: 'Выберите парковке',
   description: 'Описание',
+  seo_description: 'SEO описание',
   characteristics: 'Характеристики',
   confirm: 'Подтвердить',
   confirmPassword: 'Подтвердить пароль',

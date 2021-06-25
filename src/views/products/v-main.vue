@@ -569,6 +569,7 @@ export default {
         brand_id: [ { required: true, message: this.$t('required'), trigger: 'blur' } ]
       },
       selectedRowKeys: [],
+      newarray: [],
       columns: [
         {
           title: this.$t('product_name'),
@@ -1131,6 +1132,9 @@ export default {
     },
     closeReviewsModal () {
       this.reviewsModalStatus = false
+    },
+    getSelects (value) {
+        value.map(e => this.productsData.includes(e) ? this.product.related_products.push(e) : value)
     },
     handleReviewEdit () {
       const { id, active, comment, customer_id: customerId, customer_name: customerName, rate } = this.selectedReview
