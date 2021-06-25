@@ -74,12 +74,6 @@ export default {
       langs: ['ru', 'uz', 'en']
     }
   },
-  // mounted() {
-  //   console.log('$refs', this.$refs)
-  // },
-  // updated() {
-  //   console.warn('$refs', this.$refs)
-  // },
   methods: {
     langMapper,
     flagMapper,
