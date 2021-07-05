@@ -19,28 +19,9 @@
     </breadcrumb-row>
 
     <a-card :title="$t('customers')" class="breadcrumb-row" :bordered="false">
-      <!-- <div slot="extra">
-        <a-form layout="horizontal" :form="form" @submit="search">
-          <a-row type="flex">
-            <a-col span="auto">
-              <a-form-item style="margin: 0">
-                <a-input
-                  test-attr="search-customer"
-                  id="inputSearch"
-                  :placeholder="`${$t('phone')}...`"
-                  v-decorator="['search', { initialValue: this.getSearchQuery }]"
-                  v-debounce="debouncedSearch"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col span="auto">
-              <a-form-item style="margin: 0">
-                <a-button id="buttonSearch" type="default" html-type="submit" icon="search" test-attr="search-btn-customer">{{ $t('search') }}</a-button>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div> -->
+      <div slot="extra" v-if="this.tabId === '1'"> <a-button @click="UserCreate" type="primary">
+        <a-icon type="plus"></a-icon>
+        {{ $t('add') }}</a-button></div>
     </a-card>
 
     <a-card :bordered="false" style="flex: 1">
@@ -96,35 +77,12 @@
               :style="{ color: filtered ? '#108ee9' : undefined }"
             />
             <template slot="action" slot-scope="text, row, index">
-              <!-- <preview-btn @click="showPreviewModal(row.id)" test-attr="preview-customer"/> -->
-              <!-- <a-tooltip>
-                <template slot="title">{{ $t('read') }}</template>
-                <a-button
-                  id="buttonPreview"
-                  type="default"
-                  @click="showPreviewModal(row.id)"
-                  icon="eye"
-                ></a-button>
-              </a-tooltip> -->
               <div style="display: flex; justify-content: space-around;">
                 <router-link :to="`./update/${row.id}`" style="margin-right: 10px">
                   <edit-btn :test-attr="`edit-customer${index}`"/>
                 </router-link>
                 <delete-btn @confirm="deleteCustomer($event, row.id)" :test-attr="`delete-customer${index}`"/>
               </div>
-              <!-- <a-popconfirm
-                placement="topRight"
-                slot="extra"
-                :title="$t('deleteMsg')"
-                @confirm="deleteCustomer($event, row.id)"
-                :okText="$t('yes')"
-                :cancelText="$t('no')"
-              >
-                <a-tooltip>
-                  <template slot="title">{{ $t('delete') }}</template>
-                  <a-button id="buttonDelete" type="danger" icon="delete"></a-button>
-                </a-tooltip>
-              </a-popconfirm> -->
             </template>
           </a-table>
         </a-tab-pane>
@@ -187,6 +145,7 @@ export default {
     return {
       value: '',
       data: [],
+      tabId: '1',
       params: {
         page: { current: 1, pageSize: 10, total: null },
         search: '',
@@ -235,7 +194,7 @@ export default {
     this.params.page = { ...this.userPagination }
     this.getUserListAll(this.params)
     .then(res => {
-      console.log(res)
+      // console.log(res)
     }).catch(error => {
       console.log(error)
     }).finally(() => {
@@ -244,6 +203,9 @@ export default {
   },
   methods: {
     ...mapActions(['getCustomers', 'setSearchQuery', 'getUserListAll']),
+    UserCreate () {
+      this.$router.push({ name: 'CustomerCreate' })
+    },
     customRowClick (record) {
       return {
         on: {
@@ -254,7 +216,8 @@ export default {
       }
     },
     callback (value) {
-      console.log(value)
+      this.tabId = value
+      // console.log(value)
     },
     handleTableChange (pagination) {
       console.log(pagination)

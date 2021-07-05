@@ -321,9 +321,11 @@ export default {
     this.params.page = { ...this.ordersPagination }
     this.setSearchQuery('')
     this.params.page = { ...this.ordersPagination }
-    console.log('this.ordersPagination', this.ordersPagination)
+    // console.log('this.ordersPagination', this.ordersPagination)
     this.getOrders(this.params)
-      .then((res) => console.log('res', res))
+      .then((res) => res
+        // console.log('res', res)
+      )
       .catch((err) => console.error(err))
       .finally(() => (this.loading = false))
   },

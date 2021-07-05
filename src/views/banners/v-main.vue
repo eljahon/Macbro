@@ -267,11 +267,12 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50% -50%);
+  transform: translate(-70% -70%);
 }
 .avatar-uploader {
   position: relative;
   cursor: pointer;
+  width: 400px;
 }
   .ck-editor .ck-editor__main .ck-content {
     min-height: 300px;

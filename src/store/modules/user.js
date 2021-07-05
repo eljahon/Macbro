@@ -43,7 +43,7 @@ const user = {
         console.log(userInfo)
         const { username, password } = userInfo
         request({
-          baseURL: 'https://api.auth.macbro.uz/v1',
+          baseURL: 'https://test.api.auth.macbro.uz/v1',
           url: '/auth/standard/login',
           method: 'post',
           data: { username, password },

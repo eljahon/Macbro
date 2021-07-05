@@ -72,24 +72,6 @@
               />
             </a-form-model-item>
           </a-col>
-          <!-- address 1 -->
-          <!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-          <!--            <a-form-model-item ref="address" :label="$t('data_of_birth')" prop="date_of_birth">-->
-          <!--              <a-date-picker-->
-          <!--                style="width: 100%;"-->
-          <!--                size="large"-->
-          <!--                @openChange="handleOpenChange1"-->
-          <!--                v-model="form.date_of_birth"-->
-          <!--              />-->
-          <!--              &lt;!&ndash;              <a-input&ndash;&gt;-->
-          <!--              &lt;!&ndash;                size="large"&ndash;&gt;-->
-          <!--              &lt;!&ndash;                :disabled="requesting"&ndash;&gt;-->
-          <!--              &lt;!&ndash;                v-model="form.date_of_birth"&ndash;&gt;-->
-          <!--              &lt;!&ndash;                test-attr="address-company"&ndash;&gt;-->
-          <!--              &lt;!&ndash;              />&ndash;&gt;-->
-          <!--            </a-form-model-item>-->
-          <!--          </a-col>-->
-          <!-- address 2 -->
           <a-col :md="24" :lg="8" style="padding: 0 15px">
             <a-form-model-item ref="mfo" :label="$t('inn')" prop="inn">
               <a-input
@@ -106,11 +88,6 @@
               <a-input v-model="form.middle_name" size="large"></a-input>
             </a-form-model-item>
           </a-col>
-          <!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-          <!--            <a-form-model-item ref="description" :label="$t('description')" prop="description">-->
-          <!--              <a-input v-model="form.user_type" size="large"></a-input>-->
-          <!--            </a-form-model-item>-->
-          <!--          </a-col>-->
           <a-col :md="24" :lg="8" style="padding: 0 15px">
             <a-form-model-item ref="description" :label="$t('user_type')" prop="user_type">
               <a-select v-model="form.user_type">

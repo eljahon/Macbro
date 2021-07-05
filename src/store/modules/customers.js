@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+const baseUrl = `https://test.api.auth.macbro.uz/v1/auth/user/register`
 
 const headers = {
   'Content-Type': 'application/json'
@@ -58,44 +59,45 @@ const customers = {
       setSearchQuery ({ commit }, searchQuery) {
         commit('SET_SEARCH_QUERY', searchQuery)
       },
-    //   getCustomers ({ commit, state }, payload) {
-    //     let { page } = payload
-    //     const { searchquery } = state
-    //     if (!page) {
-    //       page = { current: 1, pageSize: 10, total: null }
-    //     }
-    //     page.showQuickJumper = true
-    //     return new Promise((resolve, reject) => {
-    //       console.log(page)
-    //     request({
-    //         url: `/user`,
-    //         headers: headers,
-    //         params: {
-    //           page: page.current,
-    //           limit: page.pageSize,
-    //           search: searchquery,
-    //           offset: 0,
-    //           user_type: 'client'
-    //         }
-    //     })
-    //       .then(result => {
-    //       const pagination = { ...page }
-    //       pagination.total = parseInt(result.count)
-    //       console.log(pagination)
-    //       console.log('pagination')
-    //       commit('GET_CUSTOMERS_PAGINATION', pagination)
-    //       commit('GET_CUSTOMERS', result.clients)
-    //         console.log('clients', result.clients)
-    //       resolve()
-    //     })
-    //     .catch(error => {
-    //       reject(error)
-    //     })
-    //   })
-    // },
+      getCustomers ({ commit, state }, payload) {
+        let { page } = payload
+        // const { searchquery } = state
+        if (!page) {
+          page = { current: 1, pageSize: 10, total: null }
+        }
+        return new Promise((resolve, reject) => {
+          console.log(page)
+        request({
+            url: `${baseUrl}`,
+          method: 'post',
+            headers: headers,
+            data: {
+              client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07',
+              email: '',
+              login: '',
+              password: '',
+              phone: payload.phone_number,
+              role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07'
+            }
+        })
+          .then(result => {
+          // const pagination = { ...page }
+          // pagination.total = parseInt(result.count)
+          // console.log(pagination)
+          // console.log('pagination')
+          // commit('GET_CUSTOMERS_PAGINATION', pagination)
+          // commit('GET_CUSTOMERS', result.clients)
+          //   console.log('clients', result.clients)
+          resolve(result)
+        })
+        .catch(error => {
+          reject(error)
+        })
+      })
+    },
       getUserListAll ({ commit }, payload) {
         const { page } = payload
-        console.log('page====>..', page)
+        // console.log('page====>..', page)
         // eslint-disable-next-line no-undef,no-unused-vars
         // const { searchquery } = state
         return new Promise((resolve, reject) => {
@@ -114,7 +116,7 @@ const customers = {
             // eslint-disable-next-line no-undef
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
-            console.log(result)
+            // console.log(result)
             commit('SET_USER_LIST', result.users)
             commit('GET_USERS_PAGINATON', pagination)
             // eslint-disable-next-line no-undef
@@ -130,7 +132,7 @@ const customers = {
             url: `/user/${id}`,
             method: 'get'
           }).then(result => {
-            console.log(result)
+            // console.log(result)
             resolve(result)
           }).catch(rej => {
             reject(rej)
@@ -143,7 +145,7 @@ const customers = {
             url: `/user/${id}`,
             method: 'delete'
           }).then(result => {
-            console.log(result)
+            // console.log(result)
             resolve(result)
           }).catch(rej => {
             reject(rej)
@@ -163,7 +165,7 @@ const customers = {
                      limit: page.pageSiz
               }
             }).then(result => {
-              console.log(result)
+              // console.log(result)
               resolve(result.users)
               const pagination = { ...page }
               pagination.total = parseInt(result.count)
@@ -203,7 +205,7 @@ const customers = {
                      limit: payolad.page.pageSiz
               }
             }).then(result => {
-              console.log(result)
+              // console.log(result)
               resolve(result.users)
               const pagination = payolad.page
               pagination.page.total = result.count
