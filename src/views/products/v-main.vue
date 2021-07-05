@@ -1192,11 +1192,17 @@ export default {
       // console.log(this.relatedProductsRow)
     },
     handleAddRelatedProducts () {
+      console.log('productsData', this.productsData)
+      // this.product.related_products = this.productsData.filter(product => {
+      //   return this.selectedRowKeys.includes(product.id)
+      // })
+      console.log('this.product.related_products', this.product.related_products)
       // console.log('productsData', this.productsData)
       // this.product.related_products = this.productsData.filter(product => {
       //   return this.selectedRowKeys.includes(product.id)
       // })
       // console.log('this.product.related_products', this.product.related_products)
+// 668cebaee5c263877431813faed98e20828f3c47
       this.modalVisible = false
     },
     getRelatedProductIds (relatedProducts) {

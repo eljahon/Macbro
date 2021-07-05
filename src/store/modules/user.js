@@ -4,6 +4,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN, USER_ROLE } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 import request from '@/utils/request'
 // import { asyncRouterMap } from '@/config/router.config'
+const baseUrl = process.env.VUE_APP_AUTH_URL
 
 const user = {
   state: {
@@ -43,7 +44,7 @@ const user = {
         console.log(userInfo)
         const { username, password } = userInfo
         request({
-          baseURL: 'https://test.api.auth.macbro.uz/v1',
+          baseURL: `${baseUrl}`,
           url: '/auth/standard/login',
           method: 'post',
           data: { username, password },
