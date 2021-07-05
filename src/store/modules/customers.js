@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-const baseUrl = `https://test.api.auth.macbro.uz/v1/auth/user/register`
+const baseUrl = process.env.VUE_APP_AUTH_URL
 
 const headers = {
   'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const customers = {
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
-            url: `${baseUrl}`,
+            url: `${baseUrl}/auth/user/register`,
           method: 'post',
             headers: headers,
             data: {

@@ -46,7 +46,7 @@ const categories = {
                 lang: payload.lang,
                 page: page.current,
                 limit: page.pageSize,
-                search: payload.search ? '' : ''
+                search: payload.search ? payload.search : ''
               }
         })
           .then(result => {
