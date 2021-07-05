@@ -102,7 +102,7 @@
                 :min="0"
                 :max="100000"
                 :placeholder="'$'+`${text.price}`"
-                v-model="updatePricesForm.item_new_prices[index].price"
+                v-model="updatePricesForm.item_new_prices[(getPagination.current * 10 - 10 + index) || index].price"
               />
             </span>
           </template>
@@ -249,7 +249,7 @@ export default {
           console.log('data', data)
       }).catch((err) => console.error(err))
       .finally(() => {
-        this.loading = false
+        // this.loading = false
       })
     },
     updateAllPrices () {
@@ -273,10 +273,13 @@ export default {
       })
         .then(() => {
           this.getProductWithVariants()
-          this.ArrangeItemsList()
+          // this.ArrangeItemsList()
         })
-        .catch(err => this.$message.error(err))
-        .finally(() => (this.loading = false))
+        .catch(err => {
+          this.loading = false
+          this.$message.error(err)
+        })
+        // .finally(() => (this.loading = false))
     },
     ArrangeItemsList () {
       if (this.productVariants) {
@@ -300,6 +303,7 @@ export default {
           'product_variant_id': item.slug
         }
       })
+      this.loading = false
     },
     handleChange (value, index, column) {
       // console.log('CHANGE', index, value)
