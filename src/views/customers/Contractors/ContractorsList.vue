@@ -129,7 +129,7 @@ export default {
     this.loading = true
     this.getContractorsAllList(this.params)
       .then(res => {
-        console.log(res)
+        // console.log(res)
       }).catch(error => {
       console.log(error)
     }).finally(() => {

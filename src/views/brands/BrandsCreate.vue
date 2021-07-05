@@ -220,6 +220,7 @@ export default {
         method: 'post',
         data: data
       }).then(response => {
+        console.log('res ==>>', response)
         getBase64(e.file, imageUrl => {
           this.imageUrl = imageUrl
           this.loading = false

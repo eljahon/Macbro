@@ -76,8 +76,8 @@ const orders = {
           .then(result => {
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
-          console.log(pagination)
-          console.log('pagination')
+          // console.log(pagination)
+          // console.log('pagination')
           commit('GET_ORDERS_PAGINATION', pagination)
           commit('GET_ORDERS', result.orders)
           resolve()
@@ -108,9 +108,9 @@ const orders = {
         .then(result => {
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
-          console.log(pagination)
-          console.log('Activities: ', result)
-          console.log('pagination')
+          // console.log(pagination)
+          // console.log('Activities: ', result)
+          // console.log('pagination')
           commit('GET_USER_ACTIVITIES_PAGINATION', pagination)
           commit('GET_USER_ACTIVITIES', result.user_activities)
           resolve()
@@ -127,16 +127,16 @@ const orders = {
           const page = { pase, limit, total }
           delete payload.total
         request({
-            url: `/user-activities`,
+            url: `/order`,
             headers: headers,
             params: payload
         })
         .then(result => {
-          console.log('result', result)
+          // console.log('result', result)
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
-          console.log(pagination)
-          console.log('pagination')
+          // console.log(pagination)
+          // console.log('pagination')
           commit('GET_CUSTOMER_ORDERS_PAGINATION', pagination)
           commit('GET_CUSTOMER_ORDERS', result.orders)
           resolve()
@@ -161,8 +161,8 @@ const orders = {
               console.log('result', result)
               const pagination = { ...page }
               pagination.total = parseInt(result.count)
-              console.log(pagination)
-              console.log('pagination')
+              // console.log(pagination)
+              // console.log('pagination')
               commit('GET_CUSTOMER_ORDERS_PAGINATION', pagination)
               commit('GET_CUSTOMER_ORDERS', result.orders)
               resolve()

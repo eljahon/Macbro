@@ -71,7 +71,7 @@ const permission = {
         } else {
           accessedRouters = mainRoutes
         }
-        console.log('MASHETTA', accessedRouters, mainRoutes)
+        // console.log('MASHETTA', accessedRouters, mainRoutes)
         if (accessedRouters.length && accessedRouters[0].children && accessedRouters[0].children.length) {
           accessedRouters[0].redirect = accessedRouters[0].children[0].path
         }
