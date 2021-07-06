@@ -42,6 +42,7 @@
           :rowKey="record => record.slug"
           :dataSource="items"
           :loading="loading"
+          :pagination="false"
           @change="handleTableChange"
           test-attr="list-product-vars"
           bordered
