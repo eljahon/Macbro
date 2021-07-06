@@ -10,7 +10,7 @@
           test-attr="search-order"
           id="inputSearch"
           :placeholder="$t('search') + '...'"
-         v-model="params.search"
+          v-model="params.search"
           v-debounce="debouncedSearch"
         >
           <a-icon slot="addonAfter" type="search" @click="debouncedSearch(getSearchQuery)" />

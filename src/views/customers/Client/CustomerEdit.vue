@@ -23,7 +23,6 @@
         </a-button>
       </a-popconfirm>
     </a-card>
-
     <a-card :bordered="false" style="flex: 1">
       <div slot="title"><span>Добавить в черный список</span>
         <a-switch
@@ -31,19 +30,20 @@
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
           default-checked/></div>
-      <a-form-model
-        @submit="onSubmit"
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-      >
-        <a-tabs type="card" v-model="activeTabKey" @change="callback">
-          <a-tab-pane key="1" :tab="$t('basicSettings')">
+
+      <a-tabs type="card" v-model="activeTabKey" @change="callback">
+        <a-tab-pane key="1" :tab="$t('basicSettings')">
+          <a-form-model
+            @submit="onSubmit"
+            ref="ruleForm"
+            :model="form"
+            :rules="rules"
+            :label-col="labelCol"
+            :wrapper-col="wrapperCol"
+          >
             <a-row>
               <a-row>
-                <a-col :span="12" style="padding: 0 15px">
+                <a-col :span="12" style="padding: 0 15px;">
                   <a-upload
                     class="posiation"
                     :custom-request="uploadImage"
@@ -59,33 +59,29 @@
                       </div>
                     </div>
                   </a-upload>
-                  <!--                              <img src="../../../assets/img.png" alt="" style="width: 170px">-->
-                  <!--                              <p style="margin-top: 15px; color: #00A0E9" >-->
-                  <!--                                <span>Загрузить изображение</span>-->
-                  <!--                              </p>-->
+<!--                  &lt;!&ndash;                              <img src="../../../assets/img.png" alt="" style="width: 170px">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                              <p style="margin-top: 15px; color: #00A0E9" >&ndash;&gt;-->
+<!--                  &lt;!&ndash;                                <span>Загрузить изображение</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                              </p>&ndash;&gt;-->
                 </a-col>
               </a-row>
 
               <a-col :md="24" :lg="8" style="padding: 0 15px">
-                <a-form-model-item ref="name" :label="$t('firstName')" prop="first_name">
+                <a-form-model-item ref="first_name" :label="$t('firstName')" prop="first_name">
                   <a-input
                     size="large"
-                    :disabled="requesting"
                     v-model="form.first_name"
                     :placeholder="$t('firstName')"
-                    test-attr="name-company"
-                  />
+                  > </a-input>
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="8" style="padding: 0 15px">
-                <a-form-model-item ref="account_number" :label="$t('lastName')" prop="last_name">
+                <a-form-model-item ref="last_name" :label="$t('lastName')" prop="last_name">
                   <a-input
                     size="large"
                     style="width: 100%"
-                    :disabled="requesting"
                     :placeholder="$t('lastName')"
                     v-model="form.last_name"
-                    test-attr="account_number-company"
                   />
                 </a-form-model-item>
               </a-col>
@@ -95,39 +91,27 @@
                     :placeholder="$t('phone_number')"
                     style="width: 100%"
                     size="large"
+                    :disabled="this.$route.params.id"
                     v-model="form.phone_number"
                   />
                 </a-form-model-item>
               </a-col>
               <a-col :md="24" :lg="8" style="padding: 0 15px">
-                <a-form-model-item ref="email" :label="$t('email')" prop="email">
+                <a-form-model-item :label="$t('email')">
                   <a-input
                     :placeholder="$t('email')"
-                    :autocomplete="false"
                     size="large"
-                    :disabled="requesting"
+                    :disabled="false"
                     v-model="form.email"
                   />
                 </a-form-model-item>
               </a-col>
-
-<!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--                <a-form-model-item ref="mfo" :label="$t('inn')" prop="inn">-->
-<!--                  <a-input-->
-<!--                    :placeholder="$t('inn')"-->
-<!--                    size="large"-->
-<!--                    style="width: 100%"-->
-<!--                    :disabled="requesting"-->
-<!--                    v-model="form.inn"-->
-<!--                    test-attr="mfo-company"-->
-<!--                  />-->
-<!--                </a-form-model-item>-->
-<!--              </a-col>-->
               <a-col :md="24" :lg="8" style="padding: 0 15px">
-                <a-form-model-item ref="description" :label="$t('middelname')" prop="middel_name">
+                <a-form-model-item ref="middel_name" :label="$t('middelname')" prop="middel_name">
                   <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>
                 </a-form-model-item>
               </a-col>
+            </a-row>
               <a-row v-if="$route.params.id">
                 <a-col :span="12" style="padding: 0 15px">
                   <a-form-model-item ref="phone" label="Рейтинг клиента">
@@ -144,71 +128,69 @@
               </a-row>
               <a-row v-if="$route.params.id">
                 <a-col :span="12" style="padding: 0 15px">
-                  <a-form-model-item ref="phone" :label="'Баланс'" prop="phone_number">
+                  <a-form-model-item ref="phone_number" :label="'Баланс'" prop="phone_number">
                     <a-input
                       size="large"
-                      disabled
-                      test-attr="balance-form"
                       v-model="form.balance"
+                      :disabled="this.$route.params.id"
                     />
                   </a-form-model-item>
                 </a-col>
               </a-row>
-            </a-row>
-          </a-tab-pane>
-          <a-tab-pane key="2" :tab="$t('orderHistory')">
-            <a-table
-              class="pointer"
-              :columns="columns"
-              :customRow="customRowClick"
-              :rowKey="record => record.id"
-              :dataSource="getAllCustomerOrders"
-              :pagination="getOrdersPagination"
-              :loading="loading"
-              @change="handleTableChange"
-              test-attr="history-list-customer"
-            >
-<!--              <template slot="action" slot-scope="text, row">-->
-<!--                <router-link :to="`/order/details/${row.number}`" >-->
-<!--                  <preview-btn test-attr="order-detail-customer"/>-->
-<!--                </router-link>-->
-<!--              </template>-->
-              <template slot="status" slot-scope="text, row">
-                <a-tag
-                  :color="statusColor[row.status]"
-                >
-                  {{ statusTranslator(row.status) }}
-                </a-tag>
-              </template>
-              <template slot="tag" slot-scope="tag">
-                <a-tag color="red">{{ tag }}</a-tag>
-              </template>
-              <template slot="total" slot-scope="text, row">
-                <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
-              </template>
-            </a-table>
-          </a-tab-pane>
-          <a-tab-pane key="3">
-            <div slot="tab">
-              <span>
-                {{ $t('customerstab4') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
-              </span>
-            </div>
-          </a-tab-pane>
+          </a-form-model>
+        </a-tab-pane>
+        <a-tab-pane key="2" :tab="$t('orderHistory')">
+          <a-table
+            class="pointer"
+            :columns="columns"
+            :customRow="customRowClick"
+            :rowKey="record => record.id"
+            :dataSource="getAllCustomerOrders"
+            :pagination="getOrdersPagination"
+            :loading="loading"
+            @change="handleTableChange"
+            test-attr="history-list-customer"
+          >
+            <!--              <template slot="action" slot-scope="text, row">-->
+            <!--                <router-link :to="`/order/details/${row.number}`" >-->
+            <!--                  <preview-btn test-attr="order-detail-customer"/>-->
+            <!--                </router-link>-->
+            <!--              </template>-->
+            <template slot="status" slot-scope="text, row">
+              <a-tag
+                :color="statusColor[row.status]"
+              >
+                {{ statusTranslator(row.status) }}
+              </a-tag>
+            </template>
+            <template slot="tag" slot-scope="tag">
+              <a-tag color="red">{{ tag }}</a-tag>
+            </template>
+            <template slot="total" slot-scope="text, row">
+              <div>{{ numberToPrice(calcTotalPrice(row.items)) }} </div>
+            </template>
+          </a-table>
+        </a-tab-pane>
+        <a-tab-pane key="3">
+          <div slot="tab">
+            <span>
+              {{ $t('customerstab4') }}<span class="custom-badge" style="margin-left: 10px;">1</span>
+            </span>
+          </div>
+        </a-tab-pane>
 
-        </a-tabs>
-      </a-form-model>
+      </a-tabs>
+
     </a-card>
     <a-row class="edit-btns" style="margin-top: 10px">
       <a-col :span="24">
-        <a-form-model-item>
-          <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-customer">
-            {{ $t('save') }}
-          </a-button>
-          <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-customer">
-            {{ $t('reset') }}
-          </a-button>
-        </a-form-model-item>
+
+        <a-button type="primary" html-type="submit" @click="onSubmit" test-attr="save-customer">
+          {{ $t('save') }}
+        </a-button>
+        <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-customer">
+          {{ $t('reset') }}
+        </a-button>
       </a-col>
     </a-row>
   </div>
@@ -241,7 +223,7 @@ export default {
     return {
       requesting: false,
       imageUrl: '',
-      page: { limit: 1, pageSize: 10, total: null },
+      page: { current: 1, limit: 10, total: null },
       customerId: this.$route.params.id,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
@@ -295,14 +277,9 @@ export default {
       rules: {
         first_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         last_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        // eslint-disable-next-line standard/object-curly-even-spacing
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
-        date_of_birth: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        // email: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        passport_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        middle_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        user_type: [{ required: true, message: this.$t('required'), trigger: 'change' }]
+        middle_name: [{ required: true, message: this.$t('required'), trigger: 'change' }]
 
       },
       orderStatus: {
@@ -321,7 +298,10 @@ export default {
   mounted () {
     if (this.$route.params.id) {
 this.getUserListItem(this.$route.params.id).then(res => {
-  this.form = { ...res }
+  console.log('==>>', res)
+  Object.keys(this.form).map(key => {
+    if (res[key]) this.form[key] = res[key]
+  })
   this.imageUrl = res.profile_image
   this.form.balance = res.balance ? res.balance : '0'
 }).catch(err => {
@@ -384,15 +364,10 @@ this.getUserListItem(this.$route.params.id).then(res => {
       return isJpgOrPng
     },
     callback (e) {
-      const paylod = {
-        customer_id: this.$route.params.id,
-        limit: 10,
-        page: 1,
-        total: null
-      }
+        this.page.customer_id = this.$route.params.id
       // console.log(e)
       if (e === '2') {
-        this.getCustomerOrders(paylod).then(res => {
+        this.getCustomerOrders(this.page).then(res => {
           console.log('order===========>', res)
         })
       }
@@ -446,8 +421,10 @@ this.getUserListItem(this.$route.params.id).then(res => {
       })
     },
     handleTableChange (pagination) {
+      console.log(pagination)
+      this.page = pagination
       this.loading = true
-      this.getCustomerOrders({ page: pagination, customerId: this.customerId })
+      this.getCustomerOrders(this.page)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -463,6 +440,8 @@ this.getUserListItem(this.$route.params.id).then(res => {
             const headers = {
               'Content-Type': 'application/json'
             }
+            delete this.form.id
+            this.profile_image = ''
             request({
               url,
               method,
@@ -526,6 +505,7 @@ this.getUserListItem(this.$route.params.id).then(res => {
 <style>
 .posiation  {
   position: relative;
+  width: 100px;
 }
 .iconloading  {
   color:#222222;

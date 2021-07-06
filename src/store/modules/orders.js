@@ -123,8 +123,8 @@ const orders = {
     getCustomerOrders ({ commit }, payload) {
         return new Promise((resolve, reject) => {
           // eslint-disable-next-line no-unused-vars
-         const { pase, limit, total } = payload
-          const page = { pase, limit, total }
+         const { total } = payload
+          // const page = { pase, limit, total }
           delete payload.total
         request({
             url: `/order`,
@@ -133,7 +133,7 @@ const orders = {
         })
         .then(result => {
           // console.log('result', result)
-          const pagination = { ...page }
+          const pagination = { ...payload }
           pagination.total = parseInt(result.count)
           // console.log(pagination)
           // console.log('pagination')
