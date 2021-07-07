@@ -74,7 +74,7 @@ const products = {
             console.log('pagination')
             commit('GET_PRODUCTS_PAGINATION', pagination)
             commit('GET_PRODUCTS', result.products)
-            resolve()
+            resolve(result)
           })
           .catch(error => {
             reject(error)
