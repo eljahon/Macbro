@@ -51,7 +51,7 @@
                     :show-upload-list="false"
                     :before-upload="beforeUpload"
                   >
-                    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                    <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 200px" />
                     <div v-else>
                       <a-icon :type="loading ? 'loading' : 'plus'" />
                       <div class="ant-upload-text">
@@ -59,10 +59,10 @@
                       </div>
                     </div>
                   </a-upload>
-<!--                  &lt;!&ndash;                              <img src="../../../assets/img.png" alt="" style="width: 170px">&ndash;&gt;-->
-<!--                  &lt;!&ndash;                              <p style="margin-top: 15px; color: #00A0E9" >&ndash;&gt;-->
-<!--                  &lt;!&ndash;                                <span>Загрузить изображение</span>&ndash;&gt;-->
-<!--                  &lt;!&ndash;                              </p>&ndash;&gt;-->
+                  <!--                  &lt;!&ndash;                              <img src="../../../assets/img.png" alt="" style="width: 170px">&ndash;&gt;-->
+                  <!--                  &lt;!&ndash;                              <p style="margin-top: 15px; color: #00A0E9" >&ndash;&gt;-->
+                  <!--                  &lt;!&ndash;                                <span>Загрузить изображение</span>&ndash;&gt;-->
+                  <!--                  &lt;!&ndash;                              </p>&ndash;&gt;-->
                 </a-col>
               </a-row>
 
@@ -91,7 +91,7 @@
                     :placeholder="$t('phone_number')"
                     style="width: 100%"
                     size="large"
-                    :disabled="this.$route.params.id"
+                    :disabled="disableds"
                     v-model="form.phone_number"
                   />
                 </a-form-model-item>
@@ -111,32 +111,47 @@
                   <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>
                 </a-form-model-item>
               </a-col>
+<!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+<!--                <a-form-model-item ref="middel_name" :label="$t('Выбор региона')" prop="middel_name">-->
+<!--                  <a-select v-model="form.adress" @change="SelectAdress" placeholder="Выбор региона">-->
+<!--                    <a-select-option v-for="item in adress" :key="item" :value="item">-->
+<!--                      {{ item }}-->
+<!--                    </a-select-option>-->
+<!--                  </a-select>-->
+<!--                  &lt;!&ndash;                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>&ndash;&gt;-->
+<!--                </a-form-model-item>-->
+<!--              </a-col>-->
+<!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+<!--                <a-form-model-item ref="middel_name" :label="$t('middelname')" prop="middel_name">-->
+<!--                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>-->
+<!--                </a-form-model-item>-->
+<!--              </a-col>-->
             </a-row>
-              <a-row v-if="$route.params.id">
-                <a-col :span="12" style="padding: 0 15px">
-                  <a-form-model-item ref="phone" label="Рейтинг клиента">
-                    <a-rate :value="5" >
-                      <a-icon
-                        slot="character"
-                        style="font-size: 30px"
-                        allowClear
-                        theme="filled"
-                        type="star"></a-icon>
-                    </a-rate>
-                  </a-form-model-item>
-                </a-col>
-              </a-row>
-              <a-row v-if="$route.params.id">
-                <a-col :span="12" style="padding: 0 15px">
-                  <a-form-model-item ref="phone_number" :label="'Баланс'" prop="phone_number">
-                    <a-input
-                      size="large"
-                      v-model="form.balance"
-                      :disabled="this.$route.params.id"
-                    />
-                  </a-form-model-item>
-                </a-col>
-              </a-row>
+            <a-row v-if="$route.params.id">
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="phone" label="Рейтинг клиента">
+                  <a-rate :value="5" >
+                    <a-icon
+                      slot="character"
+                      style="font-size: 30px"
+                      allowClear
+                      theme="filled"
+                      type="star"></a-icon>
+                  </a-rate>
+                </a-form-model-item>
+              </a-col>
+            </a-row>
+            <a-row v-if="$route.params.id">
+              <a-col :span="12" style="padding: 0 15px">
+                <a-form-model-item ref="phone_number" :label="'Баланс'" prop="phone_number">
+                  <a-input
+                    size="large"
+                    v-model="form.balance"
+                    :disabled="disableds"
+                  />
+                </a-form-model-item>
+              </a-col>
+            </a-row>
           </a-form-model>
         </a-tab-pane>
         <a-tab-pane key="2" :tab="$t('orderHistory')">
@@ -221,9 +236,11 @@ export default {
       }
     }
     return {
+      adress: ['Aндижон вилоят', 'Бухоро вилоят', 'Фарғона вилоят', 'Жиззах вилоят', 'Хоразм вилоят', 'Наманган вилоят', 'Навоий вилоят', 'Қашқадарё вилоят', 'Қорақалпоғистон Республикас', 'Самарқанд вилоят', 'Сирдарё вилоят', 'Сурхондарё вилоят', 'Тошкент'],
       requesting: false,
+      disableds: false,
       imageUrl: '',
-      page: { current: 1, limit: 10, total: null },
+      page: { current: 1, pageSize: 10, total: null },
       customerId: this.$route.params.id,
       labelCol: { span: 24 },
       wrapperCol: { span: 24 },
@@ -233,6 +250,7 @@ export default {
       form: {
         // company_id: localStorage.getItem('company_id'),
         // date_of_birth: '',
+        // adress: '',
         email: '',
         first_name: '',
         id: '',
@@ -303,6 +321,7 @@ this.getUserListItem(this.$route.params.id).then(res => {
     if (res[key]) this.form[key] = res[key]
   })
   this.imageUrl = res.profile_image
+  this.form.profile_image = res.profile_image.substring(29)
   this.form.balance = res.balance ? res.balance : '0'
 }).catch(err => {
   console.log(err)
@@ -319,6 +338,10 @@ this.getUserListItem(this.$route.params.id).then(res => {
     }
   },
   methods: {
+    SelectAdress (value) {
+      this.form.adress = value
+      console.log(value)
+    },
     ...mapActions(['getCustomerOrders', 'getUserListItem']),
     customRowClick (record) {
       return {
@@ -366,9 +389,12 @@ this.getUserListItem(this.$route.params.id).then(res => {
     callback (e) {
         this.page.customer_id = this.$route.params.id
       // console.log(e)
-      if (e === '2') {
+      if (e === '2' && this.$route.params.id) {
+        this.loading = true
         this.getCustomerOrders(this.page).then(res => {
           console.log('order===========>', res)
+        }).finally(() => {
+          this.loading = false
         })
       }
     },
@@ -422,7 +448,7 @@ this.getUserListItem(this.$route.params.id).then(res => {
     },
     handleTableChange (pagination) {
       console.log(pagination)
-      this.page = pagination
+      this.page = { ...pagination }
       this.loading = true
       this.getCustomerOrders(this.page)
         .then((res) => console.log(res))
@@ -458,7 +484,8 @@ this.getUserListItem(this.$route.params.id).then(res => {
                 this.$message.error(this.$t('error'))
               })
           } else {
-         this.$store.dispatch('getCustomers', this.form).then(res => {
+         this.$store.dispatch('getCustomers', this.form)
+           .then(res => {
            console.log('res==>>', res)
            this.form.id = res.data
            const headers = {
@@ -480,6 +507,10 @@ this.getUserListItem(this.$route.params.id).then(res => {
                this.$message.error(this.$t('error'))
              })
          })
+            .catch(error => {
+              console.log(error)
+              this.$message.error(this.$t('errorfullUpdate'))
+            })
           }
         } else {
           console.log('error submit, validation failed')
@@ -505,7 +536,6 @@ this.getUserListItem(this.$route.params.id).then(res => {
 <style>
 .posiation  {
   position: relative;
-  width: 100px;
 }
 .iconloading  {
   color:#222222;

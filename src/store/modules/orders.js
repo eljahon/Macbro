@@ -125,11 +125,16 @@ const orders = {
           // eslint-disable-next-line no-unused-vars
          const { total } = payload
           // const page = { pase, limit, total }
-          delete payload.total
+          // delete payload.total
         request({
             url: `/order`,
             headers: headers,
-            params: payload
+            params: {
+              customer_id: payload.customer_id,
+              limit: payload.pageSize,
+              page: payload.current
+
+            }
         })
         .then(result => {
           // console.log('result', result)
