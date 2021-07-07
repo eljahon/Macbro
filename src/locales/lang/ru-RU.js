@@ -250,6 +250,7 @@ const locale = {
   entry: 'Подъезд',
   domophoneNumber: 'Номер домофона',
   createClient: 'Добавить пользователя',
+  errorfullUpdate: 'Телефонный номер был зарегистрирован ранее',
   // news
   news_title: 'Название новости',
   uploadNewsPreviewImage: 'Загрузить preview (Это изображение будет отображаться в списке новостей)',
