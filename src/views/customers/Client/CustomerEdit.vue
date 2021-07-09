@@ -154,7 +154,7 @@
             </a-row>
           </a-form-model>
         </a-tab-pane>
-        <a-tab-pane key="2" :tab="$t('orderHistory')">
+        <a-tab-pane v-if="tabActive" key="2" :tab="$t('orderHistory')">
           <a-table
             class="pointer"
             :columns="columns"
@@ -240,6 +240,7 @@ export default {
       requesting: false,
       disableds: false,
       imageUrl: '',
+      tabActive: this.$route.params.id,
       page: { current: 1, pageSize: 10, total: null },
       customerId: this.$route.params.id,
       labelCol: { span: 24 },
@@ -315,6 +316,7 @@ export default {
   },
   mounted () {
     if (this.$route.params.id) {
+      this.disableds = true
 this.getUserListItem(this.$route.params.id).then(res => {
   console.log('==>>', res)
   Object.keys(this.form).map(key => {
