@@ -45,7 +45,7 @@ const user = {
         const { username, password } = userInfo
         request({
           baseURL: `${baseUrl}`,
-          url: '/auth/standard/login',
+          url: `/auth/standard/login`,
           method: 'post',
           data: { username, password },
           headers: { 'Content-Type': 'application/json' }
