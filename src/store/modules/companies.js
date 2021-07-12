@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+const baseUrl = process.env.VUE_APP_AUTH_URL
 
 const headers = {
   'Content-Type': 'application/json'
@@ -340,7 +341,7 @@ const companies = {
           'Content-Type': 'application/json'
         }
         request({
-          url: 'https://api.auth.macbro.uz/v1/auth/user/register',
+          url: `${baseUrl}/auth/user/register`,
           method: 'post',
           data: {
             client_type_id: usertype.client_type_id,

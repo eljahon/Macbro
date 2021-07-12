@@ -46,12 +46,13 @@ const categories = {
                 lang: payload.lang,
                 page: page.current,
                 limit: page.pageSize,
-                search: payload.search.length > 0 ? payload.search : ''
+                search: payload.search ? payload.search : ''
               }
         })
           .then(result => {
           const pagination = { ...page }
           pagination.total = parseInt(result.count)
+            console.log(result)
           commit('GET_CATEGORIES_PAGINATION', pagination)
           commit('GET_CATEGORIES', result.categories)
         //   if (result.categories) {
