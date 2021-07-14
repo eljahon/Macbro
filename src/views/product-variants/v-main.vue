@@ -711,7 +711,7 @@ export default {
   },
   mounted () {
       console.log('this.productVariantSlug', this.productVariantSlug)
-    this.getCategories({ page: null, lang: this.lang, search: true }).then(() => {
+    this.getCategories({ page: null, lang: this.lang }).then(() => {
       // console.log(getCategoriesTree(this.categories), 'getCate  ')
     })
     this.getBrands({ page: null, search: false }).then(() => {
