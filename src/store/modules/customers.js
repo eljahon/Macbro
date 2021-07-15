@@ -68,14 +68,16 @@ const customers = {
         return new Promise((resolve, reject) => {
           console.log(page)
         request({
-            url: `${baseUrl}/auth/user/register`,
+            url: `${baseUrl}/auth/user`,
           method: 'post',
             headers: headers,
             data: {
+              active: 1,
               client_type_id: '5a3818a9-90f0-44e9-a053-3be0ba1e2c07',
               email: '',
               login: '',
               password: '',
+              expires_at: '2156-01-02T15:04:05Z',
               phone: payload.phone_number,
               role_id: 'a1ca1301-4da9-424d-a9e2-578ae6dcde07'
             }
