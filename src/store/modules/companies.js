@@ -341,12 +341,15 @@ const companies = {
           'Content-Type': 'application/json'
         }
         request({
-          url: `${baseUrl}/auth/user/register`,
+          url: `${baseUrl}/auth/user`,
           method: 'post',
           data: {
             client_type_id: usertype.client_type_id,
-            password: '',
-            login: '',
+            active: 1,
+            password: payload.password,
+            email: payload.email,
+            login: payload.login ? payload.login : '',
+            expires_at: '2156-01-02T15:04:05Z',
             phone: payload.phone_number,
             role_id: usertype.role_id
           },

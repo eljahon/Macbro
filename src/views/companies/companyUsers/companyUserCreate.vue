@@ -62,7 +62,18 @@
           </a-col>
           <!-- work hours -->
           <a-col :md="24" :lg="8" style="padding: 0 15px">
-            <a-form-model-item ref="inn" :label="$t('password')" prop="passport_number">
+            <a-form-model-item ref="password" :label="$t('password')" prop="password">
+              <a-input
+                size="large"
+                style="width: 100%"
+                :disabled="requesting"
+                v-model="form.password"
+                test-attr="inn-company"
+              />
+            </a-form-model-item>
+          </a-col>
+          <a-col :md="24" :lg="8" style="padding: 0 15px">
+            <a-form-model-item ref="inn" :label="$t('passport_numbera')" prop="passport_number">
               <a-input
                 size="large"
                 style="width: 100%"
@@ -86,6 +97,11 @@
           <a-col :md="24" :lg="8" style="padding: 0 15px">
             <a-form-model-item ref="description" :label="$t('middelname')" prop="middel_name">
               <a-input v-model="form.middle_name" size="large"></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :md="24" :lg="8" style="padding: 0 15px">
+            <a-form-model-item ref="description" :label="$t('Логин')" prop="middel_name">
+              <a-input v-model="form.login" size="large"></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :md="24" :lg="8" style="padding: 0 15px">
@@ -153,14 +169,14 @@ export default {
         callback(new Error(this.$t('incorrectPhone')))
       }
     }
-    // const validateEmail = (rule, value, callback) => {
-    //   // eslint-disable-next-line no-useless-escape
-    //     if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
-    //       callback()
-    //     } else {
-    //       callback(new Error(this.$t('errorEmail')))
-    //     }
-    // }
+    const validateEmail = (rule, value, callback) => {
+      // eslint-disable-next-line no-useless-escape
+        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+          callback()
+        } else {
+          callback(new Error(this.$t('errorEmail')))
+        }
+    }
     // const validateNumber = (rule, value, callback) => {
     //   if (!isNaN(value) && value > 0) {
     //     callback()
@@ -185,10 +201,12 @@ export default {
         first_name: '',
         last_name: '',
         email: '',
+        password: '',
         phone_number: '',
         passport_number: '',
         date_of_birth: '',
         inn: '',
+        login: '',
         middle_name: '',
         profile_image: '',
         user_type: '',
@@ -199,8 +217,9 @@ export default {
         last_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         // eslint-disable-next-line standard/object-curly-even-spacing
         phone_number: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validatePhone, trigger: 'change' }],
+        password: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         date_of_birth: [{ required: true, message: this.$t('required'), trigger: 'change' }],
-        email: [{ required: true, message: this.$t('required'), trigger: 'change' }],
+        email: [{ required: true, message: this.$t('required'), trigger: 'change' }, { validator: validateEmail, trigger: 'change' }],
         inn: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         passport_number: [{ required: true, message: this.$t('required'), trigger: 'change' }],
         middle_name: [{ required: true, message: this.$t('required'), trigger: 'change' }],

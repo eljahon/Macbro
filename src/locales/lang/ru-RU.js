@@ -386,6 +386,7 @@ const locale = {
   sellPrice: 'Цена продажи',
   buyPrice: 'Цена покупки',
   productState: 'Состояние',
+  passport_numbera: 'Номер паспорта',
   // werhouses
   coming: 'Приход',
   Bartchnumber: 'Номер партии',
