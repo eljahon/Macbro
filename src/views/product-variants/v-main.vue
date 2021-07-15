@@ -710,9 +710,9 @@ export default {
     }
   },
   mounted () {
-      console.log('this.productVariantSlug', this.productVariantSlug)
-    this.getCategories({ page: null, lang: this.lang, search: true }).then(() => {
-      // console.log(getCategoriesTree(this.categories), 'getCate  ')
+     const params = { page: null, lang: this.lang, search: '' }
+    this.$store.dispatch('getCategories', params).then(() => {
+      console.log(getCategoriesTree(this.categories), 'getCate  ')
     })
     this.getBrands({ page: null, search: false }).then(() => {
       this.brandsSelect = this.brands
