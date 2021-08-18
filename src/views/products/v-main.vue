@@ -1,13 +1,26 @@
 <template>
   <div>
-    <a-switch
-      style="margin: 0 0 15px"
-      slot="extra"
-      v-model="product.active"
-      :checked-children="$t('active')"
-      :un-checked-children="$t('inactive')"
-      test-attr="active-products"
-    />
+   <a-row>
+     <a-col span="12"> <a-switch
+       style="margin: 0 0 15px"
+       v-model="product.active"
+       :checked-children="$t('active')"
+       :un-checked-children="$t('inactive')"
+       test-attr="active-products"
+     />
+
+       </a-col>
+     <a-col span="12">
+      <span style="margin-top: -7px">Частичная остатка:</span>
+       <a-switch
+         style="margin: 0 0 15px"
+         v-model="product.is_need"
+         :checked-children="$t('active')"
+         :un-checked-children="$t('inactive')"
+         test-attr="active-products"
+       />
+     </a-col>
+   </a-row>
     <a-form-model
       @submit="onSubmit"
       ref="ruleForm"
@@ -533,6 +546,7 @@ export default {
         order: 0,
         description: '',
         image: '',
+        is_need: false,
         gallery: [],
         preview_text: '',
         related_products: [],

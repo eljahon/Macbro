@@ -75,8 +75,7 @@ const branches = {
             url: '/branch/staff',
             method: 'put',
             headers: headers,
-            params: { id: id },
-            data: { staff }
+            data: payload
           })
             .then(res => {
               resolve(res)
