@@ -136,39 +136,54 @@ const companies = {
     }
   },
   actions: {
+    deleteBranchUserItem ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: '/branch/staff',
+          method: 'put',
+          data: {
+            branch_id: '',
+            company_id: id.company_id,
+            list_of_user_ids: id.list_of_user_ids
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    GetBranchUserList ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: 'user',
+          method: 'get',
+          params: {
+            page: payload.page.page,
+            limit: payload.page.limit,
+            branch_id: payload.branch_id,
+            company_id: payload.company_id,
+            filter_by_comp_and_branch: payload.filter_by_comp_and_branch
+          }
+        })
+          .then(res => {
+            resolve(res.users)
+            console.log('branchList ==> ', res)
+            commit('STAFF_ADD_SELECT', res.users)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
     setLastTab ({ commit }, tab) {
       commit('SET_LAST_TAB', tab)
     },
     setSearchQuery ({ commit }, searchQuery) {
       commit('SET_SEARCH_QUERY', searchQuery)
     },
-    // getCompaniesListAll ({ commit, state }, page) {
-    //   const { searchQuery } = state
-    //   console.log(page)
-    //   if (!page) {
-    //     page = { current: 1, pageSize: 10, total: null }
-    //   }
-    //   console.log('salom')
-    //   return new Promise((resolve, reject) => {
-    //     request({
-    //       url: '/company',
-    //       headers: headers,
-    //       method: 'get',
-    //       params: { page: page.current, limit: page.pageSize, name: searchQuery }
-    //     })
-    //       .then(result => {
-    //         const pagination = { ...page }
-    //         pagination.total = parseInt(result.count)
-    //         // commit('SET_COMPANIES_PAGINATION', pagination)
-    //         // commit('SET_COMPANIES', result.companies)
-    //         console.log(result)
-    //         resolve()
-    //       })
-    //       .catch(error => {
-    //         reject(error)
-    //       })
-    //   })
-    // },
     getCompanies ({ commit, state }, page) {
       const { searchQuery } = state
       if (!page) {
@@ -392,34 +407,30 @@ const companies = {
       commit('SET_USER_TYPEAUTH', payload)
     },
     staffAddSelects ({ commit, state }, staffid) {
-      // eslint-disable-next-line no-undef
-      const { branchesList } = state
-
       // eslint-disable-next-line no-unused-expressions
-      const staffAddBranch = branchesList.filter(e => staffid.includes(e.id))
-      commit('STAFF_ADD_SELECT', staffAddBranch)
-    },
-    getSelectBranchAll ({ commit, dispatch }, payload) {
-      // eslint-disable-next-line no-unused-vars
-      // const { id, staff } = payload
-      return new Promise((resolve, reject) => {
-        request({
-          url: `/branch/${payload}`,
-          method: 'get',
-          headers: headers
-        })
-          .then(res => {
-            resolve(res)
-            commit('GET_BRANCHES_ID_LIST', res.staff)
-            dispatch('staffAddSelects', res.staff)
-          })
-          .catch(err => {
-            reject(err)
-          })
-          .finally(() => {
-          })
-      })
+      // commit('STAFF_ADD_SELECT', staffAddBranch)
     }
+    // getSelectBranchAll ({ commit, dispatch }, payload) {
+    //   // eslint-disable-next-line no-unused-vars
+    //   // const { id, staff } = payload
+    //   return new Promise((resolve, reject) => {
+    //     request({
+    //       url: `/branch/${payload}`,
+    //       method: 'get',
+    //       headers: headers
+    //     })
+    //       .then(res => {
+    //         resolve(res)
+    //         commit('GET_BRANCHES_ID_LIST', res.staff)
+    //         dispatch('staffAddSelects', res.staff)
+    //       })
+    //       .catch(err => {
+    //         reject(err)
+    //       })
+    //       .finally(() => {
+    //       })
+    //   })
+    // }
   }
 }
 export default companies

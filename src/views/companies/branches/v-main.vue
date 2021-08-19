@@ -127,6 +127,12 @@
           test-attr="list-branch"
           bordered
         >
+          <template slot="action" slot-scope="text, row">
+            <a-tooltip>
+              <span slot="title">{{$t('delete')}}</span>
+              <a-button @click="DeleteBranchUserItem(row.id)" type="danger"><a-icon type="delete"></a-icon></a-button>
+            </a-tooltip>
+          </template>
         </a-table>
         <a-modal
           width="80%"
@@ -191,12 +197,7 @@ export default {
     this.corporateGetAll = debounce(this.corporateGetAll, 100)
     return {
       selectedRowKeys: [],
-      // selectedRows: console.log(this.staffSelectsAdd),
       rowSelection: {},
-      form: {
-        id: this.$route.params.id,
-        staff: []
-      },
       expandedRowKeys: [],
       modalVisible: false,
       cityList: [],
@@ -227,31 +228,37 @@ export default {
       column: [
         {
           title: this.$t('fistname'),
-          dataIndex: 'first_name'
+          dataIndex: 'first_name',
+          align: 'center'
         },
         {
           title: this.$t('lastname'),
-          dataIndex: 'last_name'
+          dataIndex: 'last_name',
+          align: 'center'
         },
         {
           title: this.$t('phone_number'),
-          dataIndex: 'phone_number'
+          dataIndex: 'phone_number',
+          align: 'center'
         },
         {
           title: this.$t('inn'),
-          dataIndex: 'inn'
+          dataIndex: 'inn',
+          align: 'center'
+        },
+        {
+          title: this.$t('action'),
+          key: 'action',
+          width: '200px',
+          align: 'center',
+          scopedSlots: { customRender: 'action' }
         }
-        // {
-        //   title: this.$t('action'),
-        //   key: 'action',
-        //   width: '20%',
-        //   scopedSlots: { customRender: 'action' }
-        // }
       ],
       addidModal: [],
       staffAddBranch: [],
       requesting: false,
       activeTabKey: '1',
+      company_id: this.$route.params.company_id,
       branchId: this.$route.params.id,
       shopId: null,
       labelCol: { span: 24 },
@@ -282,6 +289,12 @@ export default {
       },
       corporateFetching: false,
       corporateList: [],
+      paramsbranch: {
+        filter_by_comp_and_branch: true,
+        company_id: this.$route.params.company_id,
+        branch_id: this.$route.params.id,
+        page: { page: 1, limit: 10, total: null }
+      },
       corporateParams: {
         limit: 10,
         page: 1,
@@ -291,16 +304,23 @@ export default {
     }
   },
   mounted () {
-    this.selectedRowKeys = this.branchesIdList
+    if (this.branchId) {
+      this.GetBranchUserList(this.paramsbranch)
+      .then(res => {
+        console.log('res =>', res)
+        this.selectedRowKeys = res.map(e => e.id)
+      })
+    }
+    // this.selectedRowKeys = this.branchesIdList
     this.getUsers(this.corporateParams)
     // this.getSelectBranchAll(this.$route.params.id)
     // .then(res => {
     //   this.selectedRowKeys = res.staff
     // })
-    this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
-    .then(res => {
-      this.selectedRowKeys = res.staff
-    })
+    // this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
+    // .then(res => {
+    //   this.selectedRowKeys = res.staff
+    // })
     if (this.$route.params.company_id) {
       this.getCompanyWarehouse(this.corporateParams)
     }
@@ -320,7 +340,24 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
+    DeleteBranchUserItem (id) {
+      const params = {
+        company_id: this.company_id,
+        list_of_user_ids: [id]
+      }
+      this.loading = true
+      this.$store.dispatch('deleteBranchUserItem', params)
+        .then(res => {
+          this.GetBranchUserList(this.paramsbranch)
+            .then(res => {
+              this.selectedRowKeys = res.map(e => e.id)
+            })
+        })
+      .finally(() => {
+        this.loading = false
+      })
+    },
+    ...mapActions(['GetBranchUserList', 'getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
     onSelectedChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       console.log(selectedRowKeys)
@@ -336,12 +373,19 @@ export default {
     },
     handleAddFeaturedProducts () {
       this.loading = true
-      const form = { id: this.$route.params.id,
-        staff: this.selectedRowKeys }
+      const form =
+        {
+          branch_id: this.$route.params.id,
+          company_id: this.$route.params.company_id,
+          list_of_user_ids: this.selectedRowKeys
+        }
       this.$store.dispatch('getSelectBranch', form)
       .then(res => {
         console.log(res)
-        this.getSelectBranchAll(this.$route.params.id)
+        this.GetBranchUserList(this.paramsbranch)
+        .then(res => {
+          this.selectedRowKeys = res.map(e => e.id)
+        })
         // this.$store.dispatch('setLastTab', 5)
         // this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
       })
