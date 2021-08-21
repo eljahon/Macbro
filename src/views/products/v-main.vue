@@ -931,6 +931,7 @@ export default {
         this.unired.price = product.prices && product.prices[0].price || 0
         this.unired.old_price = product.prices && product.prices[0].old_price || 0
         this.product.active = product.active
+        this.product.is_need = product.is_need
         var isInBrands = false
         this.brands.map(brand => {
           if (brand.id === product.brand.id) {
