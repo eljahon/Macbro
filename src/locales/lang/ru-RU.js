@@ -115,6 +115,15 @@ const locale = {
   start_time: 'Начальное время',
   end_time: 'Время окончания',
   not_available: 'Недоступно',
+  // reports
+  report: 'Отчеты',
+  transactions: 'Транзакции',
+  typeExpenses: 'Типы расходов',
+  subacounts: 'Суб-аккаунты',
+  acount: 'Аккаунты',
+  numbertransactions: 'Номер транзакции',
+  acountnumber: 'Номер аккаунта',
+  typetransactions: 'Тип транзакции',
   // banner
   bannerPositions: 'Позиции баннеров',
   banners: 'Баннеры',

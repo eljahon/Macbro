@@ -41,6 +41,7 @@ import inventory from './modules/inventory'
 import currency from './modules/currency'
 import socket from './socket'
 import werhouses from '@/store/modules/werhouses'
+import reports from '@/store/modules/reports'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -51,6 +52,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     app,
+    reports,
     products,
     werhouses,
     productVariants,
