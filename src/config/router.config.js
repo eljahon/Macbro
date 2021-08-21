@@ -2,6 +2,7 @@
 import { UserLayout, BasicLayout } from '@/layouts'
 // import UserAccount from '@/views/account/UserAccount'
 import myIcons from '@/core/icons'
+// import reports from '@/assets/icons/reports.svg'
 
 const RouteView = {
   name: 'RouteView',
@@ -160,7 +161,7 @@ export const asyncRouterMap = [
             children: [
               {
                 path: '/warehouse/moving/list',
-                name: 'movingListMain',
+                name: 'movingListMainList',
                 props: true,
                 component: () => import('@/views/warehouse/moving/movingList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
@@ -191,7 +192,7 @@ export const asyncRouterMap = [
             children: [
               {
                 path: '/warehouse/remainder/list',
-                name: 'remainderListMain',
+                name: 'remainderListMainList',
                 props: true,
                 component: () => import('@/views/warehouse/remainder/remainderList'),
                 meta: { title: 'remainder', keepAlive: true, permission: ['directory'] }
@@ -203,6 +204,110 @@ export const asyncRouterMap = [
               //   component: () => import('@/views/warehouse/WarehouseEdit'),
               //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               // },
+              // {
+              //   path: '/warehouse/moving/list/update/:id',
+              //   name: 'warehouseMovingUpdate',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // }
+            ]
+          }
+        ]
+      },
+      {
+        path: '/reports',
+        redirect: '/report/main',
+        component: RouteView,
+        meta: { title: 'report', icon: myIcons.reports, permission: ['directory'] },
+        children: [
+          {
+            path: '/reports',
+            hideChildrenInMenu: true,
+            name: 'ReportsList',
+            component: RouteView,
+            redirect: '/report/transactions/list',
+            meta: { title: 'transactions', permission: ['transactions'] },
+            children: [
+              {
+                path: '/report/transactions/list',
+                name: 'transactionsListMain',
+                props: true,
+                component: () => import('@/views/reports/transactions/transactionsList'),
+                meta: { title: 'typeExpenses', keepAlive: true, permission: ['directory'] }
+              }
+            ]
+          },
+          {
+            path: '/reports/typeExpenses',
+            hideChildrenInMenu: true,
+            name: 'expensesListMain',
+            component: RouteView,
+            redirect: '/reports/expenses/list',
+            meta: { title: 'typeExpenses', permission: ['typeExpenses'] },
+            children: [
+              {
+                path: '/reports/expenses/list',
+                name: 'expensesListMainList',
+                props: true,
+                component: () => import('@/views/reports/typeExpenses/ExpensesList'),
+                meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
+              }
+            ]
+          },
+          {
+            path: '/reports/subacounts',
+            hideChildrenInMenu: true,
+            name: 'subacountListMain',
+            component: RouteView,
+            redirect: '/reports/subacount/list',
+            meta: { title: 'subacounts', permission: ['subacounts'] },
+            children: [
+              {
+                path: '/reports/subacount/list',
+                name: 'subacountListMainList',
+                props: true,
+                component: () => import('@/views/reports/subacounts/SubAcountList'),
+                meta: { title: 'subacounts', keepAlive: true, permission: ['subacounts'] }
+              },
+              {
+                path: '/reports/subacount/Create',
+                name: 'SubacountCreate',
+                props: true,
+                component: () => import('@/views/reports/subacounts/SubacountCreate'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              }
+              // {
+              //   path: '/warehouse/moving/list/update/:id',
+              //   name: 'warehouseMovingUpdate',
+              //   props: true,
+              //   component: () => import('@/views/warehouse/WarehouseEdit'),
+              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              // }
+            ]
+          },
+          {
+            path: '/reports/acount',
+            hideChildrenInMenu: true,
+            name: 'acountListMain',
+            component: RouteView,
+            redirect: '/reports/acount/list',
+            meta: { title: 'acount', permission: ['acount'] },
+            children: [
+              {
+                path: '/reports/acount/list',
+                name: 'acountListMainList',
+                props: true,
+                component: () => import('@/views/reports/acount/AcountList'),
+                meta: { title: 'acount', keepAlive: true, permission: ['acount'] }
+              },
+              {
+                path: '/reports/acount/create',
+                name: 'AcountCreate',
+                props: true,
+                component: () => import('@/views/reports/acount/CreateAcount'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              }
               // {
               //   path: '/warehouse/moving/list/update/:id',
               //   name: 'warehouseMovingUpdate',
