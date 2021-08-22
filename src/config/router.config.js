@@ -252,6 +252,13 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/typeExpenses/ExpensesList'),
                 meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
+              },
+              {
+                path: '/reports/expenses/create',
+                name: 'expensesCreateListMainList',
+                props: true,
+                component: () => import('@/views/reports/typeExpenses/EspenCreate'),
+                meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
               }
             ]
           },

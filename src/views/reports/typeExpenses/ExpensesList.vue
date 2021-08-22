@@ -4,8 +4,8 @@
       <a-page-header style="width: 40%">
         <div slot="title">
           <a-button type="link" icon="arrow-left" style="color: black" @click="() => $router.go(-1)"></a-button>
-          {{ $t('report') }} /
-          <router-link to="'/reports/expenses/list'" style="color: black">{{ $t('typeExpenses') }}</router-link>
+          <span class="fonSize">{{ $t('report') }} /</span>
+          <router-link :to="{name: 'expensesListMainList'}" style="color: black" class="fonSize">{{ $t('typeExpenses') }}</router-link>
         </div>
       </a-page-header>
     </div>
@@ -16,7 +16,7 @@
           {{ $t('typeExpenses') }}
         </div>
         <div slot="extra">
-          <a-button type="primary" icon="plus">{{ $t('add') }}</a-button>
+          <a-button type="primary" icon="plus" @click="EspenCreateListPush">{{ $t('add') }}</a-button>
         </div>
         <div>
 <!--          <a-row :gutter="16">-->
@@ -62,12 +62,12 @@
 <!--          <div slot="Dropdowns" style="padding: 8px; width: 230px;">-->
 <!--            <a-range-picker @change="onChangepicker" style="width: 220px" />-->
 <!--          </div>-->
-          <div slot="Категория" style="padding: 8px; width: 230px;">
-            <a-input
-              :placeholder="$t('numbertransactions')"
-              style="width: 220px; margin-bottom: 0px; display: block;"
-            />
-          </div>
+<!--          <div slot="Категория" style="padding: 8px; width: 230px;">-->
+<!--            <a-input-->
+<!--              :placeholder="$t('numbertransactions')"-->
+<!--              style="width: 220px; margin-bottom: 0px; display: block;"-->
+<!--            />-->
+<!--          </div>-->
 <!--          <div slot="AccountNumber" style="padding: 8px; width: 230px;">-->
 <!--            <a-input-->
 <!--              :placeholder="$t('acountnumber')"-->
@@ -75,13 +75,20 @@
 <!--            />-->
 <!--          </div>-->
           <div
-            slot="Dropdown"
+            slot="Категория"
             style="padding: 8px"
           >
-            <a-input
-              :placeholder="`Search`"
-              style="width: 188px; margin-bottom: 8px; display: block;"
-            />
+            <a-select
+              :placeholder="$t('Суб-Категория')"
+              style="width: 220px"
+              @change="handleChangeSelectcatigory"
+              allowClear
+            >
+              <a-select-option v-for="(catigoriya, index) in sub_account_category" :key="index" :value="catigoriya.id">
+                {{ catigoriya.name }}
+              </a-select-option>
+
+            </a-select>
             <!--            <a-button-->
             <!--              type="primary"-->
             <!--              icon="search"-->
@@ -104,22 +111,32 @@
           <template slot="data" slot-scope="text, row">
             <span>{{ moment(row.data).format('YYYY-MM-DD') }}</span>
           </template>
-          <template slot="total_amount" slot-scope="text, row">
-            <span>{{ row.billing_info.total_amount }}</span>
+          <template slot="order" slot-scope="text, row">
+            <span>{{ row.order }}</span>
           </template>
           <template slot="currency" slot-scope="text, row">
-            <span v-for="(payment, index) in sortDublicat(row.billing_info.payment)" :key="index">
-<!--              <img class="imgBorderRaidus" style="width: 50px" v-if="payment === 'payme'" :src="Imgs.payment" alt="Payment">-->
-              <img class="imgBorderRaidus" v-if="payment === 'cash'" :src="Imgs.cash" alt="Payment">
-<!--              <img class="imgBorderRaidus" v-if="payment === 'click'" :src="Imgs.click" alt="Payment">-->
-<!--              <img class="imgBorderRaidus" v-if="payment === 'p2p'" :src="Imgs.Vise" alt="Payment">-->
-              <!--              <img v-if="payment === 'terminal'" :src="Imgs.Vise" alt="Payment">-->
-            </span>
+            <!--            <span v-for="(payment, index) in sortDublicat(row.billing_info.payment)" :key="index">-->
+            <!--              <img class="imgBorderRaidus" style="width: 50px" v-if="payment === 'payme'" :src="Imgs.payment" alt="Payment">-->
+            <img v-if="row.icon" class="imgBorderRaidus"  :src="Imgs.cash" alt="Payment">
+            <!--              <img class="imgBorderRaidus" v-if="payment === 'click'" :src="Imgs.click" alt="Payment">-->
+            <!--              <img class="imgBorderRaidus" v-if="payment === 'p2p'" :src="Imgs.Vise" alt="Payment">-->
+            <!--              <img v-if="payment === 'terminal'" :src="Imgs.Vise" alt="Payment">-->
+            <!--            </span>-->
           </template>
           <template slot="type" slot-scope="text, row">
-            <a-tag v-if="row.billing_info.type === 'order'"><span>Приход</span></a-tag>
-            <a-tag v-if="row.billing_info.type === 'sale'" color="blue"><span>продажа</span></a-tag>
-            <a-tag v-if="row.billing_info.type === 'inventory'" color="red"><span>Расход</span></a-tag>
+            <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>
+            <a-tag v-if="row.name === 'sale'" color="blue"><span>Продажа</span></a-tag>
+            <a-tag v-if="row.name === 'other'" color="red"><span>Другие</span></a-tag>
+            <a-tag v-if="row.name === 'mortgage'" color="green"><span>Ипотека</span></a-tag>
+            <a-tag v-if="row.name === 'obed'" color="#D4B483"><span>Подчиняться</span></a-tag>
+            <a-tag v-if="row.name === 'cleaning'" color="#87C38F"><span>Уборка</span></a-tag>
+            <a-tag v-if="row.name === 'products'" color="#F4F0BB"><span>Продукты</span></a-tag>
+            <a-tag v-if="row.name === 'advertisement'" color="#48A9A6"><span>Рекламное объявление</span></a-tag>
+            <a-tag v-if="row.name === 'taxi'" color="#ffb703"><span>Такси</span></a-tag>
+            <a-tag v-if="row.name === 'salary'" color="#ffcdb2"><span>Зарплата</span></a-tag>
+            <a-tag v-if="row.name === 'rent'" color="#a8dadc"><span>Арендовать</span></a-tag>
+            <a-tag v-if="row.name === 'communal'" color="#fcd5ce"><span>Коммунальный</span></a-tag>
+            <a-tag v-if="row.name === 'internet'" color="#ffafcc"><span>Интернет</span></a-tag>
             <!--            <span>{{ row.billing_info.type }}</span>-->
           </template>
         </a-table>
@@ -138,6 +155,18 @@ import Click from '../../../assets/clck.svg'
 export default {
   data () {
     return {
+      sub_account_category: [
+        { id: 'a7116be6-9a57-4f51-888e-0820f5c8f3f6', name: 'Продажа' },
+        { id: 'c12f9ee7-0388-46fa-8c9b-b23a71cb9f9e', name: 'Покупка' },
+        { id: '236c315f-e3f7-4b69-b28d-c2cdaafcba21', name: 'Другие' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a43', name: 'Подчиняться' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a44', name: 'Уборка' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a49', name: 'Продукты' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a50', name: 'Рекламное объявление' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a45', name: 'Такси' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a51', name: 'Зарплата' },
+        { id: '6303addd-d9cb-4ea6-957f-63f7858e4a46', name: 'Арендовать' }
+      ],
       Imgs: {
         cash: cash,
         payment: Payment,
@@ -190,9 +219,9 @@ export default {
         // },
         {
           title: this.$t('Название'),
-          dataIndex: 'total_amount',
+          // dataIndex: 'total_amount',
           align: 'center',
-          scopedSlots: { customRender: 'total_amount' }
+          scopedSlots: { customRender: 'order' }
         },
         {
           title: this.$t('Суб-Категория'),
@@ -213,20 +242,28 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['transactionList', 'TrPagination']),
+    ...mapGetters(['EspaneGetAllList', 'EspenPagination']),
     getPagination () {
-      return this.TrPagination
+      return this.EspenPagination
     },
     getUserListTable () {
-      return this.transactionList
+      return this.EspaneGetAllList
     }
   },
   methods: {
+    EspenCreateListPush () {
+      this.$router.push({ name: 'expensesCreateListMainList' })
+    },
+    handleChangeSelectcatigory (val) {
+      // this.params.category_id = val
+      console.log(val)
+      // this.SubAcountGetListAll()
+    },
     onChangepicker (val, event) {
       console.log(val, event)
       this.params.start_date = event[0]
       this.params.end_date = event[1]
-      this.TrGetListAll()
+      this.EspenGetListAll()
     },
     sortDublicat (array) {
       const unique = []
@@ -238,10 +275,10 @@ export default {
       return unique
     },
     moment,
-    ...mapActions(['GetTrListAll']),
-    TrGetListAll () {
+    ...mapActions(['GetEspenListAll']),
+    EspenGetListAll () {
       this.loading = true
-      this.GetTrListAll(this.params)
+      this.GetEspenListAll(this.params)
         .finally(() => {
           this.loading = false
         })
@@ -255,13 +292,13 @@ export default {
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
-      this.TrGetListAll()
+      this.EspenGetListAll()
     }
   },
   mounted () {
   },
   created () {
-    this.TrGetListAll()
+    this.EspenGetListAll()
   }
 }
 </script>
@@ -310,6 +347,9 @@ export default {
 }
 .gutter-box {
   padding: 5px 0;
+}
+.fonSize {
+  font-size: 16px;
 }
 
 </style>

@@ -4,8 +4,8 @@
       <a-page-header style="width: 40%">
         <div slot="title">
           <a-button type="link" icon="arrow-left" style="color: black" @click="() => $router.go(-1)"></a-button>
-          {{ $t('report') }} /
-          <router-link to="/report/transactions/list" style="color: black">{{ $t('transactions') }}</router-link>
+          <span class="fonSize">{{ $t('report') }} / </span>
+          <router-link to="/report/transactions/list" style="color: black" class="fonSize">{{ $t('transactions') }}</router-link>
         </div>
       </a-page-header>
     </div>
@@ -286,6 +286,9 @@ export default {
 }
 .gutter-box {
   padding: 5px 0;
+}
+.fonSize {
+  font-size: 16px;
 }
 
 </style>

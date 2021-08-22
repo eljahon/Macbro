@@ -1,15 +1,15 @@
 <template>
   <a-card>
     <div slot="title">
-      <a-page-header style="width: 40%">
+      <a-page-header style="width: 80%">
         <div slot="title">
           <a-button type="link" icon="arrow-left" style="color: black" @click="() => $router.go(-1)"></a-button>
-          {{ $t('report') }} /
-          <router-link to="'/reports/expenses/list'" style="color: black">{{ $t('acount') }}</router-link>
+          <span class="fonSize">{{ $t('report') }} /</span>
+          <router-link to="'/reports/expenses/list'" style="color: black" class="fonSize">{{ $t('acount') }}</router-link>
         </div>
       </a-page-header>
     </div>
-    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch"></a-input-search></div>
+    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch" v-debounce="AccountGlobalSeach"></a-input-search></div>
     <div>
       <a-card :bordered="false">
         <div slot="title">
@@ -19,37 +19,11 @@
           <a-button @click="AcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>
         </div>
         <div>
-          <!--          <a-row :gutter="16">-->
-          <!--            <a-col :xs="{ span: 7, offset: 1 }" :lg="{ span: 7, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
-          <!--              <div class="mulitiCard">-->
-          <!--                <div style="display: flex; margin-top: 15px">-->
-          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </a-col>-->
-          <!--            <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
-          <!--              <div class="mulitiCard">-->
-          <!--                <div style="display: flex; margin-top: 15px">-->
-          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </a-col>-->
-          <!--            <a-col class="gutter-row" :span="7" :offset="1">-->
-          <!--              <div class="mulitiCard">-->
-          <!--                <div style="display: flex; margin-top: 15px">-->
-          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </a-col>-->
-          <!--          </a-row>-->
         </div>
         <a-table
           style="margin-top: 30px"
           :columns="columns"
-          :rowKey="record => record.id"
+          :rowKey="() => Math.random()"
           :dataSource="getUserListTable"
           :pagination="getPagination"
           :loading="loading"
@@ -59,41 +33,22 @@
           :customRow="customRowClick"
           class="pointer"
         >
-          <!--          <div slot="Dropdowns" style="padding: 8px; width: 230px;">-->
-          <!--            <a-range-picker @change="onChangepicker" style="width: 220px" />-->
-          <!--          </div>-->
-          <div slot="Категория" style="padding: 8px; width: 230px;">
+          <div slot="Aккаунта" style="padding: 8px; width: 230px;">
             <a-input
-              :placeholder="$t('numbertransactions')"
+              :placeholder="$t('Тип аккаунта')"
+              v-debounce="AccountTypeSearch"
               style="width: 220px; margin-bottom: 0px; display: block;"
             />
           </div>
-          <!--          <div slot="AccountNumber" style="padding: 8px; width: 230px;">-->
-          <!--            <a-input-->
-          <!--              :placeholder="$t('acountnumber')"-->
-          <!--              style="width: 220px; margin-bottom: 0px; display: block;"-->
-          <!--            />-->
-          <!--          </div>-->
           <div
-            slot="Dropdown"
+            slot="аккаунта"
             style="padding: 8px"
           >
-            <a-input
-              :placeholder="`Search`"
+            <a-input-number
+              :placeholder="`ИД. аккаунта`"
+              v-debounce="AccountSearch"
               style="width: 188px; margin-bottom: 8px; display: block;"
             />
-            <!--            <a-button-->
-            <!--              type="primary"-->
-            <!--              icon="search"-->
-            <!--              size="small"-->
-            <!--              style="width: 90px; margin-right: 8px"-->
-            <!--              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"-->
-            <!--            >-->
-            <!--              Search-->
-            <!--            </a-button>-->
-            <!--            <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">-->
-            <!--              Reset-->
-            <!--            </a-button>-->
           </div>
           <a-icon
             style="font-size: 20px; color: transparent; background-color: transparent"
@@ -101,17 +56,15 @@
             class="filter-dropdown-icon"
             :component="$myIcons.filterDownIcon"
           />
-          <template slot="data" slot-scope="text, row">
-            <span>{{ moment(row.data).format('YYYY-MM-DD') }}</span>
+          <template slot="number" slot-scope="text, row">
+            <span>{{ row.number }}</span>
           </template>
-          <template slot="total_amount" slot-scope="text, row">
-            <span>{{ row.billing_info.total_amount }}</span>
+          <template slot="name" slot-scope="text, row">
+            <span>{{ row.name }}</span>
           </template>
-          <template slot="type" slot-scope="text, row">
-            <a-tag v-if="row.billing_info.type === 'order'"><span>Приход</span></a-tag>
-            <a-tag v-if="row.billing_info.type === 'sale'" color="blue"><span>продажа</span></a-tag>
-            <a-tag v-if="row.billing_info.type === 'inventory'" color="red"><span>Расход</span></a-tag>
-            <!--            <span>{{ row.billing_info.type }}</span>-->
+          <template slot="account_group_id" slot-scope="text, row">
+<!--            <a-tag color="blue"><span v-for="(account,index) in row.subaccounts" :key="index">{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>-->
+            <a-tag color="blue"><span>{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>
           </template>
         </a-table>
       </a-card>
@@ -136,10 +89,7 @@ export default {
         click: Click
       },
       params: {
-        currency_type: '',
-        end_date: '',
-        payment_type: '',
-        start_date: '',
+        search: '',
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
@@ -155,9 +105,9 @@ export default {
           title: this.$t('ИД. аккаунта'),
           // dataIndex: 'first_name',
           scopedSlots: {
-            filterDropdown: 'Dropdowns',
+            filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
-            customRender: 'data'
+            customRender: 'number'
           },
           align: 'center'
         },
@@ -181,17 +131,17 @@ export default {
         // },
         {
           title: this.$t('Название'),
-          dataIndex: 'total_amount',
+          dataIndex: 'name',
           align: 'center',
-          scopedSlots: { customRender: 'total_amount' }
+          scopedSlots: { customRender: 'name' }
         },
         {
           title: this.$t('Тип аккаунта'),
           align: 'center',
           scopedSlots: {
-            filterDropdown: 'Категория',
+            filterDropdown: 'Aккаунта',
             filterIcon: 'filterIcon',
-            customRender: 'type' }
+            customRender: 'account_group_id' }
           // dataIndex: 'account_number',
         }
         // {
@@ -204,15 +154,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['transactionList', 'TrPagination']),
+    ...mapGetters(['AcountList', 'AcPagination']),
     getPagination () {
-      return this.TrPagination
+      return this.AcPagination
     },
     getUserListTable () {
-      return this.transactionList
+      return this.AcountList
     }
   },
   methods: {
+    AccountTypeSearch (val) {
+      this.params.search = val
+      this.AcountGetListAll()
+    },
+    AccountSearch (val) {
+      this.params.search = val
+      this.AcountGetListAll()
+    },
     AcountCreate () {
       this.$router.push({ name: 'AcountCreate' })
     },
@@ -232,10 +190,10 @@ export default {
       return unique
     },
     moment,
-    ...mapActions(['GetTrListAll']),
-    TrGetListAll () {
+    ...mapActions(['GetAcountAllList']),
+    AcountGetListAll () {
       this.loading = true
-      this.GetTrListAll(this.params)
+      this.GetAcountAllList(this.params)
         .finally(() => {
           this.loading = false
         })
@@ -245,6 +203,12 @@ export default {
     },
     onSearch (value) {
       console.log(value)
+      this.params.search = value
+      this.AcountGetListAll()
+    },
+    AccountGlobalSeach (val) {
+      this.params.search = val
+      this.AcountGetListAll()
     },
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
@@ -255,55 +219,13 @@ export default {
   mounted () {
   },
   created () {
-    this.TrGetListAll()
+    this.AcountGetListAll()
   }
 }
 </script>
 
 <style scoped>
-.imgBorderRaidus {
-  /*display: flex;*/
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 6px;
-
-  position: static;
-  width: 40px;
-  height: 40px;
-  left: 28px;
-  top: 8px;
-
-  /* Blue */
-
-  /*background: #1890FF;*/
-  border-radius: 8px;
-  /*margin-left: 5px;*/
-  /*background: blue;*/
-  /*color: white;*/
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  /*height: 30px;*/
-  /*width: 30px;*/
-  /*left: 80px;*/
-  /*top: 0px;*/
-  /*border-radius: 30px;*/
-  /*padding: 4px, 8px, 4px, 8px;*/
-
+.fonSize {
+  font-size: 16px;
 }
-.mulitiCard{
-  display: flex;
-  position: static;
-  width: 357.33px;
-  height: 56px;
-  left: 0px;
-  top: 0px;
-  background: #FFFFFF;
-  border: 1px solid #EEEEEE;
-  box-sizing: border-box;
-  border-radius: 8px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-.gutter-box {
-  padding: 5px 0;
-}
-
 </style>
