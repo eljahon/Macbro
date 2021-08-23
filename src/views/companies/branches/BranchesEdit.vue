@@ -6,7 +6,7 @@
           <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
         </a-breadcrumb-item>
         <a-breadcrumb-item>
-          <a @click="$router.go(-1)" test-attr="branches-branch">{{ $t('branches') }}</a>
+          <a @click="() => $router.push({ name: 'CompaniesEdit', params: {id: routeid} })" test-attr="branches-branch">{{ $t('branches') }}</a>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ edit ? $t('update') : $t('add') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -56,6 +56,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      routeid: localStorage.getItem('company_id'),
       btnLoading: false,
       activeTabKey: 1,
       edit: !!this.$route.params.id,

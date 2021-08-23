@@ -259,6 +259,13 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/typeExpenses/EspenCreate'),
                 meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
+              },
+              {
+                path: '/reports/expenses/update/:id',
+                name: 'expensesUpdateListMainList',
+                props: true,
+                component: () => import('@/views/reports/typeExpenses/EspenCreate'),
+                meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
               }
             ]
           },
@@ -280,6 +287,13 @@ export const asyncRouterMap = [
               {
                 path: '/reports/subacount/Create',
                 name: 'SubacountCreate',
+                props: true,
+                component: () => import('@/views/reports/subacounts/SubacountCreate'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/reports/subacount/update/:id',
+                name: 'SubacountUpdate',
                 props: true,
                 component: () => import('@/views/reports/subacounts/SubacountCreate'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }

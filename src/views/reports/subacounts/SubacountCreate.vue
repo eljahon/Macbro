@@ -19,21 +19,21 @@
     <div style="margin-top: 50px">
       <a-form-model
         @submit="onSubmit"
-        :model="order"
+        :model="form"
         :rules="rules"
         :ref="ruleForm"
       >
         <a-row>
           <a-col :span="12" :offset="1">
             <a-form-model-item :ref="number" :prop="number" :label="$t('Название')">
-              <a-input size="large" v-model="order.number"></a-input>
+              <a-input size="large" v-model="form.name"></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row>
           <a-col :span="12" :offset="1">
             <a-form-model-item :ref="number" :prop="number" :label="$t('Номер аккаунта')">
-              <a-input size="large" order.number></a-input>
+              <a-input-number style="width: 100%" size="large"></a-input-number>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -97,7 +97,7 @@
       <a-button>{{ $t('reset') }}</a-button>
       <a-button style="margin-left: 15px" type="primary">{{ $t('save') }}</a-button>
     </div>
-    <div style="float:left;"><a-button icon="delete" style="color: red; margin-left: 40px">{{ $t('delete') }}</a-button></div>
+    <div v-if="ItemId" style="float:left;"><a-button icon="delete" style="color: red; margin-left: 40px">{{ $t('delete') }}</a-button></div>
   </a-card>
 </template>
 
@@ -107,6 +107,15 @@ import moment from 'moment'
 export default {
   data () {
     return {
+      form: {
+        account_number: 0,
+        category_id: 0,
+        description: '',
+        name: '',
+        subaccount_category_id: '',
+        type: ''
+      },
+      ItemId: this.$route.params.id,
       order: {
         number: ''
       },
@@ -136,6 +145,8 @@ export default {
     }
   },
   mounted () {
+    if (this.ItemId) {
+    }
   },
   created () {
     // this.TrGetListAll()

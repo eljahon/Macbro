@@ -15,33 +15,33 @@
         <div slot="title">
           {{ $t('transactions') }}
         </div>
-        <div>
-          <a-row :gutter="16">
-            <a-col :xs="{ span: 7, offset: 1 }" :lg="{ span: 7, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">
+        <div style="display: flex">
+<!--          <a-row>-->
+<!--            <a-col :span="7" >-->
               <div class="mulitiCard">
                 <div style="display: flex; margin-top: 15px">
-                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
+                  <div style=" margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
                   <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
                 </div>
               </div>
-            </a-col>
-            <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">
+<!--            </a-col>-->
+<!--            <a-col :span="7" :offset="1">-->
               <div class="mulitiCard">
                 <div style="display: flex; margin-top: 15px">
                   <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
                   <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
                 </div>
               </div>
-            </a-col>
-            <a-col class="gutter-row" :span="7" :offset="1">
+<!--            </a-col>-->
+<!--            <a-col :span="7" :offset="1">-->
               <div class="mulitiCard">
                 <div style="display: flex; margin-top: 15px">
                   <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
                   <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
                 </div>
               </div>
-            </a-col>
-          </a-row>
+<!--            </a-col>-->
+<!--          </a-row>-->
         </div>
         <a-table
           style="margin-top: 30px"
@@ -99,7 +99,7 @@
             :component="$myIcons.filterDownIcon"
           />
           <template slot="data" slot-scope="text, row">
-            <span>{{ moment(row.data).format('YYYY-MM-DD') }}</span>
+            <span>{{ moment(row.date).format('YYYY-MM-DD') }}</span>
           </template>
           <template slot="total_amount" slot-scope="text, row">
             <span>{{ row.billing_info.total_amount }}</span>
@@ -274,14 +274,15 @@ export default {
 .mulitiCard{
   display: flex;
   position: static;
-  width: 357.33px;
+  width: 357px;
   height: 56px;
-  left: 0px;
+  left: 20px;
   top: 0px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-sizing: border-box;
   border-radius: 8px;
+  margin-left: 20px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 .gutter-box {
@@ -289,6 +290,7 @@ export default {
 }
 .fonSize {
   font-size: 16px;
+  cursor: pointer;
 }
 
 </style>

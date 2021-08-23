@@ -4,8 +4,8 @@
       <a-page-header style="width: 80%">
         <div slot="title">
           <a-button type="link" icon="arrow-left" style="color: black" @click="() => $router.go(-1)"></a-button>
-          <span class="fonSize">{{ $t('report') }} /</span>
-          <router-link to="'/reports/expenses/list'" style="color: black" class="fonSize">{{ $t('acount') }}</router-link>
+          <span class="fonSize" @click="() => $router.push({ name: 'transactionsListMain'})">{{ $t('report') }} /</span>
+          <router-link :to="{ name: 'acountListMainList'}" style="color: black" class="fonSize">{{ $t('acount') }}</router-link>
         </div>
       </a-page-header>
     </div>
@@ -15,9 +15,9 @@
         <div slot="title">
           {{ $t('acount') }}
         </div>
-        <div slot="extra">
-          <a-button @click="AcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>
-        </div>
+<!--        <div slot="extra">-->
+<!--          <a-button @click="AcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
+<!--        </div>-->
         <div>
         </div>
         <a-table
@@ -227,5 +227,6 @@ export default {
 <style scoped>
 .fonSize {
   font-size: 16px;
+  cursor: pointer;
 }
 </style>
