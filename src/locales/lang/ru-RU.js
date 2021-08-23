@@ -217,6 +217,7 @@ const locale = {
   delivered: 'Доставлен',
   finished: 'Завершен',
   new: 'Новый',
+  orderNumber: 'Порядок ',
   addField: 'Добавить поле',
   operatorAccepted: 'Оператор принял',
   operatorCancelled: 'Оператор отменил',

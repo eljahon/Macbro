@@ -58,23 +58,33 @@ export default {
       columns: [
         {
           title: this.$t('fistname'),
-          dataIndex: 'first_name'
+          dataIndex: 'first_name',
+          align: 'center'
         },
         {
           title: this.$t('lastname'),
-          dataIndex: 'last_name'
+          dataIndex: 'last_name',
+          align: 'center'
         },
         {
           title: this.$t('phone_number'),
-          dataIndex: 'phone_number'
+          dataIndex: 'phone_number',
+          align: 'center'
         },
         {
           title: this.$t('inn'),
-          dataIndex: 'inn'
+          dataIndex: 'inn',
+          align: 'center'
+        },
+        {
+          title: this.$t('тип пользователя'),
+          dataIndex: 'user_type',
+          align: 'center'
         },
         {
           title: this.$t('action'),
           key: 'action',
+          align: 'center',
           width: '20%',
           scopedSlots: { customRender: 'action' }
         }

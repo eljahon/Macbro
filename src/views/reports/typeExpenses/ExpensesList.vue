@@ -4,12 +4,12 @@
       <a-page-header style="width: 40%">
         <div slot="title">
           <a-button type="link" icon="arrow-left" style="color: black" @click="() => $router.go(-1)"></a-button>
-          <span class="fonSize">{{ $t('report') }} /</span>
+          <span class="fonSize" @click="() => $router.push({ name: 'transactionsListMain'})">{{ $t('report') }} / </span>
           <router-link :to="{name: 'expensesListMainList'}" style="color: black" class="fonSize">{{ $t('typeExpenses') }}</router-link>
         </div>
       </a-page-header>
     </div>
-    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch"></a-input-search></div>
+<!--    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch"></a-input-search></div>-->
     <div>
       <a-card :bordered="false">
         <div slot="title">
@@ -47,7 +47,7 @@
 <!--          </a-row>-->
         </div>
         <a-table
-          style="margin-top: 30px"
+          style="margin-top: 30px; cursor: pointer"
           :columns="columns"
           :rowKey="record => record.id"
           :dataSource="getUserListTable"
@@ -59,21 +59,6 @@
           :customRow="customRowClick"
           class="pointer"
         >
-<!--          <div slot="Dropdowns" style="padding: 8px; width: 230px;">-->
-<!--            <a-range-picker @change="onChangepicker" style="width: 220px" />-->
-<!--          </div>-->
-<!--          <div slot="Категория" style="padding: 8px; width: 230px;">-->
-<!--            <a-input-->
-<!--              :placeholder="$t('numbertransactions')"-->
-<!--              style="width: 220px; margin-bottom: 0px; display: block;"-->
-<!--            />-->
-<!--          </div>-->
-<!--          <div slot="AccountNumber" style="padding: 8px; width: 230px;">-->
-<!--            <a-input-->
-<!--              :placeholder="$t('acountnumber')"-->
-<!--              style="width: 220px; margin-bottom: 0px; display: block;"-->
-<!--            />-->
-<!--          </div>-->
           <div
             slot="Категория"
             style="padding: 8px"
@@ -89,18 +74,6 @@
               </a-select-option>
 
             </a-select>
-            <!--            <a-button-->
-            <!--              type="primary"-->
-            <!--              icon="search"-->
-            <!--              size="small"-->
-            <!--              style="width: 90px; margin-right: 8px"-->
-            <!--              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"-->
-            <!--            >-->
-            <!--              Search-->
-            <!--            </a-button>-->
-            <!--            <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">-->
-            <!--              Reset-->
-            <!--            </a-button>-->
           </div>
           <a-icon
             style="font-size: 20px; color: transparent; background-color: transparent"
@@ -115,13 +88,8 @@
             <span>{{ row.order }}</span>
           </template>
           <template slot="currency" slot-scope="text, row">
-            <!--            <span v-for="(payment, index) in sortDublicat(row.billing_info.payment)" :key="index">-->
-            <!--              <img class="imgBorderRaidus" style="width: 50px" v-if="payment === 'payme'" :src="Imgs.payment" alt="Payment">-->
-            <img v-if="row.icon" class="imgBorderRaidus"  :src="Imgs.cash" alt="Payment">
-            <!--              <img class="imgBorderRaidus" v-if="payment === 'click'" :src="Imgs.click" alt="Payment">-->
-            <!--              <img class="imgBorderRaidus" v-if="payment === 'p2p'" :src="Imgs.Vise" alt="Payment">-->
-            <!--              <img v-if="payment === 'terminal'" :src="Imgs.Vise" alt="Payment">-->
-            <!--            </span>-->
+<!--            {{ ImgCreateElement(row.icon) }}-->
+            <img v-if="row.icon" class="imgBorderRaidus"  :src="row.icon" alt="Payment">
           </template>
           <template slot="type" slot-scope="text, row">
             <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>
@@ -226,10 +194,7 @@ export default {
         {
           title: this.$t('Суб-Категория'),
           align: 'center',
-          scopedSlots: {
-            filterDropdown: 'Категория',
-                filterIcon: 'filterIcon',
-            customRender: 'type' }
+          scopedSlots: { customRender: 'type' }
           // dataIndex: 'account_number',
         }
         // {
@@ -251,6 +216,16 @@ export default {
     }
   },
   methods: {
+    ImgCreateElement (url) {
+   const img = document.createElement('IMG')
+      img.src = `${url}.png`
+      // // x.setAttribute('id', 'Queen_of_Hearts')
+      // x.setAttribute('src', `${url}.png`)
+      // x.setAttribute('width', '200px')
+      // x.setAttribute('height', '200px')
+      // x.setAttribute('alt', 'Card Face')
+      img.click()
+    },
     EspenCreateListPush () {
       this.$router.push({ name: 'expensesCreateListMainList' })
     },
@@ -283,8 +258,14 @@ export default {
           this.loading = false
         })
     },
-    customRowClick (val, even, data) {
-      // console.log(val, even, data)
+    customRowClick (val) {
+      return {
+        on: {
+          click: () => {
+            this.$router.push({ name: 'expensesUpdateListMainList', params: { id: val.id ? val.id : 3 } })
+          }
+        }
+      }
     },
     onSearch (value) {
       console.log(value)
@@ -350,6 +331,7 @@ export default {
 }
 .fonSize {
   font-size: 16px;
+  cursor: pointer;
 }
 
 </style>

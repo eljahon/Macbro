@@ -1,23 +1,27 @@
 import request from '@/utils/request'
-const baseUrl = 'https://test.api.staff.macbro.uz/v1'
+// import categories from '@/store/modules/categories'
+// const baseUrl = 'https://test.api.staff.macbro.uz/v1'
 const baseUrLs = {
   transaction: '/billing/transaction',
   acountList: '/billing/account',
   SubacountList: '/billing/subaccount',
-  espenList: '/billing/expenditure'
+  espenList: '/billing/expenditure',
+  subCatigoryList: '/billing/subaccount-category'
 }
 const reports = {
   state: {
+    subCatigoryList: [],
+    transactionList: [],
+    TrPagination: {},
     EspaneGetAllList: [],
     EspenPagination: {},
-    AcPagination: {},
-    AcountList: [],
     SubAcountList: [],
     SunPagnation: {},
-    transactionList: [],
-    TrPagination: {}
+    AcPagination: {},
+    AcountList: []
   },
   getters: {
+    subCatigoryList: state => state.subCatigoryList,
     EspaneGetAllList: state => state.EspaneGetAllList,
     EspenPagination: state => state.EspenPagination,
     SubAcountList: state => state.SubAcountList,
@@ -28,6 +32,9 @@ const reports = {
     TrPagination: state => state.TrPagination
   },
   mutations: {
+    GET_SUB_CATIGORY_LIST: (state, payload) => {
+      state.subCatigoryList = payload
+    },
     GET_ESPEN_LIST: (state, payload) => {
       state.EspaneGetAllList = payload
     },
@@ -54,11 +61,102 @@ const reports = {
     }
   },
   actions: {
+    EspenCreate ({ commit }, paload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.espenList}`,
+          method: 'post',
+          data: paload
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    SubCatigoryList ({ commit }, payload) {
+      // const pagination = payload.page
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.subCatigoryList}`,
+          method: 'get'
+        })
+          .then(res => {
+            console.log(res)
+            commit('GET_SUB_CATIGORY_LIST', res.subaccount_categories)
+            // pagination.total = parseInt(res.count)
+            // commit('ESPEN_PAGINATION', pagination)
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    EsenUpdate ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.espenList}`,
+          method: 'put',
+          data: payload
+        })
+          .then(res => {
+            // console.log(res)
+            // console.log(res)
+            // commit('GET_ESPEN_LIST', res.expenditure_elements)
+            // pagination.total = res.count
+            // commit('ESPEN_PAGINATION', pagination)
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    EsenDelete ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.espenList}/${id}`,
+          method: 'delete'
+        })
+          .then(res => {
+            // console.log(res)
+            // console.log(res)
+            // commit('GET_ESPEN_LIST', res.expenditure_elements)
+            // pagination.total = res.count
+            // commit('ESPEN_PAGINATION', pagination)
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    SubItemUpdate ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.espenList}/${id}`,
+          method: 'get'
+        })
+          .then(res => {
+            // console.log(res)
+            // commit('GET_ESPEN_LIST', res.expenditure_elements)
+            // pagination.total = res.count
+            // commit('ESPEN_PAGINATION', pagination)
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
     GetEspenListAll ({ commit }, payload) {
       const pagination = payload.page
       return new Promise((resolve, reject) => {
         request({
-          url: `${baseUrl}${baseUrLs.espenList}`,
+          url: `${baseUrLs.espenList}`,
           method: 'get'
         })
           .then(res => {
@@ -78,7 +176,7 @@ const reports = {
       const pagination = payload.page
       return new Promise((resolve, reject) => {
         request({
-          url: `${baseUrl}${baseUrLs.SubacountList}`,
+          url: `${baseUrLs.SubacountList}`,
           method: 'get',
           params: {
             account_number: payload.account_number,
@@ -106,7 +204,7 @@ const reports = {
       const pagination = payload.page
       return new Promise((resolve, reject) => {
         request({
-          url: `${baseUrl}${baseUrLs.acountList}`,
+          url: `${baseUrLs.acountList}`,
           method: 'get',
           params: {
             page: pagination.current,
@@ -130,7 +228,7 @@ const reports = {
       const pagnation = payload.page
       return new Promise((resolve, reject) => {
         request({
-          url: `${baseUrl}${baseUrLs.transaction}`,
+          url: `${baseUrLs.transaction}`,
           method: 'get',
           params: {
             page: pagnation.current,

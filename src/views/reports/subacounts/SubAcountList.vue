@@ -21,7 +21,7 @@
         <div>
         </div>
         <a-table
-          style="margin-top: 30px"
+          style="margin-top: 30px; cursor: pointer"
           :columns="columns"
           :rowKey="record => record.id"
           :dataSource="getUserListTable"
@@ -261,8 +261,15 @@ export default {
           this.loading = false
         })
     },
-    customRowClick (val, even, data) {
-      // console.log(val, even, data)
+    customRowClick (val) {
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push({ name: 'SubacountUpdate', params: { id: val.id } })
+          }
+        }
+      }
+      // console.log(val.id)
     },
     onSearch (value) {
       console.log(value)
@@ -285,6 +292,9 @@ export default {
 <style scoped>
 .fonSize {
   font-size: 16px;
+}
+.pointer {
+  cursor: pointer;
 }
 
 </style>
