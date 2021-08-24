@@ -63,12 +63,14 @@
             <a-input
               :placeholder="$t('numbertransactions')"
               style="width: 220px; margin-bottom: 0px; display: block;"
+              v-debounce="NumberTransactionSearch"
             />
           </div>
           <div slot="AccountNumber" style="padding: 8px; width: 230px;">
             <a-input
               :placeholder="$t('acountnumber')"
               style="width: 220px; margin-bottom: 0px; display: block;"
+              v-debounce="AccountNumberSearch"
             />
           </div>
           <div
@@ -145,6 +147,8 @@ export default {
         currency_type: '',
         end_date: '',
         payment_type: '',
+        transaction_number: '',
+        account_number: '',
         start_date: '',
         page: { current: 1, pageSize: 10, total: null }
       },
@@ -214,6 +218,14 @@ export default {
     }
   },
   methods: {
+    AccountNumberSearch (val) {
+      this.params.account_number = val
+      this.TrGetListAll()
+    },
+    NumberTransactionSearch (value) {
+      this.params.transaction_number = value
+      this.TrGetListAll()
+    },
     onChangepicker (val, event) {
       console.log(val, event)
       this.params.start_date = event[0]
