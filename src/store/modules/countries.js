@@ -10,9 +10,11 @@ const countries = {
     countriesPagination: {},
     cities: [],
     citiesPagination: {},
-    searchQuery: ''
+    searchQuery: '',
+    ButtonBoole: '1'
   },
   getters: {
+    ButtonBoole: state => state.ButtonBoole,
     countriesList: state => state.countries,
     countriesPagination: state => state.countriesPagination,
     citiesList: state => state.cities,
@@ -22,6 +24,9 @@ const countries = {
   mutations: {
     SET_CITIES: (state, cities) => {
         state.cities = cities
+    },
+    SET_BUTTON_SAVE: (state, payload) => {
+      state.ButtonBoole = payload
     },
     SET_CITIES_PAGINATION: (state, citiesPagination) => {
         state.citiesPagination = citiesPagination
@@ -116,6 +121,9 @@ const countries = {
         .catch(error => {
           return error
         })
+    },
+    setbutton ({ commit }, id) {
+      commit('SET_BUTTON_SAVE', id)
     }
   }
 }
