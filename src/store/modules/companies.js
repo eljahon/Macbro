@@ -64,9 +64,11 @@ const companies = {
     branchesList: [],
     branchesIdList: [],
     usertype: null,
-    staffselectsadd: null
+    staffselectsadd: null,
+    staffPagination: {}
   },
   getters: {
+    staffPagination: state => state.staffPagination,
     branchesIdList: state => state.branchesIdList,
     branchesList: state => state.branchesList,
     UserTypeSelect: state => state.array,
@@ -121,7 +123,9 @@ const companies = {
     SET_INVENTORY_ITEMS_PAGINATION: (state, inventoryItemsPagination) => {
       state.inventoryItemsPagination = inventoryItemsPagination
     },
-
+SET_STAFF: (state, payload) => {
+      state.staffPagination = payload
+},
     SET_SEARCH_QUERY: (state, query) => {
       state.searchQuery = query
     },
@@ -230,7 +234,7 @@ const companies = {
           .then(result => {
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
-            // commit('SET_COMPANIES_PAGINATION', pagination)
+            commit('SET_STAFF', pagination)
             // commit('SET_COMPANIES', result.companies)
             commit('GET_BRANCECH_LIST', result.users)
             resolve(result)

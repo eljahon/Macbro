@@ -30,15 +30,18 @@
           @change="handleTableChange"
           test-attr="list-customer"
           bordered
-          :customRow="customRowClick"
-          class="pointer"
         >
           <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-            <a-input
+            <a-select
               :placeholder="$t('Тип аккаунта')"
-              v-debounce="AccountTypeSearch"
-              style="width: 220px; margin-bottom: 0px; display: block;"
-            />
+              style="width: 220px"
+              @change="AccountTypeSearch"
+              allowClear
+            >
+              <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">
+                {{ catigoriya.name }}
+              </a-select-option>
+            </a-select>
           </div>
           <div
             slot="аккаунта"
@@ -82,6 +85,13 @@ import Click from '../../../assets/clck.svg'
 export default {
   data () {
     return {
+      AccountGrups: [
+        { id: '1', name: 'Касса' },
+        { id: '2', name: 'Контрагент' },
+        { id: '3', name: 'Клиент' },
+        { id: '4', name: 'Сотрудники' },
+        { id: '5', name: 'Компания' }
+      ],
       Imgs: {
         cash: cash,
         payment: Payment,
@@ -90,6 +100,8 @@ export default {
       },
       params: {
         search: '',
+        account_group_id: '',
+        account_number: '',
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
@@ -164,11 +176,11 @@ export default {
   },
   methods: {
     AccountTypeSearch (val) {
-      this.params.search = val
+      this.params.account_group_id = val
       this.AcountGetListAll()
     },
     AccountSearch (val) {
-      this.params.search = val
+      this.params.account_number = val
       this.AcountGetListAll()
     },
     AcountCreate () {
@@ -213,7 +225,7 @@ export default {
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
-      this.TrGetListAll()
+      this.AcountGetListAll()
     }
   },
   mounted () {

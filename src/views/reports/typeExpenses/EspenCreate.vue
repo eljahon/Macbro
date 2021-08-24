@@ -73,6 +73,7 @@
             <a-form-model-item ref="sub_account_category_id" prop="sub_account_category_id" :label="$t('Суб-Категория')">
               <a-select
                 size="large"
+                v-model="form.sub_account_category_id"
                 :placeholder="$t('Суб-Категория')"
                 style="width: 100%"
                 @change="handleChangeSelectcatigory"
@@ -81,18 +82,20 @@
                 <a-select-option v-for="(catigoriya, index) in subCatigoryList" :key="index" :value="catigoriya.id">
                   {{ catigoriya.name }}
                 </a-select-option>
-
               </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
       </a-form-model>
     </div>
+    <div style="width: 100%;">
+      <a-button @click="EspenDelete" icon="delete" style="color: red">{{ $t('delete')}}</a-button>
     <div style="float: right">
-      <a-button style="margin-left: 10px;" @click="resetForm" test-attr="reset-permissions">
+      <a-button @click="resetForm" test-attr="reset-permissions">
         {{ $t('reset') }}
       </a-button>
       <a-button style="margin-left: 15px" html-type="submit" @click="onSubmit" type="primary">{{ $t('save') }}</a-button>
+    </div>
     </div>
   </a-card>
 </template>
@@ -123,7 +126,7 @@ export default {
         icon: '',
         name: '',
         order: null,
-        sub_account_category_id: '2313132sddssgdfh532543'
+        sub_account_category_id: ''
       },
       rules: {
         name: [
@@ -179,6 +182,25 @@ export default {
       this.form.sub_account_category_id = val
     },
     moment,
+    EspenDelete () {
+      this.$store.dispatch('espenDelete', this.$route.params.id)
+      .then(res => {
+        this.$router.push({ name: 'expensesListMainList' })
+      })
+    },
+    SubAccountUpadte () {
+      return this.SubItemUpdate(this.$route.params.id)
+        .then(res => {
+          this.form.name = res.name
+          this.form.order = res.order
+          this.form.sub_account_category_id = res.sub_account_category_id
+          // eslint-disable-next-line no-useless-escape
+          this.form.icon = res.icon.split(/[\\\/]/)[4]
+          this.imageUrl = res.icon
+          this.form.id = this.$route.params.id
+          console.log(this.form)
+        })
+    },
     ...mapActions(['SubCatigoryList', 'EspenCreate', 'SubItemUpdate', 'EsenUpdate']),
     onSubmit (e) {
       e.preventDefault()
@@ -208,11 +230,10 @@ export default {
   },
   mounted () {
     if (this.$route.params.id) {
-      this.SubItemUpdate(this.$route.params.id)
-      .then(res => {
-        this.form = { ...res }
-        this.imageUrl = res.icon
-      })
+      Promise.all([this.SubCatigoryList()])
+        .then(res => {
+          this.SubAccountUpadte()
+        })
     }
   },
   created () {

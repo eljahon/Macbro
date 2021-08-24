@@ -95,6 +95,25 @@ const reports = {
           })
       })
     },
+    espenDelete ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${baseUrLs.espenList}/${id}`,
+          method: 'delete'
+        })
+          .then(res => {
+            // console.log(res)
+            // console.log(res)
+            // commit('GET_ESPEN_LIST', res.expenditure_elements)
+            // pagination.total = res.count
+            // commit('ESPEN_PAGINATION', pagination)
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
     EsenUpdate ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
@@ -209,7 +228,9 @@ const reports = {
           params: {
             page: pagination.current,
             limit: pagination.pageSize,
-            search: payload.search
+            search: payload.search,
+            account_group_id: payload.account_group_id,
+            account_number: payload.account_number
 
           }
         })

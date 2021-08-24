@@ -15,13 +15,13 @@
         <div slot="title">
           {{ $t('subacounts') }}
         </div>
-        <div slot="extra">
-          <a-button @click="SubAcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>
-        </div>
+<!--        <div slot="extra">-->
+<!--          <a-button @click="SubAcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
+<!--        </div>-->
         <div>
         </div>
         <a-table
-          style="margin-top: 30px; cursor: pointer"
+          style="margin-top: 30px;"
           :columns="columns"
           :rowKey="record => record.id"
           :dataSource="getUserListTable"
@@ -30,8 +30,6 @@
           @change="handleTableChange"
           test-attr="list-customer"
           bordered
-          :customRow="customRowClick"
-          class="pointer"
         >
           <div slot="Суб_Категория" style="padding: 8px; width: 230px;">
             <a-select

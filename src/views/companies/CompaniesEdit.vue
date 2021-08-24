@@ -113,6 +113,7 @@ export default {
     }
   },
   mounted () {
+    // this.$store.dispatch('setLastTab', 1)
   },
   methods: {
     ...mapActions(['setLastTab', 'getUsers']),

@@ -85,26 +85,26 @@
             <span>{{ moment(row.data).format('YYYY-MM-DD') }}</span>
           </template>
           <template slot="order" slot-scope="text, row">
-            <span>{{ row.order }}</span>
+            <span>{{ row.name }}</span>
           </template>
           <template slot="currency" slot-scope="text, row">
 <!--            {{ ImgCreateElement(row.icon) }}-->
             <img v-if="row.icon" class="imgBorderRaidus"  :src="row.icon" alt="Payment">
           </template>
           <template slot="type" slot-scope="text, row">
-            <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>
-            <a-tag v-if="row.name === 'sale'" color="blue"><span>Продажа</span></a-tag>
-            <a-tag v-if="row.name === 'other'" color="red"><span>Другие</span></a-tag>
-            <a-tag v-if="row.name === 'mortgage'" color="green"><span>Ипотека</span></a-tag>
-            <a-tag v-if="row.name === 'obed'" color="#D4B483"><span>Подчиняться</span></a-tag>
-            <a-tag v-if="row.name === 'cleaning'" color="#87C38F"><span>Уборка</span></a-tag>
-            <a-tag v-if="row.name === 'products'" color="#F4F0BB"><span>Продукты</span></a-tag>
-            <a-tag v-if="row.name === 'advertisement'" color="#48A9A6"><span>Рекламное объявление</span></a-tag>
-            <a-tag v-if="row.name === 'taxi'" color="#ffb703"><span>Такси</span></a-tag>
-            <a-tag v-if="row.name === 'salary'" color="#ffcdb2"><span>Зарплата</span></a-tag>
-            <a-tag v-if="row.name === 'rent'" color="#a8dadc"><span>Арендовать</span></a-tag>
-            <a-tag v-if="row.name === 'communal'" color="#fcd5ce"><span>Коммунальный</span></a-tag>
-            <a-tag v-if="row.name === 'internet'" color="#ffafcc"><span>Интернет</span></a-tag>
+<!--            <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>-->
+<!--            <a-tag  color="blue"><span>Продажа</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'other'" color="red"><span>Другие</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'mortgage'" color="green"><span>Ипотека</span></a-tag>-->
+            <a-tag color="blue"><span>{{  SubAccountFilterId(row.sub_account_category_id)}}</span></a-tag>
+<!--            <a-tag v-if="row.name === 'cleaning'" color="#87C38F"><span>Уборка</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'products'" color="#F4F0BB"><span>Продукты</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'advertisement'" color="#48A9A6"><span>Рекламное объявление</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'taxi'" color="#ffb703"><span>Такси</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'salary'" color="#ffcdb2"><span>Зарплата</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'rent'" color="#a8dadc"><span>Арендовать</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'communal'" color="#fcd5ce"><span>Коммунальный</span></a-tag>-->
+<!--            <a-tag v-if="row.name === 'internet'" color="#ffafcc"><span>Интернет</span></a-tag>-->
             <!--            <span>{{ row.billing_info.type }}</span>-->
           </template>
         </a-table>
@@ -207,7 +207,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['EspaneGetAllList', 'EspenPagination']),
+    ...mapGetters(['EspaneGetAllList', 'EspenPagination', 'subCatigoryList']),
     getPagination () {
       return this.EspenPagination
     },
@@ -216,15 +216,13 @@ export default {
     }
   },
   methods: {
-    ImgCreateElement (url) {
-   const img = document.createElement('IMG')
-      img.src = `${url}.png`
-      // // x.setAttribute('id', 'Queen_of_Hearts')
-      // x.setAttribute('src', `${url}.png`)
-      // x.setAttribute('width', '200px')
-      // x.setAttribute('height', '200px')
-      // x.setAttribute('alt', 'Card Face')
-      img.click()
+    SubAccountFilterId (id) {
+      const item = this.subCatigoryList.map(e => {
+        if (e.id === id) {
+          return e.name
+        }
+      })
+      return item.join('')
     },
     EspenCreateListPush () {
       this.$router.push({ name: 'expensesCreateListMainList' })
@@ -250,7 +248,7 @@ export default {
       return unique
     },
     moment,
-    ...mapActions(['GetEspenListAll']),
+    ...mapActions(['GetEspenListAll', 'SubCatigoryList']),
     EspenGetListAll () {
       this.loading = true
       this.GetEspenListAll(this.params)
@@ -262,7 +260,7 @@ export default {
       return {
         on: {
           click: () => {
-            this.$router.push({ name: 'expensesUpdateListMainList', params: { id: val.id ? val.id : 3 } })
+            this.$router.push({ name: 'expensesUpdateListMainList', params: { id: val.id ? val.id : 3 }, query: { valueItem: val } })
           }
         }
       }
@@ -280,6 +278,7 @@ export default {
   },
   created () {
     this.EspenGetListAll()
+    this.SubCatigoryList()
   }
 }
 </script>

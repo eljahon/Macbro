@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb-row>
+    <breadcrumb-row @click="()=> $router.go(-1)">
       <a-breadcrumb style="margin: 10px 5px" slot="links">
         <a-breadcrumb-item>
           <router-link to="/company/list" test-attr="prev-link-company">{{ $t('companies') }}</router-link>
@@ -35,7 +35,7 @@
         </a-row>
       </a-card>
     </div>
-    <a-row class="edit-btns" v-if="this.$route.query.tabid === '1'">
+    <a-row class="edit-btns" v-if="ButtonBoole === '1'">
       <a-col :span="24" style="padding: 15px 0">
         <a-form-model-item>
           <a-button :loading="btnLoading" type="primary" html-type="submit" @click.prevent="submit" test-attr="save-branch">
@@ -64,13 +64,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['citiesList'])
+    ...mapGetters(['citiesList', 'ButtonBoole'])
   },
   mounted () {
     // console.log('$refs', this.$refs)
-    this.$router.push({ name: this.$route.name, query: { tabid: '1' } })
+    // this.$router.push({ name: this.$route.name, query: { tabid: '1' } })
     this.getCities()
-    console.log('ROUTES', this.$route)
+    console.log('ROUTES', this.$route.path)
   },
   // updated() {
   //   console.warn('$refs', this.$refs)

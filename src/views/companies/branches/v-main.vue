@@ -307,7 +307,7 @@ export default {
     if (this.branchId) {
       this.GetBranchUserList(this.paramsbranch)
       .then(res => {
-        console.log('res =>', res)
+        // console.log('res =>', res)
         this.selectedRowKeys = res.map(e => e.id)
       })
     }
@@ -366,7 +366,8 @@ export default {
     },
     callback (value) {
       // 1
-      this.$router.push({ name: this.$route.name, query: { tabid: value } })
+      console.log(value)
+      this.$store.dispatch('setbutton', value)
          },
     openModal () {
       this.modalVisible = true
@@ -517,9 +518,6 @@ export default {
     },
     resetForm () {
       this.$refs.ruleForm.resetFields()
-    },
-    activeTabHandler (_activeTabKey) {
-      this.activeTabKey = _activeTabKey
     },
     filterOption (input, option) {
       return (
