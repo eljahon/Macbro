@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row slot="extra" type="flex" align="middle">
-      <a-col :lg="12" :md="24" style="margin: 0 0 15px">
+      <a-col :lg="8" :md="24" style="margin: 0 0 15px">
         <span>
           Статус:
         </span>
@@ -12,12 +12,23 @@
           test-attr="active-product-vars"
         />
       </a-col>
-      <a-col :lg="12" :md="24" style="margin: 0 0 15px">
+      <a-col :lg="8" :md="24" style="margin: 0 0 15px">
         <span>
           Показать цены:
         </span>
         <a-switch
           v-model="productVariant.show_price"
+          :checked-children="$t('active')"
+          :un-checked-children="$t('inactive')"
+          test-attr="show-price-product-vars"
+        />
+      </a-col>
+      <a-col :lg="8" :md="24" style="margin: 0 0 15px">
+        <span>
+          Частичная остатка:
+        </span>
+        <a-switch
+          v-model="productVariant.is_need"
           :checked-children="$t('active')"
           :un-checked-children="$t('inactive')"
           test-attr="show-price-product-vars"
@@ -532,6 +543,7 @@ export default {
         name: '',
         active: true,
         show_price: true,
+        is_need: true,
         brand_id: '',
         category_id: null,
         order: 0,
@@ -946,6 +958,7 @@ export default {
         this.price.old_price = productVariant.price.old_price || 0
         this.productVariant.active = productVariant.active
         this.productVariant.show_price = productVariant.show_price
+        this.productVariant.is_need = productVariant.is_need
         this.productVariant.additional_categories = productVariant.additional_categories ? productVariant.additional_categories.map(ac => ac.id) : []
         this.productVariant.bar_code = productVariant.bar_code
         this.productVariant.state = productVariant.state
