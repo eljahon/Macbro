@@ -139,6 +139,7 @@ import { AutoComplete } from 'ant-design-vue'
 import tinymce from '@/components/Editor/tinyMCE/tinyEditor'
 import request from '@/utils/request'
 import { mapActions, mapGetters } from 'vuex'
+import notification from 'ant-design-vue/es/notification'
 export default {
   watch: {
     'form.date_of_birth' (e) {
@@ -293,8 +294,17 @@ export default {
           this.$store.dispatch('companyUserTypeCreate', this.form)
             .then(res => {
               this.$router.push({ name: 'CompaniesEdit', params: { id: this.$route.query.companyId } })
+              this.$store.dispatch('setLastTab', 2)
               this.getUsers(this.params)
               this.$message.success(this.$t('auth_api_url_useraAdd'))
+            })
+            .catch(err => {
+              this.requesting = false
+              notification.error({
+                message: 'Телефон или электронная почта заняты',
+                description: 'success'
+              })
+              console.log(err)
             })
             .finally(() => {
             this.$emit('clickParent', false)

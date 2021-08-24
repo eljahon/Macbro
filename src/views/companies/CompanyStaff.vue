@@ -96,9 +96,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['searchQuery']),
+    ...mapGetters(['searchQuery', 'staffPagination']),
     getPagination () {
-      return {}
+      return this.staffPagination
     },
     getCompanyBranchesList () {
       return this.data
@@ -110,7 +110,6 @@ export default {
   mounted () {
       this.setSearchQuery()
     this.getUsers(this.params).then(res => {
-      console.log(res)
       this.data = res.users
     }).catch(err => {
       console.log(err)
@@ -133,10 +132,15 @@ export default {
     ...mapActions(['getCompanyBranches', 'setSearchQuery', 'getUsers']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true })
-        .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
-        .finally(() => (this.loading = false))
+      this.params.page = { ...pagination }
+      this.getUsers(this.params).then(res => {
+        this.data = res.users
+      }).catch(err => {
+        console.log(err)
+      })
+        .finally(() => {
+          this.loading = false
+        })
     },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)

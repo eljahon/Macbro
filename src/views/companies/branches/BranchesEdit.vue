@@ -70,7 +70,7 @@ export default {
     // console.log('$refs', this.$refs)
     // this.$router.push({ name: this.$route.name, query: { tabid: '1' } })
     this.getCities()
-    console.log('ROUTES', this.$route.matched)
+    console.log('ROUTES', this.$route.path)
   },
   // updated() {
   //   console.warn('$refs', this.$refs)
