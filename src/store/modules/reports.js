@@ -259,7 +259,8 @@ const reports = {
             payment_type: payload.payment_type,
             start_date: payload.start_date,
             transaction_number: payload.transaction_number,
-            account_number: payload.account_number
+            account_number: payload.account_number,
+            type: payload.type
           }
         })
           .then(res => {

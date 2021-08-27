@@ -73,6 +73,19 @@
               v-debounce="AccountNumberSearch"
             />
           </div>
+          <div slot="TypeTransaction" style="padding: 8px; width: 230px;">
+            <a-select
+              :placeholder="$t('typetransactions')"
+              style="width: 220px"
+              @change="handleChangeSelectcatigory"
+              allowClear
+            >
+              <a-select-option v-for="(catigoriya, index) in category" :key="index" :value="catigoriya.id">
+                {{ catigoriya.name }}
+              </a-select-option>
+
+            </a-select>
+          </div>
           <div
             slot="Dropdown"
             style="padding: 8px"
@@ -137,6 +150,11 @@ import Click from '../../../assets/clck.svg'
 export default {
   data () {
     return {
+      category: [
+        { id: '1', name: 'Продажа' },
+        { id: '3', name: 'Покупка' },
+        { id: '2', name: 'Расходы' }
+      ],
       Imgs: {
         cash: cash,
         payment: Payment,
@@ -150,6 +168,7 @@ export default {
         transaction_number: '',
         account_number: '',
         start_date: '',
+        type: '',
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
@@ -189,7 +208,11 @@ export default {
         },
         {
           title: this.$t('typetransactions'),
-          scopedSlots: { customRender: 'type' }
+          scopedSlots: {
+            filterDropdown: 'TypeTransaction',
+            filterIcon: 'filterIcon',
+            customRender: 'type'
+          }
           // dataIndex: 'account_number',
         },
         {
@@ -218,6 +241,10 @@ export default {
     }
   },
   methods: {
+    handleChangeSelectcatigory (val) {
+      this.params.type = val
+      this.TrGetListAll()
+    },
     AccountNumberSearch (val) {
       this.params.account_number = val
       this.TrGetListAll()

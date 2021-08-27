@@ -215,6 +215,10 @@ export default {
           dataIndex: 'phone_number'
         },
         {
+          title: this.$t('userType'),
+          dataIndex: 'user_type'
+        },
+        {
           title: this.$t('inn'),
           dataIndex: 'inn'
         }
@@ -239,6 +243,11 @@ export default {
         {
           title: this.$t('phone_number'),
           dataIndex: 'phone_number',
+          align: 'center'
+        },
+        {
+          title: this.$t('userType'),
+          dataIndex: 'user_type',
           align: 'center'
         },
         {
