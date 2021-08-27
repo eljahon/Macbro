@@ -110,6 +110,7 @@ export default {
   mounted () {
       this.setSearchQuery()
     this.getUsers(this.params).then(res => {
+      console.log(res.users)
       this.data = res.users
     }).catch(err => {
       console.log(err)

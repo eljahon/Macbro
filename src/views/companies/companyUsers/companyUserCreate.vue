@@ -295,7 +295,7 @@ export default {
             .then(res => {
               this.$router.push({ name: 'CompaniesEdit', params: { id: this.$route.query.companyId } })
               this.$store.dispatch('setLastTab', 2)
-              this.getUsers(this.params)
+              // this.getUsers(this.params)
               this.$message.success(this.$t('auth_api_url_useraAdd'))
             })
             .catch(err => {
