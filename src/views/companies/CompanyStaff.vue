@@ -58,23 +58,33 @@ export default {
       columns: [
         {
           title: this.$t('fistname'),
-          dataIndex: 'first_name'
+          dataIndex: 'first_name',
+          align: 'center'
         },
         {
           title: this.$t('lastname'),
-          dataIndex: 'last_name'
+          dataIndex: 'last_name',
+          align: 'center'
         },
         {
           title: this.$t('phone_number'),
-          dataIndex: 'phone_number'
+          dataIndex: 'phone_number',
+          align: 'center'
         },
         {
           title: this.$t('inn'),
-          dataIndex: 'inn'
+          dataIndex: 'inn',
+          align: 'center'
+        },
+        {
+          title: this.$t('тип пользователя'),
+          dataIndex: 'user_type',
+          align: 'center'
         },
         {
           title: this.$t('action'),
           key: 'action',
+          align: 'center',
           width: '20%',
           scopedSlots: { customRender: 'action' }
         }
@@ -86,9 +96,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['searchQuery']),
+    ...mapGetters(['searchQuery', 'staffPagination']),
     getPagination () {
-      return {}
+      return this.staffPagination
     },
     getCompanyBranchesList () {
       return this.data
@@ -100,7 +110,7 @@ export default {
   mounted () {
       this.setSearchQuery()
     this.getUsers(this.params).then(res => {
-      console.log(res)
+      console.log(res.users)
       this.data = res.users
     }).catch(err => {
       console.log(err)
@@ -123,10 +133,15 @@ export default {
     ...mapActions(['getCompanyBranches', 'setSearchQuery', 'getUsers']),
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true })
-        .then((res) => console.log(res))
-        .catch(err => this.requestFailed(err))
-        .finally(() => (this.loading = false))
+      this.params.page = { ...pagination }
+      this.getUsers(this.params).then(res => {
+        this.data = res.users
+      }).catch(err => {
+        console.log(err)
+      })
+        .finally(() => {
+          this.loading = false
+        })
     },
     debouncedSearch (searchQuery) {
       this.setSearchQuery(searchQuery)

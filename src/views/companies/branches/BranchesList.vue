@@ -51,6 +51,7 @@
           <div style="display: flex; justify-content: space-around;">
             <router-link :to="`${$route.path}/branch/update/${row.id}`" >
               <edit-btn :test-attr="`edit-branch${index}`"/>
+<!--              <a-button type="primary"><a-icon type="edit"></a-icon></a-button>-->
             </router-link>
             <delete-btn @confirm="deleteCompany($event, row.id)" :test-attr="`delete-branch${index}`"/>
           </div>
