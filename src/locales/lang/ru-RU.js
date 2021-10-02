@@ -393,12 +393,19 @@ const locale = {
 
   // inventory-item
   imeiCode: 'IMEI Код',
+  investory: 'Инвентаризация',
+  partailBalance: 'Частичный остаток',
+  fullbalance: 'Полный остаток',
   sellPrice: 'Цена продажи',
   buyPrice: 'Цена покупки',
   productState: 'Состояние',
   passport_numbera: 'Номер паспорта',
+  rollCall: 'Перекличка',
+  sale: 'Продажа',
+  transfer: 'Трансфер',
   // werhouses
-  coming: 'Приход',
+  coming: 'Поставщики',
+  parishes: 'Список приходов',
   Bartchnumber: 'Номер партии',
   Branch: 'Филиал',
   Provider: 'Поставщик',
