@@ -42,6 +42,10 @@ import currency from './modules/currency'
 import socket from './socket'
 import werhouses from '@/store/modules/werhouses'
 import reports from '@/store/modules/reports'
+import rollcall from '@/store/modules/rollcall'
+import coming from '@/store/modules/coming'
+import sale from '@/store/modules/sale'
+import parishes from '@/store/modules/parishes'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -54,10 +58,14 @@ export default new Vuex.Store({
     app,
     reports,
     products,
+    parishes,
     werhouses,
+    sale,
     productVariants,
     couriers,
     clients,
+    rollcall,
+    coming,
     user,
     orders,
     branches,
