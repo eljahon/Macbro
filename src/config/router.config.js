@@ -235,6 +235,13 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/rollCall/rollCallList'),
                 meta: { title: 'rollCall', keepAlive: true, permission: ['rollCall'] }
+              },
+              {
+                path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
+                name: 'rollCallListMainItem',
+                props: true,
+                component: () => import('@/views/reports/rollCall/rollCallListItem'),
+                meta: { title: 'rollCallItem', keepAlive: true, permission: ['rollCallItem'] }
               }
             ]
           },
@@ -255,76 +262,76 @@ export const asyncRouterMap = [
               }
             ]
           },
-          // {
-          //   path: '/balances',
-          //   redirect: '/balances/coming',
-          //   component: RouteView,
-          //   meta: { title: 'investory', permission: ['investory'] },
-          //   children: [
-          //     {
-          //       path: '/balances/coming',
-          //       hideChildrenInMenu: true,
-          //       name: 'balancesList',
-          //       component: RouteView,
-          //       redirect: '/balances/partial/list',
-          //       meta: { title: 'partailBalance', permission: ['investory'] },
-          //       children: [
-          //         {
-          //           path: '/balances/partial/list',
-          //           name: 'balancesListMain',
-          //           props: true,
-          //           component: () => import('@/views/reports/investory/Partialbalabces/Partialbalance'),
-          //           meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //         },
-          //         {
-          //           path: '/warehouse/coming/list/create',
-          //           name: 'warehouseIncomeCreate',
-          //           props: true,
-          //           component: () => import('@/views/warehouse/WarehouseEdit'),
-          //           meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //         },
-          //         {
-          //           path: '/warehouse/coming/list/update/:id/:number',
-          //           name: 'warehouseIncomeUpdate',
-          //           props: true,
-          //           component: () => import('@/views/warehouse/WarehouseEdit'),
-          //           meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //         }
-          //       ]
-          //     },
-          //     {
-          //       path: '/balances/full',
-          //       hideChildrenInMenu: true,
-          //       name: 'BalanceFullListMain',
-          //       component: RouteView,
-          //       redirect: '/balance/full/list',
-          //       meta: { title: 'fullbalance', permission: ['directory'] },
-          //       children: [
-          //         {
-          //           path: '/balance/full/list',
-          //           name: 'BalanceFullList',
-          //           props: true,
-          //           component: () => import('@/views/reports/investory/fullbalances/FullBalancesList'),
-          //           meta: { title: 'fullbalance', keepAlive: true, permission: ['directory'] }
-          //         }
-          //         // {
-          //         //   path: '/warehouse/moving/list',
-          //         //   name: 'movingList',
-          //         //   props: true,
-          //         //   component: () => import('@/views/warehouse/WarehouseEdit'),
-          //         //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //         // },
-          //         // {
-          //         //   path: '/warehouse/moving/list/update/:id',
-          //         //   name: 'warehouseMovingUpdate',
-          //         //   props: true,
-          //         //   component: () => import('@/views/warehouse/WarehouseEdit'),
-          //         //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //         // }
-          //       ]
-          //     }
-          //   ]
-          // },
+          {
+            path: '/balances',
+            redirect: '/balances/coming',
+            component: RouteView,
+            meta: { title: 'investory', permission: ['investory'] },
+            children: [
+              {
+                path: '/balances/coming',
+                hideChildrenInMenu: true,
+                name: 'balancesList',
+                component: RouteView,
+                redirect: '/balances/partial/list',
+                meta: { title: 'partailBalance', permission: ['investory'] },
+                children: [
+                  {
+                    path: '/balances/partial/list',
+                    name: 'balancesListMain',
+                    props: true,
+                    component: () => import('@/views/reports/investory/Partialbalabces/Partialbalance'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/warehouse/coming/list/create',
+                    name: 'warehouseIncomeCreate',
+                    props: true,
+                    component: () => import('@/views/warehouse/WarehouseEdit'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  },
+                  {
+                    path: '/warehouse/coming/list/update/:id/:number',
+                    name: 'warehouseIncomeUpdate',
+                    props: true,
+                    component: () => import('@/views/warehouse/WarehouseEdit'),
+                    meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  }
+                ]
+              },
+              {
+                path: '/balances/full',
+                hideChildrenInMenu: true,
+                name: 'BalanceFullListMain',
+                component: RouteView,
+                redirect: '/balance/full/list',
+                meta: { title: 'fullbalance', permission: ['directory'] },
+                children: [
+                  {
+                    path: '/balance/full/list',
+                    name: 'BalanceFullList',
+                    props: true,
+                    component: () => import('@/views/reports/investory/fullbalances/FullBalancesList'),
+                    meta: { title: 'fullbalance', keepAlive: true, permission: ['directory'] }
+                  }
+                  // {
+                  //   path: '/warehouse/moving/list',
+                  //   name: 'movingList',
+                  //   props: true,
+                  //   component: () => import('@/views/warehouse/WarehouseEdit'),
+                  //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  // },
+                  // {
+                  //   path: '/warehouse/moving/list/update/:id',
+                  //   name: 'warehouseMovingUpdate',
+                  //   props: true,
+                  //   component: () => import('@/views/warehouse/WarehouseEdit'),
+                  //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+                  // }
+                ]
+              }
+            ]
+          },
           {
             path: '/reports/transfer',
             hideChildrenInMenu: true,
