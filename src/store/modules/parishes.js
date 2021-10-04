@@ -1,7 +1,9 @@
 import request from '@/utils/request'
 // eslint-disable-next-line camelcase
 const base_Url = {
-  parishes: '/history/prixod'
+  parishes: '/history/prixod',
+  catigoriya: '/category',
+  product: '/product'
 }
 const Parishes = {
   state: {
@@ -40,6 +42,54 @@ const Parishes = {
             console.log('===========', res.parties)
             commit('PARISHES_LIST', res.parties)
             commit('PARISHES_PAGINATION', page)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getAllListCatigoriya ({ commit }) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.catigoriya}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getAllListPraductList ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.product}`,
+          method: 'get',
+          params: {
+            category: id
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getAllListPraductListItemInside ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.product}/${id}`,
+          method: 'get',
+          params: {
+            category: id
+          }
+        })
+          .then(res => {
+            resolve(res)
           })
           .catch(error => {
             reject(error)

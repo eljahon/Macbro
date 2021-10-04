@@ -2,7 +2,8 @@ import request from '@/utils/request'
 // eslint-disable-next-line camelcase
 const base_url = {
   rollcallget: '/journaling/report/list',
-  transfer: '/order'
+  transfer: '/order',
+  rollcallItem: '/journaling/by-user/list'
 }
 const rollcall = {
   state: {
@@ -162,7 +163,32 @@ state.trnseferListTabLisTwo = payload
     },
     setAtiveTab ({ commit }, payload) {
         commit('ACTIVE_TAB', payload)
-}
+},
+    rollCallItemListGet ({ comiit }, payload) {
+        const { page } = payload
+      console.log('===payoload ==>>', payload)
+      return new Promise((resolve, reject) => {
+          request({
+            url: `${base_url.rollcallItem}`,
+            method: 'get',
+            params: {
+              company_id: payload.company_id,
+              branch_id: payload.branch_id,
+              user_id: payload.user_id,
+              from_date: payload.from_date,
+              to_date: payload.to_date,
+              page: page.current,
+              limit: page.pageSize
+            }
+          })
+            .then(res => {
+              resolve(res)
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+    }
   }
 }
 export default rollcall

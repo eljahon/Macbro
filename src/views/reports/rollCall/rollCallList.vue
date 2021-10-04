@@ -39,7 +39,7 @@
       <div>
       </div>
       <a-table
-        style="margin-top: 30px"
+        style="margin-top: 30px; cursor: pointer"
         :columns="columns"
         :rowKey="() => Math.random()"
         :dataSource="getUserListTable"
@@ -47,6 +47,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-customer"
+        :customRow="customRowClick"
         bordered
       >
         <div slot="Aккаунта" style="padding: 8px; width: 230px;">
@@ -127,8 +128,10 @@ export default {
       },
       params: {
         search: '',
-        from_date: moment().startOf('month').format('YYYY-MM-DD'),
-        to_date: moment().endOf('month').format('YYYY-MM-DD'),
+        from_date: '2021-09-01',
+        to_date: '2021-09-30',
+        // from_date: moment().startOf('month').format('YYYY-MM-DD'),
+        // to_date: moment().endOf('month').format('YYYY-MM-DD'),
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
@@ -216,6 +219,16 @@ export default {
     }
   },
   methods: {
+    customRowClick (record) {
+      console.log('record ===>>', record.user)
+      return {
+        on: {
+          click: (event) => {
+            this.$router.push({ name: 'rollCallListMainItem', params: { company_id: record.user.company_id, branch_id: record.user.branch_id, user_id: record.user.id } })
+          }
+        }
+      }
+    },
     checkField (obj, name, field) {
       return obj?.[name] ? obj[name][field] : 0
     },
@@ -233,24 +246,24 @@ export default {
       this.params.account_number = val
       this.rollCallGetListAll()
     },
-    AcountCreate () {
-      this.$router.push({ name: 'AcountCreate' })
-    },
-    onChangepicker (val, event) {
-      console.log(val, event)
-      this.params.start_date = event[0]
-      this.params.end_date = event[1]
-      this.TrGetListAll()
-    },
-    sortDublicat (array) {
-      const unique = []
-      array.forEach((item) => {
-        if (!unique.includes(item.payment_type)) {
-          unique.push(item.payment_type)
-        }
-      })
-      return unique
-    },
+    // AcountCreate () {
+    //   this.$router.push({ name: 'AcountCreate' })
+    // // },
+    // onChangepicker (val, event) {
+    //   console.log(val, event)
+    //   this.params.start_date = event[0]
+    //   this.params.end_date = event[1]
+    //   this.TrGetListAll()
+    // },
+    // sortDublicat (array) {
+    //   const unique = []
+    //   array.forEach((item) => {
+    //     if (!unique.includes(item.payment_type)) {
+    //       unique.push(item.payment_type)
+    //     }
+    //   })
+    //   return unique
+    // },
     moment,
     ...mapActions(['getRollCollAll']),
     rollCallGetListAll () {
@@ -260,18 +273,15 @@ export default {
           this.loading = false
         })
     },
-    customRowClick (val, even, data) {
-      // console.log(val, even, data)
-    },
     onSearch (value) {
       console.log(value)
       this.params.search = value
       this.rollCallGetListAll()
     },
-    AccountGlobalSeach (val) {
-      this.params.search = val
-      this.rollCallGetListAll()
-    },
+    // AccountGlobalSeach (val) {
+    //   this.params.search = val
+    //   this.rollCallGetListAll()
+    // },
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
