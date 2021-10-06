@@ -3,8 +3,10 @@ import request from '@/utils/request'
 const base_Url = {
   online: '/order-online',
   ofline: '/history/prodaja',
-  ofLineTabTwo: '/order',
-  ipateka: '/history/zaklad'
+  ofLineTabTwo: '/order-offline',
+  ipateka: '/history/zaklad',
+  orderitem: '/history/prodaja',
+  ipatekaItem: '/history/zaklad'
 }
 const Sale = {
   state: {
@@ -178,6 +180,34 @@ const Sale = {
     },
     setAcriveTab ({ commit }, payload) {
       commit('SET_ACTIVE_TAB', payload)
+    },
+    itemGetAllList ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.orderitem}/${id}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    itemsIpatekaList ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.ipatekaItem}/${id}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
   }
 }

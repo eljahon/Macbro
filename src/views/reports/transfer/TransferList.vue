@@ -6,25 +6,29 @@
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-          <a-input-search size="small" @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach"></a-input-search>
+          <a-input size="small" @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">
+            <a-icon style="color: blue" slot="addonAfter" type="search" />
+
+          </a-input>
           <a-range-picker
-            size="large"
+            size="small"
             @change="rangePickerDate"
-          />
-          <a-select
-            size="large"
-            label-in-value
-            :default-value="{ key: 'lucy' }"
-            style="width: 180px"
-          >
-            <a-select-option value="jack">
-              Jack (100)
-            </a-select-option>
-            <a-select-option value="lucy">
-              Lucy (101)
-            </a-select-option>
-          </a-select>
-          <a-button style="padding: 7px" type="primary" icon="download" size="large" />
+          ><a-icon type="calendar" style="color: blue" slot="suffixIcon"/></a-range-picker>
+<!--          <a-select-->
+<!--            size="large"-->
+<!--            label-in-value-->
+<!--            :default-value="{ key: 'lucy' }"-->
+<!--            style="width: 180px"-->
+<!--          >-->
+<!--            <a-select-option value="jack">-->
+<!--              Jack (100)-->
+<!--            </a-select-option>-->
+<!--            <a-select-option value="lucy">-->
+<!--              Lucy (101)-->
+<!--            </a-select-option>-->
+<!--          </a-select>-->
+          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
+
         </div>
 
       </div>

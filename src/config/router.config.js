@@ -380,6 +380,13 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/sale/SaleList'),
                 meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
+              },
+              {
+                path: '/report/sale/list/item/:id',
+                name: 'SaleItemListMain',
+                props: true,
+                component: () => import('@/views/reports/sale/SaleListItem'),
+                meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
               }
             ]
           }
