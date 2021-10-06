@@ -2,7 +2,7 @@
   <a-card>
     <a-card>
       <div slot="title">
-        {{ $t('Перекличка') }}
+        {{ $t('parishes') }}
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
@@ -15,20 +15,20 @@
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-          <a-select
-            label-in-value
-            :default-value="{ key: 'lucy' }"
-            style="width: 180px"
-          >
-            <a-icon slot="suffixIcon" style="color: blue" type="down" />
-            <a-select-option value="jack">
-              Jack (100)
-            </a-select-option>
-            <a-select-option value="lucy">
-              Lucy (101)
-            </a-select-option>
-          </a-select>
-          <a-button style="padding: 5px" type="primary" icon="download" size="large" />
+<!--          <a-select-->
+<!--            label-in-value-->
+<!--            :default-value="{ key: 'lucy' }"-->
+<!--            style="width: 180px"-->
+<!--          >-->
+<!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+<!--            <a-select-option value="jack">-->
+<!--              Jack (100)-->
+<!--            </a-select-option>-->
+<!--            <a-select-option value="lucy">-->
+<!--              Lucy (101)-->
+<!--            </a-select-option>-->
+<!--          </a-select>-->
+          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
         </div>
 
       </div>

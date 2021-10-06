@@ -3,7 +3,8 @@ import request from '@/utils/request'
 const base_Url = {
   parishes: '/history/prixod',
   catigoriya: '/category',
-  product: '/product'
+  product: '/product',
+    groupped: '/product/variants-groupped'
 }
 const Parishes = {
   state: {
@@ -62,13 +63,15 @@ const Parishes = {
           })
       })
     },
-    getAllListPraductList ({ commit }, id) {
+     getAllListPraductList ({ commit }, id) {
+       const { param } = id
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.product}`,
           method: 'get',
           params: {
-            category: id
+            category: id.id,
+            item_left: param === true ? 'part' : 'full'
           }
         })
           .then(res => {
@@ -83,9 +86,23 @@ const Parishes = {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.product}/${id}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getAllListPraductListItemInsideFull ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.groupped}`,
           method: 'get',
           params: {
-            category: id
+            id: id
           }
         })
           .then(res => {

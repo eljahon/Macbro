@@ -2,12 +2,12 @@
   <a-card>
     <a-card :bordered="false">
       <div slot="title">
-        {{ $t('Перекличка') }}
+        {{ $t('sale') }}
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-          <a-input>
-            <a-icon style="color: blue" slot="addonAfter" type="search" />
+          <a-input v-model="paramsOfline.search" v-debounce="Search">
+            <a-icon @click="Searches" style="color: blue" slot="addonAfter" type="search" />
           </a-input>
           <a-range-picker
             :placeholder="['от даты ', 'до даты']"
@@ -15,152 +15,92 @@
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-          <a-select
-            label-in-value
-            :default-value="{ key: 'lucy' }"
-            style="width: 180px"
-          >
-            <a-icon slot="suffixIcon" style="color: blue" type="down" />
-            <a-select-option value="jack">
-              Jack (100)
-            </a-select-option>
-            <a-select-option value="lucy">
-              Lucy (101)
-            </a-select-option>
-          </a-select>
-          <a-button style="padding: 5px" type="primary" icon="download" size="large" />
+          <!--          <img src="../../../assets/Vector.svg" alt="excel">-->
+          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
         </div>
 
       </div>
       <div>
       </div>
       <a-tabs type="card" @change="callback">
-        <a-tab-pane key="1" tab="Онлайн">
+        <!--        <a-tab-pane key="1" tab="Онлайн">-->
+        <!--          <a-table-->
+        <!--            style="margin-top: 30px; cursor: pointer"-->
+        <!--            :columns="columns"-->
+        <!--            :rowKey="() => Math.random()"-->
+        <!--            :dataSource="getUserListTableOne"-->
+        <!--            :pagination="getPagination"-->
+        <!--            :loading="loading"-->
+        <!--            @change="handleTableChange"-->
+        <!--            :customRow="customRowClick"-->
+        <!--            test-attr="list-customer"-->
+        <!--            bordered-->
+        <!--          >-->
+        <!--            <div slot="Aккаунта" style="padding: 8px; width: 230px;">-->
+        <!--              <a-select-->
+        <!--                :placeholder="$t('Тип аккаунта')"-->
+        <!--                style="width: 220px"-->
+        <!--                allowClear></a-select>-->
+        <!--&lt;!&ndash;              >&ndash;&gt;-->
+        <!--&lt;!&ndash;                <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">&ndash;&gt;-->
+        <!--&lt;!&ndash;                  {{ catigoriya.name }}&ndash;&gt;-->
+        <!--&lt;!&ndash;                </a-select-option>&ndash;&gt;-->
+        <!--&lt;!&ndash;              </a-select>&ndash;&gt;-->
+        <!--            </div>-->
+        <!--            <div-->
+        <!--              slot="аккаунта"-->
+        <!--              style="padding: 8px"-->
+        <!--            >-->
+        <!--              <a-input-number-->
+        <!--                :placeholder="`ИД. аккаунта`"-->
+        <!--                style="width: 188px; margin-bottom: 8px; display: block;"-->
+        <!--              />-->
+        <!--            </div>-->
+        <!--            <a-icon-->
+        <!--              style="font-size: 20px; color: transparent; background-color: transparent"-->
+        <!--              slot="filterIcon"-->
+        <!--              class="filter-dropdown-icon"-->
+        <!--              :component="$myIcons.filterDownIcon"-->
+        <!--            />-->
+        <!--            <template slot="client" slot-scope="text, row">-->
+        <!--              <span>{{ row.client.first_name }} {{ row.client.last_name }}</span>-->
+        <!--            </template>-->
+        <!--            <template slot="cashier" slot-scope="text, row">-->
+        <!--              <span>{{ row.cashier.first_name }} {{ row.cashier.last_name }}</span>-->
+        <!--            </template>-->
+        <!--            <template slot="Оператор" slot-scope="text, row">-->
+        <!--              <span>{{ row.operator_name ? row.operator_name : " " }}</span>-->
+        <!--            </template>-->
+        <!--            <template slot="Кол" slot-scope="text, row">-->
+        <!--              <span v-if="row.items.length ===1">-->
+        <!--                <span v-for="(item, index)  in row.items" :key="index">-->
+        <!--                <span>{{item.quantity}}</span>-->
+        <!--              </span>-->
+        <!--              </span>-->
+        <!--              <span v-else>{{row.items.map((element) => element.quantity).reduce((summ, val) => summ + val)}}</span>-->
+        <!--            </template>-->
+        <!--            <template slot="Сумма" slot-scope="text, row">-->
+        <!--              <span v-if="row.items.length === 1">-->
+        <!--                <span v-for="(item, index ) in row.items " :key="index">-->
+        <!--                <span>{{'$  '}}{{ item.price }}</span>-->
+        <!--              </span>-->
+        <!--              </span>-->
+        <!--              <span v-else>-->
+        <!--               {{'$'}} {{ reducer(row.items) }}-->
+        <!--              </span>-->
+        <!--            </template>-->
+        <!--          </a-table>-->
+        <!--        </a-tab-pane>-->
+        <a-tab-pane key="1" tab="Офлайн">
           <a-table
             style="margin-top: 30px"
-            :columns="columns"
+            :columns="columnsOflineTab"
             :rowKey="() => Math.random()"
-            :dataSource="getUserListTableOne"
-            :pagination="getPagination"
+            :dataSource="oflineListTabData"
+            :pagination="getFullPagination"
             :loading="loading"
-            @change="handleTableChange"
-            test-attr="list-customer"
-            bordered
-          >
-            <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-              <a-select
-                :placeholder="$t('Тип аккаунта')"
-                style="width: 220px"
-                allowClear></a-select>
-<!--              >-->
-<!--                <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">-->
-<!--                  {{ catigoriya.name }}-->
-<!--                </a-select-option>-->
-<!--              </a-select>-->
-            </div>
-            <div
-              slot="аккаунта"
-              style="padding: 8px"
-            >
-              <a-input-number
-                :placeholder="`ИД. аккаунта`"
-                style="width: 188px; margin-bottom: 8px; display: block;"
-              />
-            </div>
-            <a-icon
-              style="font-size: 20px; color: transparent; background-color: transparent"
-              slot="filterIcon"
-              class="filter-dropdown-icon"
-              :component="$myIcons.filterDownIcon"
-            />
-            <template slot="client" slot-scope="text, row">
-              <span>{{ row.client.first_name }} {{ row.client.last_name }}</span>
-            </template>
-            <template slot="cashier" slot-scope="text, row">
-              <span>{{ row.cashier.first_name }} {{ row.cashier.last_name }}</span>
-            </template>
-            <template slot="Оператор" slot-scope="text, row">
-              <span>{{ row.operator_name ? row.operator_name : " " }}</span>
-            </template>
-            <template slot="Кол" slot-scope="text, row">
-              <span v-if="row.items.length ===1">
-                <span v-for="(item, index)  in row.items" :key="index">
-                <span>{{item.quantity}}</span>
-              </span>
-              </span>
-              <span v-else>{{row.items.map((element) => element.quantity).reduce((summ, val) => summ + val)}}</span>
-            </template>
-            <template slot="Сумма" slot-scope="text, row">
-              <span v-if="row.items.length === 1">
-                <span v-for="(item, index ) in row.items " :key="index">
-                <span>{{'$  '}}{{ item.price }}</span>
-              </span>
-              </span>
-              <span v-else>
-               {{'$'}} {{ reducer(row.items) }}
-              </span>
-            </template>
-          </a-table>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="Офлайн">
-                <a-table
-                  style="margin-top: 30px"
-                  :columns="columnsOflineTab"
-                  :rowKey="() => Math.random()"
-                  :dataSource="oflineListTabData"
-                  :pagination="getFullPagination"
-                  :loading="loading"
-                  @change="handleTableChangeOfline"
-                  test-attr="list-customer"
-                  bordered
-                >
-                  <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-                    <a-select
-                      :placeholder="$t('Тип аккаунта')"
-                      style="width: 220px"
-                      allowClear
-                    >
-                    </a-select>
-                  </div>
-                  <div
-                    slot="аккаунта"
-                    style="padding: 8px"
-                  >
-                    <a-input-number
-                      :placeholder="`ИД. аккаунта`"
-                    />
-                  </div>
-                  <a-icon
-                    style="font-size: 20px; color: transparent; background-color: transparent"
-                    slot="filterIcon"
-                    class="filter-dropdown-icon"
-                    :component="$myIcons.filterDownIcon"
-                  />
-                  <template slot="Статус" slot-scope="text, row">
-                      <a-tag :color="row.status === 'sold' ? 'blue' : ''">{{row.status === 'sold' ? 'Продано' : 'Бронировано'}}</a-tag>
-
-<!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
-                  </template>
-                  <template slot="cutomer" slot-scope="text, row">
-                    <span>{{ row.customer.firstname === '' ? '' : row.customer.firstname }}{{row.customer.lastname === '' ? '' :row.customer.lastname }}</span>
-                  </template>
-                  <template slot="Кол" slot-scope="text, row">
-              <span>{{SummCount(row.items)}}</span>
-                  </template>
-                  <template slot="Сумма" slot-scope="text, row">
-           <span>{{row.total_amount}}</span>
-                  </template>
-                </a-table>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="Заклад">
-          <a-table
-            style="margin-top: 30px"
-            :columns="ipatekacolums"
-            :rowKey="() => Math.random()"
-            :dataSource="ipatekaList"
-            :pagination="getPaginationIpateka"
-            :loading="loading"
-            @change="handleTableChangeIpateka"
+            :customRow="customRowClick"
+            @change="handleTableChangeOfline"
             test-attr="list-customer"
             bordered
           >
@@ -186,18 +126,70 @@
               class="filter-dropdown-icon"
               :component="$myIcons.filterDownIcon"
             />
-            <template slot="Комментария" slot-scope="text, row">
-<!--              <a-tag :color=" === 'sold' ? 'blue' : ''">{{row.status === 'sold' ? 'Продано' : 'Бронировано'}}</a-tag>-->
-              <span>{{row.comment === '' ? '' : row.comment}}</span>
+            <template slot="Статус" slot-scope="text, row">
+              <a-tag :color="row.status === 'sold' ? 'blue' : ''">{{ row.status === 'sold' ? 'Продано' : 'Бронировано' }}</a-tag>
+
+              <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
             </template>
-            <template slot="client" slot-scope="text, row">
-              <span>{{ row.client.first_name === '' ? '' : row.client.first_name }} {{' '}} {{row.client.last_name === '' ? '' :row.client.last_name }}</span>
+            <template slot="cutomer" slot-scope="text, row">
+              <span>{{ row.customer.firstname === '' ? '' : row.customer.firstname }}{{ row.customer.lastname === '' ? '' :row.customer.lastname }}</span>
             </template>
             <template slot="Кол" slot-scope="text, row">
-              <span>{{row.items_count}}</span>
+              <span>{{ SummCount(row.items) }}</span>
             </template>
             <template slot="Сумма" slot-scope="text, row">
-              <span>{{row.total_amount}}</span>
+              <!--              <span>{{'$'}}{{ numberToPrices(row.total_amount) }}</span>-->
+              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.total_amount) }}</span>
+            </template>
+          </a-table>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Заклад">
+          <a-table
+            style="margin-top: 30px"
+            :columns="ipatekacolums"
+            :rowKey="() => Math.random()"
+            :dataSource="ipatekaList"
+            :pagination="getPaginationIpateka"
+            :loading="loading"
+            @change="handleTableChangeIpateka"
+            test-attr="list-customer"
+            :customRow="customRowClickzaklad"
+            bordered
+          >
+            <div slot="Aккаунта" style="padding: 8px; width: 230px;">
+              <a-select
+                :placeholder="$t('Тип аккаунта')"
+                style="width: 220px"
+                allowClear
+              >
+              </a-select>
+            </div>
+            <div
+              slot="аккаунта"
+              style="padding: 8px"
+            >
+              <a-input-number
+                :placeholder="`ИД. аккаунта`"
+              />
+            </div>
+            <a-icon
+              style="font-size: 20px; color: transparent; background-color: transparent"
+              slot="filterIcon"
+              class="filter-dropdown-icon"
+              :component="$myIcons.filterDownIcon"
+            />
+            <template slot="Комментария" slot-scope="text, row">
+              <!--              <a-tag :color=" === 'sold' ? 'blue' : ''">{{row.status === 'sold' ? 'Продано' : 'Бронировано'}}</a-tag>-->
+              <span>{{ row.comment === '' ? '' : row.comment }}</span>
+            </template>
+            <template slot="client" slot-scope="text, row">
+              <span>{{ row.client.first_name === '' ? '' : row.client.first_name }} {{ ' ' }} {{ row.client.last_name === '' ? '' :row.client.last_name }}</span>
+            </template>
+            <template slot="Кол" slot-scope="text, row">
+              <span>{{ row.items_count }}</span>
+            </template>
+            <template slot="Сумма" slot-scope="text, row">
+              <span>{{ row.total_amount }}</span>
             </template>
           </a-table>
         </a-tab-pane>
@@ -451,12 +443,18 @@ export default {
     callback (key) {
       console.log(key)
       this.setAcriveTab(parseInt(key))
-      if (key === '2') {
+      if (key === '1') {
         this.OflinFuntction()
       }
-      if (key === '3') {
+      if (key === '2') {
         this.IpatekaList()
       }
+    },
+    Search (val) {
+      alert(val)
+    },
+    Searches (val) {
+      console.log(val)
     },
     OflinFuntction () {
       this.loading = true
@@ -480,18 +478,18 @@ export default {
     rangePicer (val, data) {
       console.log(data)
       // eslint-disable-next-line no-unused-expressions
+ //      if (this.activTab === 1) {
+ //        this.loading = true
+ //        this.params.from_date = data[0]
+ //        this.params.to_date = data[1]
+ // this.saleGetListAllOne()
+ //      }
       if (this.activTab === 1) {
-        this.loading = true
-        this.params.from_date = data[0]
-        this.params.to_date = data[1]
- this.saleGetListAllOne()
-      }
-      if (this.activTab === 2) {
         this.paramsOfline.from_date = data[0]
         this.paramsOfline.to_date = data[1]
         this.OflinFuntction()
       }
-      if (this.activTab === 3) {
+      if (this.activTab === 2) {
         this.ipatekaparams.from_date = data[0]
         this.ipatekaparams.to_date = data[1]
         this.IpatekaList()
@@ -521,14 +519,31 @@ export default {
     },
     moment,
     saleGetListAllOne () {
-      this.loading = true
-      this.getSaleListAllTabOne(this.params)
-        .finally(() => {
-          this.loading = false
-        })
+      this.OflinFuntction()
+      // this.getSaleListAllTabOne(this.params)
+      //   .finally(() => {
+      //     this.loading = false
+      //   })
     },
-    customRowClick (val, even, data) {
-      // console.log(val, even, data)
+    customRowClick (record) {
+      return {
+        on: {
+          click: (e) => {
+            console.log('Category id', record.id)
+            this.$router.push({ name: 'SaleItemListMain', params: { id: record.id }, query: { id: 1 } })
+          }
+        }
+      }
+    },
+    customRowClickzaklad (record) {
+      return {
+        on: {
+          click: (e) => {
+            console.log('Category id', record.id)
+            this.$router.push({ name: 'SaleItemListMain', params: { id: record.id }, query: { id: 2 } })
+          }
+        }
+      }
     },
     onSearch (value) {
       console.log(value)

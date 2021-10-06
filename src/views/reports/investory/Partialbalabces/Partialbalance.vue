@@ -1,25 +1,27 @@
 <template>
   <a-card>
-    <div slot="title"></div>
+    <div slot="title">
+      <span>{{$t('partailBalance')}}</span>
+    </div>
     <div slot="extra">
       <div slot="extra" style="display: flex; gap: 9px">
         <a-input>
           <a-icon style="color: blue" slot="addonAfter" type="search" />
         </a-input>
-        <a-select
-          label-in-value
-          :default-value="{ key: 'lucy' }"
-          style="width: 180px"
-        >
-          <a-icon slot="suffixIcon" style="color: blue" type="down" />
-          <a-select-option value="jack">
-            Jack (100)
-          </a-select-option>
-          <a-select-option value="lucy">
-            Lucy (101)
-          </a-select-option>
-        </a-select>
-        <a-button style="padding: 2px" type="primary" icon="download" size="large" />
+<!--        <a-select-->
+<!--          label-in-value-->
+<!--          :default-value="{ key: 'lucy' }"-->
+<!--          style="width: 180px"-->
+<!--        >-->
+<!--          <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+<!--          <a-select-option value="jack">-->
+<!--            Jack (100)-->
+<!--          </a-select-option>-->
+<!--          <a-select-option value="lucy">-->
+<!--            Lucy (101)-->
+<!--          </a-select-option>-->
+<!--        </a-select>-->
+        <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
       </div>
     </div>
     <a-card>
@@ -113,13 +115,13 @@ TabListCatigoriya: [],
     }
   },
   methods: {
-    ...mapActions(['getAllListCatigoriya', 'getAllListPraductList', 'getAllListPraductListItemInside']),
+    ...mapActions(['getAllListCatigoriya', 'getAllListPraductList', 'getAllListPraductListItemInside', 'getAllListPraductListItemInsideFull']),
     TabCallback (val) {
       this.praductList(val)
     },
     praductList (id) {
       this.loading = true
-      this.getAllListPraductList(id)
+      this.getAllListPraductList({ param: true, id: id })
       .then(res => {
         this.insideTabList = res.products.map((element) => {
           return {
@@ -128,7 +130,7 @@ TabListCatigoriya: [],
             slug: element.slug
           }
         })
-        this.getAllListPraductListItemInside(this.insideTabList[0].id)
+        this.getAllListPraductListItemInsideFull(this.insideTabList[0].id)
         .then(res => {
           this.TabTwoInsideList = [res.product]
           // console.log('=======', res.product)
@@ -158,7 +160,7 @@ TabListCatigoriya: [],
     },
     InsideTabClick (val) {
       this.loading = true
-      this.getAllListPraductListItemInside(val)
+      this.getAllListPraductListItemInsideFull(val)
         .then(res => {
           this.TabTwoInsideList = [res.product]
           // console.log('=======', res.product)
