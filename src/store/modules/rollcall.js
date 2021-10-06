@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // eslint-disable-next-line camelcase
 const base_url = {
   rollcallget: '/journaling/report/list',
-  transfer: '/order',
+  transfer: '/order-offline',
   rollcallItem: '/journaling/by-user/list'
 }
 const rollcall = {
