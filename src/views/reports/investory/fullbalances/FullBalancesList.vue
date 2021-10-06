@@ -121,7 +121,7 @@ export default {
     },
     praductList (id) {
       this.loading = true
-      this.getAllListPraductList(id)
+      this.getAllListPraductList({ param: false, id: id })
         .then(res => {
           this.insideTabList = res.products.map((element) => {
             return {
