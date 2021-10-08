@@ -59,7 +59,7 @@ const rollcall = {
     }
   },
   actions: {
-    getRollCollAll({ commit }, payload) {
+    getRollCollAll ({ commit }, payload) {
       const { page } = payload
       return new Promise((resolve, reject) => {
         request({
@@ -85,7 +85,7 @@ const rollcall = {
           })
       })
     },
-    TransferGetAll({ commit }, payload) {
+    TransferGetAll ({ commit }, payload) {
       const { page } = payload
       return new Promise((resolve, reject) => {
         request({
@@ -112,7 +112,7 @@ const rollcall = {
           })
       })
     },
-    TransferGetAllTwoTab({ commit }, payload) {
+    TransferGetAllTwoTab ({ commit }, payload) {
       const { page } = payload
       return new Promise((resolve, reject) => {
         request({
@@ -137,7 +137,7 @@ const rollcall = {
           })
       })
     },
-    TransferGetAllTheeTab({ commit }, payload) {
+    TransferGetAllTheeTab ({ commit }, payload) {
       const { page } = payload
       return new Promise((resolve, reject) => {
         request({
@@ -164,10 +164,10 @@ const rollcall = {
           })
       })
     },
-    setAtiveTab({ commit }, payload) {
+    setAtiveTab ({ commit }, payload) {
       commit('ACTIVE_TAB', payload)
     },
-    rollCallItemListGet({ comiit }, payload) {
+    rollCallItemListGet ({ comiit }, payload) {
       const { page } = payload
       console.log('===payoload ==>>', payload)
       return new Promise((resolve, reject) => {
@@ -192,7 +192,7 @@ const rollcall = {
           })
       })
     },
-    TransferListIdget({ commit }, payload) {
+    TransferListIdget ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_url.transferItem}/${payload}`,
