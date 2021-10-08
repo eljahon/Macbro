@@ -5,9 +5,9 @@
     </div>
     <div slot="extra">
       <div slot="extra" style="display: flex; gap: 9px">
-        <a-input>
-          <a-icon style="color: blue" slot="addonAfter" type="search" />
-        </a-input>
+<!--        <a-input>-->
+<!--          <a-icon style="color: blue" slot="addonAfter" type="search" />-->
+<!--        </a-input>-->
 <!--        <a-select-->
 <!--          label-in-value-->
 <!--          :default-value="{ key: 'lucy' }"-->
@@ -70,8 +70,8 @@
                 <template slot="data" slot-scope="text, row">
                   <img style="width: 50px; height: 50px; border-radius: 50%" :src="row.image" alt="imgId"> <span style="margin-left: 5px">{{ row.name }}</span>
                 </template>
-                <template slot="order" slot-scope="text, row">
-                  <span>{{ row.order }}</span>
+                <template slot="order" slot-scope="text, row, index">
+                  <span>{{ slugIdList[index] }}</span>
                 </template>
               </a-table>
             </a-tab-pane>
@@ -92,6 +92,7 @@ export default {
       TabListCatigoriya: [],
       insideTabList: [],
       TabTwoInsideList: [],
+      slugIdList: [],
       columns: [
         {
           title: this.$t('Модель'),
@@ -115,7 +116,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAllListCatigoriya', 'getAllListPraductList', 'getAllListPraductListItemInside']),
+    ...mapActions(['getAllListCatigoriya', 'getAllListPraductList', 'getAllListPraductListItemInside', 'slugId']),
     TabCallback (val) {
       this.praductList(val)
     },
@@ -123,6 +124,7 @@ export default {
       this.loading = true
       this.getAllListPraductList({ param: false, id: id })
         .then(res => {
+          console.log('resproaduct >>>>', res)
           this.insideTabList = res.products.map((element) => {
             return {
               id: element.id,
@@ -132,8 +134,17 @@ export default {
           })
           this.getAllListPraductListItemInside(this.insideTabList[0].id)
             .then(res => {
-              this.TabTwoInsideList = [res.product]
-              // console.log('=======', res.product)
+              // eslint-disable-next-line no-unused-vars
+              let slugList = []
+              slugList = res.product.variants.flatMap((element) => element.value.slug)
+              this.TabTwoInsideList = res.product.variants.flatMap((element) => element.value)
+              console.log('=======', res.product)
+              console.log('slugList===>>>', slugList)
+              this.slugId(slugList)
+              .then(res => {
+                console.log('slugList =>', res)
+                this.slugIdList = res.product_count.map((element) => element.count)
+              })
             }).finally(() => {
             this.loading = false
           })

@@ -148,11 +148,12 @@
             :dataSource="userList"
             :rowKey="record => record.id"
             :loading="loading"
+            :pagnation="getPaginationSttaff"
             :rowSelection="{
               selectedRowKeys: selectedRowKeys,
               onChange: onSelectedChange,
             }"
-            @change="handleTableChange"
+            @change="StaffhandleTableChange"
             test-attr="list-branch"
             bordered
           >
@@ -305,9 +306,7 @@ export default {
         page: { page: 1, limit: 10, total: null }
       },
       corporateParams: {
-        limit: 10,
-        page: 1,
-        total: null,
+        page: { current: 1, pageSize: 10, total: null },
         company_id: this.$route.params.company_id
       }
     }
@@ -343,12 +342,24 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
+    ...mapGetters(['companiesList', 'staffList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
     userList () {
       return this.branchesList
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    getPaginationSttaff () {
+      return this.staffList
     }
   },
   methods: {
+    StaffhandleTableChange (pagination) {
+      this.loading = true
+      this.corporateParams.page = { ...pagination }
+      this.getUsers(this.corporateParams)
+      .finally(() => {
+        this.loading = false
+      })
+    },
     DeleteBranchUserItem (id) {
       const params = {
         company_id: this.company_id,

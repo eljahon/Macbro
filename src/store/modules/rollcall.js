@@ -2,8 +2,9 @@ import request from '@/utils/request'
 // eslint-disable-next-line camelcase
 const base_url = {
   rollcallget: '/journaling/report/list',
-  transfer: '/order',
-  rollcallItem: '/journaling/by-user/list'
+  transfer: '/order-offline',
+  rollcallItem: '/journaling/by-user/list',
+  transferItem: '/history/peremeshenie'
 }
 const rollcall = {
   state: {
@@ -68,13 +69,15 @@ state.trnseferListTabLisTwo = payload
             from_date: payload.from_date,
             to_date: payload.to_date,
             page: page.current,
-            limit: page.pageSize
+            limit: page.pageSize,
+            search: payload.search
           }
         })
           .then(res => {
             resolve(res)
             page.total = res.count
             commit('Pagination', page)
+            console.log('========', res.user_journaling_report_items)
             commit('GET_ROLL_COLL_ALL_DATA', res.user_journaling_report_items)
           })
           .catch(error => {
@@ -99,7 +102,7 @@ state.trnseferListTabLisTwo = payload
           })
             .then(res => {
               resolve(res)
-              page.total = res.count
+              page.total = parseInt(res.count)
               commit('Transfer_Get_All', res.orders)
               commit('TransferPagination', page)
               console.log('=======================', res)
@@ -124,7 +127,7 @@ state.trnseferListTabLisTwo = payload
           })
             .then(res => {
               resolve(res)
-              page.total = res.count
+              page.total = parseInt(res.count)
               commit('TRANSFER_TAB_LIST_TWO', res.orders)
               commit('TRANSFER_TAB_LIST_TWO_PAGINATION', page)
               console.log('=======================', res)
@@ -180,6 +183,20 @@ state.trnseferListTabLisTwo = payload
               page: page.current,
               limit: page.pageSize
             }
+          })
+            .then(res => {
+              resolve(res)
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+    },
+    TransferListIdget ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+          request({
+            url: `${base_url.transferItem}/${payload}`,
+            method: 'get'
           })
             .then(res => {
               resolve(res)

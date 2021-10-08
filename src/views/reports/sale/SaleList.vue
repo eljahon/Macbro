@@ -10,6 +10,7 @@
             <a-icon @click="Searches" style="color: blue" slot="addonAfter" type="search" />
           </a-input>
           <a-range-picker
+            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             :placeholder="['от даты ', 'до даты']"
             @change="rangePicer"
           >
@@ -93,7 +94,7 @@
         <!--        </a-tab-pane>-->
         <a-tab-pane key="1" tab="Офлайн">
           <a-table
-            style="margin-top: 30px"
+            style="margin-top: 30px; cursor: pointer"
             :columns="columnsOflineTab"
             :rowKey="() => Math.random()"
             :dataSource="oflineListTabData"

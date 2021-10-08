@@ -2,9 +2,12 @@
   <a-card>
     <div slot="title">
       <a-page-header
-        :sub-title= "`${'Отчеты / Продажа / '}${clientname}`"
         @back="() => $router.go(-1)"
-      />
+      >
+        <div slot="subTitle" style="cursor: pointer">
+          <span @click="() => $router.push({name: 'SaleMain'})">{{'Отчеты /'}}</span> <span @click="() => $router.push({name: 'SaleMain'})">{{'Продажа /'}} </span><span>{{clientname}}</span>
+        </div>
+      </a-page-header>
     </div>
     <div slot="extra"><a-button type="primary" icon="download"></a-button></div>
     <a-card style="border-left: 1px solid white; border-right: 1px solid white">
@@ -16,7 +19,7 @@
         <a-tag > <span style="font-size: 18px">{{ list.cashier.user_type }}</span></a-tag>
       </div>
       <div slot="extra">
-        <a-tag style="padding: 12px"><span style=" font-size: 18px; color: black">Баланс: {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.client.account_number) }}</span></a-tag>
+        <a-tag style="padding: 12px"><span style=" font-size: 18px; color: black">Баланс: {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</span></a-tag>
       </div>
     </a-card>
     <div style="display: flex; margin-top: 10px; gap: 15px">
@@ -53,7 +56,7 @@
     <!--    tabs-->
     <div style="margin-top: 20px">
       <a-tabs type="card" @change="Callback">
-        <a-tab-pane key="1" tab="Список товаров">
+        <a-tab-pane v-if="$route.query.id === 1" key="1" tab="Список товаров">
           <a-table
             style="margin-top: 30px"
             :columns="columnsTabOne"

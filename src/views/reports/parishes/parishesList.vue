@@ -2,7 +2,16 @@
   <a-card>
     <a-card>
       <div slot="title">
-        {{ $t('parishes') }}
+        <div slot="title">
+          <a-page-header
+            @back="() => $router.go(-1)"
+          >
+            <div slot="subTitle" style="cursor: pointer">
+              <span @click="() => $router.push({name: 'SaleMain'})">{{'Отчеты /'}}</span> <span>{{$t('parishes') + ' '}} </span>
+<!--              <span>{{clientname}}</span>-->
+            </div>
+          </a-page-header>
+        </div>
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
@@ -10,6 +19,7 @@
             <a-icon style="color: blue" slot="addonAfter" type="search" />
           </a-input>
           <a-range-picker
+            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             :placeholder="['от даты ', 'до даты']"
             @change="rangePicer"
           >
@@ -162,8 +172,8 @@ export default {
        }
      ],
      params: {
-       from_date: moment().startOf().format('YYYY-MM-DD'),
-       to_date: moment().endOf().format('YYYY-MM-DD'),
+       from_date: moment().startOf('month').format('YYYY-MM-DD'),
+       to_date: moment().endOf('month').format('YYYY-MM-DD'),
        page: { current: 1, pageSize: 10, total: null }
      },
      loading: false
@@ -182,6 +192,7 @@ export default {
    ...mapActions(['getAllListParishes']),
    parishesGetList () {
      this.loading = true
+     console.log('=====>>>', this.params)
      this.getAllListParishes(this.params)
   .finally(() => {
     this.loading = false
@@ -191,6 +202,7 @@ export default {
       this.params.page = { ...pagination }
       this.parishesGetList()
     },
+    moment,
     rangePicer (val, data) {
       console.log(val, data)
       this.params.from_date = data[0]

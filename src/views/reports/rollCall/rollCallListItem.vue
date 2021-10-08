@@ -2,9 +2,12 @@
   <a-card>
     <div slot="title">
       <a-page-header
-        :sub-title= "`${'Отчеты / '}${$t('rollCall')}`"
         @back="() => $router.go(-1)"
-      />
+      >
+        <div slot="subTitle" style="cursor: pointer">
+          <span @click="() => $router.push({name: 'SaleMain'})">{{'Отчеты / '}}</span><span>{{$t('rollCall')}}</span>
+        </div>
+      </a-page-header>
     </div>
     <div slot="extra" style="display: flex; gap: 9px">
       <a-range-picker

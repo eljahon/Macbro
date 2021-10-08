@@ -4,7 +4,9 @@ const base_Url = {
   parishes: '/history/prixod',
   catigoriya: '/category',
   product: '/product',
-    groupped: '/product/variants-groupped'
+    groupped: '/product/variants-groupped',
+  slugid: '/inventory-party/check',
+  slugListItem: '/inventory-party/check-frequent'
 }
 const Parishes = {
   state: {
@@ -103,6 +105,40 @@ const Parishes = {
           method: 'get',
           params: {
             id: id
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    slugId ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.slugid}`,
+          method: 'post',
+          data: {
+            product_slugs: payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    partiabalItemList ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.slugListItem}`,
+          method: 'post',
+          data: {
+            group_names: data
           }
         })
           .then(res => {
