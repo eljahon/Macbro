@@ -9,7 +9,7 @@
         </div>
       </a-page-header>
     </div>
-<!--    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch"></a-input-search></div>-->
+    <!--    <div slot="extra"> <a-input-search :placeholder="'Search'" enter-button @search="onSearch"></a-input-search></div>-->
     <div>
       <a-card :bordered="false">
         <div slot="title">
@@ -19,32 +19,32 @@
           <a-button type="primary" icon="plus" @click="EspenCreateListPush">{{ $t('add') }}</a-button>
         </div>
         <div>
-<!--          <a-row :gutter="16">-->
-<!--            <a-col :xs="{ span: 7, offset: 1 }" :lg="{ span: 7, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
-<!--              <div class="mulitiCard">-->
-<!--                <div style="display: flex; margin-top: 15px">-->
-<!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-<!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </a-col>-->
-<!--            <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
-<!--              <div class="mulitiCard">-->
-<!--                <div style="display: flex; margin-top: 15px">-->
-<!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-<!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </a-col>-->
-<!--            <a-col class="gutter-row" :span="7" :offset="1">-->
-<!--              <div class="mulitiCard">-->
-<!--                <div style="display: flex; margin-top: 15px">-->
-<!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
-<!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </a-col>-->
-<!--          </a-row>-->
+          <!--          <a-row :gutter="16">-->
+          <!--            <a-col :xs="{ span: 7, offset: 1 }" :lg="{ span: 7, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
+          <!--              <div class="mulitiCard">-->
+          <!--                <div style="display: flex; margin-top: 15px">-->
+          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
+          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </a-col>-->
+          <!--            <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }" :md="{span: 7, offset: 1 }" :xl="{span: 7, offset: 1 }">-->
+          <!--              <div class="mulitiCard">-->
+          <!--                <div style="display: flex; margin-top: 15px">-->
+          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
+          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </a-col>-->
+          <!--            <a-col class="gutter-row" :span="7" :offset="1">-->
+          <!--              <div class="mulitiCard">-->
+          <!--                <div style="display: flex; margin-top: 15px">-->
+          <!--                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>-->
+          <!--                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </a-col>-->
+          <!--          </a-row>-->
         </div>
         <a-table
           style="margin-top: 30px; cursor: pointer"
@@ -88,23 +88,23 @@
             <span>{{ row.name }}</span>
           </template>
           <template slot="currency" slot-scope="text, row">
-<!--            {{ ImgCreateElement(row.icon) }}-->
-            <img v-if="row.icon" class="imgBorderRaidus"  :src="row.icon" alt="Payment">
+            <!--            {{ ImgCreateElement(row.icon) }}-->
+            <img v-if="row.icon" class="imgBorderRaidus" :src="row.icon" alt="Payment">
           </template>
           <template slot="type" slot-scope="text, row">
-<!--            <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>-->
-<!--            <a-tag  color="blue"><span>Продажа</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'other'" color="red"><span>Другие</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'mortgage'" color="green"><span>Ипотека</span></a-tag>-->
-            <a-tag color="blue"><span>{{  SubAccountFilterId(row.sub_account_category_id)}}</span></a-tag>
-<!--            <a-tag v-if="row.name === 'cleaning'" color="#87C38F"><span>Уборка</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'products'" color="#F4F0BB"><span>Продукты</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'advertisement'" color="#48A9A6"><span>Рекламное объявление</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'taxi'" color="#ffb703"><span>Такси</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'salary'" color="#ffcdb2"><span>Зарплата</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'rent'" color="#a8dadc"><span>Арендовать</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'communal'" color="#fcd5ce"><span>Коммунальный</span></a-tag>-->
-<!--            <a-tag v-if="row.name === 'internet'" color="#ffafcc"><span>Интернет</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'purchase'"><span>Покупка</span></a-tag>-->
+            <!--            <a-tag  color="blue"><span>Продажа</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'other'" color="red"><span>Другие</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'mortgage'" color="green"><span>Ипотека</span></a-tag>-->
+            <a-tag color="blue"><span>{{ SubAccountFilterId(row.sub_account_category_id) }}</span></a-tag>
+            <!--            <a-tag v-if="row.name === 'cleaning'" color="#87C38F"><span>Уборка</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'products'" color="#F4F0BB"><span>Продукты</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'advertisement'" color="#48A9A6"><span>Рекламное объявление</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'taxi'" color="#ffb703"><span>Такси</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'salary'" color="#ffcdb2"><span>Зарплата</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'rent'" color="#a8dadc"><span>Арендовать</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'communal'" color="#fcd5ce"><span>Коммунальный</span></a-tag>-->
+            <!--            <a-tag v-if="row.name === 'internet'" color="#ffafcc"><span>Интернет</span></a-tag>-->
             <!--            <span>{{ row.billing_info.type }}</span>-->
           </template>
         </a-table>

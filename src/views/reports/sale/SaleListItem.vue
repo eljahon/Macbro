@@ -5,7 +5,7 @@
         @back="() => $router.go(-1)"
       >
         <div slot="subTitle" style="cursor: pointer">
-          <span @click="() => $router.push({name: 'SaleMain'})">{{'Отчеты /'}}</span> <span @click="() => $router.push({name: 'SaleMain'})">{{'Продажа /'}} </span><span>{{clientname}}</span>
+          <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты /' }}</span> <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Продажа /' }} </span><span>{{ clientname }}</span>
         </div>
       </a-page-header>
     </div>
@@ -130,7 +130,7 @@
               <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.payment[0].credit_amount) }}</span>
             </template>
             <template slot="payment" slot-scope="text, row">
-              <span>{{row.payment[0].payment_type}}</span>
+              <span>{{ row.payment[0].payment_type }}</span>
             </template>
           </a-table>
         </a-tab-pane>

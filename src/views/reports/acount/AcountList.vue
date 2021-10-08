@@ -15,9 +15,9 @@
         <div slot="title">
           {{ $t('acount') }}
         </div>
-<!--        <div slot="extra">-->
-<!--          <a-button @click="AcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
-<!--        </div>-->
+        <!--        <div slot="extra">-->
+        <!--          <a-button @click="AcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
+        <!--        </div>-->
         <div>
         </div>
         <a-table
@@ -66,7 +66,7 @@
             <span>{{ row.name }}</span>
           </template>
           <template slot="account_group_id" slot-scope="text, row">
-<!--            <a-tag color="blue"><span v-for="(account,index) in row.subaccounts" :key="index">{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>-->
+            <!--            <a-tag color="blue"><span v-for="(account,index) in row.subaccounts" :key="index">{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>-->
             <a-tag color="blue"><span>{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>
           </template>
         </a-table>

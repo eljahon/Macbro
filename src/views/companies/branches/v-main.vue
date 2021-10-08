@@ -129,7 +129,7 @@
         >
           <template slot="action" slot-scope="text, row">
             <a-tooltip>
-              <span slot="title">{{$t('delete')}}</span>
+              <span slot="title">{{ $t('delete') }}</span>
               <a-button @click="DeleteBranchUserItem(row.id)" type="danger"><a-icon type="delete"></a-icon></a-button>
             </a-tooltip>
           </template>

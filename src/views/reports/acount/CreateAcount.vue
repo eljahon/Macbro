@@ -32,7 +32,7 @@
         </a-row> <br> <br>
         <a-row>
           <a-col :span="12" :offset="1">
-            <a-form-model-item ref="number" prop="number"  :label="$t('Название')">
+            <a-form-model-item ref="number" prop="number" :label="$t('Название')">
               <a-input size="large" order.number></a-input>
             </a-form-model-item>
           </a-col>

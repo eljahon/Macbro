@@ -111,21 +111,21 @@
                   <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>
                 </a-form-model-item>
               </a-col>
-<!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--                <a-form-model-item ref="middel_name" :label="$t('Выбор региона')" prop="middel_name">-->
-<!--                  <a-select v-model="form.adress" @change="SelectAdress" placeholder="Выбор региона">-->
-<!--                    <a-select-option v-for="item in adress" :key="item" :value="item">-->
-<!--                      {{ item }}-->
-<!--                    </a-select-option>-->
-<!--                  </a-select>-->
-<!--                  &lt;!&ndash;                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>&ndash;&gt;-->
-<!--                </a-form-model-item>-->
-<!--              </a-col>-->
-<!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--                <a-form-model-item ref="middel_name" :label="$t('middelname')" prop="middel_name">-->
-<!--                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>-->
-<!--                </a-form-model-item>-->
-<!--              </a-col>-->
+              <!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+              <!--                <a-form-model-item ref="middel_name" :label="$t('Выбор региона')" prop="middel_name">-->
+              <!--                  <a-select v-model="form.adress" @change="SelectAdress" placeholder="Выбор региона">-->
+              <!--                    <a-select-option v-for="item in adress" :key="item" :value="item">-->
+              <!--                      {{ item }}-->
+              <!--                    </a-select-option>-->
+              <!--                  </a-select>-->
+              <!--                  &lt;!&ndash;                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>&ndash;&gt;-->
+              <!--                </a-form-model-item>-->
+              <!--              </a-col>-->
+              <!--              <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+              <!--                <a-form-model-item ref="middel_name" :label="$t('middelname')" prop="middel_name">-->
+              <!--                  <a-input v-model="form.middle_name" size="large" :placeholder="$t('middelname')"></a-input>-->
+              <!--                </a-form-model-item>-->
+              <!--              </a-col>-->
             </a-row>
             <a-row v-if="$route.params.id">
               <a-col :span="12" style="padding: 0 15px">

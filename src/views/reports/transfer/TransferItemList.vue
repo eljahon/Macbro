@@ -31,7 +31,7 @@
 
           </a-tag>
           <a-tag color="blue" style="margin-left: -8px;border: none;">
-            <span>{{ list.items_count }} шт. <br> {{'Принято'}}</span>
+            <span>{{ list.items_count }} шт. <br> {{ 'Принято' }}</span>
           </a-tag>
         </div>
         <div slot="extra">
@@ -64,11 +64,11 @@
       bordered
     >
       <template slot="Товары" slot-scope="text, row">
-      <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
-                <img style="object-fit: cover" :src="row.product_image" alt="imgId">
-              </span>
-      <span v-if="row.product_image.length" style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
-      <span v-else style="margin-left:5px; position: relative;">{{ row.product_name }}</span>
+        <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
+          <img style="object-fit: cover" :src="row.product_image" alt="imgId">
+        </span>
+        <span v-if="row.product_image.length" style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
+        <span v-else style="margin-left:5px; position: relative;">{{ row.product_name }}</span>
       </template>
       <template slot="Состояние" slot-scope="text, row">
         <span v-if="row.product_state === 'new'"> <a-tag :color="'rgba(76, 217, 100, 0.1)'">Новый</a-tag></span>

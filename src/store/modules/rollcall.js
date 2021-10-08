@@ -40,7 +40,7 @@ const rollcall = {
       state.trnseferList = payload
     },
     TRANSFER_TAB_LIST_TWO: (state, payload) => {
-state.trnseferListTabLisTwo = payload
+      state.trnseferListTabLisTwo = payload
     },
     TRANSFER_TAB_LIST_TWO_PAGINATION: (state, payload) => {
       state.tronferPaginationTabLisTwo = payload
@@ -59,8 +59,8 @@ state.trnseferListTabLisTwo = payload
     }
   },
   actions: {
-      getRollCollAll ({ commit }, payload) {
-        const { page } = payload
+    getRollCollAll({ commit }, payload) {
+      const { page } = payload
       return new Promise((resolve, reject) => {
         request({
           url: `${base_url.rollcallget}`,
@@ -85,126 +85,126 @@ state.trnseferListTabLisTwo = payload
           })
       })
     },
-    TransferGetAll ({ commit }, payload) {
-        const { page } = payload
-        return new Promise((resolve, reject) => {
-          request({
-            url: `${base_url.transfer}`,
-            method: 'get',
-            params: {
-              statuses: payload.statuses,
-              type: 'relocation',
-              limit: page.pageSize,
-              page: page.current,
-              from_date: payload.from_date,
-              to_date: payload.to_date
-            }
-          })
-            .then(res => {
-              resolve(res)
-              page.total = parseInt(res.count)
-              commit('Transfer_Get_All', res.orders)
-              commit('TransferPagination', page)
-              console.log('=======================', res)
-            })
-            .catch(error => {
-              reject(error)
-            })
+    TransferGetAll({ commit }, payload) {
+      const { page } = payload
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            statuses: payload.statuses,
+            type: 'relocation',
+            limit: page.pageSize,
+            page: page.current,
+            from_date: payload.from_date,
+            to_date: payload.to_date
+          }
         })
-    },
-    TransferGetAllTwoTab ({ commit }, payload) {
-        const { page } = payload
-        return new Promise((resolve, reject) => {
-          request({
-            url: `${base_url.transfer}`,
-            method: 'get',
-            params: {
-              statuses: payload.statuses,
-              type: 'relocation',
-              limit: page.pageSize,
-              page: page.current
-            }
+          .then(res => {
+            resolve(res)
+            page.total = parseInt(res.count)
+            commit('Transfer_Get_All', res.orders)
+            commit('TransferPagination', page)
+            console.log('=======================', res)
           })
-            .then(res => {
-              resolve(res)
-              page.total = parseInt(res.count)
-              commit('TRANSFER_TAB_LIST_TWO', res.orders)
-              commit('TRANSFER_TAB_LIST_TWO_PAGINATION', page)
-              console.log('=======================', res)
-            })
-            .catch(error => {
-              reject(error)
-            })
-        })
-    },
-    TransferGetAllTheeTab ({ commit }, payload) {
-        const { page } = payload
-        return new Promise((resolve, reject) => {
-          request({
-            url: `${base_url.transfer}`,
-            method: 'get',
-            params: {
-              statuses: payload.statuses,
-              type: 'relocation',
-              limit: page.pageSize,
-              page: page.current,
-              from_date: payload.from_date,
-              to_date: payload.to_date
-            }
+          .catch(error => {
+            reject(error)
           })
-            .then(res => {
-              resolve(res)
-              page.total = res.count
-              commit('TRANSFER_TAB_LIST_THEE', res.orders)
-              commit('TRANSFER_TAB_LIST_THEE_PAGINATION', page)
-              console.log('=======================', res)
-            })
-            .catch(error => {
-              reject(error)
-            })
-        })
+      })
     },
-    setAtiveTab ({ commit }, payload) {
-        commit('ACTIVE_TAB', payload)
-},
-    rollCallItemListGet ({ comiit }, payload) {
-        const { page } = payload
+    TransferGetAllTwoTab({ commit }, payload) {
+      const { page } = payload
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            statuses: payload.statuses,
+            type: 'relocation',
+            limit: page.pageSize,
+            page: page.current
+          }
+        })
+          .then(res => {
+            resolve(res)
+            page.total = parseInt(res.count)
+            commit('TRANSFER_TAB_LIST_TWO', res.orders)
+            commit('TRANSFER_TAB_LIST_TWO_PAGINATION', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    TransferGetAllTheeTab({ commit }, payload) {
+      const { page } = payload
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            statuses: payload.statuses,
+            type: 'relocation',
+            limit: page.pageSize,
+            page: page.current,
+            from_date: payload.from_date,
+            to_date: payload.to_date
+          }
+        })
+          .then(res => {
+            resolve(res)
+            page.total = res.count
+            commit('TRANSFER_TAB_LIST_THEE', res.orders)
+            commit('TRANSFER_TAB_LIST_THEE_PAGINATION', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    setAtiveTab({ commit }, payload) {
+      commit('ACTIVE_TAB', payload)
+    },
+    rollCallItemListGet({ comiit }, payload) {
+      const { page } = payload
       console.log('===payoload ==>>', payload)
       return new Promise((resolve, reject) => {
-          request({
-            url: `${base_url.rollcallItem}`,
-            method: 'get',
-            params: {
-              company_id: payload.company_id,
-              branch_id: payload.branch_id,
-              user_id: payload.user_id,
-              from_date: payload.from_date,
-              to_date: payload.to_date,
-              page: page.current,
-              limit: page.pageSize
-            }
-          })
-            .then(res => {
-              resolve(res)
-            })
-            .catch(error => {
-              reject(error)
-            })
+        request({
+          url: `${base_url.rollcallItem}`,
+          method: 'get',
+          params: {
+            company_id: payload.company_id,
+            branch_id: payload.branch_id,
+            user_id: payload.user_id,
+            from_date: payload.from_date,
+            to_date: payload.to_date,
+            page: page.current,
+            limit: page.pageSize
+          }
         })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     },
-    TransferListIdget ({ commit }, payload) {
-        return new Promise((resolve, reject) => {
-          request({
-            url: `${base_url.transferItem}/${payload}`,
-            method: 'get'
-          })
-            .then(res => {
-              resolve(res)
-            })
-            .catch(error => {
-              reject(error)
-            })
+    TransferListIdget({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transferItem}/${payload}`,
+          method: 'get'
         })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
   }
 }

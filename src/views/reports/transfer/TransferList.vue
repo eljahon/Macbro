@@ -6,10 +6,10 @@
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-<!--          <a-input @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">-->
-<!--            <a-icon style="color: blue" slot="addonAfter" type="search" />-->
+          <!--          <a-input @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">-->
+          <!--            <a-icon style="color: blue" slot="addonAfter" type="search" />-->
 
-<!--          </a-input>-->
+          <!--          </a-input>-->
           <a-range-picker
             :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             @change="rangePickerDate"

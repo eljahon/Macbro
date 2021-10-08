@@ -1,26 +1,26 @@
 <template>
   <a-card>
     <div slot="title">
-      <span>{{$t('fullbalance')}}</span>
+      <span>{{ $t('fullbalance') }}</span>
     </div>
     <div slot="extra">
       <div slot="extra" style="display: flex; gap: 9px">
-<!--        <a-input>-->
-<!--          <a-icon style="color: blue" slot="addonAfter" type="search" />-->
-<!--        </a-input>-->
-<!--        <a-select-->
-<!--          label-in-value-->
-<!--          :default-value="{ key: 'lucy' }"-->
-<!--          style="width: 180px"-->
-<!--        >-->
-<!--          <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-<!--          <a-select-option value="jack">-->
-<!--            Jack (100)-->
-<!--          </a-select-option>-->
-<!--          <a-select-option value="lucy">-->
-<!--            Lucy (101)-->
-<!--          </a-select-option>-->
-<!--        </a-select>-->
+        <!--        <a-input>-->
+        <!--          <a-icon style="color: blue" slot="addonAfter" type="search" />-->
+        <!--        </a-input>-->
+        <!--        <a-select-->
+        <!--          label-in-value-->
+        <!--          :default-value="{ key: 'lucy' }"-->
+        <!--          style="width: 180px"-->
+        <!--        >-->
+        <!--          <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+        <!--          <a-select-option value="jack">-->
+        <!--            Jack (100)-->
+        <!--          </a-select-option>-->
+        <!--          <a-select-option value="lucy">-->
+        <!--            Lucy (101)-->
+        <!--          </a-select-option>-->
+        <!--        </a-select>-->
         <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
       </div>
     </div>

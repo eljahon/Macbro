@@ -7,8 +7,8 @@
             @back="() => $router.go(-1)"
           >
             <div slot="subTitle" style="cursor: pointer">
-              <span @click="() => $router.push({name: 'SaleMain'})">{{'Отчеты /'}}</span> <span>{{$t('parishes') + ' '}} </span>
-<!--              <span>{{clientname}}</span>-->
+              <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты /' }}</span> <span>{{ $t('parishes') + ' ' }} </span>
+              <!--              <span>{{clientname}}</span>-->
             </div>
           </a-page-header>
         </div>
@@ -25,19 +25,19 @@
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-<!--          <a-select-->
-<!--            label-in-value-->
-<!--            :default-value="{ key: 'lucy' }"-->
-<!--            style="width: 180px"-->
-<!--          >-->
-<!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-<!--            <a-select-option value="jack">-->
-<!--              Jack (100)-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="lucy">-->
-<!--              Lucy (101)-->
-<!--            </a-select-option>-->
-<!--          </a-select>-->
+          <!--          <a-select-->
+          <!--            label-in-value-->
+          <!--            :default-value="{ key: 'lucy' }"-->
+          <!--            style="width: 180px"-->
+          <!--          >-->
+          <!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+          <!--            <a-select-option value="jack">-->
+          <!--              Jack (100)-->
+          <!--            </a-select-option>-->
+          <!--            <a-select-option value="lucy">-->
+          <!--              Lucy (101)-->
+          <!--            </a-select-option>-->
+          <!--          </a-select>-->
           <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
         </div>
 
@@ -78,21 +78,21 @@
           :component="$myIcons.filterDownIcon"
         />
         <template slot="Статус" slot-scope="text, row">
-          <a-tag :color="row.items_count === row.scanned_count  ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>
+          <a-tag :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>
 
           <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
         </template>
         <template slot="seller" slot-scope="text, row">
-          <span>{{row.seller.first_name}}{{' '}}{{row.seller.last_name}}</span>
+          <span>{{ row.seller.first_name }}{{ ' ' }}{{ row.seller.last_name }}</span>
         </template>
         <template slot="buyers" slot-scope="text, row">
-          <span>{{row.buyer.first_name}}{{' '}}{{row.buyer.last_name}}</span>
+          <span>{{ row.buyer.first_name }}{{ ' ' }}{{ row.buyer.last_name }}</span>
         </template>
         <template slot="Кол" slot-scope="text, row">
           <span>{{ row.items_count }}</span>
         </template>
         <template slot="Сумма" slot-scope="text, row">
-          <span>{{ '$'}}{{ row.total_amount }}</span>
+          <span>{{ '$' }}{{ row.total_amount }}</span>
         </template>
       </a-table>
     </a-card>

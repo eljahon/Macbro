@@ -20,19 +20,19 @@
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-<!--          <a-select-->
-<!--            label-in-value-->
-<!--            :default-value="{ key: 'lucy' }"-->
-<!--            style="width: 180px"-->
-<!--          >-->
-<!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-<!--            <a-select-option value="jack">-->
-<!--              Jack (100)-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="lucy">-->
-<!--              Lucy (101)-->
-<!--            </a-select-option>-->
-<!--          </a-select>-->
+          <!--          <a-select-->
+          <!--            label-in-value-->
+          <!--            :default-value="{ key: 'lucy' }"-->
+          <!--            style="width: 180px"-->
+          <!--          >-->
+          <!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+          <!--            <a-select-option value="jack">-->
+          <!--              Jack (100)-->
+          <!--            </a-select-option>-->
+          <!--            <a-select-option value="lucy">-->
+          <!--              Lucy (101)-->
+          <!--            </a-select-option>-->
+          <!--          </a-select>-->
           <a-button style="padding: 5px" type="primary" icon="download" size="large" />
         </div>
 
@@ -86,7 +86,7 @@
           <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>
         </template>
         <template slot="Должность" slot-scope="text, row">
-          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type}}</span>
+          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type }}</span>
         </template>
         <template slot="Отсутствующие" slot-scope="text, row">
           <span>{{ checkField(row.visit_report, 'absent', 'total_days') }}</span>

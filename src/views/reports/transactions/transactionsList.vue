@@ -16,32 +16,32 @@
           {{ $t('transactions') }}
         </div>
         <div style="display: flex">
-<!--          <a-row>-->
-<!--            <a-col :span="7" >-->
-              <div class="mulitiCard">
-                <div style="display: flex; margin-top: 15px">
-                  <div style=" margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
-                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
-                </div>
-              </div>
-<!--            </a-col>-->
-<!--            <a-col :span="7" :offset="1">-->
-              <div class="mulitiCard">
-                <div style="display: flex; margin-top: 15px">
-                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
-                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
-                </div>
-              </div>
-<!--            </a-col>-->
-<!--            <a-col :span="7" :offset="1">-->
-              <div class="mulitiCard">
-                <div style="display: flex; margin-top: 15px">
-                  <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
-                  <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
-                </div>
-              </div>
-<!--            </a-col>-->
-<!--          </a-row>-->
+          <!--          <a-row>-->
+          <!--            <a-col :span="7" >-->
+          <div class="mulitiCard">
+            <div style="display: flex; margin-top: 15px">
+              <div style=" margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'blue'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
+              <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
+            </div>
+          </div>
+          <!--            </a-col>-->
+          <!--            <a-col :span="7" :offset="1">-->
+          <div class="mulitiCard">
+            <div style="display: flex; margin-top: 15px">
+              <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px', color: 'red'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
+              <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
+            </div>
+          </div>
+          <!--            </a-col>-->
+          <!--            <a-col :span="7" :offset="1">-->
+          <div class="mulitiCard">
+            <div style="display: flex; margin-top: 15px">
+              <div style="width: 30%; margin-left: 10px;"><a-icon :style="{fontSize: '20px'}" type="dollar"></a-icon> <span style="margin-left: 10px">Продажа</span></div>
+              <div style="30%; float: right;margin-left: 170px"><strong>+$250</strong></div>
+            </div>
+          </div>
+          <!--            </a-col>-->
+          <!--          </a-row>-->
         </div>
         <a-table
           style="margin-top: 30px"
@@ -94,18 +94,18 @@
               :placeholder="`Search`"
               style="width: 188px; margin-bottom: 8px; display: block;"
             />
-<!--            <a-button-->
-<!--              type="primary"-->
-<!--              icon="search"-->
-<!--              size="small"-->
-<!--              style="width: 90px; margin-right: 8px"-->
-<!--              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"-->
-<!--            >-->
-<!--              Search-->
-<!--            </a-button>-->
-<!--            <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">-->
-<!--              Reset-->
-<!--            </a-button>-->
+            <!--            <a-button-->
+            <!--              type="primary"-->
+            <!--              icon="search"-->
+            <!--              size="small"-->
+            <!--              style="width: 90px; margin-right: 8px"-->
+            <!--              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"-->
+            <!--            >-->
+            <!--              Search-->
+            <!--            </a-button>-->
+            <!--            <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">-->
+            <!--              Reset-->
+            <!--            </a-button>-->
           </div>
           <a-icon
             style="font-size: 20px; color: transparent; background-color: transparent"
@@ -125,14 +125,14 @@
               <img class="imgBorderRaidus" v-if="payment === 'cash'" :src="Imgs.cash" alt="Payment">
               <img class="imgBorderRaidus" v-if="payment === 'click'" :src="Imgs.click" alt="Payment">
               <img class="imgBorderRaidus" v-if="payment === 'p2p'" :src="Imgs.Vise" alt="Payment">
-<!--              <img v-if="payment === 'terminal'" :src="Imgs.Vise" alt="Payment">-->
+              <!--              <img v-if="payment === 'terminal'" :src="Imgs.Vise" alt="Payment">-->
             </span>
           </template>
           <template slot="type" slot-scope="text, row">
             <a-tag v-if="row.billing_info.type === 'order'"><span>Приход</span></a-tag>
             <a-tag v-if="row.billing_info.type === 'sale'" color="blue"><span>продажа</span></a-tag>
             <a-tag v-if="row.billing_info.type === 'inventory'" color="red"><span>Расход</span></a-tag>
-<!--            <span>{{ row.billing_info.type }}</span>-->
+            <!--            <span>{{ row.billing_info.type }}</span>-->
           </template>
         </a-table>
       </a-card>
