@@ -129,7 +129,7 @@
         >
           <template slot="action" slot-scope="text, row">
             <a-tooltip>
-              <span slot="title">{{ $t('delete') }}</span>
+              <span slot="title">{{$t('delete')}}</span>
               <a-button @click="DeleteBranchUserItem(row.id)" type="danger"><a-icon type="delete"></a-icon></a-button>
             </a-tooltip>
           </template>
@@ -148,12 +148,11 @@
             :dataSource="userList"
             :rowKey="record => record.id"
             :loading="loading"
-            :pagnation="getPaginationSttaff"
             :rowSelection="{
               selectedRowKeys: selectedRowKeys,
               onChange: onSelectedChange,
             }"
-            @change="StaffhandleTableChange"
+            @change="handleTableChange"
             test-attr="list-branch"
             bordered
           >
@@ -306,7 +305,9 @@ export default {
         page: { page: 1, limit: 10, total: null }
       },
       corporateParams: {
-        page: { current: 1, pageSize: 10, total: null },
+        limit: 10,
+        page: 1,
+        total: null,
         company_id: this.$route.params.company_id
       }
     }
@@ -342,24 +343,12 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'staffList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
+    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
     userList () {
       return this.branchesList
-    },
-    // eslint-disable-next-line vue/return-in-computed-property
-    getPaginationSttaff () {
-      return this.staffList
     }
   },
   methods: {
-    StaffhandleTableChange (pagination) {
-      this.loading = true
-      this.corporateParams.page = { ...pagination }
-      this.getUsers(this.corporateParams)
-      .finally(() => {
-        this.loading = false
-      })
-    },
     DeleteBranchUserItem (id) {
       const params = {
         company_id: this.company_id,
