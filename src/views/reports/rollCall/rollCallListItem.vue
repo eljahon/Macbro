@@ -2,9 +2,12 @@
   <a-card>
     <div slot="title">
       <a-page-header
-        :sub-title= "`${'Отчеты / '}${$t('rollCall')}`"
         @back="() => $router.go(-1)"
-      />
+      >
+        <div slot="subTitle" style="cursor: pointer">
+          <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты / ' }}</span><span>{{ $t('rollCall') }}</span>
+        </div>
+      </a-page-header>
     </div>
     <div slot="extra" style="display: flex; gap: 9px">
       <a-range-picker
@@ -13,19 +16,19 @@
       >
         <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
       </a-range-picker>
-<!--      <a-select-->
-<!--        label-in-value-->
-<!--        :default-value="{ key: 'lucy' }"-->
-<!--        style="width: 180px"-->
-<!--      >-->
-<!--        <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-<!--        <a-select-option value="jack">-->
-<!--          Jack (100)-->
-<!--        </a-select-option>-->
-<!--        <a-select-option value="lucy">-->
-<!--          Lucy (101)-->
-<!--        </a-select-option>-->
-<!--      </a-select>-->
+      <!--      <a-select-->
+      <!--        label-in-value-->
+      <!--        :default-value="{ key: 'lucy' }"-->
+      <!--        style="width: 180px"-->
+      <!--      >-->
+      <!--        <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+      <!--        <a-select-option value="jack">-->
+      <!--          Jack (100)-->
+      <!--        </a-select-option>-->
+      <!--        <a-select-option value="lucy">-->
+      <!--          Lucy (101)-->
+      <!--        </a-select-option>-->
+      <!--      </a-select>-->
       <a-button style="padding: 2px" type="primary" icon="download" size="small" />
     </div>
     <div>
@@ -75,7 +78,7 @@
           <span>{{ moment(row.start_time).format('YYYY-MM-DD') }}</span>
         </template>
         <template slot="Должность" slot-scope="text, row">
-          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type}}</span>
+          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type }}</span>
         </template>
         <template slot="Отсутствующие" slot-scope="text, row">
           <span>{{ checkField(row.visit_report, 'absent', 'total_days') }}</span>

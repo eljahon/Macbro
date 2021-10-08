@@ -15,9 +15,9 @@
         <div slot="title">
           {{ $t('subacounts') }}
         </div>
-<!--        <div slot="extra">-->
-<!--          <a-button @click="SubAcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
-<!--        </div>-->
+        <!--        <div slot="extra">-->
+        <!--          <a-button @click="SubAcountCreate" type="primary" icon="plus">{{ $t('add') }}</a-button>-->
+        <!--        </div>-->
         <div>
         </div>
         <a-table

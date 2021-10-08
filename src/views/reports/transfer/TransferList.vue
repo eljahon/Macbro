@@ -6,34 +6,34 @@
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-          <a-input size="small" @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">
-            <a-icon style="color: blue" slot="addonAfter" type="search" />
+          <!--          <a-input @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">-->
+          <!--            <a-icon style="color: blue" slot="addonAfter" type="search" />-->
 
-          </a-input>
+          <!--          </a-input>-->
           <a-range-picker
-            size="small"
+            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             @change="rangePickerDate"
           ><a-icon type="calendar" style="color: blue" slot="suffixIcon"/></a-range-picker>
-<!--          <a-select-->
-<!--            size="large"-->
-<!--            label-in-value-->
-<!--            :default-value="{ key: 'lucy' }"-->
-<!--            style="width: 180px"-->
-<!--          >-->
-<!--            <a-select-option value="jack">-->
-<!--              Jack (100)-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="lucy">-->
-<!--              Lucy (101)-->
-<!--            </a-select-option>-->
-<!--          </a-select>-->
+          <!--          <a-select-->
+          <!--            size="large"-->
+          <!--            label-in-value-->
+          <!--            :default-value="{ key: 'lucy' }"-->
+          <!--            style="width: 180px"-->
+          <!--          >-->
+          <!--            <a-select-option value="jack">-->
+          <!--              Jack (100)-->
+          <!--            </a-select-option>-->
+          <!--            <a-select-option value="lucy">-->
+          <!--              Lucy (101)-->
+          <!--            </a-select-option>-->
+          <!--          </a-select>-->
           <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
 
         </div>
 
       </div>
       <a-tabs type="card" @change="callback">
-<!--        <a-tab-pane key="1" tab="Tab 1">-->
+        <!--        <a-tab-pane key="1" tab="Tab 1">-->
         <a-tab-pane key="1" tab="В процессе">
           <a-table
             style="margin-top: 30px"
@@ -44,6 +44,7 @@
             :loading="loading"
             @change="handleTableChangeTabOne"
             test-attr="list-customer"
+            :customRow="customRowClick"
             bordered
           >
             <div slot="Aккаунта" style="padding: 8px; width: 230px;">
@@ -75,7 +76,7 @@
               :component="$myIcons.filterDownIcon"
             />
             <template slot="Время" slot-scope="text, row">
-              <span>{{moment(row.create_at).format('hh:mm DD-MM-YYYY')}}</span>
+              <span>{{ moment(row.create_at).format('hh:mm DD-MM-YYYY') }}</span>
             </template>
           </a-table>
         </a-tab-pane>
@@ -89,6 +90,7 @@
             :loading="loading"
             @change="handleTableChangeTabTwo"
             test-attr="list-customer"
+            :customRow="customRowClick"
             bordered
           >
             <div slot="Aккаунта" style="padding: 8px; width: 230px;">
@@ -120,13 +122,13 @@
               :component="$myIcons.filterDownIcon"
             />
             <template slot="Время" slot-scope="text, row">
-              <span>{{moment(row.create_at).format('hh:mm DD-MM-YYYY')}}</span>
+              <span>{{ moment(row.create_at).format('hh:mm DD-MM-YYYY') }}</span>
             </template>
             <template slot="прихода" slot-scope="text, row">
-              <span>{{moment(row.updated_at).format('hh:mm DD-MM-YYYY')}}</span>
+              <span>{{ moment(row.updated_at).format('hh:mm DD-MM-YYYY') }}</span>
             </template>
             <template slot="Статус" slot-scope="text, row">
-              <a-tag :color="row.status ==='rejected' ? 'red' : 'green' "><span>{{row.status === 'rejected' ? 'Отказано' : 'Принято'}}</span></a-tag>
+              <a-tag :color="row.status ==='rejected' ? 'red' : 'green' "><span>{{ row.status === 'rejected' ? 'Отказано' : 'Принято' }}</span></a-tag>
             </template>
           </a-table>
         </a-tab-pane>
@@ -140,6 +142,7 @@
             :loading="loading"
             @change="handleTableChangeTabThee"
             test-attr="list-customer"
+            :customRow="customRowClick"
             bordered
           >
             <div slot="Aккаунта" style="padding: 8px; width: 230px;">
@@ -170,13 +173,13 @@
               :component="$myIcons.filterDownIcon"
             />
             <template slot="Время" slot-scope="text, row">
-              <span>{{moment(row.create_at).format('hh:mm DD-MM-YYYY')}}</span>
+              <span>{{ moment(row.create_at).format('hh:mm DD-MM-YYYY') }}</span>
             </template>
             <template slot="прихода" slot-scope="text, row">
-              <span>{{moment(row.updated_at).format('hh:mm DD-MM-YYYY')}}</span>
+              <span>{{ moment(row.updated_at).format('hh:mm DD-MM-YYYY') }}</span>
             </template>
             <template slot="Статус" slot-scope="text, row">
-              <a-tag><span>{{Count(row.items).c}}/{{Count(row.items).s}}</span></a-tag>
+              <a-tag><span>{{ Count(row.items).c }}/{{ Count(row.items).s }}</span></a-tag>
             </template>
           </a-table>
 
@@ -500,8 +503,18 @@ this.TransferGetListAll(this.params)
           this.loading = false
         })
     },
-    customRowClick (val, even, data) {
-      // console.log(val, even, data)
+    customRowClick (record) {
+      console.log('record ===>>', record.user)
+      return {
+        on: {
+          click: (event) => {
+            // console.log(record)
+            this.$router.push({ name: 'TransferItemListMain',
+              params: { id: record.id }
+            })
+          }
+        }
+      }
     },
     Count (array) {
       let count = 0

@@ -222,26 +222,26 @@ export const asyncRouterMap = [
         meta: { title: 'report', icon: myIcons.reports, permission: ['directory'] },
         children: [
           {
-            path: '/reports/main',
+            path: '/reports/sale',
             hideChildrenInMenu: true,
-            name: 'rollCallListMain',
+            name: 'SaleMain',
             component: RouteView,
-            redirect: '/report/rollCall/list',
-            meta: { title: 'rollCall', permission: ['rollCall'] },
+            redirect: '/report/sale/list',
+            meta: { title: 'sale', permission: ['sale'] },
             children: [
               {
-                path: '/report/rollCall/list',
-                name: 'rollCallListMain',
+                path: '/report/sale/list',
+                name: 'SaleListMain',
                 props: true,
-                component: () => import('@/views/reports/rollCall/rollCallList'),
-                meta: { title: 'rollCall', keepAlive: true, permission: ['rollCall'] }
+                component: () => import('@/views/reports/sale/SaleList'),
+                meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
               },
               {
-                path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
-                name: 'rollCallListMainItem',
+                path: '/report/sale/list/item/:id',
+                name: 'SaleItemListMain',
                 props: true,
-                component: () => import('@/views/reports/rollCall/rollCallListItem'),
-                meta: { title: 'rollCallItem', keepAlive: true, permission: ['rollCallItem'] }
+                component: () => import('@/views/reports/sale/SaleListItem'),
+                meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
               }
             ]
           },
@@ -259,6 +259,30 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/parishes/parishesList'),
                 meta: { title: 'parishes', keepAlive: true, permission: ['parishes'] }
+              }
+            ]
+          },
+          {
+            path: '/reports/transfer',
+            hideChildrenInMenu: true,
+            name: 'TransferMain',
+            component: RouteView,
+            redirect: '/report/transfer/list',
+            meta: { title: 'transfer', permission: ['transfer'] },
+            children: [
+              {
+                path: '/report/transfer/list',
+                name: 'TransferListMain',
+                props: true,
+                component: () => import('@/views/reports/transfer/TransferList'),
+                meta: { title: 'transfer', keepAlive: true, permission: ['transfer'] }
+              },
+              {
+                path: '/report/transfer/item/:id',
+                name: 'TransferItemListMain',
+                props: true,
+                component: () => import('@/views/reports/transfer/TransferItemList'),
+                meta: { title: 'transfer', keepAlive: true, permission: ['transfer'] }
               }
             ]
           },
@@ -333,197 +357,29 @@ export const asyncRouterMap = [
             ]
           },
           {
-            path: '/reports/transfer',
+            path: '/reports/main',
             hideChildrenInMenu: true,
-            name: 'TransferMain',
+            name: 'rollCallListMain',
             component: RouteView,
-            redirect: '/report/transfer/list',
-            meta: { title: 'transfer', permission: ['transfer'] },
+            redirect: '/report/rollCall/list',
+            meta: { title: 'rollCall', permission: ['rollCall'] },
             children: [
               {
-                path: '/report/transfer/list',
-                name: 'TransferListMain',
+                path: '/report/rollCall/list',
+                name: 'rollCallListMain',
                 props: true,
-                component: () => import('@/views/reports/transfer/TransferList'),
-                meta: { title: 'transfer', keepAlive: true, permission: ['transfer'] }
-              }
-            ]
-          },
-          // {
-          //   path: '/reports/coming',
-          //   hideChildrenInMenu: true,
-          //   name: 'ComingMain',
-          //   component: RouteView,
-          //   redirect: '/report/coming/list',
-          //   meta: { title: 'coming', permission: ['coming'] },
-          //   children: [
-          //     {
-          //       path: '/report/coming/list',
-          //       name: 'ComingListMain',
-          //       props: true,
-          //       component: () => import('@/views/reports/coming/ComingList'),
-          //       meta: { title: 'coming', keepAlive: true, permission: ['coming'] }
-          //     }
-          //   ]
-          // },
-          {
-            path: '/reports/sale',
-            hideChildrenInMenu: true,
-            name: 'SaleMain',
-            component: RouteView,
-            redirect: '/report/sale/list',
-            meta: { title: 'sale', permission: ['sale'] },
-            children: [
-              {
-                path: '/report/sale/list',
-                name: 'SaleListMain',
-                props: true,
-                component: () => import('@/views/reports/sale/SaleList'),
-                meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
+                component: () => import('@/views/reports/rollCall/rollCallList'),
+                meta: { title: 'rollCall', keepAlive: true, permission: ['rollCall'] }
               },
               {
-                path: '/report/sale/list/item/:id',
-                name: 'SaleItemListMain',
+                path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
+                name: 'rollCallListMainItem',
                 props: true,
-                component: () => import('@/views/reports/sale/SaleListItem'),
-                meta: { title: 'sale', keepAlive: true, permission: ['sale'] }
+                component: () => import('@/views/reports/rollCall/rollCallListItem'),
+                meta: { title: 'rollCallItem', keepAlive: true, permission: ['rollCallItem'] }
               }
             ]
           }
-          // {
-          //   path: '/reports',
-          //   hideChildrenInMenu: true,
-          //   name: 'ReportsList',
-          //   component: RouteView,
-          //   redirect: '/report/transactions/list',
-          //   meta: { title: 'transactions', permission: ['transactions'] },
-          //   children: [
-          //     {
-          //       path: '/report/transactions/list',
-          //       name: 'transactionsListMain',
-          //       props: true,
-          //       component: () => import('@/views/reports/transactions/transactionsList'),
-          //       meta: { title: 'typeExpenses', keepAlive: true, permission: ['directory'] }
-          //     }
-          //   ]
-          // },
-          // {
-          //   path: '/reports/typeExpenses',
-          //   hideChildrenInMenu: true,
-          //   name: 'expensesListMain',
-          //   component: RouteView,
-          //   redirect: '/reports/expenses/list',
-          //   meta: { title: 'typeExpenses', permission: ['typeExpenses'] },
-          //   children: [
-          //     {
-          //       path: '/reports/expenses/list',
-          //       name: 'expensesListMainList',
-          //       props: true,
-          //       component: () => import('@/views/reports/typeExpenses/ExpensesList'),
-          //       meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
-          //     },
-          //     {
-          //       path: '/reports/expenses/create',
-          //       name: 'expensesCreateListMainList',
-          //       props: true,
-          //       component: () => import('@/views/reports/typeExpenses/EspenCreate'),
-          //       meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
-          //     },
-          //     {
-          //       path: '/reports/expenses/update/:id',
-          //       name: 'expensesUpdateListMainList',
-          //       props: true,
-          //       component: () => import('@/views/reports/typeExpenses/EspenCreate'),
-          //       meta: { title: 'typeExpenses', keepAlive: true, permission: ['typeExpenses'] }
-          //     }
-          //   ]
-          // },
-          // {
-          //   path: '/reports/subacounts',
-          //   hideChildrenInMenu: true,
-          //   name: 'subacountListMain',
-          //   component: RouteView,
-          //   redirect: '/reports/subacount/list',
-          //   meta: { title: 'subacounts', permission: ['subacounts'] },
-          //   children: [
-          //     {
-          //       path: '/reports/subacount/list',
-          //       name: 'subacountListMainList',
-          //       props: true,
-          //       component: () => import('@/views/reports/subacounts/SubAcountList'),
-          //       meta: { title: 'subacounts', keepAlive: true, permission: ['subacounts'] }
-          //     },
-          //     {
-          //       path: '/reports/subacount/Create',
-          //       name: 'SubacountCreate',
-          //       props: true,
-          //       component: () => import('@/views/reports/subacounts/SubacountCreate'),
-          //       meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //     },
-          //     {
-          //       path: '/reports/subacount/update/:id',
-          //       name: 'SubacountUpdate',
-          //       props: true,
-          //       component: () => import('@/views/reports/subacounts/SubacountCreate'),
-          //       meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //     }
-          //     // {
-          //     //   path: '/warehouse/moving/list/update/:id',
-          //     //   name: 'warehouseMovingUpdate',
-          //     //   props: true,
-          //     //   component: () => import('@/views/warehouse/WarehouseEdit'),
-          //     //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //     // }
-          //   ]
-          // },
-          // {
-          //   path: '/reports/acount',
-          //   hideChildrenInMenu: true,
-          //   name: 'acountListMain',
-          //   component: RouteView,
-          //   redirect: '/reports/acount/list',
-          //   meta: { title: 'acount', permission: ['acount'] },
-          //   children: [
-          //     // {
-          //     //   path: '/reports/acount/list',
-          //     //   name: 'acountListMainList',
-          //     //   props: true,
-          //     //   component: () => import('@/views/reports/acount/AcountList'),
-          //     //   meta: { title: 'acount', keepAlive: true, permission: ['acount'] }
-          //     // },
-          //     // {
-          //     //   path: '/reports/acount/create',
-          //     //   name: 'AcountCreate',
-          //     //   props: true,
-          //     //   component: () => import('@/views/reports/acount/CreateAcount'),
-          //     //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //     // }
-          //     // {
-          //     //   path: '/warehouse/moving/list/update/:id',
-          //     //   name: 'warehouseMovingUpdate',
-          //     //   props: true,
-          //     //   component: () => import('@/views/warehouse/WarehouseEdit'),
-          //     //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-          //     // }
-          //   ]
-          // }
-          // {
-          //   path: '/reports',
-          //   hideChildrenInMenu: true,
-          //   name: 'ReportsList',
-          //   component: RouteView,
-          //   redirect: '/report/transactions/list',
-          //   meta: { title: 'transactions', permission: ['transactions'] },
-          //   children: [
-          //     {
-          //       path: '/report/transactions/list',
-          //       name: 'transactionsListMain',
-          //       props: true,
-          //       component: () => import('@/views/reports/transactions/transactionsList'),
-          //       meta: { title: 'typeExpenses', keepAlive: true, permission: ['directory'] }
-          //     }
-          //   ]
-          // }
         ]
       },
       {

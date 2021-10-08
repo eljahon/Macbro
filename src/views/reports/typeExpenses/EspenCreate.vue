@@ -47,23 +47,23 @@
             </a-form-item>
           </a-col>
         </a-row>
-<!--        <a-row>-->
-<!--          <a-col :span="12" :offset="1">-->
-<!--            <a-form-model-item ref="number" prop="number" :label="$t('ИД. аккаунта')">-->
-<!--              <a-input-number style="width: 100%" size="large" v-model="order.number"></a-input-number>-->
-<!--            </a-form-model-item>-->
-<!--          </a-col>-->
-<!--        </a-row> <br> <br>-->
+        <!--        <a-row>-->
+        <!--          <a-col :span="12" :offset="1">-->
+        <!--            <a-form-model-item ref="number" prop="number" :label="$t('ИД. аккаунта')">-->
+        <!--              <a-input-number style="width: 100%" size="large" v-model="order.number"></a-input-number>-->
+        <!--            </a-form-model-item>-->
+        <!--          </a-col>-->
+        <!--        </a-row> <br> <br>-->
         <a-row>
           <a-col :span="12" :offset="1">
-            <a-form-model-item ref="name" prop="name"  :label="$t('Название')">
+            <a-form-model-item ref="name" prop="name" :label="$t('Название')">
               <a-input size="large" v-model="form.name" order.number></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row>
           <a-col :span="12" :offset="1">
-            <a-form-model-item ref="order" prop="order"  :label="$t('orderNumber')">
+            <a-form-model-item ref="order" prop="order" :label="$t('orderNumber')">
               <a-input style="width: 100%" size="large" v-model="form.order"></a-input>
             </a-form-model-item>
           </a-col>
@@ -89,13 +89,13 @@
       </a-form-model>
     </div>
     <div style="width: 100%;">
-      <a-button @click="EspenDelete" icon="delete" style="color: red">{{ $t('delete')}}</a-button>
-    <div style="float: right">
-      <a-button @click="resetForm" test-attr="reset-permissions">
-        {{ $t('reset') }}
-      </a-button>
-      <a-button style="margin-left: 15px" html-type="submit" @click="onSubmit" type="primary">{{ $t('save') }}</a-button>
-    </div>
+      <a-button @click="EspenDelete" icon="delete" style="color: red">{{ $t('delete') }}</a-button>
+      <div style="float: right">
+        <a-button @click="resetForm" test-attr="reset-permissions">
+          {{ $t('reset') }}
+        </a-button>
+        <a-button style="margin-left: 15px" html-type="submit" @click="onSubmit" type="primary">{{ $t('save') }}</a-button>
+      </div>
     </div>
   </a-card>
 </template>

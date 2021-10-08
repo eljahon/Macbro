@@ -10,28 +10,29 @@
           <!--                    <a-input style="color: blue" size="small" @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">-->
           <!--                      <a-icon size="small" type="search" style="color: blue; " slot="suffix"/>-->
           <!--                    </a-input>-->
-          <a-input>
+          <a-input v-debounce="SearchRollCallList">
             <a-icon style="color: blue" slot="addonAfter" type="search" />
           </a-input>
           <a-range-picker
+            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             :placeholder="['от даты ', 'до даты']"
             @change="rangepicker"
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-<!--          <a-select-->
-<!--            label-in-value-->
-<!--            :default-value="{ key: 'lucy' }"-->
-<!--            style="width: 180px"-->
-<!--          >-->
-<!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-<!--            <a-select-option value="jack">-->
-<!--              Jack (100)-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="lucy">-->
-<!--              Lucy (101)-->
-<!--            </a-select-option>-->
-<!--          </a-select>-->
+          <!--          <a-select-->
+          <!--            label-in-value-->
+          <!--            :default-value="{ key: 'lucy' }"-->
+          <!--            style="width: 180px"-->
+          <!--          >-->
+          <!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
+          <!--            <a-select-option value="jack">-->
+          <!--              Jack (100)-->
+          <!--            </a-select-option>-->
+          <!--            <a-select-option value="lucy">-->
+          <!--              Lucy (101)-->
+          <!--            </a-select-option>-->
+          <!--          </a-select>-->
           <a-button style="padding: 5px" type="primary" icon="download" size="large" />
         </div>
 
@@ -85,7 +86,7 @@
           <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>
         </template>
         <template slot="Должность" slot-scope="text, row">
-          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type}}</span>
+          <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type }}</span>
         </template>
         <template slot="Отсутствующие" slot-scope="text, row">
           <span>{{ checkField(row.visit_report, 'absent', 'total_days') }}</span>
@@ -128,10 +129,10 @@ export default {
       },
       params: {
         search: '',
-        from_date: '2021-09-01',
-        to_date: '2021-09-30',
-        // from_date: moment().startOf('month').format('YYYY-MM-DD'),
-        // to_date: moment().endOf('month').format('YYYY-MM-DD'),
+        // from_date: '2021-09-01',
+        // to_date: '2021-09-30',
+        from_date: moment().startOf('month').format('YYYY-MM-DD'),
+        to_date: moment().endOf('month').format('YYYY-MM-DD'),
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
@@ -220,7 +221,6 @@ export default {
   },
   methods: {
     customRowClick (record) {
-      console.log('record ===>>', record.user)
       return {
         on: {
           click: (event) => {
@@ -236,6 +236,12 @@ export default {
       console.log(val, data)
       this.params.from_date = data[0]
       this.params.to_date = data[1]
+      this.rollCallGetListAll()
+    },
+    SearchRollCallList (val) {
+      console.log(val)
+      this.params.search = val
+      console.log(this.params)
       this.rollCallGetListAll()
     },
     AccountTypeSearch (val) {
@@ -285,13 +291,13 @@ export default {
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
-      this.rollCallGetListAll()
+      // this.rollCallGetListAll()
     }
   },
   mounted () {
+    this.rollCallGetListAll()
   },
   created () {
-    this.rollCallGetListAll()
   }
 }
 </script>

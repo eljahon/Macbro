@@ -78,17 +78,17 @@
           </a-col>
           <!-- number -->
           <!-- work hours -->
-<!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--            <a-form-model-item ref="password" :label="$t('password')" prop="password">-->
-<!--              <a-input-->
-<!--                size="large"-->
-<!--                style="width: 100%"-->
-<!--                :disabled="requesting"-->
-<!--                v-model="form.password"-->
-<!--                test-attr="inn-company"-->
-<!--              />-->
-<!--            </a-form-model-item>-->
-<!--          </a-col>-->
+          <!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+          <!--            <a-form-model-item ref="password" :label="$t('password')" prop="password">-->
+          <!--              <a-input-->
+          <!--                size="large"-->
+          <!--                style="width: 100%"-->
+          <!--                :disabled="requesting"-->
+          <!--                v-model="form.password"-->
+          <!--                test-attr="inn-company"-->
+          <!--              />-->
+          <!--            </a-form-model-item>-->
+          <!--          </a-col>-->
           <a-col :md="24" :lg="8" style="padding: 0 15px">
             <a-form-model-item ref="inn" :label="$t('passport_numbera')" prop="passport_number">
               <a-input
@@ -100,11 +100,11 @@
               />
             </a-form-model-item>
           </a-col>
-<!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
-<!--            <a-form-model-item ref="description" :label="$t('Логин')" prop="middel_name">-->
-<!--              <a-input v-model="form.login" size="large"></a-input>-->
-<!--            </a-form-model-item>-->
-<!--          </a-col>-->
+          <!--          <a-col :md="24" :lg="8" style="padding: 0 15px">-->
+          <!--            <a-form-model-item ref="description" :label="$t('Логин')" prop="middel_name">-->
+          <!--              <a-input v-model="form.login" size="large"></a-input>-->
+          <!--            </a-form-model-item>-->
+          <!--          </a-col>-->
           <a-col :md="24" :lg="8" style="padding: 0 15px">
             <a-form-model-item ref="description" :label="$t('user_type')" prop="user_type">
               <a-select v-model="form.user_type">
