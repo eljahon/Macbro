@@ -170,11 +170,11 @@ import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
 export default {
   watch: {
-    // 'staffSelectsAdd': (value) => {
-    //   // eslint-disable-next-line no-unused-expressions
-    //   this.staffAddBranch.includes(value) ? true : this.staffAddBranch.push(value)
-    //   console.log(value)
-    // }
+    'staffSelectsAdd': (value) => {
+      // eslint-disable-next-line no-unused-expressions
+      this.staffAddBranch.includes(value) ? true : this.staffAddBranch.push(value)
+      console.log(value)
+    }
   },
   components: {
     'a-auto-complete': AutoComplete,
