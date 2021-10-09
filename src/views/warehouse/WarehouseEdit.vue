@@ -23,7 +23,7 @@
                   <div class="cardlist" style="overflow: hidden">
                     <div>
                       <p>
-                        <img src="../../assets/Vector.svg" alt="">
+<!--                        <img src="../../assets/Vector.svg" alt="">-->
                         <span>{{ $t('Bartchnumber') }}</span></p>
                       <p>
                         <a-icon type="shop" class="globalColor"></a-icon>

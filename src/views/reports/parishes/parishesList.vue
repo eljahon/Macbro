@@ -38,14 +38,15 @@
           <!--              Lucy (101)-->
           <!--            </a-select-option>-->
           <!--          </a-select>-->
-          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
+          <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
+            <a-icon :component="myIcons.excal"></a-icon></a-button>
         </div>
 
       </div>
       <div>
       </div>
       <a-table
-        style="margin-top: 30px"
+        style="margin-top: 30px; cursor: pointer"
         :columns="columnsparisher"
         :rowKey="() => Math.random()"
         :dataSource="getParishesList"
@@ -53,6 +54,7 @@
         :loading="loading"
         @change="handleTableChange"
         test-attr="list-customer"
+        :customRow="customRowClick"
         bordered
       >
         <div slot="Aккаунта" style="padding: 8px; width: 230px;">
@@ -102,10 +104,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+  import myIcons from '@/core/icons'
 
 export default {
  data () {
    return {
+     myIcons,
      columnsparisher: [
        {
          title: this.$t('ИД заказа'),
@@ -190,6 +194,15 @@ export default {
   },
   methods: {
    ...mapActions(['getAllListParishes']),
+    customRowClick (record) {
+     return {
+       on: {
+         click: (event) => {
+       this.$router.push({ name: 'parishesItemListMain', params: { id: record.id } })
+         }
+       }
+     }
+    },
    parishesGetList () {
      this.loading = true
      console.log('=====>>>', this.params)

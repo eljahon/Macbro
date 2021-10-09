@@ -402,6 +402,8 @@ const locale = {
   passport_numbera: 'Номер паспорта',
   rollCall: 'Перекличка',
   sale: 'Продажа',
+  settlemet: 'Взаиморасчет',
+  writing: 'Списание',
   transfer: 'Трансфер',
   // werhouses
   coming: 'Поставщики',
