@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="main user-layout-register">
     <h3><span>Register</span></h3>
     <a-form ref="formRegister" :form="form" id="formRegister">

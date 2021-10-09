@@ -33,6 +33,7 @@
     "mockjs2": "1.0.8",
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
+    "standard": "^16.0.4",
     "store": "^2.0.12",
     "viser-vue": "^2.4.6",
     "vue": "^2.6.10",
@@ -65,6 +66,10 @@
     "@vue/cli-service": "^4.0.4",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
+<<<<<<< HEAD
+    "babel-eslint": "^10.1.0",
+=======
+>>>>>>> 69acc4d9ec0590b124fe4ceda923657063f03be8
     "babel-plugin-import": "^1.12.2",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^5.16.0",
