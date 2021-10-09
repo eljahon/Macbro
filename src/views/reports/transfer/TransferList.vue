@@ -27,7 +27,8 @@
           <!--              Lucy (101)-->
           <!--            </a-select-option>-->
           <!--          </a-select>-->
-          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
+          <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
+            <a-icon :component="myIcons.excal"></a-icon></a-button>
 
         </div>
 
@@ -197,12 +198,14 @@ import Payment from '../../../assets/payment.svg'
 import Vise from '../../../assets/Frame 56143-5.svg'
 import Click from '../../../assets/clck.svg'
 import TabTwoList from '../transfer/transferTwoTabsList'
+import myIcons from '@/core/icons'
 export default {
   components: {
     TabTwoList
   },
   data () {
     return {
+      myIcons,
       AccountGrups: [
         { id: '1', name: 'Касса' },
         { id: '2', name: 'Контрагент' },

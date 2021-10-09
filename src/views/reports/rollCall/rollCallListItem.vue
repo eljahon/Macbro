@@ -29,7 +29,8 @@
       <!--          Lucy (101)-->
       <!--        </a-select-option>-->
       <!--      </a-select>-->
-      <a-button style="padding: 2px" type="primary" icon="download" size="small" />
+      <a-button icon="dowlond" style="background-color: #1890FF; color: white; border: none">
+        <a-icon :component="myIcons.excal"></a-icon></a-button>
     </div>
     <div>
       <a-table
@@ -98,10 +99,11 @@
 <script>
 import { mapActions } from 'vuex'
 import moment from 'moment'
-
+import myIcons from '@/core/icons'
 export default {
   data () {
     return {
+      myIcons,
       loading: false,
       rallCallItemList: [],
       pageCount: {},

@@ -165,21 +165,21 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/warehouse/moving/movingList'),
                 meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/moving/list',
+                name: 'movingList',
+                props: true,
+                component: () => import('@/views/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
+              },
+              {
+                path: '/warehouse/moving/list/update/:id',
+                name: 'warehouseMovingUpdate',
+                props: true,
+                component: () => import('@/views/warehouse/WarehouseEdit'),
+                meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
               }
-              // {
-              //   path: '/warehouse/moving/list',
-              //   name: 'movingList',
-              //   props: true,
-              //   component: () => import('@/views/warehouse/WarehouseEdit'),
-              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-              // },
-              // {
-              //   path: '/warehouse/moving/list/update/:id',
-              //   name: 'warehouseMovingUpdate',
-              //   props: true,
-              //   component: () => import('@/views/warehouse/WarehouseEdit'),
-              //   meta: { title: 'warehouse', keepAlive: true, permission: ['directory'] }
-              // }
             ]
           },
           {
@@ -258,6 +258,13 @@ export const asyncRouterMap = [
                 name: 'parishesListMain',
                 props: true,
                 component: () => import('@/views/reports/parishes/parishesList'),
+                meta: { title: 'parishes', keepAlive: true, permission: ['parishes'] }
+              },
+              {
+                path: '/report/parishes/item/:id',
+                name: 'parishesItemListMain',
+                props: true,
+                component: () => import('@/views/reports/parishes/parishesItemList'),
                 meta: { title: 'parishes', keepAlive: true, permission: ['parishes'] }
               }
             ]
@@ -378,6 +385,54 @@ export const asyncRouterMap = [
                 component: () => import('@/views/reports/rollCall/rollCallListItem'),
                 meta: { title: 'rollCallItem', keepAlive: true, permission: ['rollCallItem'] }
               }
+            ]
+          },
+          {
+            path: '/reports/settlemet',
+            hideChildrenInMenu: true,
+            name: 'settlemetList',
+            component: RouteView,
+            redirect: '/report/settlemet/list',
+            meta: { title: 'settlemet', permission: ['settlemet'] },
+            children: [
+              {
+                path: '/report/settlemet/list',
+                name: 'settlemetListMain',
+                props: true,
+                component: () => import('@/views/reports/settlemet/settlemetList'),
+                meta: { title: 'settlemet', keepAlive: true, permission: ['settlemet'] }
+              }
+              // {
+              //   path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
+              //   name: 'rollCallListMainItem',
+              //   props: true,
+              //   component: () => import('@/views/reports/rollCall/rollCallListItem'),
+              //   meta: { title: 'settlemet', keepAlive: true, permission: ['settlemet'] }
+              // }
+            ]
+          },
+          {
+            path: '/reports/writing',
+            hideChildrenInMenu: true,
+            name: 'writingList',
+            component: RouteView,
+            redirect: '/report/writing/list',
+            meta: { title: 'writing', permission: ['writing'] },
+            children: [
+              {
+                path: '/report/writing/list',
+                name: 'writingListMain',
+                props: true,
+                component: () => import('@/views/reports/writing/writingList'),
+                meta: { title: 'writing', keepAlive: true, permission: ['writing'] }
+              }
+              // {
+              //   path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
+              //   name: 'rollCallListMainItem',
+              //   props: true,
+              //   component: () => import('@/views/reports/rollCall/rollCallListItem'),
+              //   meta: { title: 'settlemet', keepAlive: true, permission: ['settlemet'] }
+              // }
             ]
           }
         ]

@@ -17,7 +17,8 @@
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
           <!--          <img src="../../../assets/Vector.svg" alt="excel">-->
-          <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
+          <a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
+            <a-icon :component="myIcons.excal"></a-icon></a-button>
         </div>
 
       </div>
@@ -202,9 +203,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import myIcons from '@/core/icons'
 export default {
   data () {
     return {
+      myIcons,
       ipatekaparams: {
         search: '',
         from_date: '',

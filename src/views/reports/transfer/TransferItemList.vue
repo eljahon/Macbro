@@ -9,8 +9,8 @@
         </div>
       </a-page-header>
     </div>
-    <div slot="extra">
-      <a-button style="padding: 2px" type="primary" icon="file-excel" size="small" />
+    <div slot="extra"><a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
+      <a-icon :component="myIcons.excal"></a-icon></a-button>
     </div>
     <a-card style="border-right: none; border-left: none">
       <div slot="title">
@@ -86,11 +86,13 @@
 
 <script>
 import { mapActions } from 'vuex'
+import myIcons from '@/core/icons'
 
 export default {
   components: {},
   data () {
     return {
+      myIcons,
       columnsTwo: [
         {
           title: this.$t('Товары'),

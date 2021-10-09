@@ -9,7 +9,8 @@
         </div>
       </a-page-header>
     </div>
-    <div slot="extra"><a-button type="primary" icon="download"></a-button></div>
+    <div slot="extra"><a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
+      <a-icon :component="myIcons.excal"></a-icon></a-button></div>
     <a-card style="border-left: 1px solid white; border-right: 1px solid white">
       <div slot="title"><h4>ИД заказа: {{ list.number }}</h4></div>
     </a-card>
@@ -143,10 +144,12 @@
 <script>
 import { mapActions } from 'vuex'
 import moment from 'moment/moment'
+import myIcons from '@/core/icons'
 
 export default {
 data () {
   return {
+    myIcons,
     list: {},
     clientname: '',
     tableListone: [],
