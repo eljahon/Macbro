@@ -6,7 +6,8 @@ const base_Url = {
   ofLineTabTwo: '/order-offline',
   ipateka: '/history/zaklad',
   orderitem: '/history/prodaja',
-  ipatekaItem: '/history/zaklad'
+  ipatekaItem: '/history/zaklad',
+  branch: '/branch'
 }
 const Sale = {
   state: {
@@ -121,9 +122,11 @@ const Sale = {
             limit: page.pageSize,
             page: page.current,
             type: 'order',
-            statuses: 'booked,sold',
+            number: payload.number,
+            statuses: payload.statuses,
             from_date: payload.from_date,
-            to_date: payload.to_date
+            to_date: payload.to_date,
+            sender_warehouse_id: payload.sender_warehouse_id
           }
         })
           .then(res => {
@@ -200,6 +203,24 @@ const Sale = {
         request({
           url: `${base_Url.ipatekaItem}/${id}`,
           method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getBranchList ({ commit }) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.branch}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100
+          }
         })
           .then(res => {
             resolve(res)

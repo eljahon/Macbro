@@ -6,9 +6,9 @@
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-          <a-input v-model="paramsOfline.search" v-debounce="Search">
-            <a-icon @click="Searches" style="color: blue" slot="addonAfter" type="search" />
-          </a-input>
+          <!--          <a-input v-model="paramsOfline.search" v-debounce="Search">-->
+          <!--            <a-icon @click="Searches" style="color: blue" slot="addonAfter" type="search" />-->
+          <!--          </a-input>-->
           <a-range-picker
             :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             :placeholder="['от даты ', 'до даты']"
@@ -106,19 +106,36 @@
             test-attr="list-customer"
             bordered
           >
-            <div slot="Aккаунта" style="padding: 8px; width: 230px;">
+            <div slot="Филиал" style="padding: 8px; width: 230px;">
               <a-select
-                :placeholder="$t('Тип аккаунта')"
+                @change="selectBranchChange"
+                :placeholder="$t('Филиал')"
                 style="width: 220px"
                 allowClear
               >
+                <a-select-option v-for="item in branchList" :key="item.id+Math.round().toString()" :value="item.id">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </div>
+            <div slot="status" style="padding: 8px; width: 230px;">
+              <a-select
+                @change="selectStarus"
+                :placeholder="$t('Статус')"
+                style="width: 220px"
+                allowClear
+              >
+                <a-select-option v-for="item in statuse" :key="item.id+Math.round().toString()" :value="item.id">
+                  {{ item.name }}
+                </a-select-option>
               </a-select>
             </div>
             <div
-              slot="аккаунта"
+              slot="ИД заказа"
               style="padding: 8px"
             >
               <a-input-number
+                v-debounce='numberSearch'
                 :placeholder="`ИД. аккаунта`"
               />
             </div>
@@ -158,16 +175,16 @@
             :customRow="customRowClickzaklad"
             bordered
           >
-            <div slot="Aккаунта" style="padding: 8px; width: 230px;">
+            <div slot="Филиал" style="padding: 8px; width: 230px;">
               <a-select
-                :placeholder="$t('Тип аккаунта')"
+                :placeholder="$t('Филиал')"
                 style="width: 220px"
                 allowClear
               >
               </a-select>
             </div>
             <div
-              slot="аккаунта"
+              slot="заказа"
               style="padding: 8px"
             >
               <a-input-number
@@ -179,6 +196,12 @@
               slot="filterIcon"
               class="filter-dropdown-icon"
               :component="$myIcons.filterDownIcon"
+            />
+            <a-icon
+              slot="order"
+              :component="$myIcons.filter"
+              style="font-size: 20px; color: transparent; background-color: transparent"
+
             />
             <template slot="Комментария" slot-scope="text, row">
               <!--              <a-tag :color=" === 'sold' ? 'blue' : ''">{{row.status === 'sold' ? 'Продано' : 'Бронировано'}}</a-tag>-->
@@ -208,14 +231,27 @@ export default {
   data () {
     return {
       myIcons,
+      statuse: [
+        {
+          name: 'Продано',
+          id: 'booked,solid'
+        },
+        {
+          name: 'Бронировано',
+          id: 'solid'
+        }
+      ],
       ipatekaparams: {
         search: '',
         from_date: '',
         to_date: '',
         page: { current: 1, pageSize: 10, total: null }
       },
+      branchList: [],
       paramsOfline: {
-        search: '',
+        number: '',
+        sender_warehouse_id: '',
+        statuses: 'booked,solid',
         from_date: moment().startOf('month').format('YYYY-MM-DD'),
         to_date: moment().endOf('month').format('YYYY-MM-DD'),
         page: { current: 1, pageSize: 10, total: null }
@@ -307,31 +343,21 @@ export default {
           title: this.$t('ИД заказа'),
           dataIndex: 'number',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
-            filterIcon: 'filterIcon',
-            customRender: 'заказа'
-          },
-          align: 'center'
+            customRender: 'number',
+            filterDropdown: 'ИД заказа',
+            filterIcon: 'filterIcon'
+          }
         },
-        // {
-        //   title: this.$t('numbertransactions'),
-        //   dataIndex: 'transaction_number',
-        //   scopedSlots: {
-        //     filterDropdown: 'TransactionNumber',
-        //     filterIcon: 'filterIcon',
-        //     customRender: 'transaction_number' },
-        //   align: 'center'
-        // },
-        // {
         {
           title: this.$t('Филиал'),
           dataIndex: 'branch_name',
-          align: 'center'
-          // scopedSlots: { customRender: 'Покупатель' }
+          scopedSlots: { customRender: 'branch_name',
+            filterDropdown: 'Филиал',
+            filterIcon: `filterIcon`
+          }
         },
         {
           title: this.$t('Покупатель'),
-          align: 'center',
           scopedSlots: {
             filterDropdown: 'Aккаунта',
             filterIcon: 'filterIcon',
@@ -341,10 +367,9 @@ export default {
         { title: this.$t('Статус'),
           // dataIndex: 'account_number',
           scopedSlots: {
-            filterDropdown: 'AccountNumber',
+            filterDropdown: 'status',
             filterIcon: 'filterIcon',
-            customRender: 'Статус' },
-          align: 'center'
+            customRender: 'Статус' }
         },
         {
           title: this.$t('Кол-во'),
@@ -353,8 +378,7 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Кол'
-          },
-          align: 'center'
+          }
         },
         {
           title: this.$t('Сумма'),
@@ -364,8 +388,7 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Сумма'
-          },
-          align: 'center'
+          }
         }
       ],
       ipatekacolums: [
@@ -443,7 +466,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getSaleListAllTabOne', 'setAcriveTab', 'OflineTwoInsideTabs', 'oflineListTab', 'OflineTabList', 'IpatekaListgetAll', 'oflineListPagination']),
+    ...mapActions(['getSaleListAllTabOne', 'getBranchList', 'setAcriveTab', 'OflineTwoInsideTabs', 'oflineListTab', 'OflineTabList', 'IpatekaListgetAll', 'oflineListPagination']),
     callback (key) {
       console.log(key)
       this.setAcriveTab(parseInt(key))
@@ -453,6 +476,21 @@ export default {
       if (key === '2') {
         this.IpatekaList()
       }
+    },
+    numberSearch (val) {
+      console.log('===', val)
+      this.paramsOfline.number = val
+      this.OflinFuntction()
+    },
+    selectBranchChange (val) {
+      console.log('===', val)
+      this.paramsOfline.sender_warehouse_id = val
+      this.OflinFuntction()
+    },
+    selectStarus (val) {
+      console.log('===', val)
+      this.paramsOfline.statuses = val
+      this.OflinFuntction()
     },
     Search (val) {
       alert(val)
@@ -570,6 +608,17 @@ export default {
     handleTableChangeIpateka (pagination) {
       this.ipatekaparams.page = { ...pagination }
       this.IpatekaList()
+    },
+    branchListAll () {
+      this.getBranchList()
+      .then(res => {
+      this.branchList = res.branches.map((element) => {
+          return {
+            name: element.name,
+            id: element.warehouse_id
+          }
+        })
+      })
     }
   },
   mounted () {
@@ -577,6 +626,7 @@ export default {
   },
   created () {
     this.saleGetListAllOne()
+    this.branchListAll()
   }
 }
 </script>

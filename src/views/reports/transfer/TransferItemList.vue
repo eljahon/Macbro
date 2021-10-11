@@ -21,7 +21,7 @@
           <a-tag color="#F5F5F5" style="border: none;">
             <div style="display: flex; justify-content: flex-start">
               <span style="width: 30px; height: 30px; margin-top: 5px; display: inline-flex; border-radius: 50%; margin-left: -10px">
-                <img v-if="list.merchant.image.length" style="object-fit: cover; border-radius:50%" :src="list.merchant.image " alt="imgId" >
+                <img v-if="list.merchant.image.length" style="padding: 5px; border-radius:50%" :src="list.merchant.image " alt="imgId" >
               </span>
               <span style="margin-left:50px; margin-top: 4px ">
                 {{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }} <br>
