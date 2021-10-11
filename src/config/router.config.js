@@ -515,14 +515,14 @@ export const asyncRouterMap = [
                 name: 'ProductAttributes',
                 component: RouteView,
                 redirect: '/catalog/attribute/list',
-                meta: { title: 'attribute', keepAlive: true, permission: ['directory'] },
+                meta: { title: 'attribute', keepAlive: true, permission: ['attribute'] },
                 children: [
                   {
                     path: '/catalog/attribute/list',
                     name: 'AttributeList',
                     props: true,
                     component: () => import('@/views/attributes/AttributesList'),
-                    meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
+                    meta: { title: 'attribute', keepAlive: true, permission: ['attribute'] }
                   },
                   {
                     path: '/catalog/attribute/create',
@@ -530,14 +530,14 @@ export const asyncRouterMap = [
                     props: true,
                     component: () => import('@/views/attributes/AttributesCreate'),
                     meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
-                  },
-                  {
-                    path: '/catalog/attribute/update/:id',
-                    name: 'AttributeEdit',
-                    props: true,
-                    component: () => import('@/views/attributes/AttributesCreate'),
-                    meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
                   }
+              //     {
+              //       path: '/catalog/attribute/update/:id',
+              //       name: 'AttributeEdit',
+              //       props: true,
+              //       component: () => import('@/views/attributes/AttributesCreate'),
+              //       meta: { title: 'attribute', keepAlive: true, permission: ['directory'] }
+              //     }
                 ]
               },
               {

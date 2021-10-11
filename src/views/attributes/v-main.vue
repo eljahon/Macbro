@@ -26,9 +26,9 @@
               :filter-option="filterOption"
             >
               <a-icon slot="suffixIcon" :component="$myIcons.arrowDown" />
-              <a-select-option v-for="type in types" :key="type.value" :value="type.value">{{
-                type.name
-              }}</a-select-option>
+              <a-select-option v-for="t in types" :key="t.value" :value="t.value">{{
+                t.name }}
+              </a-select-option>
             </a-select>
           </a-form-model-item>
         </a-col>
