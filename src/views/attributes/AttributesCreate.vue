@@ -78,7 +78,8 @@
 import { mapActions } from 'vuex'
 import vMain from './v-main'
 import { langMapper, flagMapper } from '@/utils/mappers'
-// import { lang } from 'node_modules/moment/ts3.1-typings/moment'
+// eslint-disable-next-line no-unused-vars,import/no-duplicates
+// import { lang } from '@/utils/mappers'
 export default {
   data () {
     return {
@@ -151,13 +152,13 @@ export default {
         if (langs.length === forms.length && !edited) {
           Object.values(this.$refs).forEach(form => {
             if (form) {
-                form[0].save()
+              form[0].save()
             }
           })
         } else if (langs.length === 3 && edited) {
           Object.values(this.$refs).forEach(form => {
             if (form) {
-                form[0].save()
+              form[0].save()
             }
           })
         } else {
