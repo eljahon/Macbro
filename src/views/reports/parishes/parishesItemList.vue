@@ -181,8 +181,27 @@
 <!--              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.price.usd_price) }}</span>-->
 <!--            </template>-->
           <div style="margin-top: 20px"><span style="font-size: 20px; color: black">Фото по тип оплаты</span></div>
-          <a-card style="margin-top: 20px">
+          <a-card style='border-left: none; border-right: none; border-bottom: none'>
+            <div style='display: flex; gap: 30px'>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/Rectangle1487.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
+            </div>
           </a-card>
+
           <div style="margin-top: 20px"><span style="font-size: 20px; color: black">Комментарии</span></div>
           <br>
           <a-card style="border-bottom: none; border-left: none; border-right: none">

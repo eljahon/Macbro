@@ -1,5 +1,8 @@
 <template>
-  <a-card>
+  <div v-if="render" style='background-color: transparent; position: relative'>
+    <a-spin style='z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'  size="large" />
+  </div>
+  <a-card v-else>
     <div slot="title">
       <a-page-header
         @back="() => $router.go(-1)"
@@ -15,9 +18,14 @@
       <div slot="title"><h4>ИД заказа: {{ list.number }}</h4></div>
     </a-card>
     <a-card style="border-left: 1px solid white; border-right: 1px solid white">
-      <div slot="title">
-        <p>{{ list.client.first_name }} {{ list.client.last_name }}</p>
-        <a-tag > <span style="font-size: 18px">{{ list.cashier.user_type }}</span></a-tag>
+      <div slot="title" style='display: flex; gap: 7px; align-items: center'>
+        <img style='max-height: 30px; max-width: 30px; min-height: 30px; min-width: 30px;  border-radius: 50%' :src='list.client.profile_image' alt='clientimage'>
+        <div>
+          <h5 style='font-size: 14px'>{{ list.client.first_name }} {{ list.client.last_name }}</h5>
+          <h6 style='background-color: #F2F3F5; text-align: center; color:#818C99; border-radius: 2px; font-size: 12px '>{{ list.cashier.user_type }}</h6>
+        </div>
+<!--        <p>{{ list.client.first_name }} {{ list.client.last_name }}</p>-->
+<!--        <a-tag > <span style="font-size: 18px">{{ list.cashier.user_type }}</span></a-tag>-->
       </div>
       <div slot="extra">
         <a-tag style="padding: 12px"><span style=" font-size: 18px; color: black">Баланс: {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</span></a-tag>
@@ -137,7 +145,32 @@
         </a-tab-pane>
       </a-tabs>
     </div>
-
+    <br>
+    <h1 style='color: black'><b>Фото по тип оплаты</b></h1> <br>
+<a-card style='border-left: none; border-right: none; border-bottom: none'>
+  <div style='display: flex; gap: 30px'>
+    <div>
+      <p style='color: black'>Payme</p>
+      <p>$500</p>
+      <img src='../../../assets/colorwhite.png' alt=''>
+    </div>
+    <div>
+      <p style='color: black'>Payme</p>
+      <p>$500</p>
+      <img src='../../../assets/Rectangle1487.png' alt=''>
+    </div>
+    <div>
+      <p style='color: black'>Payme</p>
+      <p>$500</p>
+      <img src='../../../assets/colorwhite.png' alt=''>
+    </div>
+<!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
+  </div>
+</a-card>
+    <h1 style='color: black;'><b>Комментарии</b></h1> <br>
+<a-card style='border-left: none; border-right: none; border-bottom: none'>
+  <p style='width: 55%; padding: 9px; background-color:#F7F7FB; color: black; border-radius: 3px; '>At enim feugiat at dolor dictum. Eu amet nec lorem eget eget ut malesuada facilisi. Cras lorem est ultricies vitae facilisi dis in nisl turpis. Mattis amet quam id id turpis quam scelerisque. Nulla sapien aenean natoque massa, odio dolor, est imperdiet. Nisi, suscipit ipsum semper sagittis. Vulputate dignissim vitae eget quam sagittis.</p>
+</a-card>
   </a-card>
 </template>
 
@@ -150,6 +183,7 @@ export default {
 data () {
   return {
     myIcons,
+    render: true,
     list: {},
     clientname: '',
     tableListone: [],
@@ -224,6 +258,7 @@ data () {
         this.list = res
         this.tableList = res.items
         this.clientname = `${res.client.first_name}${' '}${res.client.last_name}`
+        this.render = false
       })
     },
     itemIpatekaList (id) {
@@ -232,6 +267,7 @@ data () {
         console.log('res =>>', res)
         this.list = res
         this.tableListone = res.items
+        this.render = false
         this.tableListtwo = [res.billing]
         this.clientname = `${res.client.first_name}${' '}${res.client.last_name}`
       })
@@ -250,5 +286,7 @@ data () {
 </script>
 
 <style scoped>
-
+.ant-table-row ant-table-row-level-0 {
+  height: 10px !important;
+}
 </style>

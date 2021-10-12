@@ -1,5 +1,8 @@
 <template>
-  <a-card>
+  <div v-if="render" style="background-color: transparent; position: relative">
+    <a-spin style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" size="large" />
+  </div>
+  <a-card v-else>
     <div slot="title">
       <a-page-header
         @back="() => $router.go(-1)"
@@ -17,39 +20,74 @@
         <h3>ИД партии: {{ list.number }}</h3>
       </div>
       <a-card style="border-right: none; border-left: none">
-        <div slot="title" style="display: flex;">
-          <a-tag color="#F5F5F5" style="border: none;">
-            <div style="display: flex; justify-content: flex-start">
-              <span style="width: 30px; height: 30px; margin-top: 5px; display: inline-flex; border-radius: 50%; margin-left: -10px">
-                <img v-if="list.merchant.image.length" style="padding: 5px; border-radius:50%" :src="list.merchant.image " alt="imgId" >
-              </span>
-              <span style="margin-left:50px; margin-top: 4px ">
-                {{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }} <br>
-                <span style="padding:6px; background-color: rgba(255, 59, 48, 0.1); color: red; border-radius: 5px;">{{ list.merchant.user_type }}</span>
-              </span>
+        <div slot="title" >
+          <div style="display: flex; justify-content: space-between;">
+            <div
+              style="
+          display: flex;
+          flex: 0 0 20%;
+          border-radius: 9px;
+          align-items: center;
+">
+              <div style="display: flex;  border-top-left-radius: 5px; border-bottom-right-radius: 5px; align-items: center; padding: 5px;background-color: #F5F5F5;">
+                <img :src="list.merchant.image" style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%" alt="">
+                <span style="font-size: 15px;margin-left: 10px">{{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }}<br> <span style="color: #818C99; font-size: 12px">Кассир</span></span>
+              </div>
+              <div style="display: flex;  padding: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; align-items: center;background-color: #EBF7FF">
+                <!--                <img :src="list.merchant.image" style='max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%' alt="">-->
+                <span style="font-size: 15px;margin-left: 10px; color: blue">{{ list.items_count }} шт.<br> <span style="color: #818C99; font-size: 12px">Принято</span></span>
+              </div>
             </div>
+            <div
+              style="
+          display: flex;
+          flex: 0 0 20%;
+          border-radius: 9px;
+          align-items: center;
+">
+              <div style="display: flex; border-radius: 7px; align-items: center; padding: 5px;background-color: #F5F5F5;">
+                <img :src="list.merchant.image" style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%" alt="">
+                <span style="font-size: 15px;margin-left: 10px">Darlene Robertson <br> <span style="color: #818C99; font-size: 12px">Кассир</span></span>
+              </div>
+              <a-icon type="arrow-right" />
+              <div style="display: flex;border-radius: 7px; align-items: center; padding: 5px;background-color: #F5F5F5;">
+                <img :src="list.merchant.image" style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%" alt="">
+                <span style="font-size: 15px; margin-left: 10px">Darlene Robertson <br> <span style="color: #818C99; font-size: 12px">Кассир</span></span>
+              </div>
+            </div>
+          </div>
 
-          </a-tag>
-          <a-tag color="blue" style="margin-left: -8px;border: none;">
-            <span>{{ list.items_count }} шт. <br> {{ 'Принято' }}</span>
-          </a-tag>
+          <!--          <a-tag color="#F5F5F5" style="border: none;">-->
+          <!--            <div style="display: flex; justify-content: flex-start">-->
+          <!--              <span style="width: 30px; height: 30px; margin-top: 5px; display: inline-flex; border-radius: 50%; margin-left: -10px">-->
+          <!--                <img v-if="list.merchant.image.length" style="padding: 5px; border-radius:50%" :src="list.merchant.image " alt="imgId" >-->
+          <!--              </span>-->
+          <!--              <span style="margin-left:50px; margin-top: 4px ">-->
+          <!--                {{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }} <br>-->
+          <!--                <span style="padding:6px; background-color: rgba(255, 59, 48, 0.1); color: red; border-radius: 5px;">{{ list.merchant.user_type }}</span>-->
+          <!--              </span>-->
+          <!--            </div>-->
+
+          <!--          </a-tag>-->
+          <!--          <a-tag color="blue" style="margin-left: -8px;border: none;">-->
+          <!--            <span>{{ list.items_count }} шт. <br> {{ 'Принято' }}</span>-->
+          <!--          </a-tag>-->
         </div>
         <div slot="extra">
-          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; padding: 15px">
-            <div style="display: flex;">
-              <img :src="list.accepting_warehouse.image" alt="img"> <br>
-              <span>{{ list.accepting_warehouse.name }}</span>
-              <span></span></div>
-          </a-tag>
-          <a-icon type="arrow-right" />
-          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; position: relative; left: 10px">
-            <div style="display: flex; padding: 10px">
-              <!--              <img :src="list.accepting_warehouse.image" alt="img"> <br>-->
-              <span>{{ list.sending_warehouse.name }}</span>
-              <span></span></div>
-            <!--            <span>{{}}</span> <br>-->
-            <!--            <span>Принято</span>-->
-          </a-tag>
+          <!--          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; padding: 15px">-->
+          <!--            <div style="display: flex;">-->
+          <!--              <img :src="list.accepting_warehouse.image" alt="img"> <br>-->
+          <!--              <span>{{ list.accepting_warehouse.name }}</span>-->
+          <!--              <span></span></div>-->
+          <!--          </a-tag>-->
+          <!--          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; position: relative; left: 10px">-->
+          <!--            <div style="display: flex; padding: 10px">-->
+          <!--              &lt;!&ndash;              <img :src="list.accepting_warehouse.image" alt="img"> <br>&ndash;&gt;-->
+          <!--              <span>{{ list.sending_warehouse.name }}</span>-->
+          <!--              <span></span></div>-->
+          <!--            &lt;!&ndash;            <span>{{}}</span> <br>&ndash;&gt;-->
+          <!--            &lt;!&ndash;            <span>Принято</span>&ndash;&gt;-->
+          <!--          </a-tag>-->
         </div>
       </a-card>
     </a-card>
@@ -64,10 +102,10 @@
       bordered
     >
       <template slot="Товары" slot-scope="text, row">
-        <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
-          <img style="object-fit: cover" :src="row.product_image" alt="imgId">
+        <span style="display: inline; border-radius: 50%">
+          <img style="object-fit: cover; max-height: 40px" :src="row.product_image.length ? row.product_image.length : image" alt="imgId">
         </span>
-        <span v-if="row.product_image.length" style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
+        <span v-if="row.product_image.length" style="margin-left:10px;">{{ row.product_name }}</span>
         <span v-else style="margin-left:5px; position: relative;">{{ row.product_name }}</span>
       </template>
       <template slot="Состояние" slot-scope="text, row">
@@ -87,12 +125,14 @@
 <script>
 import { mapActions } from 'vuex'
 import myIcons from '@/core/icons'
-
+import image from '../../../assets/phone.svg'
 export default {
   components: {},
   data () {
     return {
       myIcons,
+      image,
+      render: true,
       columnsTwo: [
         {
           title: this.$t('Товары'),
@@ -101,8 +141,7 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Товары'
-          },
-          align: 'center'
+          }
         },
         {
           title: this.$t('Кол-во'),
@@ -155,6 +194,7 @@ pagename: '',
       .then(res => {
         this.list = res
         console.log('res=====>>>', res)
+        this.render = false
       }).finally(() => {
         this.loading = false
       })

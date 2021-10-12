@@ -8,7 +8,8 @@ const base_Url = {
   orderitem: '/history/prodaja',
   ipatekaItem: '/history/zaklad',
   branch: '/branch',
-  client: '/client'
+  client: '/client',
+  user: '/user'
 }
 const Sale = {
   state: {
@@ -151,6 +152,10 @@ const Sale = {
           params: {
             limit: page.pageSize,
             page: page.current,
+            customer_id: payload.customer_id,
+            merchant_id: payload.merchant_id,
+            number: payload.number,
+            warehouse_id: payload.warehouse_id,
             from_date: payload.from_date,
             to_date: payload.to_date
           }
@@ -240,6 +245,26 @@ const Sale = {
             page: 1,
             limit: 100,
             search: search === '' ? '' : search
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    mortgageUserList ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.user}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100,
+            user_type: payload.user_type,
+            search: payload.search
           }
         })
           .then(res => {

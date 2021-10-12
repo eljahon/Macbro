@@ -176,29 +176,29 @@
               <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
             </template>
             <template  slot="cutomer" slot-scope="text, row" >
-              <div style="display: flex; gap: 8px; align-items: stretch">
-                <img :src="row.customer.image.length ? row.customer.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; border: none; outline: none"></img>
+              <div style="display: flex; gap: 8px; align-items: stretch; position: relative; top: 15px">
+                <img :src="row.customer.image.length ? row.customer.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; border: none; outline: none; margin-top: 7px"></img>
                 <div style='display: block;'>
                   <span style="margin-top: -5px; display: flex; gap: 8px"><span>{{ row.customer.firstname === '' ? '' : row.customer.firstname }}</span><span>{{ row.customer.lastname === '' ? '' :row.customer.lastname }}</span></span>
-                  <p style="color: rgba(91, 104, 113, 1)">{{row.customer.phone_number}}</p>
+                  <p style="color: rgba(91, 104, 113, 1)">{{row.customer.phone_number}} <br> <span>{{row.customer.user_type}}</span></p>
                 </div>
                 <!--              <img :src='row.customer.image' alt=''>-->
               </div>
             </template>
-            <template slot="merchant" slot-scope="text, row" >
-              <div v-if="row.merchant.id.length" style="display: flex; gap: 8px; align-items: stretch">
-                <img :src="row.merchant.image.length ? row.merchant.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; border: none; outline: none"></img>
+            <template slot="merchant" slot-scope="text, row">
+              <div v-if="row.merchant.id.length" style="display: flex; position: relative; top: 15px; gap: 8px; align-items: stretch">
+                <img :src="row.merchant.image.length ? row.merchant.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; margin-top: 7px"></img>
                 <div style='display: block;'>
                   <span style="margin-top: -5px; display: flex; gap: 8px"><span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname }}</span><span>{{ row.merchant.lastname === '' ? '' :row.merchant.lastname }}</span></span>
-                  <p style="color: rgba(91, 104, 113, 1)">{{row.merchant.user_type === 'consultant' ? 'Консультант' : 'Кассир'}}</p>
+                  <p style="color: rgba(91, 104, 113, 1)"><span>{{row.merchant.phone_number}}</span> <br> {{row.merchant.user_type === 'consultant' ? 'Консультант' : 'Кассир'}}</p>
                 </div>
                 <!--              <img :src='row.customer.image' alt=''>-->
               </div>
-              <div v-else style="display: flex; gap: 8px; align-items: stretch">
-                <img :src="row.initiator.image.length ? row.initiator.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; border: none; outline: none"></img>
+              <div v-else style="display: flex; position: relative; top: 15px; gap: 8px; align-items: stretch">
+                <img :src="row.initiator.image.length ? row.initiator.image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; margin-top: 7px"></img>
                 <div style='display: block;'>
                   <span style="margin-top: -5px; display: flex; gap: 8px"><span>{{ row.initiator.firstname === '' ? '' : row.initiator.firstname }}</span><span>{{ row.initiator.lastname === '' ? '' :row.initiator.lastname }}</span></span>
-                  <p style="color: rgba(91, 104, 113, 1)">{{row.initiator.user_type === 'consultant' ? 'Консультант' : 'Кассир'}}</p>
+                  <p style="color: rgba(91, 104, 113, 1)"><span>{{row.initiator.phone_number}}</span> <br> {{row.initiator.user_type === 'consultant' ? 'Консультант' : 'Кассир'}}</p>
                 </div>
                 <!--              <img :src='row.customer.image' alt=''>-->
               </div>
@@ -239,26 +239,43 @@
           >
             <div slot="Филиал" style="padding: 8px; width: 230px;">
               <a-select
+                @change="serachSelectsBranche"
+                allowClear
                 :placeholder="$t('Филиал')"
                 style="width: 220px"
-                allowClear
               >
+                <a-select-option v-for="item in branchList" :key="item.id+Math.round().toString()" :value="item.id">
+                  {{ item.name }}
+                </a-select-option>
               </a-select>
             </div>
-            <!--            <div slot="Покупатель" style="padding: 8px; width: 230px;">-->
-            <!--              <a-select-->
-            <!--                :placeholder="$t('Филиал')"-->
-            <!--                style="width: 220px"-->
-            <!--                allowClear-->
-            <!--              >-->
-            <!--              </a-select>-->
-            <!--            </div>-->
+            <div slot="Покупатель" style="padding: 8px; width: 230px;">
+              <a-select
+                allowClear
+                show-search
+                label-in-value
+                :filter-option="false"
+                :value="valuearray"
+                style="width: 220px"
+                @change="selectUserChange"
+                v-debounce="onModelSearch"
+                :not-found-content="fetching ? undefined : null"
+                :placeholder="$t('Покупатель')"
+                :auto-clear-search-value="false"
+              >
+                <a-select-option v-for="item in userList" :key="item.id+Math.round().toString()" :value="item.id">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </div>
             <div
               slot="заказа"
               style="padding: 8px"
             >
               <a-input-number
-                :placeholder="`ИД. аккаунта`"
+                style="width: 200px"
+                v-debounce="OrderNumberSeracher"
+                :placeholder="`ИД. заказа`"
               />
             </div>
             <a-icon
@@ -267,24 +284,27 @@
               class="filter-dropdown-icon"
               :component="$myIcons.filterDownIcon"
             />
-            <a-icon
-              slot="order"
-              :component="$myIcons.filter"
-              style="font-size: 20px; color: transparent; background-color: transparent"
-
-            />
             <template slot="Комментария" slot-scope="text, row">
               <!--              <a-tag :color=" === 'sold' ? 'blue' : ''">{{row.status === 'sold' ? 'Продано' : 'Бронировано'}}</a-tag>-->
               <span>{{ row.comment === '' ? '' : row.comment }}</span>
             </template>
             <template slot="client" slot-scope="text, row">
-              <span>{{ row.client.first_name === '' ? '' : row.client.first_name }} {{ ' ' }} {{ row.client.last_name === '' ? '' :row.client.last_name }}</span>
+              <div v-if="row.client.id.length" style="display: flex; position: relative; top: 15px; gap: 8px; align-items: stretch">
+                <img :src="row.client.profile_image.length ? row.client.profile_image: images " style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; object-fit: cover;  border-radius: 50%; margin-top: 7px"></img>
+                <div style='display: block;'>
+                  <span style="margin-top: -5px; display: flex; gap: 8px"><span>{{ row.client.first_name === '' ? '' : row.client.first_name }}</span><span>{{ row.client.last_name === '' ? '' :row.client.last_name}}</span></span>
+                  <p style="color: rgba(91, 104, 113, 1)"><span>{{row.client.phone_number}}</span> <br> {{row.client.user_type === 'consultant' ? 'Консультант' : 'Кассир'}}</p>
+                </div>
+                <!--              <img :src='row.customer.image' alt=''>-->
+              </div>
+
+<!--              <span>{{ row.client.first_name === '' ? '' : row.client.first_name }} {{ ' ' }} {{ row.client.last_name === '' ? '' :row.client.last_name }}</span>-->
             </template>
             <template slot="Кол" slot-scope="text, row">
               <span>{{ row.items_count }}</span>
             </template>
             <template slot="Сумма" slot-scope="text, row">
-              <span>{{ row.total_amount }}</span>
+              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.total_amount )}}</span>
             </template>
           </a-table>
         </a-tab-pane>
@@ -307,6 +327,7 @@ export default {
     return {
       images,
       fetching: false,
+      userList: [],
       valuearray: [],
       datasOptions: [],
       myIcons,
@@ -321,6 +342,10 @@ export default {
         }
       ],
       ipatekaparams: {
+        customer_id: '',
+        merchant_id: '',
+        number: '',
+        warehouse_id: '',
         search: '',
         from_date: '',
         to_date: '',
@@ -343,6 +368,10 @@ export default {
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
+      userparams: {
+        user_type: 'cashier,consultant',
+        search: ''
+      },
       columns: [
         // {
         //   title: this.$t('Иконка'),
@@ -355,9 +384,9 @@ export default {
           title: this.$t('ИД заказа'),
           dataIndex: 'number',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
+            filterDropdown: 'заказа',
             filterIcon: 'filterIcon',
-            customRender: 'заказа'
+            customRender: 'number'
           },
           align: 'center'
         },
@@ -486,45 +515,35 @@ export default {
             title: this.$t('ИД заказа'),
             dataIndex: 'number',
             scopedSlots: {
-              filterDropdown: 'аккаунта',
+              filterDropdown: 'заказа',
               filterIcon: 'filterIcon',
-              customRender: 'заказа'
-            },
-            align: 'center'
+              customRender: 'number'
+            }
           },
           {
             title: this.$t('Филиал'),
             dataIndex: 'branch_name',
-            align: 'center'
-            // scopedSlots: { customRender: 'Покупатель' }
+            scopedSlots: {
+              customRender: 'branch_name',
+              filterDropdown: 'Филиал',
+              filterIcon: 'filterIcon'
+            }
           },
           {
             title: this.$t('Покупатель'),
-            align: 'center',
             scopedSlots: {
-              filterDropdown: 'Aккаунта',
+              filterDropdown: 'Покупатель',
               filterIcon: 'filterIcon',
               customRender: 'client' }
-            // dataIndex: 'account_number',
+            // dataIndex: 'account_number'
           },
           { title: this.$t('Комментария'),
             // dataIndex: 'account_number',
             scopedSlots: {
               filterDropdown: 'AccountNumber',
               filterIcon: 'filterIcon',
-              customRender: 'Комментария' },
-            align: 'center'
+              customRender: 'Комментария' }
           },
-          // {
-          //   title: this.$t('Кол-во'),
-          //   key: 'action',
-          //   scopedSlots: {
-          //     filterDropdown: 'аккаунта',
-          //     filterIcon: 'filterIcon',
-          //     customRender: 'Кол'
-          //   },
-          //   align: 'center'
-          // },
           {
             title: this.$t('Сумма'),
             key: 'werree',
@@ -533,8 +552,7 @@ export default {
               filterDropdown: 'аккаунта',
               filterIcon: 'filterIcon',
               customRender: 'Сумма'
-            },
-            align: 'center'
+            }
           }
         ]
     }
@@ -556,7 +574,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getSaleListAllTabOne', 'customersSearch', 'getBranchList', 'setAcriveTab', 'OflineTwoInsideTabs', 'oflineListTab', 'OflineTabList', 'IpatekaListgetAll', 'oflineListPagination']),
+    ...mapActions(['getSaleListAllTabOne', 'mortgageUserList', 'customersSearch', 'getBranchList', 'setAcriveTab', 'OflineTwoInsideTabs', 'oflineListTab', 'OflineTabList', 'IpatekaListgetAll', 'oflineListPagination']),
     callback (key) {
       console.log(key)
       this.setAcriveTab(parseInt(key))
@@ -569,22 +587,50 @@ export default {
     },
     onModelSearch (val) {
       const data = this.datasOptions
+      const user = this.userList
       console.log(val)
-      this.customersSearch(val)
-        .then(res => {
-          this.datasOptions = res.clients.length ? res.clients.map((element) => {
-            return {
-              name: element.middle_name,
-              id: element.id
-            }
-          }) : data
-        })
+      if (this.activTab === 1) {
+        this.customersSearch(val)
+          .then(res => {
+            this.datasOptions = res.clients.length ? res.clients.map((element) => {
+              return {
+                name: element.middle_name,
+                id: element.id
+              }
+            }) : data
+          })
+      } else {
+        this.userparams.search = val
+        this.mortgageUserList(this.userparams)
+          .then(res => {
+            this.userList = res.users.length > 0 ? res.users.map((element) => {
+              return {
+                id: element.id,
+                name: element.middle_name
+              }
+            }) : user
+            console.log('resssssss userList', res)
+          })
+          .finally(() => {
+          })
+      }
     },
     onPopupScroll (val) { console.log(val) },
     numberSearch (val) {
       console.log('===', val)
       this.paramsOfline.number = val
       this.OflinFuntction()
+    },
+    selectUserChange (val, options) {
+      this.userparams.search = val
+      this.valuearray = val
+      if (this.activTab === 2) {
+        this.MortgageTableUserList()
+      }
+    },
+    OrderNumberSeracher (val) {
+      this.ipatekaparams.number = val
+      this.IpatekaList()
     },
     selectBranchChange (val, options) {
       console.log('===', val, options)
@@ -597,11 +643,31 @@ export default {
       this.paramsOfline.statuses = val === undefined ? 'booked,sold' : val
       this.OflinFuntction()
     },
+    serachSelectsBranche (val) {
+this.ipatekaparams.warehouse_id = val
+      this.IpatekaList()
+    },
     Search (val) {
       alert(val)
     },
     Searches (val) {
       console.log(val)
+    },
+    MortgageTableUserList () {
+      this.loading = true
+      this.mortgageUserList(this.userparams)
+      .then(res => {
+        this.userList = res.users.map((element) => {
+          return {
+            id: element.id,
+            name: element.middle_name
+          }
+        })
+        console.log('resssssss userList', res)
+      })
+      .finally(() => {
+        this.loading = false
+      })
     },
     fetchCustomer (searchvalue) {
       this.fetching = true
@@ -635,11 +701,6 @@ export default {
       .finally(() => {
         this.loading = false
       })
-    },
-    reducer (array) {
-      console.log('================================', array)
-      const summ = array.map((element) => element.price).reduce((summ, val) => summ + val)
-    return summ
     },
     rangePicer (val, data) {
       console.log(data)
@@ -716,10 +777,6 @@ export default {
       this.params.search = value
       this.rollCallGetListAll()
     },
-    AccountGlobalSeach (val) {
-      this.params.search = val
-      this.rollCallGetListAll()
-    },
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
@@ -752,6 +809,7 @@ export default {
     this.saleGetListAllOne()
     this.branchListAll()
     this.defoultCustomer()
+    this.MortgageTableUserList()
   }
 }
 </script>
