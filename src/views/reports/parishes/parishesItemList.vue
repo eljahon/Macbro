@@ -202,6 +202,8 @@
 <script>
 import myIcons from '@/core/icons'
 import img from '../../../assets/Ellipse 9.png'
+import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -309,6 +311,7 @@ export default {
     }
   },
   computed: {
+    // ...mapGetters(['getItemParishesList']),
     getParishesList () {
       return []
     },
@@ -323,6 +326,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getItemParishesList']),
+    getItemParishes () {
+      this.getItemParishesList(this.$route.params.id)
+      .then(res => {
+        this.list = res
+        console.log('res ====>>>', res)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
     callbak (key) {
       console.log(key)
     },
@@ -331,6 +345,8 @@ export default {
     }
   },
   mounted () {
+    console.log('=======')
+    this.getItemParishes()
   }
 }
 </script>

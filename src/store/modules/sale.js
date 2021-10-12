@@ -6,7 +6,9 @@ const base_Url = {
   ofLineTabTwo: '/order-offline',
   ipateka: '/history/zaklad',
   orderitem: '/history/prodaja',
-  ipatekaItem: '/history/zaklad'
+  ipatekaItem: '/history/zaklad',
+  branch: '/branch',
+  client: '/client'
 }
 const Sale = {
   state: {
@@ -121,9 +123,11 @@ const Sale = {
             limit: page.pageSize,
             page: page.current,
             type: 'order',
-            statuses: 'booked,sold',
+            number: payload.number,
+            statuses: payload.statuses,
             from_date: payload.from_date,
-            to_date: payload.to_date
+            to_date: payload.to_date,
+            receiver_warehouse_id: payload.receiver_warehouse_id
           }
         })
           .then(res => {
@@ -200,6 +204,43 @@ const Sale = {
         request({
           url: `${base_Url.ipatekaItem}/${id}`,
           method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getBranchList ({ commit }) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.branch}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    customersSearch ({ commit }, search) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.client}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100,
+            search: search === '' ? '' : search
+          }
         })
           .then(res => {
             resolve(res)

@@ -33,6 +33,7 @@
  import arrowDown from '@/assets/icons/arrow-down.svg?inline' // path to your '*.svg?inline' file.
  import filterDownIcon from '@/assets/icons/filter-down-icon.svg?inline' // path to your '*.svg?inline' file.
 import excal from '@/assets/excal.svg?inline'
+import filter from '@/assets/filter.svg?inline'
  const myIcons = {
      bxAnaalyse,
       excal,
@@ -46,6 +47,7 @@ import excal from '@/assets/excal.svg?inline'
      dollarSvg,
      dashboard,
      orders,
+   filter,
      branches,
      clients,
      infoOutline,

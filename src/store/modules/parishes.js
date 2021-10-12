@@ -7,6 +7,7 @@ const base_Url = {
     groupped: '/product/variants-groupped',
   slugid: '/inventory-party/check',
   slugListItem: '/inventory-party/check-frequent'
+
 }
 const Parishes = {
   state: {
@@ -148,7 +149,22 @@ const Parishes = {
             reject(error)
           })
       })
+    },
+    getItemParishesList ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.parishes}/${payload}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
-    }
+
+  }
 }
 export default Parishes
