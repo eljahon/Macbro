@@ -12398,6 +12398,11 @@ vue-swatches@^2.1.0:
   resolved "https://registry.yarnpkg.com/vue-swatches/-/vue-swatches-2.1.0.tgz#65221b4589ebb1ecd04a93bf82bfc569220e2724"
   integrity sha512-JbSomg1penZvgHL24blA3PDgji7LPVGGSFlMo7F+jYVcxooemadI3gkMwFJVIPMikG5g160Mq+Lbph/lqFjzzw==
 
+vue-table-to-excel@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-table-to-excel/-/vue-table-to-excel-1.0.6.tgz#27b7032c7a2a6959bfd949265f7e6dbc2c702bac"
+  integrity sha512-1s8+TiPO/Q6IgVicSVAGuhL30V8qsQOaVW1zX/3ZC+mD814eYojETE6KB7ToeaiaHqG/PYm+WMasaDLZyNJvLA==
+
 vue-template-compiler@^2.6.10:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.11.tgz#c04704ef8f498b153130018993e56309d4698080"

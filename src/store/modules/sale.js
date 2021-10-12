@@ -7,7 +7,8 @@ const base_Url = {
   ipateka: '/history/zaklad',
   orderitem: '/history/prodaja',
   ipatekaItem: '/history/zaklad',
-  branch: '/branch'
+  branch: '/branch',
+  client: '/client'
 }
 const Sale = {
   state: {
@@ -126,7 +127,7 @@ const Sale = {
             statuses: payload.statuses,
             from_date: payload.from_date,
             to_date: payload.to_date,
-            sender_warehouse_id: payload.sender_warehouse_id
+            receiver_warehouse_id: payload.receiver_warehouse_id
           }
         })
           .then(res => {
@@ -220,6 +221,25 @@ const Sale = {
           params: {
             page: 1,
             limit: 100
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    customersSearch ({ commit }, search) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.client}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100,
+            search: search === '' ? '' : search
           }
         })
           .then(res => {
