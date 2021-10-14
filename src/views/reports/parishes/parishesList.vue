@@ -284,6 +284,15 @@ export default {
             value: merchant.id
           }))
         })
+    },
+    rowClick (record) {
+     return {
+       on: {
+         click: (event) => {
+       this.$router.push({ name: 'parishesItemListMain', params: { id: record.id } })
+         }
+       }
+     }
     }
   },
   mounted () {
