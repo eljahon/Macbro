@@ -8,7 +8,7 @@
     :dataSource="tableData"
     :columns="columns"
     :customRow="rowClick"
-
+    :scroll="{ x: true }"
   >
     <!-- ---------CUSTOM RENDERS---------- -->
 
@@ -112,7 +112,7 @@ export default {
         title: 'ИД заказа',
         dataIndex: 'number',
         key: 'number',
-        width: 110,
+        width: 150,
         scopedSlots: {
           filterDropdown: 'numberDropdown',
           filterIcon: 'filterIcon'

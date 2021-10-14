@@ -35,6 +35,7 @@ export default {
   .name {
     font-size: 15px;
     line-height: 25px;
+    white-space: nowrap;
   }
 
   .text-block {
