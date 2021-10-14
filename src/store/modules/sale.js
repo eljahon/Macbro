@@ -115,57 +115,49 @@ const Sale = {
       })
     },
     OflineTabList ({ commit }, payload) {
-      const { page } = payload
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.ofLineTabTwo}`,
           method: 'get',
           params: {
-            limit: page.pageSize,
-            page: page.current,
-            type: 'order',
-            number: payload.number,
-            statuses: payload.statuses,
-            from_date: payload.from_date,
-            to_date: payload.to_date,
-            receiver_warehouse_id: payload.receiver_warehouse_id
+            ...payload
+            // page: page.current,
+            // number: payload.number,
+            // statuses: payload.statuses,
+            // from_date: payload.from_date,
+            // to_date: payload.to_date,
+            // receiver_warehouse_id: payload.receiver_warehouse_id,
+            // customer_id: payload.customer_id,
+            // merchant_id: payload.merchant_id
           }
         })
           .then(res => {
             resolve(res)
-            page.total = parseInt(res.count)
-            commit('OFLINE_PAGNTION', page)
-            commit('OFLINE_ALL_DATA', res.orders)
-            console.log(res)
           })
           .catch(error => {
             reject(error)
           })
       })
     },
-    IpatekaListgetAll ({ commit }, payload) {
-      const { page } = payload
+    getBookmarkList ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.ipateka}`,
           method: 'get',
-          params: {
-            limit: page.pageSize,
-            page: page.current,
-            customer_id: payload.customer_id,
-            merchant_id: payload.merchant_id,
-            number: payload.number,
-            warehouse_id: payload.warehouse_id,
-            from_date: payload.from_date,
-            to_date: payload.to_date
-          }
+          params: payload
+          // {
+          //   limit: page.pageSize,
+          //   page: page.current,
+          //   customer_id: payload.customer_id,
+          //   merchant_id: payload.merchant_id,
+          //   number: payload.number,
+          //   warehouse_id: payload.warehouse_id,
+          //   from_date: payload.from_date,
+          //   to_date: payload.to_date
+          // }
         })
           .then(res => {
-            page.total = parseInt(res.count)
             resolve(res)
-            commit('IPATEKA_PAGINATION', page)
-            commit('IPATEKA_LIST', res.orders)
-            console.log(res)
           })
           .catch(error => {
             reject(error)
@@ -218,14 +210,15 @@ const Sale = {
           })
       })
     },
-    getBranchList ({ commit }) {
+    getBranchList ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.branch}`,
           method: 'get',
           params: {
             page: 1,
-            limit: 100
+            limit: 100,
+            ...payload
           }
         })
           .then(res => {
@@ -244,7 +237,7 @@ const Sale = {
           params: {
             page: 1,
             limit: 100,
-            search: search === '' ? '' : search
+            search: search
           }
         })
           .then(res => {
@@ -255,7 +248,7 @@ const Sale = {
           })
       })
     },
-    mortgageUserList ({ commit }, payload) {
+    merchantsSearch ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.user}`,
@@ -263,8 +256,7 @@ const Sale = {
           params: {
             page: 1,
             limit: 100,
-            user_type: payload.user_type,
-            search: payload.search
+            search: payload
           }
         })
           .then(res => {
