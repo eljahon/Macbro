@@ -256,7 +256,7 @@ const Sale = {
           params: {
             page: 1,
             limit: 100,
-            search: payload
+            ...payload
           }
         })
           .then(res => {

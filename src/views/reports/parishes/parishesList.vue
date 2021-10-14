@@ -1,234 +1,317 @@
 <template>
   <a-card>
-    <a-card>
+    <a-card :bordered="false">
       <div slot="title">
-        <div slot="title">
-          <a-page-header
-            @back="() => $router.go(-1)"
-          >
-            <div slot="subTitle" style="cursor: pointer">
-              <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты /' }}</span> <span>{{ $t('parishes') + ' ' }} </span>
-              <!--              <span>{{clientname}}</span>-->
-            </div>
-          </a-page-header>
-        </div>
+        {{ $t('parishes') }}
       </div>
       <div slot="extra">
-        <div slot="extra" style="display: flex; gap: 5%">
-          <a-input>
-            <a-icon style="color: blue" slot="addonAfter" type="search" />
-          </a-input>
-          <a-range-picker
-            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
-            :placeholder="['от даты ', 'до даты']"
-            @change="rangePicer"
-          >
-            <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
-          </a-range-picker>
-          <!--          <a-select-->
-          <!--            label-in-value-->
-          <!--            :default-value="{ key: 'lucy' }"-->
-          <!--            style="width: 180px"-->
-          <!--          >-->
-          <!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-          <!--            <a-select-option value="jack">-->
-          <!--              Jack (100)-->
-          <!--            </a-select-option>-->
-          <!--            <a-select-option value="lucy">-->
-          <!--              Lucy (101)-->
-          <!--            </a-select-option>-->
-          <!--          </a-select>-->
-          <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
-            <a-icon :component="myIcons.excal"></a-icon></a-button>
+        <div slot="extra" style="display: flex; justify-content: right">
+          <div style="display: flex; gap: 5%; justify-content: flex-end">
+            <a-range-picker
+              style="width: 260px"
+              :value="date"
+              :placeholder="['от даты ', 'до даты']"
+              v-model="date"
+            >
+              <a-icon type="calendar" style="color: #1890FF" slot="suffixIcon"/>
+            </a-range-picker>
+            <a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
+              <a-icon :component="$myIcons.excal"></a-icon></a-button>
+          </div>
         </div>
-
-      </div>
-      <div>
       </div>
       <a-table
         style="margin-top: 30px; cursor: pointer"
-        :columns="columnsparisher"
-        :rowKey="() => Math.random()"
-        :dataSource="getParishesList"
-        :pagination="getPagination"
-        :loading="loading"
-        @change="handleTableChange"
-        test-attr="list-customer"
-        :customRow="customRowClick"
         bordered
+        :pagination="pagination"
+        :loading="loading"
+        @change="tableChangeHandler"
+        :dataSource="tableData"
+        :columns="columns"
+        :customRow="rowClick"
+        :scroll="{ x: true }"
       >
-        <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-          <a-select
-            :placeholder="$t('Тип аккаунта')"
-            style="width: 220px"
-            allowClear
-          >
-          </a-select>
-        </div>
-        <div
-          slot="аккаунта"
-          style="padding: 8px"
-        >
-          <a-input-number
-            :placeholder="`ИД. аккаунта`"
-          />
-        </div>
+
+        <!-- ----------CUSTOM RENDERS---------- -->
+
+        <template slot="branch" slot-scope="text" >
+          <span style="white-space: nowrap">{{ text }}</span>
+        </template>
+
+        <template slot="seller" slot-scope="row" >
+          <table-user-column :image="row.seller.profile_image" :name="`${row.seller.first_name} ${row.seller.last_name}`" :phone="row.seller.phone_number" :type="row.seller.user_type" />
+        </template>
+
+        <template slot="buyer" slot-scope="row" >
+          <table-user-column :image="row.buyer.profile_image" :name="`${row.buyer.first_name} ${row.buyer.last_name}`" :phone="row.buyer.phone_number" :type="row.buyer.user_type" />
+        </template>
+
+        <template slot="summ" slot-scope="text">
+          <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(text) }}</span>
+        </template>
+
+        <template slot="status" slot-scope="row">
+          <a-tag style="width: 100%" :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'} ${row.items_count}/${row.scanned_count}` }}</a-tag>
+        </template>
+
+        <!-- ------------FILTERS--------------- -->
+
         <a-icon
-          style="font-size: 20px; color: transparent; background-color: transparent"
           slot="filterIcon"
           class="filter-dropdown-icon"
           :component="$myIcons.filterDownIcon"
         />
-        <template slot="Статус" slot-scope="text, row">
-          <a-tag :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>
 
-          <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
-        </template>
-        <template slot="seller" slot-scope="text, row">
-          <span>{{ row.seller.first_name }}{{ ' ' }}{{ row.seller.last_name }}</span>
-        </template>
-        <template slot="buyers" slot-scope="text, row">
-          <span>{{ row.buyer.first_name }}{{ ' ' }}{{ row.buyer.last_name }}</span>
-        </template>
-        <template slot="Кол" slot-scope="text, row">
-          <span>{{ row.items_count }}</span>
-        </template>
-        <template slot="Сумма" slot-scope="text, row">
-          <span>{{ '$' }}{{ row.total_amount }}</span>
-        </template>
+        <div
+          slot="numberDropdown"
+          style="padding: 8px"
+        >
+          <a-input
+            style="width: 200px"
+            :placeholder="`ИД. заказа`"
+            v-model="dataParams.number"
+          />
+        </div>
+
+        <div
+          slot="branchDropdown"
+          style="padding: 8px"
+        >
+          <a-select
+            style="width: 200px"
+            show-search
+            allowClear
+            :filter-option="false"
+            :not-found-content="fetching ? undefined : null"
+            :placeholder="`Филиал`"
+            :options="branchList"
+            @search="searchBranch"
+            v-model="dataParams.warehouse_id"
+          />
+        </div>
+
+        <div
+          slot="sellerDropdown"
+          style="padding: 8px"
+        >
+          <a-select
+            style="width: 200px"
+            show-search
+            allowClear
+            :filter-option="false"
+            :not-found-content="fetching ? undefined : null"
+            :placeholder="`Поставщики`"
+            :options="sellerList"
+            @search="searchSeller"
+            v-model="dataParams.counter_agent_id"
+          />
+        </div>
+
+        <div
+          slot="merchantDropdown"
+          style="padding: 8px"
+        >
+          <a-select
+            style="width: 200px"
+            show-search
+            allowClear
+            :filter-option="false"
+            :not-found-content="fetching ? undefined : null"
+            :placeholder="`Кассир`"
+            :options="merchantList"
+            @search="searchMerchant"
+            v-model="dataParams.cashier_id"
+          />
+        </div>
+
+        <div
+          slot="statusDropdown"
+          style="padding: 8px"
+        >
+          <a-select
+            style="width: 200px"
+            allowClear
+            :filter-option="false"
+            :not-found-content="fetching ? undefined : null"
+            :placeholder="`Статус`"
+            :options="statusList"
+            v-model="dataParams.status"
+          />
+        </div>
+
       </a-table>
     </a-card>
   </a-card>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-  import myIcons from '@/core/icons'
+import { mapActions } from 'vuex'
+import TableUserColumn from '@/components/TableUserColumn/TableUserColumn.vue'
 
 export default {
- data () {
-   return {
-     myIcons,
-     columnsparisher: [
-       {
-         title: this.$t('ИД заказа'),
-         dataIndex: 'number',
-         scopedSlots: {
-           filterDropdown: 'аккаунта',
-           filterIcon: 'filterIcon',
-           customRender: 'заказа'
-         },
-         align: 'center'
-       },
-       {
-         title: this.$t('Филиал'),
-         dataIndex: 'branch_name',
-         align: 'center'
-       },
-       {
-         title: this.$t('Поставщики'),
-         align: 'center',
-         scopedSlots: {
-           filterDropdown: 'Aккаунта',
-           filterIcon: 'filterIcon',
-           customRender: 'seller' }
-         // dataIndex: 'account_number',
-       },
-       {
-         title: this.$t('Кассир'),
-         align: 'center',
-         key: 'buyers',
-         scopedSlots: {
-           filterDropdown: 'Aккаунта',
-           filterIcon: 'filterIcon',
-           customRender: 'buyers' }
-         // dataIndex: 'account_number',
-       },
-       {
-         title: this.$t('Кол-во'),
-         key: 'action',
-         scopedSlots: {
-           filterDropdown: 'аккаунта',
-           filterIcon: 'filterIcon',
-           customRender: 'Кол'
-         },
-         align: 'center'
-       },
-       {
-         title: this.$t('Сумма'),
-         key: 'werree',
-         dataIndex: 'total_amount',
-         scopedSlots: {
-           filterDropdown: 'аккаунта',
-           filterIcon: 'filterIcon',
-           customRender: 'Сумма'
-         },
-         align: 'center'
-       },
-       { title: this.$t('Статус'),
-         // dataIndex: 'account_number',
-         scopedSlots: {
-           filterDropdown: 'AccountNumber',
-           filterIcon: 'filterIcon',
-           customRender: 'Статус' },
-         align: 'center'
-       }
-     ],
-     params: {
-       from_date: moment().startOf('month').format('YYYY-MM-DD'),
-       to_date: moment().endOf('month').format('YYYY-MM-DD'),
-       page: { current: 1, pageSize: 10, total: null }
-     },
-     loading: false
-   }
- },
-  computed: {
-   ...mapGetters(['parishesPagination', 'parishesList', 'AllParishesList']),
-    getPagination () {
-     return this.parishesPagination
-    },
-    getParishesList () {
-     return this.parishesList
-    }
+  components: {
+    TableUserColumn
   },
+  data: () => ({
+    date: [moment().startOf('month'), moment().endOf('month')],
+    tableData: null,
+    branchList: [],
+    merchantList: [],
+    sellerList: [],
+    statusList: [{ value: 'complate', label: 'Сканировано' }, { value: 'incomplete', label: 'Не сканировано' }],
+    dataParams: {
+      limit: 10,
+      number: null,
+      warehouse_id: undefined,
+      cashier_id: undefined,
+      counter_agent_id: undefined,
+      status: undefined
+    },
+    loading: false,
+    pagination: {
+      current: 1,
+      total: 1,
+      pageSize: 10
+    },
+    columns: [
+      {
+        title: 'ИД заказа',
+        dataIndex: 'number',
+        key: 'number',
+        width: 150,
+        scopedSlots: {
+          filterDropdown: 'numberDropdown',
+          filterIcon: 'filterIcon'
+        }
+      },
+      {
+        title: 'Филиал',
+        dataIndex: 'branch_name',
+        key: 'branch_name',
+        scopedSlots: {
+          customRender: 'branch',
+          filterDropdown: 'branchDropdown',
+          filterIcon: 'filterIcon'
+        }
+      },
+      {
+        title: 'Поставщики',
+        scopedSlots: {
+          customRender: 'seller',
+          filterDropdown: 'sellerDropdown',
+          filterIcon: 'filterIcon'
+        }
+      },
+      {
+        title: 'Кассир',
+        scopedSlots: {
+          customRender: 'buyer',
+          filterDropdown: 'merchantDropdown',
+          filterIcon: 'filterIcon'
+        }
+      },
+      {
+        title: 'Кол-во',
+        dataIndex: 'items_count',
+        key: 'items_count',
+        align: 'center',
+        width: 100
+      },
+      {
+        title: 'Сумма',
+        dataIndex: 'total_amount',
+        key: 'total_amount',
+        scopedSlots: {
+          customRender: 'summ'
+        }
+      },
+      {
+        title: 'Статус',
+        scopedSlots: {
+          customRender: 'status',
+          filterDropdown: 'statusDropdown',
+          filterIcon: 'filterIcon'
+        }
+      }
+    ]
+  }),
   methods: {
-   ...mapActions(['getAllListParishes']),
-    customRowClick (record) {
-     return {
-       on: {
-         click: (event) => {
-       this.$router.push({ name: 'parishesItemListMain', params: { id: record.id } })
-         }
-       }
-     }
+    ...mapActions(['getAllParishes', 'getBranchList', 'merchantsSearch']),
+    fetchTableData () {
+      this.loading = true
+      this.getAllParishes({
+        ...this.dataParams,
+        page: this.pagination.current,
+        from_date: this.date[0] ? this.date[0].format('YYYY-MM-DD') : null,
+        to_date: this.date[1] ? this.date[1].format('YYYY-MM-DD') : null
+      }).then(res => {
+        const parties = res.parties
+
+        this.tableData = parties
+        this.pagination.total = res.count
+      }).finally(() => { this.loading = false })
     },
-   parishesGetList () {
-     this.loading = true
-     console.log('=====>>>', this.params)
-     this.getAllListParishes(this.params)
-  .finally(() => {
-    this.loading = false
-  })
-   },
-    handleTableChange (pagination) {
-      this.params.page = { ...pagination }
-      this.parishesGetList()
+    tableChangeHandler (pagination) {
+      this.pagination = pagination
+      this.fetchTableData()
     },
-    moment,
-    rangePicer (val, data) {
-      console.log(val, data)
-      this.params.from_date = data[0]
-        this.params.to_date = data[1]
-      this.parishesGetList()
+    searchBranch (value) {
+      this.getBranchList({ name: value }).then(res => {
+        const branches = res.branches
+        this.branchList = branches.map(branch => ({
+          label: branch.name,
+          value: branch.warehouse_id
+        }))
+      })
+    },
+    searchMerchant (value) {
+      this.merchantsSearch({ search: value, user_type: 'cashier' })
+        .then(res => {
+          const merchants = res.users
+          this.merchantList = merchants.map(merchant => ({
+            label: `${merchant.first_name} ${merchant.last_name}`,
+            value: merchant.id
+          }))
+        })
+    },
+    searchSeller (value) {
+      this.merchantsSearch({ search: value, user_type: 'counteragent' })
+        .then(res => {
+          const merchants = res.users
+          this.sellerList = merchants.map(merchant => ({
+            label: `${merchant.first_name} ${merchant.last_name}`,
+            value: merchant.id
+          }))
+        })
     }
   },
-  created () {
-   this.parishesGetList()
+  mounted () {
+    this.fetchTableData()
+    this.searchBranch()
+    this.searchMerchant()
+    this.searchSeller()
+  },
+  computed: {
+    watchOptions () {
+      return `${this.dataParams.number} / ${this.date} / ${this.dataParams.warehouse_id} / ${this.dataParams.cashier_id} / ${this.dataParams.counter_agent_id} / ${this.dataParams.status}`
+    }
+  },
+  watch: {
+    watchOptions () {
+      this.pagination.current = 1
+      this.fetchTableData()
+    }
   }
 }
 </script>
 
 <style scoped>
-
+  .filter-dropdown-icon {
+    font-size: 20px !important;;
+    color: transparent !important;
+    background-color: transparent !important;
+    margin-right: 10px !important;
+    transform: translateY(-3px) !important;;
+  }
 </style>

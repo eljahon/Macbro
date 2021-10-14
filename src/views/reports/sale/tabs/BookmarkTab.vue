@@ -152,7 +152,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(['getBookmarkList', 'getBranchList', 'customersSearch', 'merchantsSearch']),
+    ...mapActions(['getBookmarkList', 'getBranchList', 'merchantsSearch']),
     fetchTableData () {
       this.loading = true
       this.getBookmarkList({
@@ -180,13 +180,14 @@ export default {
       })
     },
     searchMerchant (value) {
-      this.merchantsSearch(value).then(res => {
-        const merchants = res.users
-        this.merchantList = merchants.map(merchant => ({
-          label: `${merchant.first_name} ${merchant.last_name}`,
-          value: merchant.id
-        }))
-      })
+      this.merchantsSearch({ search: value, user_type: 'cashier' })
+        .then(res => {
+          const merchants = res.users
+          this.merchantList = merchants.map(merchant => ({
+            label: `${merchant.first_name} ${merchant.last_name}`,
+            value: merchant.id
+          }))
+        })
     },
     rowClick (record) {
       return {

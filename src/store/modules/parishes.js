@@ -27,25 +27,15 @@ const Parishes = {
     }
   },
   actions: {
-    getAllListParishes ({ commit }, payload) {
-      const { page } = payload
+    getAllParishes ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.parishes}`,
           method: 'get',
-          params: {
-            limit: page.pageSize,
-            page: page.current,
-            from_date: payload.from_date,
-            to_date: payload.to_date
-          }
+          params: payload
         })
           .then(res => {
             resolve(res)
-            page.total = parseInt(res.count)
-            console.log('===========', res.parties)
-            commit('PARISHES_LIST', res.parties)
-            commit('PARISHES_PAGINATION', page)
           })
           .catch(error => {
             reject(error)

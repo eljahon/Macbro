@@ -8,7 +8,7 @@
         <div slot="extra" style="display: flex; justify-content: right">
           <div style="display: flex; gap: 5%; justify-content: flex-end">
             <a-range-picker
-              style="width: 250px"
+              style="width: 260px"
               :value="date"
               :placeholder="['от даты ', 'до даты']"
               v-model="date"

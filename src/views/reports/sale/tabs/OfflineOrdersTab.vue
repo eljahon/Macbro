@@ -258,7 +258,7 @@ export default {
       })
     },
     searchMerchant (value) {
-      this.merchantsSearch(value).then(res => {
+      this.merchantsSearch({ search: value }).then(res => {
         const merchants = res.users
         this.merchantList = merchants.map(merchant => ({
           label: `${merchant.first_name} ${merchant.last_name}`,
