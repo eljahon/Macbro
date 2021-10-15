@@ -5,22 +5,6 @@
     </div>
     <div slot="extra">
       <div slot="extra" style="display: flex; gap: 9px">
-        <!--        <a-input>-->
-        <!--          <a-icon style="color: blue" slot="addonAfter" type="search" />-->
-        <!--        </a-input>-->
-        <!--        <a-select-->
-        <!--          label-in-value-->
-        <!--          :default-value="{ key: 'lucy' }"-->
-        <!--          style="width: 180px"-->
-        <!--        >-->
-        <!--          <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-        <!--          <a-select-option value="jack">-->
-        <!--            Jack (100)-->
-        <!--          </a-select-option>-->
-        <!--          <a-select-option value="lucy">-->
-        <!--            Lucy (101)-->
-        <!--          </a-select-option>-->
-        <!--        </a-select>-->
         <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
           <a-icon :component="myIcons.excal"></a-icon></a-button>
       </div>
@@ -33,47 +17,22 @@
               <a-table
                 style="margin-top: 30px"
                 :columns="columns"
-                :rowKey="() => Math.random()"
+                :rowKey="(row) => row.id"
                 :dataSource="getPraductList"
                 :loading="loading"
                 test-attr="list-customer"
                 :pagination="false"
                 bordered
               >
-                <!--                <div slot="Aккаунта" style="padding: 8px; width: 230px;">-->
-                <!--                  <a-select-->
-                <!--                    :placeholder="$t('Тип аккаунта')"-->
-                <!--                    style="width: 220px"-->
-                <!--                    @change="AccountTypeSearch"-->
-                <!--                    allowClear-->
-                <!--                  >-->
-                <!--                    <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">-->
-                <!--                      {{ catigoriya.name }}-->
-                <!--                    </a-select-option>-->
-                <!--                  </a-select>-->
-                <!--                </div>-->
-                <!--                <div-->
-                <!--                  slot="аккаунта"-->
-                <!--                  style="padding: 8px"-->
-                <!--                >-->
-                <!--                  <a-input-number-->
-                <!--                    :placeholder="`ИД. аккаунта`"-->
-                <!--                    v-debounce="AccountSearch"-->
-                <!--                    style="width: 188px; margin-bottom: 8px; display: block;"-->
-                <!--                  />-->
-                <!--                </div>-->
-                <!--                <a-icon-->
-                <!--                  style="font-size: 20px; color: transparent; background-color: transparent"-->
-                <!--                  slot="filterIcon"-->
-                <!--                  class="filter-dropdown-icon"-->
-                <!--                  :component="$myIcons.filterDownIcon"-->
-                <!--                />-->
-                <template slot="data" slot-scope="text, row">
-                  <!--                  <img style="width: 50px; height: 50px; border-radius: 50%" :src="row.image" alt="imgId">-->
-                  <span style="margin-left: 5px">{{ row.name }}</span>
+                <template slot="name" slot-scope="row">
+                  <div style="display: flex; align-items: center" >
+                    <img v-if="imageUrl" class="model-image" :src="`https://${imageUrl}`" alt="-">
+                    <img v-else class="model-image" :src="require(`@/assets/model-image.jpg`)" alt="-">
+                    <div style="margin-left: 20px;" >{{ row.name }}</div>
+                  </div>
                 </template>
-                <template slot="order" slot-scope="text, row, index">
-                  <span v-if="slugCount.length">{{ reduce(slugCount[index]) }}</span>
+                <template slot="order" slot-scope="text">
+                  <span v-if="slugCount">{{ slugCount[text] || 0 }}</span>
                 </template>
               </a-table>
             </a-tab-pane>
@@ -92,22 +51,24 @@ export default {
     return {
       myIcons,
       loading: false,
-TabListCatigoriya: [],
+      TabListCatigoriya: [],
       insideTabList: [],
       TabTwoInsideList: [],
-      slugCount: [],
+      imageUrl: null,
+      slugCount: null,
       columns: [
         {
           title: this.$t('Модель'),
-          // dataIndex: 'first_name',
           scopedSlots: {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
-            customRender: 'data'
+            customRender: 'name'
           }
         },
         {
           title: this.$t('Количество '),
+          dataIndex: 'name',
+          key: 'name',
           scopedSlots: { customRender: 'order' }
         }
       ]
@@ -142,26 +103,25 @@ TabListCatigoriya: [],
         this.getAllListPraductListItemInsideFull(this.insideTabList[0].id)
         .then(res => {
           // console.log('reaaaa=====>>', res)
-          this.TabTwoInsideList = res.items.map((element) => {
-            return {
-              name: element.name
-            }
-          })
+          this.imageUrl = res.product.image
+          this.TabTwoInsideList = res.items
           const slugList = res.items.map((element) => {
             return {
 
-                  group_name: element.name,
+              group_name: element.name,
               slugs: element.variants.map((element) => element.product_slug)
             }
           })
           this.partiabalItemList(slugList)
           .then(res => {
-            // console.log('slugList', res)
-          const slaughterCount = res.items.map((element, index) => {
-                           return element.slug_counts.map((element) => element)
-})
+            console.log('slugList', res)
+            const slaughterCount = {}
+            res.items.forEach(item => {
+              let counter = 0
+              item.slug_counts.forEach(el => { counter += el.count })
+              slaughterCount[item.group_name] = counter
+            })
             this.slugCount = slaughterCount
-            // console.log(slaughterCount)
           })
         }).finally(() => {
           this.loading = false
@@ -191,8 +151,25 @@ TabListCatigoriya: [],
       this.loading = true
       this.getAllListPraductListItemInsideFull(val)
         .then(res => {
-          this.TabTwoInsideList = [res.product]
-          // console.log('=======', res.product)
+          this.imageUrl = res.product.image
+          this.TabTwoInsideList = res.items
+          const slugList = res.items.map((element) => {
+            return {
+              group_name: element.name,
+              slugs: element.variants.map((element) => element.product_slug)
+            }
+          })
+          this.partiabalItemList(slugList)
+          .then(res => {
+            console.log('slugList', res)
+            const slaughterCount = {}
+            res.items.forEach(item => {
+              let counter = 0
+              item.slug_counts.forEach(el => { counter += el.count })
+              slaughterCount[item.group_name] = counter
+            })
+            this.slugCount = slaughterCount
+          })
         }).finally(() => {
         this.loading = false
       })
@@ -205,5 +182,9 @@ TabListCatigoriya: [],
 </script>
 
 <style scoped>
-
+  .model-image {
+    width: 50px;
+    height: 50px;
+    object-fit: scale-down;
+  }
 </style>

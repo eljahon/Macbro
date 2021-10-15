@@ -18,6 +18,9 @@
     <template slot="cashier" slot-scope="row" >
       <table-user-column :image="row.cashier.profile_image" :name="`${row.cashier.first_name} ${row.cashier.last_name}`" :phone="row.cashier.phone_number" :type="row.cashier.user_type" />
     </template>
+    <template slot="client" slot-scope="row" >
+      <table-user-column :image="row.client.profile_image" :name="`${row.client.first_name} ${row.client.last_name}`" :phone="row.client.phone_number" :type="row.client.user_type" />
+    </template>
     <template slot="summ" slot-scope="text">
       <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(text) }}</span>
     </template>
@@ -56,6 +59,23 @@
         :options="branchList"
         @search="searchBranch"
         v-model="dataParams.warehouse_id"
+      />
+    </div>
+
+    <div
+      slot="customerDropdown"
+      style="padding: 8px"
+    >
+      <a-select
+        style="width: 200px"
+        show-search
+        allowClear
+        :filter-option="false"
+        :not-found-content="fetching ? undefined : null"
+        :placeholder="`Покупатель`"
+        :options="customerList"
+        @search="searchCustomer"
+        v-model="dataParams.customer_id"
       />
     </div>
 
@@ -137,6 +157,14 @@ export default {
         }
       },
       {
+        title: 'Покупатель',
+        scopedSlots: {
+          customRender: 'client',
+          filterDropdown: 'customerDropdown',
+          filterIcon: 'filterIcon'
+        }
+      },
+      {
         title: 'Комментария',
         dataIndex: 'comment',
         key: 'comment'
@@ -152,7 +180,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(['getBookmarkList', 'getBranchList', 'merchantsSearch']),
+    ...mapActions(['getBookmarkList', 'getBranchList', 'merchantsSearch', 'customersSearch']),
     fetchTableData () {
       this.loading = true
       this.getBookmarkList({
@@ -197,12 +225,22 @@ export default {
           }
         }
       }
+    },
+    searchCustomer (value) {
+      this.customersSearch(value).then(res => {
+        const customers = res.clients
+        this.customerList = customers.map(customer => ({
+          label: `${customer.first_name} ${customer.last_name}`,
+          value: customer.id
+        }))
+      })
     }
   },
   mounted () {
     this.fetchTableData()
     this.searchBranch()
     this.searchMerchant()
+    this.searchCustomer()
   },
   watch: {
     date () {
@@ -218,6 +256,10 @@ export default {
       this.fetchTableData()
     },
     'dataParams.merchant_id' () {
+      this.pagination.current = 1
+      this.fetchTableData()
+    },
+    'dataParams.customer_id' () {
       this.pagination.current = 1
       this.fetchTableData()
     }

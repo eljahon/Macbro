@@ -5,22 +5,6 @@
     </div>
     <div slot="extra">
       <div slot="extra" style="display: flex; gap: 9px">
-        <!--        <a-input>-->
-        <!--          <a-icon style="color: blue" slot="addonAfter" type="search" />-->
-        <!--        </a-input>-->
-        <!--        <a-select-->
-        <!--          label-in-value-->
-        <!--          :default-value="{ key: 'lucy' }"-->
-        <!--          style="width: 180px"-->
-        <!--        >-->
-        <!--          <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-        <!--          <a-select-option value="jack">-->
-        <!--            Jack (100)-->
-        <!--          </a-select-option>-->
-        <!--          <a-select-option value="lucy">-->
-        <!--            Lucy (101)-->
-        <!--          </a-select-option>-->
-        <!--        </a-select>-->
         <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border: none">
           <a-icon :component="myIcons.excal"></a-icon></a-button>
       </div>
@@ -33,43 +17,19 @@
               <a-table
                 style="margin-top: 30px"
                 :columns="columns"
-                :rowKey="() => Math.random()"
+                :rowKey="(row) => row.id"
                 :dataSource="getPraductList"
                 :loading="loading"
                 test-attr="list-customer"
                 :pagination="false"
                 bordered
               >
-                <!--                <div slot="Aккаунта" style="padding: 8px; width: 230px;">-->
-                <!--                  <a-select-->
-                <!--                    :placeholder="$t('Тип аккаунта')"-->
-                <!--                    style="width: 220px"-->
-                <!--                    @change="AccountTypeSearch"-->
-                <!--                    allowClear-->
-                <!--                  >-->
-                <!--                    <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">-->
-                <!--                      {{ catigoriya.name }}-->
-                <!--                    </a-select-option>-->
-                <!--                  </a-select>-->
-                <!--                </div>-->
-                <!--                <div-->
-                <!--                  slot="аккаунта"-->
-                <!--                  style="padding: 8px"-->
-                <!--                >-->
-                <!--                  <a-input-number-->
-                <!--                    :placeholder="`ИД. аккаунта`"-->
-                <!--                    v-debounce="AccountSearch"-->
-                <!--                    style="width: 188px; margin-bottom: 8px; display: block;"-->
-                <!--                  />-->
-                <!--                </div>-->
-                <!--                <a-icon-->
-                <!--                  style="font-size: 20px; color: transparent; background-color: transparent"-->
-                <!--                  slot="filterIcon"-->
-                <!--                  class="filter-dropdown-icon"-->
-                <!--                  :component="$myIcons.filterDownIcon"-->
-                <!--                />-->
-                <template slot="data" slot-scope="text, row">
-                  <img style="width: 50px; height: 50px; border-radius: 50%" :src="row.image" alt="imgId"> <span style="margin-left: 5px">{{ row.name }}</span>
+                <template slot="data" slot-scope="row">
+                  <div style="display: flex; align-items: center" >
+                    <img v-if="row.image" class="model-image" :src="`${row.image}`" alt="-">
+                    <img v-else class="model-image" :src="require(`@/assets/model-image.jpg`)" alt="-">
+                    <div style="margin-left: 20px;" >{{ row.name }}</div>
+                  </div>
                 </template>
                 <template slot="order" slot-scope="text, row, index">
                   <span>{{ slugIdList[index] }}</span>
@@ -126,7 +86,6 @@ export default {
       this.loading = true
       this.getAllListPraductList({ param: false, id: id })
         .then(res => {
-          console.log('resproaduct >>>>', res)
           this.insideTabList = res.products.map((element) => {
             return {
               id: element.id,
@@ -139,9 +98,7 @@ export default {
               // eslint-disable-next-line no-unused-vars
               let slugList = []
               slugList = res.product.variants.flatMap((element) => element.value.slug)
-              this.TabTwoInsideList = res.product.variants.flatMap((element) => element.value)
-              console.log('=======', res.product)
-              console.log('slugList===>>>', slugList)
+              this.TabTwoInsideList = res.product.variants.map(variant => variant.value)
               this.slugId(slugList)
               .then(res => {
                 console.log('slugList =>', res)
@@ -175,7 +132,7 @@ export default {
       this.loading = true
       this.getAllListPraductListItemInside(val)
         .then(res => {
-          this.TabTwoInsideList = [res.product]
+          this.TabTwoInsideList = res.product.variants.map(variant => variant.value)
           // console.log('=======', res.product)
         }).finally(() => {
         this.loading = false
@@ -189,5 +146,9 @@ export default {
 </script>
 
 <style scoped>
-
+  .model-image {
+    width: 50px;
+    height: 50px;
+    object-fit: scale-down;
+  }
 </style>
