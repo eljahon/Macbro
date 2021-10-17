@@ -56,38 +56,8 @@
               </div>
             </div>
           </div>
-
-          <!--          <a-tag color="#F5F5F5" style="border: none;">-->
-          <!--            <div style="display: flex; justify-content: flex-start">-->
-          <!--              <span style="width: 30px; height: 30px; margin-top: 5px; display: inline-flex; border-radius: 50%; margin-left: -10px">-->
-          <!--                <img v-if="list.merchant.image.length" style="padding: 5px; border-radius:50%" :src="list.merchant.image " alt="imgId" >-->
-          <!--              </span>-->
-          <!--              <span style="margin-left:50px; margin-top: 4px ">-->
-          <!--                {{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }} <br>-->
-          <!--                <span style="padding:6px; background-color: rgba(255, 59, 48, 0.1); color: red; border-radius: 5px;">{{ list.merchant.user_type }}</span>-->
-          <!--              </span>-->
-          <!--            </div>-->
-
-          <!--          </a-tag>-->
-          <!--          <a-tag color="blue" style="margin-left: -8px;border: none;">-->
-          <!--            <span>{{ list.items_count }} шт. <br> {{ 'Принято' }}</span>-->
-          <!--          </a-tag>-->
         </div>
         <div slot="extra">
-          <!--          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; padding: 15px">-->
-          <!--            <div style="display: flex;">-->
-          <!--              <img :src="list.accepting_warehouse.image" alt="img"> <br>-->
-          <!--              <span>{{ list.accepting_warehouse.name }}</span>-->
-          <!--              <span></span></div>-->
-          <!--          </a-tag>-->
-          <!--          <a-tag color="rgba(245, 245, 245, 1)" style="border: none; position: relative; left: 10px">-->
-          <!--            <div style="display: flex; padding: 10px">-->
-          <!--              &lt;!&ndash;              <img :src="list.accepting_warehouse.image" alt="img"> <br>&ndash;&gt;-->
-          <!--              <span>{{ list.sending_warehouse.name }}</span>-->
-          <!--              <span></span></div>-->
-          <!--            &lt;!&ndash;            <span>{{}}</span> <br>&ndash;&gt;-->
-          <!--            &lt;!&ndash;            <span>Принято</span>&ndash;&gt;-->
-          <!--          </a-tag>-->
         </div>
       </a-card>
     </a-card>
@@ -146,12 +116,10 @@ export default {
         {
           title: this.$t('Кол-во'),
           dataIndex: 'count',
-          align: 'center',
           scopedSlots: { customRender: 'Кол' }
         },
         {
           title: this.$t('Сумма'),
-          align: 'center',
           dataIndex: 'branch_name',
           scopedSlots: {
             filterDropdown: 'Aккаунта',
@@ -166,8 +134,7 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Состояние'
-          },
-          align: 'center'
+          }
         },
         {
           title: this.$t('Статус'),
@@ -176,8 +143,7 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Статус'
-          },
-          align: 'center'
+          }
         }
       ],
 pagename: '',

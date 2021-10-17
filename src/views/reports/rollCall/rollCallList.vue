@@ -6,33 +6,17 @@
       </div>
       <div slot="extra">
         <div slot="extra" style="display: flex; gap: 5%">
-          <!--          <a-input-search :placeholder="$t('Перекличка')" :loading="false" enter-button />-->
-          <!--                    <a-input style="color: blue" size="small" @search="onSearch" :placeholder="'Search'" v-debounce="AccountGlobalSeach">-->
-          <!--                      <a-icon size="small" type="search" style="color: blue; " slot="suffix"/>-->
-          <!--                    </a-input>-->
-          <a-input v-debounce="SearchRollCallList">
+          <a-input v-debounce="SearchRollCallList" style="width: 260px">
             <a-icon style="color: blue" slot="addonAfter" type="search" />
           </a-input>
           <a-range-picker
+            style="width: 260px"
             :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
             :placeholder="['от даты ', 'до даты']"
             @change="rangepicker"
           >
             <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
           </a-range-picker>
-          <!--          <a-select-->
-          <!--            label-in-value-->
-          <!--            :default-value="{ key: 'lucy' }"-->
-          <!--            style="width: 180px"-->
-          <!--          >-->
-          <!--            <a-icon slot="suffixIcon" style="color: blue" type="down" />-->
-          <!--            <a-select-option value="jack">-->
-          <!--              Jack (100)-->
-          <!--            </a-select-option>-->
-          <!--            <a-select-option value="lucy">-->
-          <!--              Lucy (101)-->
-          <!--            </a-select-option>-->
-          <!--          </a-select>-->
           <a-button icon="dowlond" style="background-color: #1890FF; color: white; border: none">
             <a-icon :component="myIcons.excal"></a-icon></a-button>
         </div>
@@ -82,13 +66,14 @@
             :component="$myIcons.filterDownIcon"
           />
           <template slot="Филиал" slot-scope="text, row">
-            <span>{{ row.user.branch_name }}</span>
+            <span v-if="row.user.branch_name.length">{{ row.user.branch_name}}</span>
+            <span v-else style="color: gray">Нет филиала...</span>
           </template>
           <template slot="Сотрудник" slot-scope="text, row">
             <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>
           </template>
           <template slot="Должность" slot-scope="text, row">
-            <span>{{ row.user.user_type === 'consultant'? 'консультант': row.user.user_type === 'cashier' ? 'кассир': row.user.user_type }}</span>
+            <span>{{  userType[row.user.user_type]}}</span>
           </template>
           <template slot="Отсутствующие" slot-scope="text, row">
             <span>{{ checkField(row.visit_report, 'absent', 'total_days') }}</span>
@@ -109,10 +94,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import cash from '../../../assets/cash.svg'
-import Payment from '../../../assets/payment.svg'
-import Vise from '../../../assets/Frame 56143-5.svg'
-import Click from '../../../assets/clck.svg'
 import myIcons from '@/core/icons'
 export default {
   data () {
@@ -125,29 +106,26 @@ export default {
         { id: '4', name: 'Сотрудники' },
         { id: '5', name: 'Компания' }
       ],
-      Imgs: {
-        cash: cash,
-        payment: Payment,
-        Vise: Vise,
-        click: Click
+      userType: {
+        'director': 'Директор',
+          'consultant': 'Консультант',
+          'counteragent': 'Встречный агент',
+          'cashier': 'Кассир',
+          'admin': 'Администратор',
+          'manager': 'Менеджер',
+          'courier': 'Курьер',
+          'client': 'Клиент',
+          'postavshik': 'Поставщик',
+          ' investor': 'Инвестор'
       },
       params: {
         search: '',
-        // from_date: '2021-09-01',
-        // to_date: '2021-09-30',
         from_date: moment().startOf('month').format('YYYY-MM-DD'),
         to_date: moment().endOf('month').format('YYYY-MM-DD'),
         page: { current: 1, pageSize: 10, total: null }
       },
       loading: true,
       columns: [
-        // {
-        //   title: this.$t('Иконка'),
-        //   // dataIndex: 'currency'
-        //   scopedSlots: { customRender: 'currency' },
-        //   align: 'center',
-        //   width: '200px'
-        // },
         {
           title: this.$t('Филиал'),
           // dataIndex: 'first_name',
@@ -155,36 +133,14 @@ export default {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
             customRender: 'Филиал'
-          },
-          align: 'center'
+          }
         },
-        // {
-        //   title: this.$t('numbertransactions'),
-        //   dataIndex: 'transaction_number',
-        //   scopedSlots: {
-        //     filterDropdown: 'TransactionNumber',
-        //     filterIcon: 'filterIcon',
-        //     customRender: 'transaction_number' },
-        //   align: 'center'
-        // },
-        // {
-        //   title: this.$t('acountnumber'),
-        //   dataIndex: 'account_number',
-        //   scopedSlots: {
-        //     filterDropdown: 'AccountNumber',
-        //     filterIcon: 'filterIcon',
-        //     customRender: 'transaction_number' },
-        //   align: 'center'
-        // },
         {
           title: this.$t('Сотрудник'),
-          // dataIndex: 'name',
-          align: 'center',
           scopedSlots: { customRender: 'Сотрудник' }
         },
         {
           title: this.$t('Должность'),
-          align: 'center',
           scopedSlots: {
             filterDropdown: 'Aккаунта',
             filterIcon: 'filterIcon',
@@ -199,7 +155,7 @@ export default {
             filterIcon: 'filterIcon',
             customRender: 'Отсутствующие'
           },
-          align: 'center'
+          width: 210
         },
         {
           title: this.$t('Опоздал(а) на х минут'),
@@ -209,7 +165,7 @@ export default {
             filterIcon: 'filterIcon',
             customRender: 'Опоздал'
           },
-          align: 'center'
+          width: 210
         }
       ]
     }
@@ -224,6 +180,13 @@ export default {
     }
   },
   methods: {
+    // userType (item) {
+    //   switch (item) {
+    //     case 'director': return
+    //     case 'consultant': return 'Консультант'
+    //     case 'counteragent': return 'Встречный агент'
+    //   }
+    // },
     customRowClick (record) {
       return {
         on: {
