@@ -10,26 +10,58 @@ const rollcall = {
   state: {
     activTab: 1,
     rollCollList: [],
+    insideTab: [],
+    insidePagination: {},
     rollcollPagination: {},
     trnseferList: [],
     trnseferListTabLisTwo: [],
-    trnseferListTabLisThee: [],
+    complited: [],
     tronferPagination: {},
     tronferPaginationTabLisTwo: {},
-    tronferPaginationTabLisThee: {}
+    complitedPagnation: {},
+    AllPagination: {},
+    AllList: [],
+    Accepted: [],
+    AcceptedPagination: {},
+    rejected: [],
+    rejectedPagination: {}
   },
   getters: {
+    rejected: state => state.rejected,
+    rejectedPagination: state => state.rejectedPagination,
+    accepted: state => state.Accepted,
+    acceptedPagnation: state => state.AcceptedPagination,
+    allList: state => state.AllList,
+    allPagination: state => state.AllPagination,
     activTab: state => state.activTab,
     tronferPagination: state => state.tronferPagination,
     trnseferList: state => state.trnseferList,
     trnseferListTabLisTwo: state => state.trnseferListTabLisTwo,
     tronferPaginationTabLisTwo: state => state.tronferPaginationTabLisTwo,
-    tronferPaginationTabLisThee: state => state.tronferPaginationTabLisThee,
-    trnseferListTabLisThee: state => state.trnseferListTabLisThee,
+    complitedPagnation: state => state.complitedPagnation,
+    complited: state => state.complited,
     rollCollList: state => state.rollCollList,
     rollcollPagination: state => state.rollcollPagination
   },
   mutations: {
+    REJECTED_LIST: (state, payload) => {
+      state.rejected = payload
+    },
+    REJECTED_PAGINATION: (state, payload) => {
+      state.rejectedPagination = payload
+    },
+    ACCEPTED_LIST: (state, payload) => {
+      state.Accepted = payload
+    },
+    ACCEPTED_LIST_PAGINATION: (state, payload) => {
+      state.AcceptedPagination = payload
+    },
+    INSIDE_TAB: (state, payload) => {
+      state.insideTab = payload
+    },
+    INSIDE_TAB_PAGINATION: (state, payload) => {
+      state.insidePagination = payload
+    },
     ACTIVE_TAB: (state, paylaod) => {
       state.activTab = paylaod
     },
@@ -45,17 +77,23 @@ const rollcall = {
     TRANSFER_TAB_LIST_TWO_PAGINATION: (state, payload) => {
       state.tronferPaginationTabLisTwo = payload
     },
-    TRANSFER_TAB_LIST_THEE_PAGINATION: (state, payload) => {
-      state.tronferPaginationTabLisThee = payload
+    COMPLITED_PAGINATION: (state, payload) => {
+      state.complitedPagnation = payload
     },
-    TRANSFER_TAB_LIST_THEE: (state, payload) => {
-      state.trnseferListTabLisThee = payload
+    COMPLITED_LIST: (state, payload) => {
+      state.complited = payload
     },
     Pagination: (state, payload) => {
       state.rollcollPagination = payload
     },
     TransferPagination: (state, payload) => {
       state.tronferPagination = payload
+    },
+    Get_All: (state, paylod) => {
+      state.AllList = paylod
+    },
+    ALL_Pagination: (state, payload) => {
+      state.AllPagination = payload
     }
   },
   actions: {
@@ -86,25 +124,99 @@ const rollcall = {
       })
     },
     TransferGetAll ({ commit }, payload) {
-      const { page } = payload
       return new Promise((resolve, reject) => {
         request({
           url: `${base_url.transfer}`,
           method: 'get',
           params: {
-            statuses: payload.statuses,
-            type: 'relocation',
-            limit: page.pageSize,
-            page: page.current,
-            from_date: payload.from_date,
-            to_date: payload.to_date
+            ...payload
           }
         })
           .then(res => {
             resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit,
+              total: null
+            }
             page.total = parseInt(res.count)
             commit('Transfer_Get_All', res.orders)
             commit('TransferPagination', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    AllTabList ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            ...payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit
+            }
+            page.total = parseInt(res.count)
+            commit('Get_All', res.orders)
+            commit('ALL_Pagination', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    AllTabListAccepted ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            ...payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit
+            }
+            page.total = parseInt(res.count)
+            commit('ACCEPTED_LIST', res.orders)
+            commit('ACCEPTED_LIST_PAGINATION', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    AllTabListRejected ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+            ...payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit
+            }
+            page.total = parseInt(res.count)
+            commit('REJECTED_LIST', res.orders)
+            commit('REJECTED_PAGINATION', page)
             console.log('=======================', res)
           })
           .catch(error => {
@@ -137,7 +249,7 @@ const rollcall = {
           })
       })
     },
-    TransferGetAllTheeTab ({ commit }, payload) {
+    InsisdeGetAllTwoTab ({ commit }, payload) {
       const { page } = payload
       return new Promise((resolve, reject) => {
         request({
@@ -147,16 +259,40 @@ const rollcall = {
             statuses: payload.statuses,
             type: 'relocation',
             limit: page.pageSize,
-            page: page.current,
-            from_date: payload.from_date,
-            to_date: payload.to_date
+            page: page.current
           }
         })
           .then(res => {
             resolve(res)
+            page.total = parseInt(res.count)
+            commit('INSIDE_TAB', res.orders)
+            commit('INSIDE_TAB_PAGINATION', page)
+            console.log('=======================', res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    TransferGetAllTheeTab ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.transfer}`,
+          method: 'get',
+          params: {
+           ...payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit,
+              total: null
+            }
             page.total = res.count
-            commit('TRANSFER_TAB_LIST_THEE', res.orders)
-            commit('TRANSFER_TAB_LIST_THEE_PAGINATION', page)
+            commit('COMPLITED_LIST', res.orders)
+            commit('COMPLITED_PAGINATION', page)
             console.log('=======================', res)
           })
           .catch(error => {
