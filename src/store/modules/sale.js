@@ -229,6 +229,25 @@ const Sale = {
           })
       })
     },
+    getUserList ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.user}`,
+          method: 'get',
+          params: {
+            page: 1,
+            limit: 100,
+            ...payload
+          }
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     customersSearch ({ commit }, search) {
       return new Promise((resolve, reject) => {
         request({

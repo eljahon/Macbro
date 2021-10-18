@@ -37,15 +37,41 @@
           :customRow="customRowClick"
           bordered
         >
-          <div slot="Aккаунта" style="padding: 8px; width: 230px;">
+          <div slot="userType" style="padding: 8px; width: 230px;">
             <a-select
-              :placeholder="$t('Тип аккаунта')"
+              :placeholder="$t('Должность')"
               style="width: 220px"
-              @change="AccountTypeSearch"
+              @change="userTypeSearch"
               allowClear
             >
-              <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">
-                {{ catigoriya.name }}
+              <a-select-option v-for="(item, index) of AccountGrups" :key="index" :value="item.id">
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div slot="minutes" style="padding: 8px; width: 230px;">
+<!--            <a-select-->
+<!--              style="width: 200px"-->
+<!--              show-search-->
+<!--              allowClear-->
+<!--              @change="searchUsersIdCansled"-->
+<!--              :filter-option="false"-->
+<!--              :not-found-content="fetching ? undefined : null"-->
+<!--              :placeholder="`Сотрудник`"-->
+<!--              :options="listmitut"-->
+<!--              @search="searchUsersCanceld"-->
+<!--              v-model="params.user_id"-->
+<!--            />-->
+            <a-select
+              :placeholder="$t('Отсутствующие дни')"
+              style="width: 220px"
+              show-search
+              @change="userTypeSearch"
+              allowClear
+              @search="CancelMiut"
+            >
+              <a-select-option v-for="(item, index) of listmitut" :key="index" :value="item">
+                {{ item }} {{' Минуты'}}
               </a-select-option>
             </a-select>
           </div>
@@ -59,6 +85,40 @@
               style="width: 188px; margin-bottom: 8px; display: block;"
             />
           </div>
+          <div
+            slot="branchDropdown"
+            style="padding: 8px"
+          >
+            <a-select
+              style="width: 200px"
+              show-search
+              allowClear
+              @change="searchBranchId"
+              :filter-option="false"
+              :not-found-content="fetching ? undefined : null"
+              :placeholder="`Филиал`"
+              :options="branchList"
+              @search="searchBranch"
+              v-model="params.branch_id"
+            />
+          </div>
+          <div
+            slot="userDropdown"
+            style="padding: 8px"
+          >
+            <a-select
+              style="width: 200px"
+              show-search
+              allowClear
+              @change="searchUsersId"
+              :filter-option="false"
+              :not-found-content="fetching ? undefined : null"
+              :placeholder="`Сотрудник`"
+              :options="userList"
+              @search="searchUsers"
+              v-model="params.user_id"
+            />
+          </div>
           <a-icon
             style="font-size: 20px; color: transparent; background-color: transparent"
             slot="filterIcon"
@@ -70,7 +130,8 @@
             <span v-else style="color: gray">Нет филиала...</span>
           </template>
           <template slot="Сотрудник" slot-scope="text, row">
-            <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>
+            <table-user-column :image="row.user.profile_image.includes('https') ? row.user.profile_image : img" :name="`${row.user.last_name } ${row.user.first_name}`" :type="userType[row.user.user_type]" :phone="row.user.phone_number"/>
+<!--            <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>-->
           </template>
           <template slot="Должность" slot-scope="text, row">
             <span>{{  userType[row.user.user_type]}}</span>
@@ -81,10 +142,6 @@
           <template slot="Опоздал" slot-scope="text, row">
             <span>{{ checkField(row.visit_report, 'absent', 'total_diff') }}</span>
           </template>
-          <!--          <template slot="account_group_id" slot-scope="text, row">-->
-          <!--            &lt;!&ndash;            <a-tag color="blue"><span v-for="(account,index) in row.subaccounts" :key="index">{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>&ndash;&gt;-->
-          <!--            <a-tag color="blue"><span>{{ row.subaccounts.length ? account.type : 'Кассир' }}</span></a-tag>-->
-          <!--          </template>-->
         </a-table>
       </div>
     </a-card>
@@ -95,21 +152,36 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import myIcons from '@/core/icons'
+import img from '../../../assets/Ellipse 9.png'
+import TableUserColumn from '@/components/TableUserColumn/TableUserColumn.vue'
 export default {
+  components: {
+    TableUserColumn
+  },
   data () {
     return {
+      img: img,
+      fetching: false,
+      branchList: [],
+      userList: [],
+      prcalichkaList: [],
       myIcons,
       AccountGrups: [
-        { id: '1', name: 'Касса' },
-        { id: '2', name: 'Контрагент' },
-        { id: '3', name: 'Клиент' },
-        { id: '4', name: 'Сотрудники' },
-        { id: '5', name: 'Компания' }
+        { id: 'director', name: 'Директор' },
+        { id: 'consultant', name: 'Консультант' },
+        { id: 'counteragent', name: 'Контрагент' },
+        { id: 'admin', name: 'Кассир' },
+        { id: 'manager', name: 'Администратор' },
+        { id: 'courier', name: 'Менеджер' },
+        { id: 'client', name: 'Курьер' },
+        { id: 'postavshik', name: 'Клиент' },
+        { id: 'investor', name: 'Поставщик' },
+        { id: 'cashier', name: 'Кассир' }
       ],
       userType: {
         'director': 'Директор',
           'consultant': 'Консультант',
-          'counteragent': 'Встречный агент',
+          'counteragent': 'Контрагент',
           'cashier': 'Кассир',
           'admin': 'Администратор',
           'manager': 'Менеджер',
@@ -118,11 +190,19 @@ export default {
           'postavshik': 'Поставщик',
           ' investor': 'Инвестор'
       },
+      page: { current: 1, pageSize: 10, total: null },
       params: {
         search: '',
+        branch_id: '',
+        company_id: '',
+        user_type: '',
+        user_id: '',
+        late_time_diff: '',
+        absent_days_diff: '',
         from_date: moment().startOf('month').format('YYYY-MM-DD'),
         to_date: moment().endOf('month').format('YYYY-MM-DD'),
-        page: { current: 1, pageSize: 10, total: null }
+        limit: 10,
+        page: 1
       },
       loading: true,
       columns: [
@@ -130,28 +210,35 @@ export default {
           title: this.$t('Филиал'),
           // dataIndex: 'first_name',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
+            filterDropdown: 'branchDropdown',
             filterIcon: 'filterIcon',
             customRender: 'Филиал'
-          }
+          },
+          width: 220
         },
         {
           title: this.$t('Сотрудник'),
-          scopedSlots: { customRender: 'Сотрудник' }
+          scopedSlots: {
+            customRender: 'Сотрудник',
+            filterDropdown: 'userDropdown',
+            filterIcon: 'filterIcon'
+          },
+          width: 220
         },
         {
           title: this.$t('Должность'),
           scopedSlots: {
-            filterDropdown: 'Aккаунта',
+            filterDropdown: 'userType',
             filterIcon: 'filterIcon',
-            customRender: 'Должность' }
+            customRender: 'Должность' },
+          width: 220
           // dataIndex: 'account_number',
         },
         {
           title: this.$t('Отсутствующие дни'),
           key: 'action',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
+            filterDropdown: 'minutes',
             filterIcon: 'filterIcon',
             customRender: 'Отсутствующие'
           },
@@ -167,7 +254,8 @@ export default {
           },
           width: 210
         }
-      ]
+      ],
+      listmitut: [1, 3, 5, 10]
     }
   },
   computed: {
@@ -180,13 +268,59 @@ export default {
     }
   },
   methods: {
-    // userType (item) {
-    //   switch (item) {
-    //     case 'director': return
-    //     case 'consultant': return 'Консультант'
-    //     case 'counteragent': return 'Встречный агент'
-    //   }
-    // },
+    ...mapActions(['getBranchList', 'getUserList']),
+    searchBranchId (val, data) {
+      console.log('=====', val, data)
+      this.params.branch_id = val
+      this.params.company_id = data.data.props.companyId
+      this.rollCallGetListAll()
+    },
+    searchUsersId (val, data) {
+      console.log('=====', val, data)
+      this.params.user_id = val
+      this.params.company_id = data.data.props.companyId
+      this.rollCallGetListAll()
+    },
+    searchUsersIdCansled (val, data) {
+      console.log('=====', val, data)
+      this.params.late_time_diff = val
+      this.params.company_id = data.data.props.companyId
+      this.rollCallGetListAll()
+    },
+    searchUsersCanceld (val) {
+      console.log('=====', val)
+      this.params.late_time_diff = val
+      // this.params.company_id = data.data.props.companyId
+      this.rollCallGetListAll()
+    },
+    searchBranch (value) {
+      this.getBranchList({ name: value }).then(res => {
+        console.log(res.branches)
+        const branches = res.branches
+        this.branchList = branches.map(branch => ({
+          label: branch.name,
+          value: branch.warehouse_id,
+          companyId: branch.company_id
+        }))
+      })
+    },
+    searchUsers (value) {
+      this.loading = true
+      this.getUserList({ search: value }).then(res => {
+        console.log(res.users)
+        const users = res.users
+        this.userList = users.map(user => ({
+          label: `${user.first_name} ${user.last_name}`,
+          value: user.id,
+          companyId: user.company_id
+        }))
+      }).catch(error => {
+        console.log(error)
+        this.userList = []
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     customRowClick (record) {
       return {
         on: {
@@ -211,32 +345,18 @@ export default {
       console.log(this.params)
       this.rollCallGetListAll()
     },
-    AccountTypeSearch (val) {
-      this.params.account_group_id = val
+    userTypeSearch (val, data) {
+      console.log(data)
+      this.params.user_type = val
       this.rollCallGetListAll()
+    },
+    CancelMiut (val) {
+      console.log(val)
     },
     AccountSearch (val) {
       this.params.account_number = val
       this.rollCallGetListAll()
     },
-    // AcountCreate () {
-    //   this.$router.push({ name: 'AcountCreate' })
-    // // },
-    // onChangepicker (val, event) {
-    //   console.log(val, event)
-    //   this.params.start_date = event[0]
-    //   this.params.end_date = event[1]
-    //   this.TrGetListAll()
-    // },
-    // sortDublicat (array) {
-    //   const unique = []
-    //   array.forEach((item) => {
-    //     if (!unique.includes(item.payment_type)) {
-    //       unique.push(item.payment_type)
-    //     }
-    //   })
-    //   return unique
-    // },
     moment,
     ...mapActions(['getRollCollAll']),
     rollCallGetListAll () {
@@ -251,10 +371,6 @@ export default {
       this.params.search = value
       this.rollCallGetListAll()
     },
-    // AccountGlobalSeach (val) {
-    //   this.params.search = val
-    //   this.rollCallGetListAll()
-    // },
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
       console.log(pagination)
@@ -263,6 +379,8 @@ export default {
   },
   mounted () {
     this.rollCallGetListAll()
+    this.searchBranch()
+    this.searchUsers()
   },
   created () {
   }
