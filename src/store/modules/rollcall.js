@@ -98,21 +98,21 @@ const rollcall = {
   },
   actions: {
     getRollCollAll ({ commit }, payload) {
-      const { page } = payload
       return new Promise((resolve, reject) => {
         request({
           url: `${base_url.rollcallget}`,
           method: 'get',
           params: {
-            from_date: payload.from_date,
-            to_date: payload.to_date,
-            page: page.current,
-            limit: page.pageSize,
-            search: payload.search
+            ...payload
           }
         })
           .then(res => {
             resolve(res)
+            const page = {
+              current: payload.page,
+              pageSize: payload.limit,
+              total: null
+            }
             page.total = res.count
             commit('Pagination', page)
             console.log('========', res.user_journaling_report_items)
