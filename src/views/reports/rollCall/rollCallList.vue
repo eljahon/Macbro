@@ -50,27 +50,29 @@
             </a-select>
           </div>
           <div slot="minutes" style="padding: 8px; width: 230px;">
-<!--            <a-select-->
-<!--              style="width: 200px"-->
-<!--              show-search-->
-<!--              allowClear-->
-<!--              @change="searchUsersIdCansled"-->
-<!--              :filter-option="false"-->
-<!--              :not-found-content="fetching ? undefined : null"-->
-<!--              :placeholder="`Сотрудник`"-->
-<!--              :options="listmitut"-->
-<!--              @search="searchUsersCanceld"-->
-<!--              v-model="params.user_id"-->
-<!--            />-->
             <a-select
               :placeholder="$t('Отсутствующие дни')"
               style="width: 220px"
               show-search
-              @change="userTypeSearch"
+              @change="userTypeSearchA"
               allowClear
               @search="CancelMiut"
             >
               <a-select-option v-for="(item, index) of listmitut" :key="index" :value="item">
+                {{ item }} {{' Минуты'}}
+              </a-select-option>
+            </a-select>
+          </div>  <div slot="opazdal" style="padding: 8px; width: 230px;">
+            <a-select
+              :placeholder="$t('Опоздал(а) на х минут')"
+              style="width: 220px"
+              show-search
+              @change="userTypeSearchC"
+              allowClear
+              @search="CancelMiutC"
+              v-model="params.late_time_diff"
+            >
+              <a-select-option v-for="(item, index) of opazdal" :key="index" :value="item">
                 {{ item }} {{' Минуты'}}
               </a-select-option>
             </a-select>
@@ -248,14 +250,15 @@ export default {
           title: this.$t('Опоздал(а) на х минут'),
           key: 'werree',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
+            filterDropdown: 'opazdal',
             filterIcon: 'filterIcon',
             customRender: 'Опоздал'
           },
           width: 210
         }
       ],
-      listmitut: [1, 3, 5, 10]
+      listmitut: [1, 3, 5, 10],
+      opazdal: [5, 10, 15, 20, 30]
     }
   },
   computed: {
@@ -350,8 +353,21 @@ export default {
       this.params.user_type = val
       this.rollCallGetListAll()
     },
+    userTypeSearchC (val) {
+      this.params.late_time_diff = val
+      this.rollCallGetListAll()
+    },
+    userTypeSearchA (val) {
+      this.params.absent_days_diff = val
+      this.rollCallGetListAll()
+    },
     CancelMiut (val) {
-      console.log(val)
+      this.params.absent_days_diff = val
+      this.rollCallGetListAll()
+    },
+    CancelMiutC (val) {
+      this.params.late_time_diff = val
+      this.rollCallGetListAll()
     },
     AccountSearch (val) {
       this.params.account_number = val
