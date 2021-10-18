@@ -46,6 +46,7 @@ import rollcall from '@/store/modules/rollcall'
 import coming from '@/store/modules/coming'
 import sale from '@/store/modules/sale'
 import parishes from '@/store/modules/parishes'
+import writing from '@/store/modules/writingStore'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -56,6 +57,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     app,
+    writing,
     reports,
     products,
     parishes,

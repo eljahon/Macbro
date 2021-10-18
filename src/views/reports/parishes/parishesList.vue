@@ -23,6 +23,7 @@
       <a-table
         style="margin-top: 30px; cursor: pointer"
         bordered
+        :rowKey="row => row.id "
         :pagination="pagination"
         :loading="loading"
         @change="tableChangeHandler"
@@ -154,6 +155,7 @@ export default {
     TableUserColumn
   },
   data: () => ({
+    fetching: false,
     date: [moment().startOf('month'), moment().endOf('month')],
     tableData: null,
     branchList: [],

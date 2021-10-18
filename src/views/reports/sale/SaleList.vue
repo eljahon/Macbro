@@ -47,6 +47,11 @@ export default {
   },
   data: () => ({
     date: [moment().startOf('month'), moment().endOf('month')]
-  })
+  }),
+  methods: {
+    callback (key) {
+      console.log(key)
+    }
+  }
 }
 </script>

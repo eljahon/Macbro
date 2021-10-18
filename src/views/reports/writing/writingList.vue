@@ -1,92 +1,158 @@
 <template>
-  <a-card>
-    <div slot="title">{{$t('writing')}}</div>
+  <div v-if="rendertype" style="background-color: transparent; position: relative">
+    <a-spin style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" size="large" />
+  </div>
+  <a-card v-else>
+    <div slot="title">{{ $t('writing') }}</div>
     <div slot="extra" style="display: flex; gap: 5px">
       <a-input v-model="params.search" v-debounce="Search">
         <a-icon @click="Searches" style="color: blue" slot="addonAfter" type="search" />
       </a-input>
-      <a-button  icon="dowlond" style="background-color: #1890FF; color: white; border:none">
+      <a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
         <a-icon :component="myIcons.excal"></a-icon></a-button>
     </div>
     <a-card>
-      <a-table
-        style="margin-top: 30px; cursor: pointer"
+      <table-companenet
+        v-if="render"
         :columns="columns"
-        :rowKey="() => Math.random()"
-        :dataSource="GetwritingData"
-        :pagination="getFullPagination"
+        :customRowClick="customRowClick"
+        @handleTableChange="handleTableChange"
+        :dataSource="getwritingData"
+        :getPagination="getPagination"
+        :branchList="branchList"
+        @searchBranch="searchBranch"
+        :handleBranch="handleBranch"
         :loading="loading"
-        :customRow="customRowClick"
-        @change="handleTableChangeOfline"
-        test-attr="list-customer"
-        bordered
-      >
-        <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-          <a-select
-            :placeholder="$t('Тип аккаунта')"
-            style="width: 220px"
-            allowClear
-          >
-          </a-select>
-        </div>
-        <div
-          slot="аккаунта"
-          style="padding: 8px"
-        >
-          <a-input-number
-            :placeholder="`ИД. аккаунта`"
-          />
-        </div>
-        <a-icon
-          style="font-size: 20px; color: transparent; background-color: transparent"
-          slot="filterIcon"
-          class="filter-dropdown-icon"
-          :component="$myIcons.filterDownIcon"
-        />
-        <template slot="Статус" slot-scope="text, row">
-          <a-tag :color="row.status === 'sold' ? 'blue' : ''">{{ row.status === 'sold' ? 'Продано' : 'Бронировано' }}</a-tag>
+        :userList="userList"
+        @searchUser="searchUsers"
+        @selectUser="selectUser"
+        @selectBranch="searchBranchId"
+        @handelStatus="status"
 
-          <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
-        </template>
-        <template slot="cutomer" slot-scope="text, row">
-          <span>{{ row.customer.firstname === '' ? '' : row.customer.firstname }}{{ row.customer.lastname === '' ? '' :row.customer.lastname }}</span>
-        </template>
-        <template slot="Кол" slot-scope="text, row">
-          <span>{{ SummCount(row.items) }}</span>
-        </template>
-        <template slot="Сумма" slot-scope="text, row">
-          <!--              <span>{{'$'}}{{ numberToPrices(row.total_amount) }}</span>-->
-          <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.total_amount) }}</span>
-        </template>
-      </a-table>
+      />
+
     </a-card>
   </a-card>
 </template>
 
 <script>
 import myIcons from '@/core/icons'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import Table from './Table'
+import moment from 'moment'
 
 export default {
+  components: {
+    'table-companenet': Table
+  },
   data () {
     return {
       myIcons,
       loading: false,
-      columns: [],
+      banchList: [],
+      userList: [],
+      render: false,
+      rendertype: true,
+      columns: [
+        {
+          title: 'ИД заказа',
+          dataIndex: 'number',
+          key: 'number',
+          width: 150,
+          scopedSlots: {
+            filterDropdown: 'numberDropdown',
+            filterIcon: 'filterIcon'
+          }
+        },
+        {
+          title: 'Филиал',
+          dataIndex: 'branch_name',
+          key: 'branch_name',
+          scopedSlots: {
+            filterDropdown: 'branchDropdown',
+            filterIcon: 'filterIcon'
+          }
+        },
+        {
+          title: 'Покупатель',
+          scopedSlots: {
+            customRender: 'customer',
+            filterDropdown: 'userDropdown',
+            filterIcon: 'filterIcon'
+          }
+        },
+        {
+          title: 'Статус',
+          scopedSlots: {
+            customRender: 'statuses',
+            filterDropdown: 'statusDropdown',
+            filterIcon: 'filterIcon'
+          }
+        },
+        {
+          title: 'Кол-во',
+          dataIndex: 'items_count',
+          key: 'items_count',
+          width: 100
+        },
+        {
+          title: 'Сумма',
+          key: 'sum',
+          scopedSlots: {
+            customRender: 'sum'
+          }
+        }
+      ],
+      page: { current: 1, pageSize: 10, total: null },
       params: {
         search: '',
-        page: { current: 1, pageSize: 10, total: null }
+        date_from: moment().startOf('month').format('YYYY-MM-DD'),
+        date_to: moment().endOf('month').format('YYYY-MM-DD'),
+        page: 1,
+        limit: 10,
+        number: '',
+        warehouse_id: '',
+        cashier_id: '',
+        causer_id: '',
+        status: ''
       }
     }
   },
   computed: {
-    GetwritingData () {
-      return []
+    ...mapGetters(['allListWriting', 'allPaginationWriting']),
+    getwritingData () {
+      return this.allListWriting
+    },
+    getPagination () {
+      return this.allPagination
     }
   },
   methods: {
-    ...mapActions(['writingList']),
-    handleTableChangeOfline (paginotion) {
+    ...mapActions(['writingList', 'getBranchList', 'getUserList']),
+    moment,
+    searchUsers (value) {
+      this.loading = true
+      return this.getUserList({ search: value }).then(res => {
+        console.log(res.users)
+        const users = res.users
+        this.userList = users.map(user => ({
+          label: `${user.first_name} ${user.last_name}`,
+          value: user.id,
+          companyId: user.company_id
+        }))
+      }).catch(error => {
+        console.log(error)
+        this.userList = []
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    searchBranchId (data) {
+      console.log(data)
+      this.params.warehouse_id = data.id
+      this.writingGetAllList()
+    },
+    handleTableChange (paginotion) {
       this.loading = true
       this.params.page = { ...paginotion }
       this.writingGetAllList()
@@ -101,19 +167,50 @@ export default {
     },
     Search (val) {
       console.log(val)
+      this.writingGetAllList()
     },
     Searches (val) {
       console.log(val)
     },
+    searId (val) {
+      console.log(val)
+    },
+    status (value) {
+      this.params.status = value
+      this.writingGetAllList()
+    },
     writingGetAllList () {
       this.loading = true
-      this.writingList(this.params)
-      .finally(() => {
-        this.loading = false
+     return this.writingList(this.params)
+       .finally(() => {
+         this.loading = false
+       })
+    },
+    searchBranch (value) {
+      return this.getBranchList({ name: value }).then(res => {
+        const branches = res.branches.length ? res.branches : []
+        this.branchList = branches?.map(branch => ({
+          label: branch.name,
+          value: branch.warehouse_id
+        }))
+        this.render = true
+        this.rendertype = false
+        // console.log('this.banchList ==>>', this.branchList)
       })
+    },
+    handleBranch (value, data) {
+      console.log(value, data)
+    },
+    selectUser (data) {
+      this.params.cashier_id = data.id
+      this.writingGetAllList()
     }
   },
   mounted () {
+    Promise.all([
+      this.writingGetAllList(),
+      this.searchBranch(),
+      this.searchUsers()])
   }
 }
 </script>
