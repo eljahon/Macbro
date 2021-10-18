@@ -5,12 +5,12 @@
 // }
 const Coming = {
   state: {
-    rollCollList: [],
-    rollcollPagination: {}
+    rollCollList: []
+    // rollcollPagination: {}
   },
   getters: {
-    rollCollList: state => state.rollCollList,
-    rollcollPagination: state => state.rollcollPagination
+    rollCollList: state => state.rollCollList
+    // rollcollPagination: state => state.rollcollPagination
   },
   mutations: {
     GET_ROLL_COLL_ALL_DATA: (state, payload) => {

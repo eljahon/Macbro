@@ -2,6 +2,7 @@
   <a-table
     style="margin-top: 30px; cursor: pointer"
     bordered
+    :rowKey="row => row.id "
     :pagination="pagination"
     :loading="loading"
     @change="tableChangeHandler"
@@ -130,6 +131,7 @@ export default {
   data: () => ({
     tableData: null,
     branchList: [],
+    fetching: false,
     customerList: [],
     merchantList: [],
     statusList: [{ value: 'booked', label: 'booked' }, { value: 'sold', label: 'sold' }],
