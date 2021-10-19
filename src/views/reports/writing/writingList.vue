@@ -28,6 +28,7 @@
         @selectUser="selectUser"
         @selectBranch="searchBranchId"
         @handelStatus="status"
+        @number="searcherNumber"
 
       />
 
@@ -58,7 +59,7 @@ export default {
           title: 'ИД заказа',
           dataIndex: 'number',
           key: 'number',
-          width: 150,
+          width: 220,
           scopedSlots: {
             filterDropdown: 'numberDropdown',
             filterIcon: 'filterIcon'
@@ -203,6 +204,10 @@ export default {
     },
     selectUser (data) {
       this.params.cashier_id = data.id
+      this.writingGetAllList()
+    },
+    searcherNumber (val) {
+      this.params.number = val
       this.writingGetAllList()
     }
   },

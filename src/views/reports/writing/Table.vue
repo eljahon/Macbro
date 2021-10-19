@@ -58,6 +58,8 @@
       style="padding: 8px"
     >
       <a-input-number
+        style="width: 220px"
+        v-debounce="seracherNumber"
         :placeholder="`ИД. аккаунта`"
       />
     </div>
@@ -123,6 +125,9 @@ export default {
     },
     handleStatus (val) {
       this.$emit('handelStatus', val)
+    },
+    seracherNumber (val) {
+      this.$emit('number', val)
     }
   }
 }

@@ -47,14 +47,10 @@
       </div>
       <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
         <div>
-          <!--          <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>-->
-          <!--          <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>-->
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Оплачено</span></p>
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>сумма</span></p>
         </div>
         <div>
-          <!--          <p><b>Макбро Малика</b></p>-->
-          <!--          <p><b>10.03.2021, 17:30</b></p>-->
           <p><b>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.paid_amount.usd) }}</b></p>
           <p><b>{{ new Intl.NumberFormat().format(list.billing.paid_amount.uzs) }} {{ "so'm" }}</b></p>
 
@@ -76,34 +72,6 @@
             :pagination="false"
             bordered
           >
-            <!--                <div slot="Aккаунта" style="padding: 8px; width: 230px;">-->
-            <!--                  <a-select-->
-            <!--                    :placeholder="$t('Тип аккаунта')"-->
-            <!--                    style="width: 220px"-->
-            <!--                    @change="AccountTypeSearch"-->
-            <!--                    allowClear-->
-            <!--                  >-->
-            <!--                    <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">-->
-            <!--                      {{ catigoriya.name }}-->
-            <!--                    </a-select-option>-->
-            <!--                  </a-select>-->
-            <!--                </div>-->
-            <!--                <div-->
-            <!--                  slot="аккаунта"-->
-            <!--                  style="padding: 8px"-->
-            <!--                >-->
-            <!--                  <a-input-number-->
-            <!--                    :placeholder="`ИД. аккаунта`"-->
-            <!--                    v-debounce="AccountSearch"-->
-            <!--                    style="width: 188px; margin-bottom: 8px; display: block;"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <a-icon-->
-            <!--                  style="font-size: 20px; color: transparent; background-color: transparent"-->
-            <!--                  slot="filterIcon"-->
-            <!--                  class="filter-dropdown-icon"-->
-            <!--                  :component="$myIcons.filterDownIcon"-->
-            <!--                />-->
             <template slot="tavar" slot-scope="text, row">
               <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
                 <img style="object-fit: cover" :src="row.product_image" alt="imgId">
@@ -142,35 +110,35 @@
               <span>{{ row.payment[0].payment_type }}</span>
             </template>
           </a-table>
+          <br>
+          <h1 style='color: black'><b>Фото по тип оплаты</b></h1> <br>
+          <a-card style='border-left: none; border-right: none; border-bottom: none'>
+            <div style='display: flex; gap: 30px'>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/Rectangle1487.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
+            </div>
+          </a-card>
+          <h1 style='color: black;'><b>Комментарии</b></h1> <br>
+          <a-card style='border-left: none; border-right: none; border-bottom: none'>
+            <p style='width: 55%; padding: 9px; background-color:#F7F7FB; color: black; border-radius: 3px; '>{{list.branch.description}}</p>
+          </a-card>
         </a-tab-pane>
       </a-tabs>
     </div>
-    <br>
-    <h1 style='color: black'><b>Фото по тип оплаты</b></h1> <br>
-<a-card style='border-left: none; border-right: none; border-bottom: none'>
-  <div style='display: flex; gap: 30px'>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/colorwhite.png' alt=''>
-    </div>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/Rectangle1487.png' alt=''>
-    </div>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/colorwhite.png' alt=''>
-    </div>
-<!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
-  </div>
-</a-card>
-    <h1 style='color: black;'><b>Комментарии</b></h1> <br>
-<a-card style='border-left: none; border-right: none; border-bottom: none'>
-  <p style='width: 55%; padding: 9px; background-color:#F7F7FB; color: black; border-radius: 3px; '>At enim feugiat at dolor dictum. Eu amet nec lorem eget eget ut malesuada facilisi. Cras lorem est ultricies vitae facilisi dis in nisl turpis. Mattis amet quam id id turpis quam scelerisque. Nulla sapien aenean natoque massa, odio dolor, est imperdiet. Nisi, suscipit ipsum semper sagittis. Vulputate dignissim vitae eget quam sagittis.</p>
-</a-card>
   </a-card>
 </template>
 
