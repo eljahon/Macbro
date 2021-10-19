@@ -4,7 +4,7 @@ const base_Url = {
   parishes: '/history/prixod',
   catigoriya: '/category',
   product: '/product',
-    groupped: '/product/variants-groupped',
+    groupped: '/product-variants-groupped',
   slugid: '/inventory-party/check',
   slugListItem: '/inventory-party/check-frequent'
 

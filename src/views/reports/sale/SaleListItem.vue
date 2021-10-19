@@ -14,15 +14,15 @@
     </div>
     <div slot="extra"><a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
       <a-icon :component="myIcons.excal"></a-icon></a-button></div>
-    <a-card style="border-left: 1px solid white; border-right: 1px solid white">
+    <a-card class="border">
       <div slot="title"><h4>ИД заказа: {{ list.number }}</h4></div>
     </a-card>
-    <a-card style="border-left: 1px solid white; border-right: 1px solid white">
-      <div slot="title" style='display: flex; gap: 7px; align-items: center'>
-        <img style='max-height: 30px; max-width: 30px; min-height: 30px; min-width: 30px;  border-radius: 50%' :src='list.client.profile_image' alt='clientimage'>
+    <a-card class="border">
+      <div slot="title" class="headerImg">
+        <img class="image" :src='list.client.profile_image' alt='clientimage'>
         <div>
           <h5 style='font-size: 14px'>{{ list.client.first_name }} {{ list.client.last_name }}</h5>
-          <h6 style='background-color: #F2F3F5; text-align: center; color:#818C99; border-radius: 2px; font-size: 12px '>{{ list.cashier.user_type }}</h6>
+          <h6 class="hsex">{{ list.cashier.user_type }}</h6>
         </div>
 <!--        <p>{{ list.client.first_name }} {{ list.client.last_name }}</p>-->
 <!--        <a-tag > <span style="font-size: 18px">{{ list.cashier.user_type }}</span></a-tag>-->
@@ -32,7 +32,7 @@
       </div>
     </a-card>
     <div style="display: flex; margin-top: 10px; gap: 15px">
-      <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
+      <div class="cardmin">
         <div>
           <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>
           <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>
@@ -45,16 +45,12 @@
 
         </div>
       </div>
-      <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
+      <div class="cardmin">
         <div>
-          <!--          <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>-->
-          <!--          <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>-->
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Оплачено</span></p>
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>сумма</span></p>
         </div>
         <div>
-          <!--          <p><b>Макбро Малика</b></p>-->
-          <!--          <p><b>10.03.2021, 17:30</b></p>-->
           <p><b>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.paid_amount.usd) }}</b></p>
           <p><b>{{ new Intl.NumberFormat().format(list.billing.paid_amount.uzs) }} {{ "so'm" }}</b></p>
 
@@ -62,10 +58,9 @@
       </div>
 
     </div>
-    <!--    tabs-->
     <div style="margin-top: 20px">
       <a-tabs type="card" @change="Callback">
-        <a-tab-pane v-if="$route.query.id === 1" key="1" tab="Список товаров">
+        <a-tab-pane v-if="$route.query.id === 1|| $route.query.id === '1'" key="1" tab="Список товаров">
           <a-table
             style="margin-top: 30px"
             :columns="columnsTabOne"
@@ -76,34 +71,6 @@
             :pagination="false"
             bordered
           >
-            <!--                <div slot="Aккаунта" style="padding: 8px; width: 230px;">-->
-            <!--                  <a-select-->
-            <!--                    :placeholder="$t('Тип аккаунта')"-->
-            <!--                    style="width: 220px"-->
-            <!--                    @change="AccountTypeSearch"-->
-            <!--                    allowClear-->
-            <!--                  >-->
-            <!--                    <a-select-option v-for="(catigoriya, index) in AccountGrups" :key="index" :value="catigoriya.id">-->
-            <!--                      {{ catigoriya.name }}-->
-            <!--                    </a-select-option>-->
-            <!--                  </a-select>-->
-            <!--                </div>-->
-            <!--                <div-->
-            <!--                  slot="аккаунта"-->
-            <!--                  style="padding: 8px"-->
-            <!--                >-->
-            <!--                  <a-input-number-->
-            <!--                    :placeholder="`ИД. аккаунта`"-->
-            <!--                    v-debounce="AccountSearch"-->
-            <!--                    style="width: 188px; margin-bottom: 8px; display: block;"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <a-icon-->
-            <!--                  style="font-size: 20px; color: transparent; background-color: transparent"-->
-            <!--                  slot="filterIcon"-->
-            <!--                  class="filter-dropdown-icon"-->
-            <!--                  :component="$myIcons.filterDownIcon"-->
-            <!--                />-->
             <template slot="tavar" slot-scope="text, row">
               <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
                 <img style="object-fit: cover" :src="row.product_image" alt="imgId">
@@ -142,35 +109,35 @@
               <span>{{ row.payment[0].payment_type }}</span>
             </template>
           </a-table>
+          <br>
+          <h1 style='color: black'><b>Фото по тип оплаты</b></h1> <br>
+          <a-card style='border-left: none; border-right: none; border-bottom: none'>
+            <div style='display: flex; gap: 30px'>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/Rectangle1487.png' alt=''>
+              </div>
+              <div>
+                <p style='color: black'>Payme</p>
+                <p>$500</p>
+                <img src='../../../assets/colorwhite.png' alt=''>
+              </div>
+              <!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
+            </div>
+          </a-card>
+          <h1 style='color: black;'><b>Комментарии</b></h1> <br>
+          <a-card style='border-left: none; border-right: none; border-bottom: none'>
+            <p style='width: 55%; padding: 9px; background-color:#F7F7FB; color: black; border-radius: 3px; '>{{list.branch.description}}</p>
+          </a-card>
         </a-tab-pane>
       </a-tabs>
     </div>
-    <br>
-    <h1 style='color: black'><b>Фото по тип оплаты</b></h1> <br>
-<a-card style='border-left: none; border-right: none; border-bottom: none'>
-  <div style='display: flex; gap: 30px'>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/colorwhite.png' alt=''>
-    </div>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/Rectangle1487.png' alt=''>
-    </div>
-    <div>
-      <p style='color: black'>Payme</p>
-      <p>$500</p>
-      <img src='../../../assets/colorwhite.png' alt=''>
-    </div>
-<!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
-  </div>
-</a-card>
-    <h1 style='color: black;'><b>Комментарии</b></h1> <br>
-<a-card style='border-left: none; border-right: none; border-bottom: none'>
-  <p style='width: 55%; padding: 9px; background-color:#F7F7FB; color: black; border-radius: 3px; '>At enim feugiat at dolor dictum. Eu amet nec lorem eget eget ut malesuada facilisi. Cras lorem est ultricies vitae facilisi dis in nisl turpis. Mattis amet quam id id turpis quam scelerisque. Nulla sapien aenean natoque massa, odio dolor, est imperdiet. Nisi, suscipit ipsum semper sagittis. Vulputate dignissim vitae eget quam sagittis.</p>
-</a-card>
   </a-card>
 </template>
 
@@ -288,5 +255,34 @@ data () {
 <style scoped>
 .ant-table-row ant-table-row-level-0 {
   height: 10px !important;
+}
+.headerImg {
+  display: flex;
+  gap: 7px;
+  align-items: center
+}
+.border {
+  border-left: 1px solid white; border-right: 1px solid white
+}
+.image {
+  max-height: 30px;
+  max-width: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  border-radius: 50%
+}
+.hsex{
+  background-color: #F2F3F5;
+  text-align: center;
+  color:#818C99;
+  border-radius: 2px;
+  font-size: 12px
+}
+.cardmin {
+  flex: 0 0 30%;
+  border: 1px solid #EEEEEE;
+  border-radius: 5px;
+  padding: 15px; display: flex;
+  justify-content: space-between
 }
 </style>

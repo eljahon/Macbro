@@ -273,15 +273,14 @@ export default {
   methods: {
     ...mapActions(['getBranchList', 'getUserList']),
     searchBranchId (val, data) {
-      console.log('=====', val, data)
-      this.params.branch_id = val
-      this.params.company_id = data.data.props.companyId
+      this.params.branch_id = val === undefined ? '' : val
+      this.params.company_id = data === undefined ? '' : data.data.props.companyId
       this.rollCallGetListAll()
     },
     searchUsersId (val, data) {
       console.log('=====', val, data)
-      this.params.user_id = val
-      this.params.company_id = data.data.props.companyId
+      this.params.user_id = val === undefined ? '' : val
+      this.params.company_id = data === undefined ? '' : data.data.props.companyId
       this.rollCallGetListAll()
     },
     searchUsersIdCansled (val, data) {
