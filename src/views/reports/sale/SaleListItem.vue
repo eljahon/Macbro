@@ -14,15 +14,15 @@
     </div>
     <div slot="extra"><a-button icon="dowlond" style="background-color: #1890FF; color: white; border:none">
       <a-icon :component="myIcons.excal"></a-icon></a-button></div>
-    <a-card style="border-left: 1px solid white; border-right: 1px solid white">
+    <a-card class="border">
       <div slot="title"><h4>ИД заказа: {{ list.number }}</h4></div>
     </a-card>
-    <a-card style="border-left: 1px solid white; border-right: 1px solid white">
-      <div slot="title" style='display: flex; gap: 7px; align-items: center'>
-        <img style='max-height: 30px; max-width: 30px; min-height: 30px; min-width: 30px;  border-radius: 50%' :src='list.client.profile_image' alt='clientimage'>
+    <a-card class="border">
+      <div slot="title" class="headerImg">
+        <img class="image" :src='list.client.profile_image' alt='clientimage'>
         <div>
           <h5 style='font-size: 14px'>{{ list.client.first_name }} {{ list.client.last_name }}</h5>
-          <h6 style='background-color: #F2F3F5; text-align: center; color:#818C99; border-radius: 2px; font-size: 12px '>{{ list.cashier.user_type }}</h6>
+          <h6 class="hsex">{{ list.cashier.user_type }}</h6>
         </div>
 <!--        <p>{{ list.client.first_name }} {{ list.client.last_name }}</p>-->
 <!--        <a-tag > <span style="font-size: 18px">{{ list.cashier.user_type }}</span></a-tag>-->
@@ -32,7 +32,7 @@
       </div>
     </a-card>
     <div style="display: flex; margin-top: 10px; gap: 15px">
-      <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
+      <div class="cardmin">
         <div>
           <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>
           <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>
@@ -45,7 +45,7 @@
 
         </div>
       </div>
-      <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
+      <div class="cardmin">
         <div>
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Оплачено</span></p>
           <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>сумма</span></p>
@@ -58,10 +58,9 @@
       </div>
 
     </div>
-    <!--    tabs-->
     <div style="margin-top: 20px">
       <a-tabs type="card" @change="Callback">
-        <a-tab-pane v-if="$route.query.id === 1" key="1" tab="Список товаров">
+        <a-tab-pane v-if="$route.query.id === 1|| $route.query.id === '1'" key="1" tab="Список товаров">
           <a-table
             style="margin-top: 30px"
             :columns="columnsTabOne"
@@ -256,5 +255,34 @@ data () {
 <style scoped>
 .ant-table-row ant-table-row-level-0 {
   height: 10px !important;
+}
+.headerImg {
+  display: flex;
+  gap: 7px;
+  align-items: center
+}
+.border {
+  border-left: 1px solid white; border-right: 1px solid white
+}
+.image {
+  max-height: 30px;
+  max-width: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  border-radius: 50%
+}
+.hsex{
+  background-color: #F2F3F5;
+  text-align: center;
+  color:#818C99;
+  border-radius: 2px;
+  font-size: 12px
+}
+.cardmin {
+  flex: 0 0 30%;
+  border: 1px solid #EEEEEE;
+  border-radius: 5px;
+  padding: 15px; display: flex;
+  justify-content: space-between
 }
 </style>
