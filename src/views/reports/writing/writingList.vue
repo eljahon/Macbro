@@ -75,7 +75,7 @@ export default {
           }
         },
         {
-          title: 'Покупатель',
+          title: 'Кассир',
           scopedSlots: {
             customRender: 'customer',
             filterDropdown: 'userDropdown',
