@@ -15,7 +15,7 @@
         <a-icon :component="myIcons.excal"></a-icon></a-button>
     </div>
     <a-card style="border-left: none; border-right: none; border-bottom: none">
-      <div slot="title"> <span>ИД партии: 1234-24-03-2021</span></div>
+      <div slot="title"> <span>ИД партии: {{list.number}}</span></div>
     </a-card>
     <a-card style="margin-top: 20px; border-left: none; border-right: none; border-bottom: none">
       <div style="display: flex; justify-content: space-between;">
@@ -29,22 +29,23 @@
            padding: 5px;
 "><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
            <img :src="img" alt="">
-             <span>Darlene Robertson <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
+             <span>{{list.cashier.first_name}} {{list.cashier.last_name}} <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
            </div>
         </div>
         <div style="display: flex;  flex: 0 0 30%;">
-          <div
-            style="
-          display: flex;
-          background-color: #F5F5F5;
-          border-bottom-left-radius: 9px;
-          border-top-left-radius: 9px;
-          align-items: center;
-"><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-           <img :src="img" alt="">
-           <span>Darlene Robertson <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
-         </div>
-          </div>
+          <min-card :image="list.cashier.profile_image" :name="`${list.cashier.first_name} ${list.cashier.last_name}`" :type="list.cashier.user_type"/>
+<!--          <div-->
+<!--            style="-->
+<!--          display: flex;-->
+<!--          background-color: #F5F5F5;-->
+<!--          border-bottom-left-radius: 9px;-->
+<!--          border-top-left-radius: 9px;-->
+<!--          align-items: center;-->
+<!--"><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">-->
+<!--           <img :src="img" alt="">-->
+<!--           <span>Darlene Robertson <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>-->
+<!--         </div>-->
+<!--          </div>-->
           <div
             style="
           display: flex;
@@ -223,7 +224,9 @@ import myIcons from '@/core/icons'
 import img from '../../../assets/Ellipse 9.png'
 import { mapActions } from 'vuex'
 // import { mapActions } from 'vuex'
+import mincard from '@/components/mincard/mincard'
 export default {
+  components: { mincard },
   data () {
     return {
       myIcons,
