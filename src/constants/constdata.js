@@ -10,7 +10,8 @@ const dataUseType = {
     'client': 'Клиент',
     'postavshik': 'Поставщик',
     'investor': 'Инвестор',
-    'admins': 'Админ'
+    'admins': 'Админ',
+    '': 'Кассир'
   }
 }
 export default dataUseType

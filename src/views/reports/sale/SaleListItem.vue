@@ -2,6 +2,7 @@
   <detalniy-page
     :list="list"
     :render="render"
+    :tabnot="false"
     :columnsone="columnsTabOne"
     :columnstwo="columnsTabTwo"
     :router="router"/>
@@ -41,11 +42,13 @@ data () {
       },
       {
         title: this.$t('Кол-во '),
-        scopedSlots: { customRender: 'kol' }
+        scopedSlots: { customRender: 'kol' },
+        align: 'center'
       },
       {
         title: this.$t('Цена '),
-        scopedSlots: { customRender: 'sena' }
+        scopedSlots: { customRender: 'sena' },
+        align: 'center'
       }
     ],
     columnsTabTwo: [
@@ -107,17 +110,14 @@ data () {
       .then(res => {
         console.log('res =>>', res)
         this.list = res
-        this.tableListone = res.items
         this.render = false
-        this.tableListtwo = [res.billing]
-        this.clientname = `${res.client.first_name}${' '}${res.client.last_name}`
       })
     }
    },
   mounted () {
   },
   created () {
-    if (this.$route.query.id === 1) {
+    if (parseInt(this.$route.query.id) === 1) {
       this.itemGetOrderList(this.$route.params.id)
     } else {
       this.itemIpatekaList(this.$route.params.id)

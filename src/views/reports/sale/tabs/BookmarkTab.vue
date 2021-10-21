@@ -4,6 +4,7 @@
     bordered
     :pagination="pagination"
     :loading="loading"
+    :rowKey="row => row.id "
     @change="tableChangeHandler"
     :dataSource="tableData"
     :columns="columns"
@@ -110,6 +111,7 @@ export default {
   props: ['date'],
   data: () => ({
     tableData: null,
+    fetching: false,
     branchList: [],
     customerList: [],
     merchantList: [],

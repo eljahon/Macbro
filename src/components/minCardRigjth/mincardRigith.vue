@@ -1,29 +1,26 @@
 <template>
   <div>
     <div class="mincard">
-      <div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-        <img class="image" :src="image.length > 0 ? image : img" alt="img">
-        <span class="user_name" style="font-size: 16px; color: black">{{ name === undefined || name === '' ? names : name }} <br>
+      <div class="wrapper_div">
+
+        <span class="user_name" style="font-size: 16px; color: black">{{ name.length > 0 ? name : names }} <br>
           <span
-          class="user_type">{{ datauserType.userType[type === undefined ? '' :type]
-        }}</span></span>
+            class="user_type">{{ dataUseType.userType[type === undefined? '' : type]
+          }}</span></span>
+        <img class="image" :src="image.length > 0 ? image : img" alt="img">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import datauserType from '../../constants/constdata'
-import img from '../../assets/grilsimg231.jpg'
-
+import dataUseType from '../../constants/constdata'
 export default {
-  props: ['name', 'type', 'image', 'color', 'tabnot'],
+ props: ['name', 'image', 'type'],
   data () {
-    return {
-      datauserType,
-      img,
-      names: 'Autest Anutest2'
-    }
+   return {
+     dataUseType
+   }
   }
 }
 </script>
@@ -46,12 +43,16 @@ export default {
   align-items: center;
   padding: 4px;
 }
-
+.wrapper_div {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; gap: 5px
+}
 .image {
-  max-height: 40px;
-  max-width: 40px;
-  min-height: 40px;
-  min-width: 40px;
+  max-height: 50px;
+  max-width: 50px;
+  min-height: 50px;
+  min-width: 50px;
   position: static;
   left: 0px;
   top: -5px;
@@ -95,5 +96,17 @@ export default {
   margin-top: 10px;
 }
 .user_name {
+}
+.image {
+  max-height: 40px;
+  max-width: 40px;
+  min-height: 40px;
+  min-width: 40px;
+  position: static;
+  left: 0px;
+  top: -5px;
+  right: 16px;
+  border-radius: 50%;
+  margin: 0px 16px;
 }
 </style>
