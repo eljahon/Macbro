@@ -1,5 +1,8 @@
 <template>
-  <a-card>
+  <div v-if="render" style="background-color: transparent; position: relative">
+    <a-spin style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" size="large" />
+  </div>
+  <a-card v-else>
     <div slot="title">
       <a-page-header
         @back="() => $router.go(-1)">
@@ -15,7 +18,7 @@
         <a-icon :component="myIcons.excal"></a-icon></a-button>
     </div>
     <a-card style="border-left: none; border-right: none; border-bottom: none">
-      <div slot="title"> <span>ИД партии: 1234-24-03-2021</span></div>
+      <div slot="title"> <span class="style_party_id">ИД партии: {{list.number}}</span></div>
     </a-card>
     <a-card style="margin-top: 20px; border-left: none; border-right: none; border-bottom: none">
       <div style="display: flex; justify-content: space-between;">
@@ -29,10 +32,11 @@
            padding: 5px;
 "><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
            <img :src="img" alt="">
-             <span>Darlene Robertson <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
+             <span>{{list.cashier.first_name}} {{list.cashier.last_name}} <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
            </div>
         </div>
         <div style="display: flex;  flex: 0 0 30%;">
+          <min-card :image="list.cashier.profile_image" :name="`${list.cashier.first_name ==='' ? 'Autest' : list.cashier.first_name } ${list.cashier.last_name === ''? 'Anutest2' : list.cashier.last_name }`" :type="list.cashier.user_type"/>
           <div
             style="
           display: flex;
@@ -42,7 +46,7 @@
           align-items: center;
 "><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
            <img :src="img" alt="">
-           <span>Darlene Robertson <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
+           <span>{{list.counter_agent.first_name}}{{' '}}{{list.counter_agent.last_name}}<br> <span style="color: #818C99; font-size: 16px">{{dataUseType.userType[list.counter_agent.user_type]}}</span></span>
          </div>
           </div>
           <div
@@ -66,37 +70,21 @@
             style="margin-top: 30px; cursor: pointer"
             :columns="columnsparisherItem"
             :rowKey="() => Math.random()"
-            :dataSource="getParishesList"
+            :dataSource="list.items"
             :pagination="getPagination"
             :loading="loading"
             @change="handleTableChange"
             test-attr="list-customer"
             bordered
           >
-            <div slot="Aккаунта" style="padding: 8px; width: 230px;">
-              <a-select
-                :placeholder="$t('Тип аккаунта')"
-                style="width: 220px"
-                allowClear
-              >
-              </a-select>
-            </div>
-            <div
-              slot="аккаунта"
-              style="padding: 8px"
-            >
-              <a-input-number
-                :placeholder="`ИД. аккаунта`"
-              />
-            </div>
-            <a-icon
-              style="font-size: 20px; color: transparent; background-color: transparent"
-              slot="filterIcon"
-              class="filter-dropdown-icon"
-              :component="myIcons.filterDownIcon"
-            />
-            <template slot="Статус" slot-scope="text, row">
-              <a-tag :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>
+            <template slot="name" slot-scope="text, row">
+               <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
+                  <img style="object-fit: cover" :src="row.product_image.length > 0 ?row.product_image : defoultImg" alt="imgId">
+                </span>
+              <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
+
+              <!--              <img style="object-fit: cover" :src="row.product_image" alt="imgId">-->
+<!--              <a-tag :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>-->
 
               <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
             </template>
@@ -221,35 +209,44 @@
 <script>
 import myIcons from '@/core/icons'
 import img from '../../../assets/Ellipse 9.png'
+import dataUseType from '@/constants/constdata'
 import { mapActions } from 'vuex'
+import defoultImg from '../../../assets/logo.svg'
 // import { mapActions } from 'vuex'
+import mincard from '@/components/mincard/mincard'
 export default {
+  components: { mincard },
   data () {
     return {
       myIcons,
+      render: true,
+      dataUseType,
       img,
+      defoultImg,
       loading: false,
+      list: [],
       params: {
         page: { current: 1, pageSize: 10, total: null }
       },
       columnsparisherItem: [
         {
           title: 'Товары',
-          dataIndex: 'name',
+          dataIndex: 'product_name',
           key: 'name',
-          width: 200,
-          align: 'center'
+          width: 300,
+          scopedSlots: { customRender: 'name' }
         },
     {
       title: 'Наличные',
         children: [
       {
         title: 'Кол-во',
-        dataIndex: 'age',
+        dataIndex: 'count',
         key: 'age'
       },
       {
-        title: 'Цена'
+        title: 'Цена',
+        dataIndex: 'buy_price'
       }
     ]
     },
@@ -292,7 +289,6 @@ export default {
       title: 'Состояние',
         dataIndex: 'gender',
       key: 'gender',
-      align: 'center',
       width: 200,
       fixed: 'right'
     },
@@ -350,6 +346,7 @@ export default {
       this.getItemParishesList(this.$route.params.id)
       .then(res => {
         this.list = res
+        this.render = false
         console.log('res ====>>>', res)
       })
       .catch(error => {
@@ -371,5 +368,11 @@ export default {
 </script>
 
 <style scoped>
-
+.style_party_id {
+  font-family: Roboto,serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
 </style>

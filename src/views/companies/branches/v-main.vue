@@ -29,8 +29,8 @@
                   test-attr="city-branch"
                 >
                   <a-select-option v-for="city in cityList" :key="city.value" :value="city.id">{{
-                    city.name
-                  }}</a-select-option>
+                      city.name
+                    }}</a-select-option>
                 </a-select>
               </a-form-model-item>
             </a-col>
@@ -43,8 +43,8 @@
                   test-attr="city-branch"
                 >
                   <a-select-option v-for="warehouse in companyWarehouseList" :key="warehouse.value" :value="warehouse.id">{{
-                    warehouse.name
-                  }}</a-select-option>
+                      warehouse.name
+                    }}</a-select-option>
                 </a-select>
               </a-form-model-item>
             </a-col>
@@ -126,6 +126,7 @@
           @change="handleTableChange"
           test-attr="list-branch"
           bordered
+          :pagination="breanchesPaginstion"
         >
           <template slot="action" slot-scope="text, row">
             <a-tooltip>
@@ -152,9 +153,10 @@
               selectedRowKeys: selectedRowKeys,
               onChange: onSelectedChange,
             }"
-            @change="handleTableChange"
+            @change="handleTableChangeUser"
             test-attr="list-branch"
             bordered
+            :pagination="selectUser"
           >
           </a-table></a-modal>
       </a-tab-pane>
@@ -182,7 +184,7 @@ export default {
     companyStaff
   },
   props: {
-  // eslint-disable-next-line
+    // eslint-disable-next-line
     lang: String
   },
   data () {
@@ -302,11 +304,10 @@ export default {
         filter_by_comp_and_branch: true,
         company_id: this.$route.params.company_id,
         branch_id: this.$route.params.id,
-        page: { page: 1, limit: 10, total: null }
+        page: { current: 1, pageSize: 10, total: null }
       },
       corporateParams: {
-        limit: 10,
-        page: 1,
+        page: { current: 1, pageSize: 10, total: null },
         total: null,
         company_id: this.$route.params.company_id
       }
@@ -315,21 +316,13 @@ export default {
   mounted () {
     if (this.branchId) {
       this.GetBranchUserList(this.paramsbranch)
-      .then(res => {
-        // console.log('res =>', res)
-        this.selectedRowKeys = res.map(e => e.id)
-      })
+        .then(res => {
+          // console.log('res =>', res)
+          this.selectedRowKeys = res.map(e => e.id)
+        })
     }
     // this.selectedRowKeys = this.branchesIdList
     this.getUsers(this.corporateParams)
-    // this.getSelectBranchAll(this.$route.params.id)
-    // .then(res => {
-    //   this.selectedRowKeys = res.staff
-    // })
-    // this.$store.dispatch('getSelectBranchAll', this.$route.params.id)
-    // .then(res => {
-    //   this.selectedRowKeys = res.staff
-    // })
     if (this.$route.params.company_id) {
       this.getCompanyWarehouse(this.corporateParams)
     }
@@ -343,9 +336,15 @@ export default {
     this.onSearch()
   },
   computed: {
-    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'branchesIdList']),
+    ...mapGetters(['companiesList', 'staffSelectsAdd', 'companyWarehouseList', 'branchesList', 'userPaginationBranches', 'branchesIdList', 'branchSelectUser']),
     userList () {
       return this.branchesList
+    },
+    selectUser () {
+      return this.branchSelectUser
+    },
+    breanchesPaginstion () {
+      return this.userPaginationBranches
     }
   },
   methods: {
@@ -362,9 +361,9 @@ export default {
               this.selectedRowKeys = res.map(e => e.id)
             })
         })
-      .finally(() => {
-        this.loading = false
-      })
+        .finally(() => {
+          this.loading = false
+        })
     },
     ...mapActions(['GetBranchUserList', 'getCompanies', 'getCompanyWarehouse', 'getUsers', 'getSelectBranch', 'getSelectBranchAll']),
     onSelectedChange (selectedRowKeys, selectedRows) {
@@ -377,7 +376,7 @@ export default {
       // 1
       console.log(value)
       this.$store.dispatch('setbutton', value)
-         },
+    },
     openModal () {
       this.modalVisible = true
     },
@@ -390,18 +389,18 @@ export default {
           list_of_user_ids: this.selectedRowKeys
         }
       this.$store.dispatch('getSelectBranch', form)
-      .then(res => {
-        console.log(res)
-        this.GetBranchUserList(this.paramsbranch)
         .then(res => {
-          this.selectedRowKeys = res.map(e => e.id)
+          console.log(res)
+          this.GetBranchUserList(this.paramsbranch)
+            .then(res => {
+              this.selectedRowKeys = res.map(e => e.id)
+            })
+          // this.$store.dispatch('setLastTab', 5)
+          // this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
         })
-        // this.$store.dispatch('setLastTab', 5)
-        // this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
-      })
-      .catch(err => {
-        console.log(err)
-      }).finally(() => {
+        .catch(err => {
+          console.log(err)
+        }).finally(() => {
         this.loading = false
       })
       this.modalVisible = false
@@ -411,7 +410,17 @@ export default {
     },
     handleTableChange (pagination) {
       this.loading = true
-      this.getCompanyBranches({ page: pagination, search: true })
+      const page = { ...pagination }
+      this.GetBranchUserList({ page: page, search: true, company_id: this.$route.params.company_id })
+        .then((res) => console.log(res))
+        .catch(err => this.requestFailed(err))
+        .finally(() => (this.loading = false))
+    },
+    handleTableChangeUser (pagination) {
+      console.log(pagination)
+      this.loading = true
+      this.corporateParams.page = { ...pagination }
+      this.getUsers(this.corporateParams)
         .then((res) => console.log(res))
         .catch(err => this.requestFailed(err))
         .finally(() => (this.loading = false))
@@ -440,14 +449,14 @@ export default {
         method: 'get',
         params: this.corporateParams
       })
-      .then(response => {
-        this.corporateFetching = false
-        this.corporateList.push(...response.corporates)
-        this.corporateParams.total = response.count
-      })
-      .catch(() => {
-        this.corporateFetching = false
-      })
+        .then(response => {
+          this.corporateFetching = false
+          this.corporateList.push(...response.corporates)
+          this.corporateParams.total = response.count
+        })
+        .catch(() => {
+          this.corporateFetching = false
+        })
     },
     getCities () {
       return new Promise((resolve) => {
@@ -459,9 +468,9 @@ export default {
           // images' urls to show images to user
           this.cityList = response.cities
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .catch(err => {
+            console.log(err)
+          })
       })
     },
     getBranchAttrs () {
@@ -480,10 +489,10 @@ export default {
           })
           // images' urls to show images to user
         })
-        .catch(err => {
-          console.log(err)
-          this.loading = false
-        })
+          .catch(err => {
+            console.log(err)
+            this.loading = false
+          })
       })
     },
     onSubmit () {
@@ -499,25 +508,25 @@ export default {
           }
           this.$emit('clickParent', true)
           request({
-              url: req.url,
-              method: req.method,
-              data: this.branch,
-              headers: headers
+            url: req.url,
+            method: req.method,
+            data: this.branch,
+            headers: headers
           })
-          .then(res => {
-            this.requesting = false
-            console.log('response after submit', res)
-            this.$store.dispatch('setLastTab', 5)
-            this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
-          })
-          .catch(err => {
-            this.requesting = false
-            console.error(err)
-            this.$message.error(this.$t('error'))
-          })
-          .finally(() => {
-            this.$emit('clickParent', false)
-          })
+            .then(res => {
+              this.requesting = false
+              console.log('response after submit', res)
+              this.$store.dispatch('setLastTab', 5)
+              this.$router.push({ name: 'CompaniesEdit', params: { id: localStorage.getItem('company_id') } })
+            })
+            .catch(err => {
+              this.requesting = false
+              console.error(err)
+              this.$message.error(this.$t('error'))
+            })
+            .finally(() => {
+              this.$emit('clickParent', false)
+            })
           console.log('valid')
         } else {
           console.log('error submit, validation failed')

@@ -7,6 +7,8 @@ const headers = {
 
 const companies = {
   state: {
+    newpagniation: {},
+    userSelectPagination: {},
     companies: [],
     companiesPagination: {},
     companyBranches: [],
@@ -68,6 +70,8 @@ const companies = {
     staffPagination: {}
   },
   getters: {
+    userPaginationBranches: state => state.userSelectPagination,
+    branchSelectUser: state => state.newpagniation,
     staffPagination: state => state.staffPagination,
     branchesIdList: state => state.branchesIdList,
     branchesList: state => state.branchesList,
@@ -87,6 +91,9 @@ const companies = {
     staffSelectsAdd: state => state.staffselectsadd
   },
   mutations: {
+    BRANCH_PAGINATION (state, payload) {
+      state.newpagniation = payload
+    },
     STAFF_ADD_SELECT (state, paylod) {
       state.staffselectsadd = paylod
     },
@@ -132,6 +139,9 @@ SET_STAFF: (state, payload) => {
     SET_LAST_TAB: (state, lastTab) => {
       state.lastTab = lastTab
     },
+    SELECT_USER_BRANCHES: (state, payload) => {
+      state.userSelectPagination = payload
+    },
     GET_BRANCECH_LIST: (state, payload) => {
       state.branchesList = payload
     },
@@ -160,21 +170,24 @@ SET_STAFF: (state, payload) => {
       })
     },
     GetBranchUserList ({ commit }, payload) {
+      const { page } = payload
       return new Promise((resolve, reject) => {
         request({
-          url: 'user',
+          url: '/user',
           method: 'get',
           params: {
-            page: payload.page.page,
-            limit: payload.page.limit,
+            page: page.current,
+            limit: page.pageSize,
             branch_id: payload.branch_id,
             company_id: payload.company_id,
             filter_by_comp_and_branch: payload.filter_by_comp_and_branch
           }
         })
           .then(res => {
+            page.total = res.count
             resolve(res.users)
-            console.log('branchList ==> ', res)
+            commit('SELECT_USER_BRANCHES', page)
+            console.log('branchList ==> ', page)
             commit('STAFF_ADD_SELECT', res.users)
           })
           .catch(err => {
@@ -212,8 +225,12 @@ SET_STAFF: (state, payload) => {
           })
       })
     },
-    getUsers ({ commit, state }, page) {
+    getUsers ({ commit, state }, payload) {
+      console.log(payload)
+      // eslint-disable-next-line no-redeclare
+      let { page } = payload
       if (!page) {
+        // eslint-disable-next-line no-const-assign
         page = { current: 1, pageSize: 10, total: null }
       }
       return new Promise((resolve, reject) => {
@@ -222,19 +239,29 @@ SET_STAFF: (state, payload) => {
           headers: headers,
           method: 'get',
           params: {
-            page: page.page.current,
-            limit: page.page.pageSize,
-            company_id: page.company_id,
-            offset: page.offset,
-            user: page.user,
-            user_type: page.user_type,
-            search: page.search
+            page: page.current,
+            limit: page.pageSize,
+            company_id: payload.company_id,
+            offset: payload.offset,
+            user: payload.user,
+            user_type: payload.user_type,
+            search: payload.search
           }
         })
           .then(result => {
             const pagination = { ...page }
             pagination.total = parseInt(result.count)
             commit('SET_STAFF', pagination)
+            console.log(pagination, {
+              page: page.current,
+              limit: page.pageSize,
+              company_id: payload.company_id,
+              offset: payload.offset,
+              user: payload.user,
+              user_type: payload.user_type,
+              search: payload.search
+            })
+            commit('BRANCH_PAGINATION', pagination)
             // commit('SET_COMPANIES', result.companies)
             commit('GET_BRANCECH_LIST', result.users)
             resolve(result)
@@ -276,7 +303,7 @@ SET_STAFF: (state, payload) => {
             pagination.total = parseInt(result.count)
             commit('SET_COMPANY_BRANCHES_PAGINATION', pagination)
             commit('SET_COMPANY_BRANCHES', result.branches)
-            resolve()
+            resolve(result)
           })
           .catch(error => {
             reject(error)
