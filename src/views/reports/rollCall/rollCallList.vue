@@ -301,7 +301,7 @@ export default {
         const branches = res.branches
         this.branchList = branches.map(branch => ({
           label: branch.name,
-          value: branch.warehouse_id,
+          value: branch.id,
           companyId: branch.company_id
         }))
       })
