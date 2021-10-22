@@ -4,64 +4,16 @@
   </div>
   <a-card v-else>
     <div slot="title">
-      <a-page-header
-        @back="() => $router.go(-1)">
-        <div slot="subTitle" style="cursor: pointer">
-          <span @click="() => $router.push({ name: 'SaleListMain'})">Отчеты /  </span>
-          <span @click="() => $router.push({ name: 'parishesListMain'})">Список приходов</span>
-          <span></span>
-        </div>
-      </a-page-header>
+      <back-Router-Name :router="router"/>
     </div>
     <div slot="extra">
-      <a-button size="small" icon="dowlond" style="background-color: #1890FF; color: white; border:none">
-        <a-icon :component="myIcons.excal"></a-icon></a-button>
+      <excel-button @handleclick="excelDowlond"/>
     </div>
     <a-card style="border-left: none; border-right: none; border-bottom: none">
-      <div slot="title"> <span class="style_party_id">ИД партии: {{list.number}}</span></div>
+      <div slot="title"> <span class="style_party_id">ИД партии: {{ list.number }}</span></div>
     </a-card>
-    <a-card style="margin-top: 20px; border-left: none; border-right: none; border-bottom: none">
-      <div style="display: flex; justify-content: space-between;">
-        <div
-          style="
-          display: flex;
-          background-color: #F5F5F5;
-          flex: 0 0 20%;
-          border-radius: 9px;
-          align-items: center;
-           padding: 5px;
-"><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-           <img :src="img" alt="">
-             <span>{{list.cashier.first_name}} {{list.cashier.last_name}} <br> <span style="color: #818C99; font-size: 16px">Кассир</span></span>
-           </div>
-        </div>
-        <div style="display: flex;  flex: 0 0 30%;">
-          <min-card :image="list.cashier.profile_image" :name="`${list.cashier.first_name ==='' ? 'Autest' : list.cashier.first_name } ${list.cashier.last_name === ''? 'Anutest2' : list.cashier.last_name }`" :type="list.cashier.user_type"/>
-          <div
-            style="
-          display: flex;
-          background-color: #F5F5F5;
-          border-bottom-left-radius: 9px;
-          border-top-left-radius: 9px;
-          align-items: center;
-"><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-           <img :src="img" alt="">
-           <span>{{list.counter_agent.first_name}}{{' '}}{{list.counter_agent.last_name}}<br> <span style="color: #818C99; font-size: 16px">{{dataUseType.userType[list.counter_agent.user_type]}}</span></span>
-         </div>
-          </div>
-          <div
-            style="
-          display: flex;
-          background-color: rgba(255, 239, 235, 1);
-          border-bottom-right-radius: 9px;
-          border-top-right-radius: 9px;
-          align-items: center;
-"><div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-           <span style="color: red">-$ 2 730 <br> <span style="color: #818C99; font-size: 16px; padding-right: 10px">30/200 Сканировано</span></span>
-         </div>
-          </div>
-        </div>
-      </div>
+    <a-card style=" border-left: none; border-right: none; border-bottom: none">
+      <client-card :list="list"/>
     </a-card>
     <a-card style=" border-bottom: none; border-left: none; border-right: none">
       <a-tabs type="card" @change="callbak">
@@ -78,28 +30,43 @@
             bordered
           >
             <template slot="name" slot-scope="text, row">
-               <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
-                  <img style="object-fit: cover" :src="row.product_image.length > 0 ?row.product_image : defoultImg" alt="imgId">
-                </span>
+              <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
+                <img style="object-fit: cover" :src="row.product_image.length > 0 ?row.product_image : defoultImg" alt="imgId">
+              </span>
               <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
-
-              <!--              <img style="object-fit: cover" :src="row.product_image" alt="imgId">-->
-<!--              <a-tag :color="row.items_count === row.scanned_count ? 'blue' : 'red'">{{ row.items_count === row.scanned_count ? 'Сканировано' : `${'Не сканировано'}${row.items_count}/${row.scanned_count}` }}</a-tag>-->
-
-              <!--                    <span>{{ row.merchant.firstname === '' ? '' : row.merchant.firstname}} {{ row.merchant.last_name === '' ? '' : row.merchant.last_name }}</span>-->
             </template>
-            <template slot="seller" slot-scope="text, row">
-              <span>{{ row.seller.first_name }}{{ ' ' }}{{ row.seller.last_name }}</span>
+            <template slot="status" slot-scope="text, row">
+              <a-tag :color="towarState.status[row.product_state].color">{{ towarState.status[row.product_state].name }}</a-tag>
             </template>
-            <template slot="buyers" slot-scope="text, row">
-              <span>{{ row.buyer.first_name }}{{ ' ' }}{{ row.buyer.last_name }}</span>
+            <template slot="imstatus" slot-scope="text, row">
+              <a-tag :color="towarState.imstatus[row.imei_status].color">{{ towarState.imstatus[row.imei_status].name }}</a-tag>
             </template>
-            <template slot="Кол" slot-scope="text, row">
-              <span>{{ row.items_count }}</span>
-            </template>
-            <template slot="Сумма" slot-scope="text, row">
-              <span>{{ '$' }}{{ row.total_amount }}</span>
-            </template>
+<!--            <div v-for="(item, index) in list.items" :key="index">-->
+<!--              <div v-if="item.payment_type === 'cash'">-->
+                <template slot="number" slot-scope="text, row">
+                  <span>{{ numberFormat(row.buy_price) }}</span>
+                </template>
+                <template slot="kol" slot-scope="text, row">
+                  <span>{{ row.count }}</span>
+                </template>
+<!--              </div>-->
+<!--              <div v-if="item.payment_type === 'real'">-->
+<!--                <template slot="realone" slot-scope="text, row">-->
+<!--                  <span>{{ numberFormat(row.buy_price) }}</span>-->
+<!--                </template>-->
+<!--                <template slot="realtwo" slot-scope="text, row">-->
+<!--                  <span>{{ row.count }}</span>-->
+<!--                </template>-->
+<!--              </div>-->
+<!--              <div v-if="item.payment_type === 'consignation'">-->
+<!--                <template slot="consignationone" slot-scope="text, row">-->
+<!--                  <span>{{ numberFormat(row.buy_price) }}</span>-->
+<!--                </template>-->
+<!--                <template slot="consignationtwo" slot-scope="text, row">-->
+<!--                  <span>{{ row.count }}</span>-->
+<!--                </template>-->
+<!--              </div>-->
+<!--            </div>-->
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="2" tab="IMEI">
@@ -123,9 +90,9 @@
                 <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Итого</span></p>
               </div>
               <div>
-<!--                <p><b>{{ list.branch.name }}</b></p>-->
-<!--                <p><b>{{ moment(list.billing.created_at).format('YYYY-MM-DD') }}</b></p>-->
-<!--                <p><b> {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</b></p>-->
+                <!--                <p><b>{{ list.branch.name }}</b></p>-->
+                <!--                <p><b>{{ moment(list.billing.created_at).format('YYYY-MM-DD') }}</b></p>-->
+                <!--                <p><b> {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</b></p>-->
 
               </div>
             </div>
@@ -139,8 +106,8 @@
               <div>
                 <!--          <p><b>Макбро Малика</b></p>-->
                 <!--          <p><b>10.03.2021, 17:30</b></p>-->
-<!--                <p><b>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.paid_amount.usd) }}</b></p>-->
-<!--                <p><b>{{ new Intl.NumberFormat().format(list.billing.paid_amount.uzs) }} {{ "so'm" }}</b></p>-->
+                <!--                <p><b>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.paid_amount.usd) }}</b></p>-->
+                <!--                <p><b>{{ new Intl.NumberFormat().format(list.billing.paid_amount.uzs) }} {{ "so'm" }}</b></p>-->
 
               </div>
             </div>
@@ -155,36 +122,36 @@
             test-attr="list-customer"
             :pagination="false"
             bordered >
-</a-table>
-<!--            <template slot="tavar" slot-scope="text, row">-->
-<!--              <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">-->
-<!--                <img style="object-fit: cover" :src="row.product_image" alt="imgId">-->
-<!--              </span>-->
-<!--              <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>-->
-<!--            </template>-->
-<!--            <template slot="kol" slot-scope="text, row">-->
-<!--              <span>{{ row.count }}</span>-->
-<!--            </template>-->
-<!--            <template slot="sena" slot-scope="text, row">-->
-<!--              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.price.usd_price) }}</span>-->
-<!--            </template>-->
+          </a-table>
+          <!--            <template slot="tavar" slot-scope="text, row">-->
+          <!--              <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">-->
+          <!--                <img style="object-fit: cover" :src="row.product_image" alt="imgId">-->
+          <!--              </span>-->
+          <!--              <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>-->
+          <!--            </template>-->
+          <!--            <template slot="kol" slot-scope="text, row">-->
+          <!--              <span>{{ row.count }}</span>-->
+          <!--            </template>-->
+          <!--            <template slot="sena" slot-scope="text, row">-->
+          <!--              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.price.usd_price) }}</span>-->
+          <!--            </template>-->
           <div style="margin-top: 20px"><span style="font-size: 20px; color: black">Фото по тип оплаты</span></div>
-          <a-card style='border-left: none; border-right: none; border-bottom: none'>
-            <div style='display: flex; gap: 30px'>
+          <a-card style="border-left: none; border-right: none; border-bottom: none">
+            <div style="display: flex; gap: 30px">
               <div>
-                <p style='color: black'>Payme</p>
+                <p style="color: black">Payme</p>
                 <p>$500</p>
-                <img src='../../../assets/colorwhite.png' alt=''>
+                <img src="../../../assets/colorwhite.png" alt="">
               </div>
               <div>
-                <p style='color: black'>Payme</p>
+                <p style="color: black">Payme</p>
                 <p>$500</p>
-                <img src='../../../assets/Rectangle1487.png' alt=''>
+                <img src="../../../assets/Rectangle1487.png" alt="">
               </div>
               <div>
-                <p style='color: black'>Payme</p>
+                <p style="color: black">Payme</p>
                 <p>$500</p>
-                <img src='../../../assets/colorwhite.png' alt=''>
+                <img src="../../../assets/colorwhite.png" alt="">
               </div>
               <!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
             </div>
@@ -211,18 +178,28 @@ import myIcons from '@/core/icons'
 import img from '../../../assets/Ellipse 9.png'
 import dataUseType from '@/constants/constdata'
 import { mapActions } from 'vuex'
-import defoultImg from '../../../assets/logo.svg'
+import defoultImg from '../../../assets/phone.svg'
+import excelButton from '@/components/excelButton/excelButton'
+import backRouterName from '@/components/backRouter/backRouterName'
 // import { mapActions } from 'vuex'
 import mincard from '@/components/mincard/mincard'
+import clientCard from '@/components/clientCard/clientCard'
+import towarState from '@/constants/towarState'
 export default {
-  components: { mincard },
+  components: { mincard, excelButton, backRouterName, clientCard },
   data () {
     return {
       myIcons,
       render: true,
       dataUseType,
+      towarState,
       img,
       defoultImg,
+      router: {
+        name: 'parishesListMain',
+        text: 'приходов',
+        userName: ''
+      },
       loading: false,
       list: [],
       params: {
@@ -233,7 +210,7 @@ export default {
           title: 'Товары',
           dataIndex: 'product_name',
           key: 'name',
-          width: 300,
+          width: 400,
           scopedSlots: { customRender: 'name' }
         },
     {
@@ -241,12 +218,12 @@ export default {
         children: [
       {
         title: 'Кол-во',
-        dataIndex: 'count',
-        key: 'age'
+        key: 'age',
+        scopedSlots: { customRender: 'kol' }
       },
       {
         title: 'Цена',
-        dataIndex: 'buy_price'
+        scopedSlots: { customRender: 'number' }
       }
     ]
     },
@@ -256,12 +233,14 @@ export default {
       {
         title: 'Кол-во',
         dataIndex: 'asdasddsad',
-        key: 'dadfsfgfdfgdg'
+        key: 'dadfsfgfdfgdg',
+        scopedSlots: { customRender: 'realone' }
       },
       {
         title: 'Цена',
         dataIndex: 'companyName',
-        key: 'companyName'
+        key: 'companyName',
+        scopedSlots: { customRender: 'realtwo' }
       }
     ]
     },
@@ -271,12 +250,14 @@ export default {
             {
               title: 'Кол-во',
               dataIndex: 'asdadsd',
-              key: 'companyAddress'
+              key: 'companyAddress',
+              scopedSlots: { customRender: 'consignationone' }
             },
             {
               title: 'Цена',
               dataIndex: 'companyAddress',
-              key: 'dssdfdfsfs'
+              key: 'dssdfdfsfs',
+              scopedSlots: { customRender: 'consignationtwo' }
             },
             {
               title: 'Дата ',
@@ -290,14 +271,15 @@ export default {
         dataIndex: 'gender',
       key: 'gender',
       width: 200,
-      fixed: 'right'
+      scopedSlots: { customRender: 'status' }
     },
         {
           title: 'IMEI',
           dataIndex: 'gender',
-          key: 'sfdfsf',
+          key: 'imstatus',
           width: 120,
-          fixed: 'right'
+          scopedSlots: { customRender: 'imstatus' }
+
         }
   ],
       columns: [
@@ -346,6 +328,7 @@ export default {
       this.getItemParishesList(this.$route.params.id)
       .then(res => {
         this.list = res
+        this.router.userName = `${res.counter_agent.first_name}${' '}${res.counter_agent.last_name}`
         this.render = false
         console.log('res ====>>>', res)
       })
@@ -358,6 +341,12 @@ export default {
     },
     handleTableChange (pagination) {
       this.params.page = { ...pagination }
+    },
+    excelDowlond () {
+      console.log('excelDowlonds')
+    },
+    numberFormat (number) {
+      return new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(number)
     }
   },
   mounted () {
@@ -369,10 +358,22 @@ export default {
 
 <style scoped>
 .style_party_id {
-  font-family: Roboto,serif;
+  position: static;
+  width: 236px;
+  height: 22px;
+  left: 32px;
+  top: 25px;
+
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
+  /* identical to box height, or 122% */
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
 }
 </style>

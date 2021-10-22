@@ -8,7 +8,9 @@
         @back="() => $router.go(-1)"
       >
         <div slot="subTitle" style="cursor: pointer" class="route_style">
-          <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты /' }}</span> <span @click="() => $router.push({name: router.name})">{{ `${router.path}`+ ' /' }} </span><span><b class="bold_user_name">{{ this.list.client.first_name + ' ' + this.list.client.first_name }}</b></span>
+          <span @click="() => $router.push({name: 'SaleMain'})">{{ 'Отчеты /' }}</span>
+          <span @click="() => $router.push({name: router.name})">{{ `${router.path}`+ ' /' }} </span>
+          <span><b class="bold_user_name">{{ list.client.first_name + ' ' + list.client.first_name }}</b></span>
         </div>
       </a-page-header>
     </div>
