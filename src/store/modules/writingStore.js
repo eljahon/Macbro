@@ -45,6 +45,20 @@ const WritingStore = {
             reject(error)
           })
       })
+    },
+    getWritingListItemId ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_url.writoing}/${id}`,
+          method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
   }
 }

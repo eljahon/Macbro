@@ -162,6 +162,7 @@ export default {
       return {
         on: {
           click: (event) => {
+            this.$router.push({ name: 'writingMainItem', params: { id: record.id } })
           }
         }
       }
