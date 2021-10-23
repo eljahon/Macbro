@@ -151,9 +151,6 @@ export default {
         })
     }
   },
-  mounted () {
-    console.log('====>>', this.$route.query)
-  },
   created () {
     this.TrasferItemListId(this.$route.params.id)
   }
