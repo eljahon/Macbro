@@ -1,16 +1,13 @@
 <template>
-  <div v-if="render" style="background-color: transparent; position: relative">
-    <a-spin
-      style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
-      size="large"
-    />
+  <div v-if="render" class="spinner_wrapper">
+    <a-spin class="spinner" style="" size="large" />
   </div>
   <a-card v-else>
     <div slot="title">
       <a-page-header @back="() => $router.go(-1)">
         <div slot="subTitle" style="cursor: pointer">
-          <span @click="() => $router.push({ name: 'TransferListMain' })">{{ 'Отчеты / ' }}</span>
-          <span @click="() => $router.push({ name: 'TransferListMain' })">{{ $t('transfer') }}</span>
+          <span @click="() => $router.push({ name: 'TransferListMain' })">{{ 'Отчеты / ' }} </span>
+          <span @click="() => $router.push({ name: 'TransferListMain' })">{{ $t('transfer') }} </span>
         </div>
       </a-page-header>
     </div>
@@ -64,13 +61,22 @@
           />
         </template>
         <template slot="Сумма" slot-scope="price">
-          {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(price.usd_price) }}
+          {{
+            new Intl.NumberFormat('en-En', {
+              style: 'currency',
+              currency: 'USD'
+            }).format(price.usd_price)
+          }}
         </template>
         <template slot="Статус" slot-scope="text, row">
-          <a-tag :color="StatusSwitch(row.status).color">{{ StatusSwitch(row.status).name }}</a-tag>
+          <a-tag :color="StatusSwitch(row.status).color">
+            {{ StatusSwitch(row.status).name }}
+          </a-tag>
         </template>
         <template slot="Состояние" slot-scope="text, row">
-          <a-tag :color="ProductStateSwitch(row.product_state).color">{{ ProductStateSwitch(row.product_state).name }}</a-tag>
+          <a-tag :color="ProductStateSwitch(row.product_state).color">
+            {{ ProductStateSwitch(row.product_state).name }}
+          </a-tag>
         </template>
       </a-table>
     </a-card>
@@ -191,6 +197,18 @@ export default {
 </script>
 
 <style scoped>
+.spinner_wrapper {
+  background-color: transparent;
+  position: relative;
+}
+
+.spinner {
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .user_info_board {
   display: flex;
   justify-content: space-between;
