@@ -9,7 +9,7 @@
     <div slot="title">
       <a-page-header @back="() => $router.go(-1)">
         <div slot="subTitle" style="cursor: pointer">
-          <span @click="() => $router.push({ name: 'SaleMain' })">{{ 'Отчеты / ' }}</span>
+          <span @click="() => $router.push({ name: 'TransferListMain' })">{{ 'Отчеты / ' }}</span>
           <span @click="() => $router.push({ name: 'TransferListMain' })">{{ $t('transfer') }}</span>
         </div>
       </a-page-header>
