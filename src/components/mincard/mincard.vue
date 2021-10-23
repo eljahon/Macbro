@@ -2,11 +2,13 @@
   <div>
     <div class="mincard">
       <div style="display: flex;  align-items: center;  margin-left: 10px; gap: 5px">
-        <img class="image" :src="image.length > 0 ? image : img" alt="img">
-        <span class="user_name" style="font-size: 16px; color: black">{{ name === undefined || name === '' ? names : name }} <br>
-          <span
-          class="user_type">{{ datauserType.userType[type === undefined ? '' :type]
-        }}</span></span>
+        <img class="image" :src="image.length > 0 ? image : img" alt="img" />
+        <span
+          class="user_name"
+          style="font-size: 16px; color: black"
+        >{{ name === undefined || name === '' ? names : name }} <br />
+          <span class="user_type">{{ datauserType.userType[type === undefined ? '' : type] }}</span></span
+        >
       </div>
     </div>
   </div>
@@ -78,7 +80,7 @@ export default {
   flex: 0 0 50%;
 }
 .user_type {
-  color: #818C99;
+  color: #818c99;
   font-size: 14px;
   display: flex;
   flex-direction: row;
@@ -86,7 +88,7 @@ export default {
   align-items: flex-start;
   padding: 5px 12px;
   position: static;
-  background: #F2F3F5;
+  background: #f2f3f5;
   border-radius: 4px;
   width: 68px;
   height: 28px;
