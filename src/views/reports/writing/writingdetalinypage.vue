@@ -12,7 +12,7 @@
       </div>
       <a-card class="card_user_id">
         <div slot="title">
-          <id-number :text="router.text" :number="list.cashier.account_number"/>
+          <id-number :text="router.text" :number="list.number"/>
 
         </div>
         <div slot="extra">
@@ -50,7 +50,7 @@
           <table-user-column :image="row.causer.profile_image" :name="`${row.causer.first_name} ${row.causer.last_name}`" :phone="row.causer.phone_number" :type="row.causer.user_type" />
         </template>
         <template slot="Сумма" slot-scope="text, row">
-          <span v-if="row">{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.sum)
+          <span v-if="row">{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.cash)
           }}</span>
         </template>
         <template slot="Статус" slot-scope="text, row">
@@ -59,7 +59,7 @@
         <!--        <span v-if="row.status === 'in-process'"><a-tag :color="'rgba(24, 144, 255, 0.1)'">Принято</a-tag></span>-->
         </template>
         <template slot="kolvo" slot-scope="text, row">
-          <span v-if="row">{{ length(list.items) }}</span>
+          <span v-if="row">{{ '1' }}</span>
           <!--        <a-tag :color="row.status === 'active' ? 'blue' : 'red'">{{ row.status === 'active' ? 'Активный' : 'Не активный' }}</a-tag>-->
 
         <!--        <span v-if="row.status === 'in-process'"><a-tag :color="'rgba(24, 144, 255, 0.1)'">Принято</a-tag></span>-->
@@ -75,7 +75,7 @@
     <a-card class="car_commit_one">
       <p class="comit_text">{{list.comment.length > 0? list.comment : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque commodi culpa cum cumque dolore est eum explicabo hic, nostrum possimus quam quasi quisquam repellendus, repudiandae sequi suscipit veritatis voluptatum?'}}</p>
       <br>
-      <div v-for="(item,index) in (list.comment_images.length>0 ? list.comment_images : imagearray)" :key="index">
+      <div v-for="(item,index) in (list.comment_images)" :key="index">
  <div style="display:flex; gap: 20px">
    <div><img :src="item" alt=""></div>
  </div>
@@ -93,6 +93,7 @@ import mincardRigith from '@/components/minCardRigjth/mincardRigith'
 import dataUseType from '@/constants/constdata'
 import TableUserColumn from '@/components/TableUserColumn/TableUserColumn.vue'
 import phone from '../../../assets/Rectangle11487.jpg'
+import image from '../../../assets/phone.svg'
 export default {
   components: { IdNumber,
     BackRouterName,
@@ -104,6 +105,7 @@ TableUserColumn },
       list: {},
       render: true,
       loading: false,
+      image,
       imagearray: [phone],
       router: {
         name: 'writingListMain',
