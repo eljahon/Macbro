@@ -150,6 +150,7 @@ export default {
     },
     searchBranchId (data) {
       console.log(data)
+      this.params.page = 1
       this.params.warehouse_id = data.id
       this.writingGetAllList()
     },
@@ -179,6 +180,7 @@ export default {
       console.log(val)
     },
     status (value) {
+      this.params.page = 1
       this.params.status = value
       this.writingGetAllList()
     },
@@ -205,7 +207,8 @@ export default {
       console.log(value, data)
     },
     selectUser (data) {
-      this.params.cashier_id = data.id
+      this.params.page = 1
+      this.params.cashier_id = data
       this.writingGetAllList()
     },
     searcherNumber (val) {
