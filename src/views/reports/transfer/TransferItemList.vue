@@ -47,6 +47,27 @@
         </div>
       </div>
     </a-card>
+    <a-card style="margin: 1px; border:none">
+      <a-table
+        :columns="columnsTwo"
+        :rowKey="() => Math.random()"
+        :dataSource="list.items"
+        :pagination="false"
+        bordered
+      >
+        <template slot="Товары" slot-scope="text, row">
+          <productComponent
+            :productName="row.product_name"
+            :barCode="row.bar_code"
+            :imeiCode="row.imei_code"
+            :productImage="row.product_image"
+          />
+        </template>
+        <template slot="Сумма" slot-scope="price">
+          {{  new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(price.usd_price) }}
+        </template>
+      </a-table>
+    </a-card>
   </a-card>
 </template>
 
@@ -54,6 +75,7 @@
 import downloadExcellIcon from '../../../components/downloadExcellIcon/DownlodExcellIcon'
 import numberBatchCard from '../../../components/NumberBatchComponent/NumberBatchComponent'
 import objectCard from '../../../components/objectCard/objectCard'
+import productComponent from '../../../components/productComponent/productComponent'
 
 import { mapActions } from 'vuex'
 import myIcons from '@/core/icons'
@@ -64,7 +86,8 @@ export default {
   components: {
     downloadExcellIcon,
     numberBatchCard,
-    objectCard
+    objectCard,
+    productComponent
   },
   data () {
     return {
@@ -75,45 +98,36 @@ export default {
       columnsTwo: [
         {
           title: this.$t('Товары'),
-          dataIndex: 'number',
           scopedSlots: {
-            filterDropdown: 'аккаунта',
-            filterIcon: 'filterIcon',
             customRender: 'Товары'
           }
         },
         {
           title: this.$t('Кол-во'),
           dataIndex: 'count',
-          scopedSlots: { customRender: 'Кол' }
+          width: 120,
+          align: 'center'
         },
         {
           title: this.$t('Сумма'),
-          dataIndex: 'branch_name',
+          dataIndex: 'price',
+          width: 120,
+          align: 'center',
           scopedSlots: {
-            filterDropdown: 'Aккаунта',
-            filterIcon: 'filterIcon',
             customRender: 'Сумма'
           }
-          // dataIndex: 'account_number',
         },
         {
           title: this.$t('Состояние'),
           key: 'action',
-          scopedSlots: {
-            filterDropdown: 'аккаунта',
-            filterIcon: 'filterIcon',
-            customRender: 'Состояние'
-          }
+          width: 120,
+          align: 'center'
         },
         {
           title: this.$t('Статус'),
           key: 'werree',
-          scopedSlots: {
-            filterDropdown: 'аккаунта',
-            filterIcon: 'filterIcon',
-            customRender: 'Статус'
-          }
+          width: 120,
+          align: 'center'
         }
       ],
       pagename: '',
