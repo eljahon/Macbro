@@ -58,7 +58,7 @@
               </template>
             </a-table>
           </a-tab-pane>
-          <a-tab-pane  key="2" tab="Оплата">
+          <a-tab-pane key="2" tab="Оплата">
             <a-table
               v-if=" list.billing.payment===null|| list.billing.payment.length >= 0"
               style="margin-top: 30px"
@@ -77,7 +77,7 @@
                 <span class="image_wrapper">
                   <img style="object-fit: cover" :src="row.images === null||row.images === '' ? img : row.images" alt="imgId">
                 </span>
-                <span class="image_inside_text"  v-if="row">{{ list.branch.name }} {{row.images}}</span>
+                <span class="image_inside_text" v-if="row">{{ list.branch.name }} {{ row.images }}</span>
               </template>
               <template slot="sena" slot-scope="text, row">
                 <span v-if="row.currency_type === 'usd'">{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.credit_amount) }}</span>
@@ -94,12 +94,13 @@
             <a-card style="border-left: none; border-right: none; border-bottom: none">
               <div style="display: flex; gap: 30px" >
                 <div v-for="(item, index) in list.billing.payment" :key="index">
-                  <p style="color: black">{{ paymentType[item.payment_type] }}</p>
-                  <p v-if="item.currency_type === 'usd'">{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(item.credit_amount) }}</p>
-                  <p v-if="item.currency_type === 'uzs'"><b>{{ new Intl.NumberFormat().format(item.credit_amount) }} {{ "so'm" }}</b></p>
-
-                  <img v-if="length(item.images)" :src="item.images" alt="">
-                  <img v-else src="../../assets/colorwhite.png" alt="">
+                  <div>
+                    <p style="color: black">{{ paymentType[item.payment_type] }}</p>
+                    <p v-if="item.currency_type === 'usd'">{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(item.credit_amount) }}</p>
+                    <p v-if="item.currency_type === 'uzs'"><b>{{ new Intl.NumberFormat().format(item.credit_amount) }} {{ "so'm" }}</b></p>
+                    <img v-if="length(item.images)" :src="item.images" alt="">
+                    <img v-else src="../../assets/colorwhite.png" alt="">
+                  </div>
                 </div>
               </div>
             </a-card>

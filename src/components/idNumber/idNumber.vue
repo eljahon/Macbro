@@ -1,12 +1,12 @@
 <template>
-  <a-card class="card_custom_border">
-    <div slot="title" class="order_number"><h4>ИД заказа: {{ number }}</h4></div>
-  </a-card>
+<!--  <a-card class="card_custom_border">-->
+    <div slot="title" class="order_number"><h4>ИД  {{text.length > 0? text : "заказа"}}: {{ number }}</h4></div>
+<!--  </a-card>-->
 </template>
 
 <script>
 export default {
-props: ['number']
+props: ['number', 'text']
 }
 </script>
 
