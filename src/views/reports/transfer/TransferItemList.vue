@@ -72,22 +72,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import downloadExcellIcon from '../../../components/downloadExcellIcon/DownlodExcellIcon'
 import numberBatchCard from '../../../components/NumberBatchComponent/NumberBatchComponent'
-import objectCard from '../../../components/objectCard/objectCard'
 import productComponent from '../../../components/productComponent/productComponent'
+import objectCard from '../../../components/objectCard/objectCard'
 
-import { mapActions } from 'vuex'
+import warehouseImage from '../../../assets/macbro.jpg'
 import myIcons from '@/core/icons'
 import image from '../../../assets/phone.svg'
-import warehouseImage from '../../../assets/macbro.jpg'
 
 export default {
   components: {
     downloadExcellIcon,
+    productComponent,
     numberBatchCard,
-    objectCard,
-    productComponent
+    objectCard
   },
   data () {
     return {
