@@ -17,86 +17,20 @@
     <div slot="extra">
       <downloadExcellIcon />
     </div>
-    <a-card style="border-right: none; border-left: none">
-      <div slot="title">
-        <h3>ИД партии: {{ list.number }}</h3>
-      </div>
-      <a-card style="border-right: none; border-left: none">
-        <div slot="title">
-          <div style="display: flex; justify-content: space-between;">
-            <div style="display: flex; flex: 0 0 20%; border-radius: 9px; align-items: center;">
-              <div
-                style="display: flex;  border-top-left-radius: 5px; border-bottom-right-radius: 5px; align-items: center; padding: 5px;background-color: #F5F5F5;"
-              >
-                <img
-                  :src="list.merchant.image"
-                  style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%"
-                  alt=""
-                />
-                <span
-                  style="font-size: 15px;margin-left: 10px"
-                >{{ list.merchant.firstname }}{{ ' ' }}{{ list.merchant.lastname }}<br />
-                  <span style="color: #818C99; font-size: 12px">Кассир</span></span
-                >
-              </div>
-              <div
-                style="display: flex;  padding: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; align-items: center;background-color: #EBF7FF"
-              >
-                <!--                <img :src="list.merchant.image" style='max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%' alt="">-->
-                <span
-                  style="font-size: 15px;margin-left: 10px; color: blue"
-                >{{ list.items_count }} шт.<br />
-                  <span style="color: #818C99; font-size: 12px">Принято</span></span
-                >
-              </div>
-            </div>
-            <div style="display: flex; flex: 0 0 20%; border-radius: 9px; align-items: center;">
-              <div
-                style="display: flex; border-radius: 7px; align-items: center; padding: 5px;background-color: #F5F5F5;"
-              >
-                <img
-                  :src="list.merchant.image"
-                  style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%"
-                  alt=""
-                />
-                <span
-                  style="font-size: 15px;margin-left: 10px"
-                >Darlene Robertson <br />
-                  <span style="color: #818C99; font-size: 12px">Кассир</span></span
-                >
-              </div>
-              <a-icon type="arrow-right" />
-              <div
-                style="display: flex;border-radius: 7px; align-items: center; padding: 5px;background-color: #F5F5F5;"
-              >
-                <img
-                  :src="list.merchant.image"
-                  style="max-width: 30px; max-height: 30px; min-width: 30px; min-height: 30px; border-radius: 50%"
-                  alt=""
-                />
-                <span
-                  style="font-size: 15px; margin-left: 10px"
-                >Darlene Robertson <br />
-                  <span style="color: #818C99; font-size: 12px">Кассир</span></span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div slot="extra"></div>
-      </a-card>
-    </a-card>
+    <numberBatchCard :number="list.number" />
   </a-card>
 </template>
 
 <script>
 import downloadExcellIcon from '../../../components/downloadExcellIcon/DownlodExcellIcon'
+import numberBatchCard from '../../../components/NumberBatchComponent/NumberBatchComponent'
 import { mapActions } from 'vuex'
 import myIcons from '@/core/icons'
 import image from '../../../assets/phone.svg'
 export default {
   components: {
-    downloadExcellIcon
+    downloadExcellIcon,
+    numberBatchCard
   },
   data () {
     return {
