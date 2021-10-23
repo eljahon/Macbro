@@ -180,6 +180,7 @@ export default {
       console.log(val)
     },
     status (value) {
+      this.params.page = 1
       this.params.status = value
       this.writingGetAllList()
     },
