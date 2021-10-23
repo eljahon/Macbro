@@ -11,19 +11,25 @@
           </a-input>
           <a-range-picker
             style="width: 260px"
-            :defaultValue="[moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]"
+            :defaultValue="[
+              moment()
+                .startOf('month')
+                .format('YYYY-MM-DD'),
+              moment()
+                .endOf('month')
+                .format('YYYY-MM-DD')
+            ]"
             :placeholder="['от даты ', 'до даты']"
             @change="rangepicker"
           >
-            <a-icon type="calendar" style="color: blue" slot="suffixIcon"/>
+            <a-icon type="calendar" style="color: blue" slot="suffixIcon" />
           </a-range-picker>
           <a-button icon="dowlond" style="background-color: #1890FF; color: white; border: none">
-            <a-icon :component="myIcons.excal"></a-icon></a-button>
+            <a-icon :component="myIcons.excal"></a-icon
+            ></a-button>
         </div>
-
       </div>
-      <div>
-      </div>
+      <div></div>
       <div>
         <a-table
           style="margin-top: 30px; cursor: pointer"
@@ -38,12 +44,7 @@
           bordered
         >
           <div slot="userType" style="padding: 8px; width: 230px;">
-            <a-select
-              :placeholder="$t('Должность')"
-              style="width: 220px"
-              @change="userTypeSearch"
-              allowClear
-            >
+            <a-select :placeholder="$t('Должность')" style="width: 220px" @change="userTypeSearch" allowClear>
               <a-select-option v-for="(item, index) of AccountGrups" :key="index" :value="item.id">
                 {{ item.name }}
               </a-select-option>
@@ -59,10 +60,11 @@
               @search="CancelMiut"
             >
               <a-select-option v-for="(item, index) of listmitut" :key="index" :value="item">
-                {{ item }} {{' Минуты'}}
+                {{ item }} {{ ' Минуты' }}
               </a-select-option>
             </a-select>
-          </div>  <div slot="opazdal" style="padding: 8px; width: 230px;">
+          </div>
+          <div slot="opazdal" style="padding: 8px; width: 230px;">
             <a-select
               :placeholder="$t('Опоздал(а) на х минут')"
               style="width: 220px"
@@ -73,24 +75,18 @@
               v-model="params.late_time_diff"
             >
               <a-select-option v-for="(item, index) of opazdal" :key="index" :value="item">
-                {{ item }} {{' Минуты'}}
+                {{ item }} {{ ' Минуты' }}
               </a-select-option>
             </a-select>
           </div>
-          <div
-            slot="аккаунта"
-            style="padding: 8px"
-          >
+          <div slot="аккаунта" style="padding: 8px">
             <a-input-number
               :placeholder="`ИД. аккаунта`"
               v-debounce="AccountSearch"
               style="width: 188px; margin-bottom: 8px; display: block;"
             />
           </div>
-          <div
-            slot="branchDropdown"
-            style="padding: 8px"
-          >
+          <div slot="branchDropdown" style="padding: 8px">
             <a-select
               style="width: 200px"
               show-search
@@ -104,10 +100,7 @@
               v-model="params.branch_id"
             />
           </div>
-          <div
-            slot="userDropdown"
-            style="padding: 8px"
-          >
+          <div slot="userDropdown" style="padding: 8px">
             <a-select
               style="width: 200px"
               show-search
@@ -128,15 +121,20 @@
             :component="$myIcons.filterDownIcon"
           />
           <template slot="Филиал" slot-scope="text, row">
-            <span v-if="row.user.branch_name.length">{{ row.user.branch_name}}</span>
+            <span v-if="row.user.branch_name.length">{{ row.user.branch_name }}</span>
             <span v-else style="color: gray">Нет филиала...</span>
           </template>
           <template slot="Сотрудник" slot-scope="text, row">
-            <table-user-column :image="row.user.profile_image.includes('https') ? row.user.profile_image : img" :name="`${row.user.last_name } ${row.user.first_name}`" :type="userType[row.user.user_type]" :phone="row.user.phone_number"/>
-<!--            <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>-->
+            <table-user-column
+              :image="row.user.profile_image.includes('https') ? row.user.profile_image : img"
+              :name="`${row.user.last_name} ${row.user.first_name}`"
+              :type="userType[row.user.user_type]"
+              :phone="row.user.phone_number"
+            />
+            <!--            <span>{{ row.user.first_name }} {{ row.user.last_name }}</span>-->
           </template>
           <template slot="Должность" slot-scope="text, row">
-            <span>{{  userType[row.user.user_type]}}</span>
+            <span>{{ userType[row.user.user_type] }}</span>
           </template>
           <template slot="Отсутствующие" slot-scope="text, row">
             <span>{{ checkField(row.visit_report, 'absent', 'total_days') }}</span>
@@ -181,16 +179,16 @@ export default {
         { id: 'cashier', name: 'Кассир' }
       ],
       userType: {
-        'director': 'Директор',
-          'consultant': 'Консультант',
-          'counteragent': 'Контрагент',
-          'cashier': 'Кассир',
-          'admin': 'Администратор',
-          'manager': 'Менеджер',
-          'courier': 'Курьер',
-          'client': 'Клиент',
-          'postavshik': 'Поставщик',
-          ' investor': 'Инвестор'
+        director: 'Директор',
+        consultant: 'Консультант',
+        counteragent: 'Контрагент',
+        cashier: 'Кассир',
+        admin: 'Администратор',
+        manager: 'Менеджер',
+        courier: 'Курьер',
+        client: 'Клиент',
+        postavshik: 'Поставщик',
+        ' investor': 'Инвестор'
       },
       page: { current: 1, pageSize: 10, total: null },
       params: {
@@ -201,8 +199,12 @@ export default {
         user_id: '',
         late_time_diff: '',
         absent_days_diff: '',
-        from_date: moment().startOf('month').format('YYYY-MM-DD'),
-        to_date: moment().endOf('month').format('YYYY-MM-DD'),
+        from_date: moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        to_date: moment()
+          .endOf('month')
+          .format('YYYY-MM-DD'),
         limit: 10,
         page: 1
       },
@@ -232,7 +234,8 @@ export default {
           scopedSlots: {
             filterDropdown: 'userType',
             filterIcon: 'filterIcon',
-            customRender: 'Должность' },
+            customRender: 'Должность'
+          },
           width: 220
           // dataIndex: 'account_number',
         },
@@ -308,26 +311,32 @@ export default {
     },
     searchUsers (value) {
       this.loading = true
-      this.getUserList({ search: value }).then(res => {
-        console.log(res.users)
-        const users = res.users
-        this.userList = users.map(user => ({
-          label: `${user.first_name} ${user.last_name}`,
-          value: user.id,
-          companyId: user.company_id
-        }))
-      }).catch(error => {
-        console.log(error)
-        this.userList = []
-      }).finally(() => {
-        this.loading = false
-      })
+      this.getUserList({ search: value })
+        .then(res => {
+          console.log(res.users)
+          const users = res.users
+          this.userList = users.map(user => ({
+            label: `${user.first_name} ${user.last_name}`,
+            value: user.id,
+            companyId: user.company_id
+          }))
+        })
+        .catch(error => {
+          console.log(error)
+          this.userList = []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     customRowClick (record) {
       return {
         on: {
-          click: (event) => {
-            this.$router.push({ name: 'rollCallListMainItem', params: { company_id: record.user.company_id, branch_id: record.user.branch_id, user_id: record.user.id } })
+          click: event => {
+            this.$router.push({
+              name: 'rollCallListMainItem',
+              params: { company_id: record.user.company_id, branch_id: record.user.branch_id, user_id: record.user.id }
+            })
           }
         }
       }
@@ -376,10 +385,9 @@ export default {
     ...mapActions(['getRollCollAll']),
     rollCallGetListAll () {
       this.loading = true
-      this.getRollCollAll(this.params)
-        .finally(() => {
-          this.loading = false
-        })
+      this.getRollCollAll(this.params).finally(() => {
+        this.loading = false
+      })
     },
     onSearch (value) {
       console.log(value)
@@ -397,8 +405,7 @@ export default {
     this.searchBranch()
     this.searchUsers()
   },
-  created () {
-  }
+  created () {}
 }
 </script>
 
