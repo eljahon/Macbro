@@ -18,19 +18,32 @@
       <downloadExcellIcon />
     </div>
     <numberBatchCard :number="list.number" />
+    <a-card class="custom_border">
+      <div class="user_info_board">
+        <objectCard :displayRightBlock="true" />
+        <div class="branches_list">
+          <objectCard />
+          <a-icon type="arrow-right" style="font-size: 36px; color: #1890FF;" />
+          <objectCard />
+        </div>
+      </div>
+    </a-card>
   </a-card>
 </template>
 
 <script>
 import downloadExcellIcon from '../../../components/downloadExcellIcon/DownlodExcellIcon'
 import numberBatchCard from '../../../components/NumberBatchComponent/NumberBatchComponent'
+import objectCard from '../../../components/objectCard/objectCard'
+
 import { mapActions } from 'vuex'
 import myIcons from '@/core/icons'
 import image from '../../../assets/phone.svg'
 export default {
   components: {
     downloadExcellIcon,
-    numberBatchCard
+    numberBatchCard,
+    objectCard
   },
   data () {
     return {
@@ -111,4 +124,21 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.user_info_board {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom_border {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.branches_list {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+}
+</style>
