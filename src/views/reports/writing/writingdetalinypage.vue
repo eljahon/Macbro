@@ -92,7 +92,7 @@ import excelButton from '@/components/excelButton/excelButton'
 import mincardRigith from '@/components/minCardRigjth/mincardRigith'
 import dataUseType from '@/constants/constdata'
 import TableUserColumn from '@/components/TableUserColumn/TableUserColumn.vue'
-import phone from '../../../assets/Rectangle 11487.jpg'
+import phone from '../../../assets/Rectangle11487.jpg'
 export default {
   components: { IdNumber,
     BackRouterName,
