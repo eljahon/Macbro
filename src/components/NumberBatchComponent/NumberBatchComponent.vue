@@ -1,5 +1,5 @@
 <template>
-  <a-card style="border-right: none; border-left: none">
+  <a-card class="border">
     <div slot="title">
       <h3 class="card__header">ИД партии: {{ number }}</h3>
     </div>
@@ -13,6 +13,10 @@ export default {
 </script>
 
 <style scoped>
+.border {
+  border-right: none;
+  border-left: none;
+}
 .card__header {
   font-family: Roboto, sans-serif;
   font-style: normal;
