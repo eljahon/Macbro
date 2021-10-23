@@ -136,7 +136,6 @@ export default {
       loading: false
     }
   },
-  computed: {},
   methods: {
     ...mapActions(['TransferListIdget']),
     TrasferItemListId (id) {
