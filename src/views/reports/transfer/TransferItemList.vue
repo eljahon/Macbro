@@ -143,7 +143,6 @@ export default {
       this.TransferListIdget(id)
         .then(res => {
           this.list = res
-          console.log('res=====>>>', res)
           this.render = false
         })
         .finally(() => {
