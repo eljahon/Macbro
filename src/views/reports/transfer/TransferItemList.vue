@@ -64,7 +64,13 @@
           />
         </template>
         <template slot="Сумма" slot-scope="price">
-          {{  new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(price.usd_price) }}
+          {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(price.usd_price) }}
+        </template>
+        <template slot="Статус" slot-scope="text, row">
+          <a-tag :color="StatusSwitch(row.status).color">{{ StatusSwitch(row.status).name }}</a-tag>
+        </template>
+        <template slot="Состояние" slot-scope="text, row">
+          <a-tag :color="ProductStateSwitch(row.product_state).color">{{ ProductStateSwitch(row.product_state).name }}</a-tag>
         </template>
       </a-table>
     </a-card>
@@ -120,15 +126,19 @@ export default {
         },
         {
           title: this.$t('Состояние'),
-          key: 'action',
           width: 120,
-          align: 'center'
+          align: 'center',
+          scopedSlots: {
+            customRender: 'Состояние'
+          }
         },
         {
           title: this.$t('Статус'),
-          key: 'werree',
           width: 120,
-          align: 'center'
+          align: 'center',
+          scopedSlots: {
+            customRender: 'Статус'
+          }
         }
       ],
       pagename: '',
@@ -148,6 +158,30 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    StatusSwitch (item) {
+      switch (item) {
+        case 'accepted':
+          return { color: 'blue', name: 'Принято' }
+        case 'in-process':
+          return { color: 'orange', name: 'В процессе' }
+        case 'incomplete':
+          return { color: 'gray', name: 'Неполный' }
+        case 'rejected':
+          return { color: 'red', name: 'Отклоненный' }
+      }
+    },
+    ProductStateSwitch (state) {
+      switch (state) {
+        case 'new':
+          return { color: 'blue', name: 'Новый' }
+        case 'used':
+          return { color: 'orange', name: 'Б.У' }
+        case 'restoration':
+          return { color: 'gray', name: 'Реставрация' }
+        case 'defect':
+          return { color: 'red', name: 'Дефект' }
+      }
     }
   },
   created () {
