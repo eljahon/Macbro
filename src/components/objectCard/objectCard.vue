@@ -15,11 +15,11 @@
       <div class="object_card__user_info">
         <div class="name">{{ firstName }} {{ lastName }}</div>
         <div class="phone secondary-text">{{ phone }}</div>
-        <div class="type secondary-text">{{ $t(userType) }}</div>
+        <div class="type secondary-text">{{ objectType }}</div>
       </div>
     </div>
     <div v-if="displayRightBlock" class="object_card__info">
-      <div class="info__number">{{ number }}</div>
+      <div class="info__number">{{ number }} шт.</div>
       <div class="info__word">{{ wordDisplayed }}</div>
     </div>
   </div>
@@ -32,13 +32,13 @@ export default {
       default: 'Freeman'
     },
     lastName: {
-      default: 'Ryder'
+      default: ''
     },
-    userType: {
-      default: 'Кассир'
+    objectType: {
+      default: ''
     },
     phone: {
-      default: '+9989012345678'
+      default: ''
     },
     image: {
       default: ''
@@ -80,7 +80,7 @@ export default {
 
 .object_card__info {
   height: 100%;
-  width: 96px;
+  width: 100px;
   background: #ebf7ff;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
