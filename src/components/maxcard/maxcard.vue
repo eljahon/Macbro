@@ -7,7 +7,7 @@
         <p><a-icon class="icon_style" type="dollar" style="color: #00A0E9"></a-icon> <span>Итого</span></p>
       </div>
       <div class="wrapper_class">
-        <p class="text_claor"><b>{{ list.branch.name }}</b></p>
+        <p class="text_claor"><b>{{ branchName(list) }}</b></p>
         <p class="text_claor"><b>{{ moment(list.billing.created_at).format('YYYY-MM-DD') }}</b></p>
         <p class="text_claor"><b> {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</b></p>
 
@@ -37,7 +37,10 @@ export default {
     console.log('this.list =>', this.list)
   },
   methods: {
-    moment
+    moment,
+    branchName (name) {
+     return name?.branch?.name
+    }
   }
 }
 </script>

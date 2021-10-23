@@ -4,10 +4,10 @@ const base_Url = {
   parishes: '/history/prixod',
   catigoriya: '/category',
   product: '/product',
-    groupped: '/product-variants-groupped',
+  groupped: '/product-variants-groupped',
   slugid: '/inventory-party/check',
-  slugListItem: '/inventory-party/check-frequent'
-
+  slugListItem: '/inventory-party/check-frequent',
+  ima: '/inventory-item/scanned'
 }
 const Parishes = {
   state: {
@@ -56,8 +56,8 @@ const Parishes = {
           })
       })
     },
-     getAllListPraductList ({ commit }, id) {
-       const { param } = id
+    getAllListPraductList ({ commit }, id) {
+      const { param } = id
       return new Promise((resolve, reject) => {
         request({
           url: `${base_Url.product}`,
@@ -145,6 +145,23 @@ const Parishes = {
         request({
           url: `${base_Url.parishes}/${payload}`,
           method: 'get'
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    gerImacodeListAll ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        request({
+          url: `${base_Url.ima}`,
+          method: 'get',
+          params: {
+            ...payload
+          }
         })
           .then(res => {
             resolve(res)
