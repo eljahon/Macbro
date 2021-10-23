@@ -11,9 +11,7 @@
     <div slot="extra">
       <excel-button @handleclick="excelDowlond" />
     </div>
-    <a-card style="border-left: none; border-right: none; border-bottom: none">
-      <div slot="title"><span class="style_party_id">ИД партии: {{ list.number }}</span></div>
-    </a-card>
+    <id-number :number="list.number"/>
     <a-card style=" border-left: none; border-right: none; border-bottom: none">
       <client-card :list="list" />
     </a-card>
@@ -105,9 +103,10 @@ import towarState from '@/constants/towarState'
 import Maxcard from '@/components/maxcard/maxcard'
 // eslint-disable-next-line import/no-duplicates
 import PaymentType from '@/components/paymentType/paymentType'
+import IdNumber from '@/components/idNumber/idNumber'
 
 export default {
-  components: { PaymentType, Maxcard, mincard, excelButton, backRouterName, clientCard },
+  components: { IdNumber, PaymentType, Maxcard, mincard, excelButton, backRouterName, clientCard },
   data () {
     return {
       myIcons,

@@ -19,8 +19,6 @@
     </div>
     <a-card class="card_custom_border">
       <div slot="title" class="order_number"><h4>ИД заказа: {{ list.number }}</h4></div>
-      <div slot="extra">
-      </div>
     </a-card>
     <a-card class="card_custom_border">
       <div class="wrapper_cashier_and_customer">
