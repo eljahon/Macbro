@@ -155,7 +155,8 @@ export default {
     },
     handleTableChange (paginotion) {
       this.loading = true
-      this.params.page = { ...paginotion }
+      this.params.limit = paginotion.pageSize
+        this.params.page = paginotion.current
       this.writingGetAllList()
     },
     customRowClick (record) {
