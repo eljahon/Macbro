@@ -1,19 +1,21 @@
 <template>
   <div v-if="render" style="background-color: transparent; position: relative">
-    <a-spin style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)" size="large" />
+    <a-spin
+      style="z-index: 9999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+      size="large" />
   </div>
   <a-card v-else>
     <div slot="title">
-      <back-Router-Name :router="router"/>
+      <back-Router-Name :router="router" />
     </div>
     <div slot="extra">
-      <excel-button @handleclick="excelDowlond"/>
+      <excel-button @handleclick="excelDowlond" />
     </div>
     <a-card style="border-left: none; border-right: none; border-bottom: none">
-      <div slot="title"> <span class="style_party_id">ИД партии: {{ list.number }}</span></div>
+      <div slot="title"><span class="style_party_id">ИД партии: {{ list.number }}</span></div>
     </a-card>
     <a-card style=" border-left: none; border-right: none; border-bottom: none">
-      <client-card :list="list"/>
+      <client-card :list="list" />
     </a-card>
     <a-card style=" border-bottom: none; border-left: none; border-right: none">
       <a-tabs type="card" @change="callbak">
@@ -31,42 +33,31 @@
           >
             <template slot="name" slot-scope="text, row">
               <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
-                <img style="object-fit: cover" :src="row.product_image.length > 0 ?row.product_image : defoultImg" alt="imgId">
+                <img
+                  style="object-fit: cover"
+                  :src="row.product_image.length > 0 ?row.product_image : defoultImg"
+                  alt="imgId">
               </span>
               <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
             </template>
             <template slot="status" slot-scope="text, row">
-              <a-tag :color="towarState.status[row.product_state].color">{{ towarState.status[row.product_state].name }}</a-tag>
+              <a-tag :color="towarState.status[row.product_state].color">{{ towarState.status[row.product_state].name
+              }}
+              </a-tag>
             </template>
             <template slot="imstatus" slot-scope="text, row">
-              <a-tag :color="towarState.imstatus[row.imei_status].color">{{ towarState.imstatus[row.imei_status].name }}</a-tag>
+              <a-tag :color="towarState.imstatus[row.imei_status].color">{{ towarState.imstatus[row.imei_status].name
+              }}
+              </a-tag>
             </template>
-<!--            <div v-for="(item, index) in list.items" :key="index">-->
-<!--              <div v-if="item.payment_type === 'cash'">-->
-                <template slot="number" slot-scope="text, row">
-                  <span>{{ numberFormat(row.buy_price) }}</span>
-                </template>
-                <template slot="kol" slot-scope="text, row">
-                  <span>{{ row.count }}</span>
-                </template>
-<!--              </div>-->
-<!--              <div v-if="item.payment_type === 'real'">-->
-<!--                <template slot="realone" slot-scope="text, row">-->
-<!--                  <span>{{ numberFormat(row.buy_price) }}</span>-->
-<!--                </template>-->
-<!--                <template slot="realtwo" slot-scope="text, row">-->
-<!--                  <span>{{ row.count }}</span>-->
-<!--                </template>-->
-<!--              </div>-->
-<!--              <div v-if="item.payment_type === 'consignation'">-->
-<!--                <template slot="consignationone" slot-scope="text, row">-->
-<!--                  <span>{{ numberFormat(row.buy_price) }}</span>-->
-<!--                </template>-->
-<!--                <template slot="consignationtwo" slot-scope="text, row">-->
-<!--                  <span>{{ row.count }}</span>-->
-<!--                </template>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--            <div v-for="(item, index) in list.items" :key="index">-->
+            <!--              <div v-if="item.payment_type === 'cash'">-->
+            <template slot="number" slot-scope="text, row">
+              <span>{{ numberFormat(row.buy_price) }}</span>
+            </template>
+            <template slot="kol" slot-scope="text, row">
+              <span>{{ row.count }}</span>
+            </template>
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="2" tab="IMEI">
@@ -74,99 +65,25 @@
             style="margin-top: 30px"
             :columns="columns"
             :rowKey="() => Math.random()"
-            :dataSource="getWritingList"
+            :dataSource="imicode"
             :loading="loading"
             test-attr="list-customer"
             :pagination="false"
-            bordered >
+            bordered>
+            <template slot="tavar" slot-scope="text, row">
+              <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">
+                <img
+                  style="object-fit: cover"
+                  :src="imgSelect(row.product_image)"
+                  alt="imgId">
+              </span>
+              <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>
+            </template>
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="3" tab="Оплата">
-          <div style="display: flex; margin-top: 10px; gap: 15px">
-            <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
-              <div>
-                <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>
-                <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>
-                <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Итого</span></p>
-              </div>
-              <div>
-                <!--                <p><b>{{ list.branch.name }}</b></p>-->
-                <!--                <p><b>{{ moment(list.billing.created_at).format('YYYY-MM-DD') }}</b></p>-->
-                <!--                <p><b> {{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.total_amount) }}</b></p>-->
-
-              </div>
-            </div>
-            <div style="flex: 0 0 30%; border: 1px solid #EEEEEE; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between ">
-              <div>
-                <!--          <p><a-icon type="shop" style="color: #00A0E9"></a-icon> <span>Филиал</span></p>-->
-                <!--          <p><a-icon type="calendar" style="color: #00A0E9"></a-icon> <span>Дата</span></p>-->
-                <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>Оплачено</span></p>
-                <p><a-icon type="dollar" style="color: #00A0E9"></a-icon> <span>сумма</span></p>
-              </div>
-              <div>
-                <!--          <p><b>Макбро Малика</b></p>-->
-                <!--          <p><b>10.03.2021, 17:30</b></p>-->
-                <!--                <p><b>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(list.billing.paid_amount.usd) }}</b></p>-->
-                <!--                <p><b>{{ new Intl.NumberFormat().format(list.billing.paid_amount.uzs) }} {{ "so'm" }}</b></p>-->
-
-              </div>
-            </div>
-
-          </div>
-          <a-table
-            style="margin-top: 30px"
-            :columns="columns"
-            :rowKey="() => Math.random()"
-            :dataSource="getWritingList"
-            :loading="loading"
-            test-attr="list-customer"
-            :pagination="false"
-            bordered >
-          </a-table>
-          <!--            <template slot="tavar" slot-scope="text, row">-->
-          <!--              <span style="width: 50px; height: 50px; display: inline-flex; border-radius: 50%">-->
-          <!--                <img style="object-fit: cover" :src="row.product_image" alt="imgId">-->
-          <!--              </span>-->
-          <!--              <span style="margin-left:5px; position: relative; top: -20px">{{ row.product_name }}</span>-->
-          <!--            </template>-->
-          <!--            <template slot="kol" slot-scope="text, row">-->
-          <!--              <span>{{ row.count }}</span>-->
-          <!--            </template>-->
-          <!--            <template slot="sena" slot-scope="text, row">-->
-          <!--              <span>{{ new Intl.NumberFormat('en-En', { style: 'currency', currency: 'USD' }).format(row.price.usd_price) }}</span>-->
-          <!--            </template>-->
-          <div style="margin-top: 20px"><span style="font-size: 20px; color: black">Фото по тип оплаты</span></div>
-          <a-card style="border-left: none; border-right: none; border-bottom: none">
-            <div style="display: flex; gap: 30px">
-              <div>
-                <p style="color: black">Payme</p>
-                <p>$500</p>
-                <img src="../../../assets/colorwhite.png" alt="">
-              </div>
-              <div>
-                <p style="color: black">Payme</p>
-                <p>$500</p>
-                <img src="../../../assets/Rectangle1487.png" alt="">
-              </div>
-              <div>
-                <p style="color: black">Payme</p>
-                <p>$500</p>
-                <img src="../../../assets/colorwhite.png" alt="">
-              </div>
-              <!--    <div><img src='../../../assets/Rectangle1487.png' alt=''></div>-->
-            </div>
-          </a-card>
-
-          <div style="margin-top: 20px"><span style="font-size: 20px; color: black">Комментарии</span></div>
-          <br>
-          <a-card style="border-bottom: none; border-left: none; border-right: none">
-            <div style="background-color: #F7F7FB; padding: 10px; border-radius: 8px"><p>At enim feugiat at dolor dictum
-              Eu amet nec lorem eget eget ut malesuada facilisi
-              Cras lorem est ultricies vitae facilisi dis in nisl turpis
-              Mattis amet quam id id turpis quam scelerisque. Nulla sapien aenean natoque
-              massa, odio dolor, est imperdiet. Nisi, suscipit ipsum semper sagittis.
-              Vulputate dignissim vitae eget quam sagittis.</p></div>
-          </a-card>
+          <maxcard :list="list" />
+          <payment-type :list="list" :columnstwo="columnsTabTwo" />
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -185,8 +102,12 @@ import backRouterName from '@/components/backRouter/backRouterName'
 import mincard from '@/components/mincard/mincard'
 import clientCard from '@/components/clientCard/clientCard'
 import towarState from '@/constants/towarState'
+import Maxcard from '@/components/maxcard/maxcard'
+// eslint-disable-next-line import/no-duplicates
+import PaymentType from '@/components/paymentType/paymentType'
+
 export default {
-  components: { mincard, excelButton, backRouterName, clientCard },
+  components: { PaymentType, Maxcard, mincard, excelButton, backRouterName, clientCard },
   data () {
     return {
       myIcons,
@@ -194,6 +115,23 @@ export default {
       dataUseType,
       towarState,
       img,
+      columns: [
+        {
+          title: this.$t('Товары'),
+          scopedSlots: { customRender: 'tavar' }
+        },
+        {
+          title: this.$t('IMEI'),
+          dataIndex: 'imei_code',
+          scopedSlots: { customRender: 'imei' }
+        }
+      ],
+      imparams: {
+        limit: 1000,
+        page: 1,
+        party_id: this.$route.params.id
+      },
+      imicode: [],
       defoultImg,
       router: {
         name: 'parishesListMain',
@@ -213,37 +151,37 @@ export default {
           width: 400,
           scopedSlots: { customRender: 'name' }
         },
-    {
-      title: 'Наличные',
-        children: [
-      {
-        title: 'Кол-во',
-        key: 'age',
-        scopedSlots: { customRender: 'kol' }
-      },
-      {
-        title: 'Цена',
-        scopedSlots: { customRender: 'number' }
-      }
-    ]
-    },
-    {
-      title: 'Реализация',
-        children: [
-      {
-        title: 'Кол-во',
-        dataIndex: 'asdasddsad',
-        key: 'dadfsfgfdfgdg',
-        scopedSlots: { customRender: 'realone' }
-      },
-      {
-        title: 'Цена',
-        dataIndex: 'companyName',
-        key: 'companyName',
-        scopedSlots: { customRender: 'realtwo' }
-      }
-    ]
-    },
+        {
+          title: 'Наличные',
+          children: [
+            {
+              title: 'Кол-во',
+              key: 'age',
+              scopedSlots: { customRender: 'kol' }
+            },
+            {
+              title: 'Цена',
+              scopedSlots: { customRender: 'number' }
+            }
+          ]
+        },
+        {
+          title: 'Реализация',
+          children: [
+            {
+              title: 'Кол-во',
+              dataIndex: 'asdasddsad',
+              key: 'dadfsfgfdfgdg',
+              scopedSlots: { customRender: 'realone' }
+            },
+            {
+              title: 'Цена',
+              dataIndex: 'companyName',
+              key: 'companyName',
+              scopedSlots: { customRender: 'realtwo' }
+            }
+          ]
+        },
         {
           title: 'Консегнация',
           children: [
@@ -266,13 +204,13 @@ export default {
             }
           ]
         },
-    {
-      title: 'Состояние',
-        dataIndex: 'gender',
-      key: 'gender',
-      width: 200,
-      scopedSlots: { customRender: 'status' }
-    },
+        {
+          title: 'Состояние',
+          dataIndex: 'gender',
+          key: 'gender',
+          width: 200,
+          scopedSlots: { customRender: 'status' }
+        },
         {
           title: 'IMEI',
           dataIndex: 'gender',
@@ -281,28 +219,28 @@ export default {
           scopedSlots: { customRender: 'imstatus' }
 
         }
-  ],
-      columns: [
+      ],
+      columnsTabTwo: [
         {
           title: this.$t('Дата'),
           // dataIndex: 'first_name',
           scopedSlots: {
             filterDropdown: 'аккаунта',
             filterIcon: 'filterIcon',
-            customRender: 'tavar'
+            customRender: 'data'
           }
         },
         {
-          title: this.$t('Кассир '),
-          scopedSlots: { customRender: 'kol' }
-        },
-        {
-          title: this.$t('Тип оплаты '),
-          scopedSlots: { customRender: 'sena' }
+          title: this.$t('Филиал '),
+          scopedSlots: { customRender: 'branch' }
         },
         {
           title: this.$t('Сумма '),
           scopedSlots: { customRender: 'sena' }
+        },
+        {
+          title: this.$t('Тип оплаты '),
+          scopedSlots: { customRender: 'payment' }
         }
       ]
     }
@@ -323,18 +261,31 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getItemParishesList']),
+    ...mapActions(['getItemParishesList', 'gerImacodeListAll']),
     getItemParishes () {
       this.getItemParishesList(this.$route.params.id)
-      .then(res => {
-        this.list = res
-        this.router.userName = `${res.counter_agent.first_name}${' '}${res.counter_agent.last_name}`
-        this.render = false
-        console.log('res ====>>>', res)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(res => {
+          this.list = res
+          this.router.userName = `${res.counter_agent.first_name}${' '}${res.counter_agent.last_name}`
+          this.render = false
+          console.log('res ====>>>', res)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getImacodeList () {
+      this.gerImacodeListAll(this.imparams)
+        .then(res => {
+          this.imicode = res.items
+        })
+    },
+    imgSelect (img) {
+      if (img === '') {
+        return this.defoultImg
+      } else {
+        return img
+      }
     },
     callbak (key) {
       console.log(key)
@@ -352,6 +303,7 @@ export default {
   mounted () {
     console.log('=======')
     this.getItemParishes()
+    this.getImacodeList()
   }
 }
 </script>
