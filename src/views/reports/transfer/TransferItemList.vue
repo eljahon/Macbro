@@ -49,7 +49,7 @@
     </a-card>
     <a-card style="margin: 1px; border:none">
       <a-table
-        :columns="columnsTwo"
+        :columns="itemsTableColumns"
         :rowKey="() => Math.random()"
         :dataSource="list.items"
         :pagination="false"
@@ -95,7 +95,7 @@ export default {
       myIcons,
       image,
       render: true,
-      columnsTwo: [
+      itemsTableColumns: [
         {
           title: this.$t('Товары'),
           scopedSlots: {
