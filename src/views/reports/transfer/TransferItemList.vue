@@ -17,30 +17,30 @@
     <div slot="extra">
       <downloadExcellIcon />
     </div>
-    <numberBatchCard :number="list.number" />
+    <numberBatchCard :number="transfer.number" />
     <a-card class="custom_border">
       <div class="user_info_board">
         <objectCard
           :displayRightBlock="true"
-          :phone="list.merchant.phone_number"
-          :firstName="list.merchant.firstname"
-          :lastName="list.merchant.lastname"
-          :objectType="$t(list.merchant.user_type)"
-          :image="list.merchant.image"
-          :wordDisplayed="$t(list.status)"
-          :number="list.items_count"
+          :phone="transfer.merchant.phone_number"
+          :firstName="transfer.merchant.firstname"
+          :lastName="transfer.merchant.lastname"
+          :objectType="$t(transfer.merchant.user_type)"
+          :image="transfer.merchant.image"
+          :wordDisplayed="$t(transfer.status)"
+          :number="transfer.items_count"
         />
         <div class="branches_list">
           <objectCard
             :displayRightBlock="false"
-            :firstName="list.sending_warehouse.name"
+            :firstName="transfer.sending_warehouse.name"
             :objectType="$t('sender')"
             :image="warehouseImage"
           />
           <a-icon type="arrow-right" style="font-size: 36px; color: #1890FF;" />
           <objectCard
             :displayRightBlock="false"
-            :firstName="list.accepting_warehouse.name"
+            :firstName="transfer.accepting_warehouse.name"
             :objectType="$t('receiver')"
             :image="warehouseImage"
           />
@@ -51,7 +51,7 @@
       <a-table
         :columns="itemsTableColumns"
         :rowKey="() => Math.random()"
-        :dataSource="list.items"
+        :dataSource="transfer.items"
         :pagination="false"
         bordered
       >
@@ -132,7 +132,7 @@ export default {
         }
       ],
       pagename: '',
-      list: {},
+      transfer: {},
       loading: false
     }
   },
@@ -142,7 +142,7 @@ export default {
       this.loading = true
       this.TransferListIdget(id)
         .then(res => {
-          this.list = res
+          this.transfer = res
           this.render = false
         })
         .finally(() => {
