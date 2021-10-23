@@ -150,18 +150,21 @@ export default {
     },
     searchBranchId (data) {
       console.log(data)
+      this.params.page = 1
       this.params.warehouse_id = data.id
       this.writingGetAllList()
     },
     handleTableChange (paginotion) {
       this.loading = true
-      this.params.page = { ...paginotion }
+      this.params.limit = paginotion.pageSize
+        this.params.page = paginotion.current
       this.writingGetAllList()
     },
     customRowClick (record) {
       return {
         on: {
           click: (event) => {
+            this.$router.push({ name: 'writingMainItem', params: { id: record.id } })
           }
         }
       }
@@ -177,6 +180,7 @@ export default {
       console.log(val)
     },
     status (value) {
+      this.params.page = 1
       this.params.status = value
       this.writingGetAllList()
     },
@@ -203,7 +207,8 @@ export default {
       console.log(value, data)
     },
     selectUser (data) {
-      this.params.cashier_id = data.id
+      this.params.page = 1
+      this.params.cashier_id = data
       this.writingGetAllList()
     },
     searcherNumber (val) {

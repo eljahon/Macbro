@@ -4,7 +4,7 @@
     :columns="columns"
     :rowKey="() => Math.random()"
     :dataSource="dataSource"
-    :pagination="getPagination"
+    :pagination="getPadding"
     :loading="loading"
     :customRow="customRowClick"
     @change="handleTableChangeOfline"
@@ -38,7 +38,7 @@
         @change="selectUser"
         :filter-option="false"
         :not-found-content="fetching ? undefined : null"
-        :placeholder="`Покупатель`"
+        :placeholder="`Кассир`"
         :options="userList"
         @search="searchUser"
       />
@@ -60,7 +60,7 @@
       <a-input-number
         style="width: 220px"
         v-debounce="seracherNumber"
-        :placeholder="`ИД. аккаунта`"
+        :placeholder="`ИД списания`"
       />
     </div>
     <a-icon
@@ -84,6 +84,7 @@
 
 <script>
 import tableUser from '../../../components/TableUserColumn/TableUserColumn'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     tableUser
@@ -105,6 +106,12 @@ export default {
         ' investor': 'Инвестор'
       },
       statusesList: [{ label: 'Активный', value: 'active' }, { label: 'Не активный', value: 'inactive' }]
+    }
+  },
+  computed: {
+    ...mapGetters(['allPaginationWriting']),
+    getPadding () {
+      return this.allPaginationWriting
     }
   },
   methods: {
@@ -129,6 +136,9 @@ export default {
     seracherNumber (val) {
       this.$emit('number', val)
     }
+  },
+  mounted () {
+    console.log(this.getPagination)
   }
 }
 </script>

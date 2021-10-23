@@ -425,14 +425,14 @@ export const asyncRouterMap = [
                 props: true,
                 component: () => import('@/views/reports/writing/writingList'),
                 meta: { title: 'writing', keepAlive: true, permission: ['writing'] }
+              },
+              {
+                path: '/report/writing/item/:id',
+                name: 'writingMainItem',
+                props: true,
+                component: () => import('@/views/reports/writing/writingdetalinypage'),
+                meta: { title: 'writing', keepAlive: true, permission: ['writing'] }
               }
-              // {
-              //   path: '/report/rollCall/list/item/:company_id/:branch_id/:user_id',
-              //   name: 'rollCallListMainItem',
-              //   props: true,
-              //   component: () => import('@/views/reports/rollCall/rollCallListItem'),
-              //   meta: { title: 'settlemet', keepAlive: true, permission: ['settlemet'] }
-              // }
             ]
           }
         ]
