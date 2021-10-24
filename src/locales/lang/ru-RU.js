@@ -455,8 +455,15 @@ const locale = {
   'customerstab2': 'Контрагенты',
   'customerstab3': 'Поставщики',
   'customerstab4': 'История адресов',
-  counterpartyType: 'Тип контрагента'
+  counterpartyType: 'Тип контрагента',
 
+  // warehouses
+  sender: 'Отправитель',
+  receiver: 'Получатель',
+  in_process: 'В процессе',
+  accepted: 'Принято',
+  rejected: 'Отклоненный',
+  incomplete: 'Неполный'
 }
 
 export default {
